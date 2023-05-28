@@ -1,12 +1,5 @@
-import { ChevronRightIcon } from "@chakra-ui/icons";
-import {
-	Badge,
-	Box,
-	Heading,
-	IconButton,
-	Select,
-	Text,
-} from "@chakra-ui/react";
+import { SettingsIcon } from "@chakra-ui/icons";
+import { Badge, Box, IconButton, Text } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -85,7 +78,7 @@ const ChatbotCard: React.FC<IProps> = ({
 						}}
 						aria-label="goto-chatbot"
 						variant="outline"
-						icon={<ChevronRightIcon />}
+						icon={<SettingsIcon />}
 					/>
 				</Box>
 			</Box>
