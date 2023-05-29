@@ -1,42 +1,50 @@
-import { Box, Button } from "@chakra-ui/react";
+import { EditIcon, RepeatClockIcon } from "@chakra-ui/icons";
+import { Box, Button, Text } from "@chakra-ui/react";
 import React, { useEffect, useRef, useState } from "react";
 
 const KnowledgeBase: React.FC<{ base: string }> = ({ base }) => {
 	const [isDisabled, setIsDisabled] = useState<boolean>(true);
+	const [chatbotKnowledge, setChatbotKnowledge] = useState(base);
 	const textAreaRef = useRef<any>(null);
 
 	useEffect(() => {
 		if (!isDisabled && textAreaRef.current) {
 			textAreaRef.current.focus();
 		}
-	}, [isDisabled]);
+		setChatbotKnowledge(base);
+	}, [isDisabled, base]);
 
 	return (
 		<Box>
-			<textarea
-				ref={textAreaRef}
-				disabled={isDisabled}
-				style={{
-					width: "100%",
-					height: "300px",
-					padding: "10px",
-					lineHeight: "25px",
-				}}
-			>
-				{base}
-			</textarea>
 			<Box
 				sx={{
 					display: "flex",
-					mt: 5,
-					alignItems: "center",
 					justifyContent: "space-between",
+					mb: 5,
+					alignItems: "center",
 				}}
 			>
-				<Box />
+				<Box>
+					<Text fontSize="lg" fontWeight="bold">
+						Knowledge Base
+					</Text>
+					<Text sx={{ color: "gray" }}>
+						Provide detailed information to enable precise and
+						informative responses from Chatbot
+					</Text>
+				</Box>
 				<Box>
 					<Button sx={{ mr: 2 }} onClick={() => setIsDisabled(false)}>
-						{isDisabled ? "Edit Knowledge Base" : "Retrain Chatbot"}
+						{isDisabled ? (
+							<EditIcon sx={{ mr: 2 }} />
+						) : (
+							<RepeatClockIcon sx={{ mr: 2 }} />
+						)}
+						{isDisabled
+							? "Edit Knowledge Base"
+							: base.length === 0
+							? "Train Chatbot"
+							: "Retrain Chatbot"}
 					</Button>
 					{!isDisabled && (
 						<Button
@@ -48,6 +56,18 @@ const KnowledgeBase: React.FC<{ base: string }> = ({ base }) => {
 					)}
 				</Box>
 			</Box>
+			<textarea
+				ref={textAreaRef}
+				disabled={isDisabled}
+				value={chatbotKnowledge}
+				onChange={(e) => setChatbotKnowledge(e.target.value)}
+				style={{
+					width: "100%",
+					height: "300px",
+					padding: "10px",
+					lineHeight: "25px",
+				}}
+			/>
 		</Box>
 	);
 };

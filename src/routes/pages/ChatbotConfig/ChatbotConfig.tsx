@@ -19,6 +19,7 @@ import { useNavigate } from "react-router-dom";
 import ChatbotSettings from "./components/ChatbotSettings";
 import { useSelector } from "react-redux";
 import { myChatbotsSelector } from "../../../store/selectors/myChatbots.selector";
+import ChatbotPreview from "./components/ChatbotPreview";
 
 const ChatbotConfig = () => {
 	const navigate = useNavigate();
@@ -113,6 +114,7 @@ const ChatbotConfig = () => {
 					<TabList>
 						<Tab>Knowledge Base</Tab>
 						<Tab>Settings</Tab>
+						<Tab>Preview</Tab>
 					</TabList>
 
 					<TabPanels>
@@ -120,7 +122,14 @@ const ChatbotConfig = () => {
 							<KnowledgeBase base={chatbot.knowledgeBase} />
 						</TabPanel>
 						<TabPanel>
-							<ChatbotSettings domains={chatbot.domains} />
+							<ChatbotSettings
+								name={chatbot?.chatbotName || ""}
+								domains={chatbot?.domains || []}
+								status={chatbot?.status || ""}
+							/>
+						</TabPanel>
+						<TabPanel>
+							<ChatbotPreview />
 						</TabPanel>
 					</TabPanels>
 				</Tabs>
