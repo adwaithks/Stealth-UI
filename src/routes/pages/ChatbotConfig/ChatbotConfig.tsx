@@ -129,7 +129,7 @@ const ChatbotConfig = () => {
 							/>
 						</TabPanel>
 						<TabPanel>
-							<ChatbotPreview />
+							<ChatbotPreview chatbotId={chatbot?.chatbotId} />
 						</TabPanel>
 					</TabPanels>
 				</Tabs>
