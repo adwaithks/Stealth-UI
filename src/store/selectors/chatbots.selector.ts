@@ -7,3 +7,11 @@ export const getMyChatbotsApiStatusSelector = (state: any) => {
 export const myChatbotsSelector = (state: any): Chatbot[] => {
 	return state.chatbots.myChatbots;
 };
+
+export const createNewChatbotApiStatusSelector = (state: any) => {
+	return state.chatbots.createNewChatbotApiStatus;
+};
+
+export const retrainChatbotApiStatusSelector = (state: any) => {
+	return state.chatbots.retrainChatbotApiStatus;
+};

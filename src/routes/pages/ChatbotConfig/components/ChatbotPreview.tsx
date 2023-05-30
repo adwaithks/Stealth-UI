@@ -31,7 +31,7 @@ const ChatbotPreview: React.FC<{ chatbotId: number }> = ({ chatbotId }) => {
 				origin: "user",
 			},
 		]);
-		fetch("http://localhost:8000/api/v1/chatbot/message", {
+		fetch("http://localhost:8000/api/v1/chatbot/message/demo", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
@@ -61,6 +61,16 @@ const ChatbotPreview: React.FC<{ chatbotId: number }> = ({ chatbotId }) => {
 
 	return (
 		<Box>
+			<Box sx={{ mb: 3 }}>
+				<Text fontWeight="bold" fontSize="lg">
+					Chatbot Preview
+				</Text>
+				<Text color="gray">
+					Chat with your chatbot to see if it&apos;s answering as
+					expected. (If not, retrain your chatbot with more meaningful
+					knowledge base)
+				</Text>
+			</Box>
 			<Box
 				sx={{
 					width: "100%",

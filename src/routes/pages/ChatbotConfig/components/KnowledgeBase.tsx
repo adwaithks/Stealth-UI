@@ -1,11 +1,25 @@
 import { EditIcon, RepeatClockIcon } from "@chakra-ui/icons";
 import { Box, Button, Text } from "@chakra-ui/react";
 import React, { useEffect, useRef, useState } from "react";
+import { useAppDispatch } from "../../../../store/store";
+import { retrainChatbot } from "../../../../store/reducers/chatbots.reducer";
+import { useSelector } from "react-redux";
+import { retrainChatbotApi } from "../../../../api/retrainChatbot.api";
+import { retrainChatbotApiStatusSelector } from "../../../../store/selectors/chatbots.selector";
 
-const KnowledgeBase: React.FC<{ base: string }> = ({ base }) => {
+const KnowledgeBase: React.FC<{ base: string; chatbotId: number }> = ({
+	base,
+	chatbotId,
+}) => {
 	const [isDisabled, setIsDisabled] = useState<boolean>(true);
 	const [chatbotKnowledge, setChatbotKnowledge] = useState(base);
+
 	const textAreaRef = useRef<any>(null);
+
+	const dispatch = useAppDispatch();
+	const retrainChatbotApiStatus = useSelector(
+		retrainChatbotApiStatusSelector
+	);
 
 	useEffect(() => {
 		if (!isDisabled && textAreaRef.current) {
@@ -13,6 +27,16 @@ const KnowledgeBase: React.FC<{ base: string }> = ({ base }) => {
 		}
 		setChatbotKnowledge(base);
 	}, [isDisabled, base]);
+
+	const handleRetrainChatbot = () => {
+		setIsDisabled(true);
+		console.log({ chatbotId, chatbotKnowledge });
+		dispatch(
+			retrainChatbot({ chatbotId, knowledgeBase: chatbotKnowledge })
+		).catch(() => {
+			setChatbotKnowledge(base);
+		});
+	};
 
 	return (
 		<Box>
@@ -34,7 +58,17 @@ const KnowledgeBase: React.FC<{ base: string }> = ({ base }) => {
 					</Text>
 				</Box>
 				<Box>
-					<Button sx={{ mr: 2 }} onClick={() => setIsDisabled(false)}>
+					<Button
+						sx={{ mr: 2 }}
+						isLoading={retrainChatbotApiStatus === "pending"}
+						loadingText="Retraining Chatbot..."
+						onClick={() => {
+							setIsDisabled(false);
+							if (!isDisabled) {
+								handleRetrainChatbot();
+							}
+						}}
+					>
 						{isDisabled ? (
 							<EditIcon sx={{ mr: 2 }} />
 						) : (
@@ -48,6 +82,7 @@ const KnowledgeBase: React.FC<{ base: string }> = ({ base }) => {
 					</Button>
 					{!isDisabled && (
 						<Button
+							disabled={retrainChatbotApiStatus === "pending"}
 							colorScheme="red"
 							onClick={() => setIsDisabled(true)}
 						>

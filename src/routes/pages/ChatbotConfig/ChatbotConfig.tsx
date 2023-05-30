@@ -18,7 +18,7 @@ import { ChevronLeftIcon, CopyIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
 import ChatbotSettings from "./components/ChatbotSettings";
 import { useSelector } from "react-redux";
-import { myChatbotsSelector } from "../../../store/selectors/myChatbots.selector";
+import { myChatbotsSelector } from "../../../store/selectors/chatbots.selector";
 import ChatbotPreview from "./components/ChatbotPreview";
 
 const ChatbotConfig = () => {
@@ -119,7 +119,10 @@ const ChatbotConfig = () => {
 
 					<TabPanels>
 						<TabPanel>
-							<KnowledgeBase base={chatbot.knowledgeBase} />
+							<KnowledgeBase
+								chatbotId={chatbot?.chatbotId}
+								base={chatbot?.knowledgeBase}
+							/>
 						</TabPanel>
 						<TabPanel>
 							<ChatbotSettings
