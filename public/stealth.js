@@ -8,34 +8,95 @@ const cssRule = "* { box-sizing: border-box; margin: 0; padding: 0; }";
 // Add the CSS rule to the stylesheet
 styleSheet.insertRule(cssRule, 0);
 
+var scriptTag = document.getElementById("stealth-chatbot-widget");
+var chatbotId = Number(scriptTag.getAttribute("data-id"));
+
+let chatActive = true;
+let sendButtonActive = true;
+let sendInputActive = true;
+const cookieName = "STEALTH_CHATBOT";
+
+function generateRandomId() {
+	var characters =
+		"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+	var length = 8;
+	var randomId = "";
+
+	for (var i = 0; i < length; i++) {
+		var randomIndex = Math.floor(Math.random() * characters.length);
+		randomId += characters.charAt(randomIndex);
+	}
+
+	return randomId;
+}
+
+function getCookie(cookieName) {
+	var cookies = document.cookie.split(";");
+	for (var i = 0; i < cookies.length; i++) {
+		var cookie = cookies[i].trim();
+		if (cookie.startsWith(cookieName + "=")) {
+			return cookie.substring(cookieName.length + 1);
+		}
+	}
+	return null;
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+	fetch(`http://localhost:8000/api/v1/chatbot/${chatbotId}/widgetstatus`, {
+		method: "GET",
+	})
+		.then((res) => res.json())
+		.then((data) => {
+			const { status } = data.message;
+			if (status === "inactive") {
+				chatActive = false;
+				sendButtonActive = false;
+				sendInputActive = false;
+				displayMessage("Chatbot is not yet activated !");
+			} else {
+				let cookieValue = generateRandomId();
+
+				if (!document.cookie.includes(cookieName)) {
+					let expirationDate = new Date();
+					expirationDate.setDate(expirationDate.getDate() + 2);
+
+					// 2 day expiration
+					let cookie =
+						cookieName +
+						"=" +
+						cookieValue +
+						"; expires=" +
+						expirationDate.toUTCString() +
+						"; path=/";
+					document.cookie = cookie;
+				}
+			}
+		})
+		.catch((err) => {
+			displayMessage(
+				"bot",
+				"Something unexpected happened :( We are fixing it! Don't worry :) "
+			);
+		});
+});
+
 const chatHeader = document.createElement("div");
 chatHeader.style.width = "100%";
 chatHeader.style.height = "15%";
 chatHeader.style.backgroundColor = "black";
 chatHeader.style.color = "white";
-chatHeader.style.borderRadius = "5px";
 chatHeader.style.borderTopLeftRadius = "5px";
+chatHeader.style.borderTopRightRadius = "5px";
 chatHeader.style.display = "flex";
 chatHeader.style.flexDirection = "column";
 chatHeader.style.justifyContent = "center";
 chatHeader.style.padding = "0 15px 0 15px";
 
-const chatSubHeader = document.createElement("p");
-chatSubHeader.style.width = "100%";
-chatSubHeader.style.height = "15%";
-chatSubHeader.textContent =
-	"Ask any questions related to the company or product";
-chatSubHeader.style.fontSize = "13px";
-chatSubHeader.style.fontFamily = "sans-serif";
-chatSubHeader.style.color = "rgba(255,255,255,0.8)";
-chatSubHeader.style.backgroundColor = "black";
-
-const chatAgentName = document.createElement("p");
-chatAgentName.textContent = "Customer Service Bot";
-chatAgentName.style.fontFamily = "sans-serif";
-chatAgentName.style.fontWeight = 800;
-chatHeader.appendChild(chatAgentName);
-chatHeader.appendChild(chatSubHeader);
+const chatHeaderText = document.createElement("p");
+chatHeaderText.textContent = "Customer Service Bot";
+chatHeaderText.style.fontFamily = "sans-serif";
+chatHeaderText.style.fontWeight = 800;
+chatHeader.appendChild(chatHeaderText);
 
 // Inner circle (white)
 const chatIconCustom = document.createElement("div");
@@ -69,14 +130,14 @@ const chatWindow = document.createElement("div");
 chatWindow.id = "chat-window";
 chatWindow.style.marginLeft = "20px";
 chatWindow.style.border = "solid 0.5px gray";
-chatWindow.style.height = "450px";
+chatWindow.style.height = "470px";
 chatWindow.style.boxShadow = "0 0 3px rgba(0,0,0,0.3)";
 chatWindow.style.position = "absolute";
 chatWindow.style.bottom = "95px";
 chatWindow.style.right = "10px";
 chatWindow.style.width = "345px";
 chatWindow.style.borderRadius = "5px";
-chatWindow.style.padding = "5px";
+// chatWindow.style.padding = "5px";
 chatIconCustom.style.zIndex = 100;
 chatWindow.style.visibility = "hidden";
 document.body.appendChild(chatWindow);
@@ -86,8 +147,9 @@ chatWindow.appendChild(chatHeader);
 const messageContainer = document.createElement("div");
 messageContainer.className = "message-container";
 messageContainer.style.width = "100%";
-messageContainer.style.height = "75%";
+messageContainer.style.height = "70%";
 messageContainer.style.borderRadius = "5px";
+messageContainer.style.padding = "5px";
 messageContainer.style.marginBottom = "2px";
 messageContainer.style.overflowY = "auto";
 messageContainer.style.display = "flex";
@@ -104,11 +166,11 @@ messageInput.style.border = "none";
 messageInput.style.flex = 1;
 messageInput.style.fontSize = "14px";
 messageInput.placeholder = "Ask any question...";
+messageInput.disabled = !sendInputActive;
 
 // Send button
 const sendButton = document.createElement("button");
 sendButton.textContent = "Send";
-sendButton.style.height = "100%";
 sendButton.style.width = "70px";
 sendButton.style.backgroundColor = "black";
 sendButton.style.color = "white";
@@ -116,6 +178,7 @@ sendButton.style.borderRadius = "5px";
 sendButton.style.border = "none";
 sendButton.style.cursor = "pointer";
 sendButton.style.fontSize = "13px";
+sendButton.disabled = !sendButtonActive;
 sendButton.addEventListener("click", () => {
 	const message = messageInput.value.trim();
 	if (message.length === 0) return;
@@ -123,18 +186,42 @@ sendButton.addEventListener("click", () => {
 	messageInput.value = "";
 });
 
+const sendContainerWrapper = document.createElement("div");
+sendContainerWrapper.style.height = "10%";
+sendContainerWrapper.style.padding = "5px";
+
 // Send container - input + button
 const sendContainer = document.createElement("div");
 sendContainer.appendChild(messageInput);
 sendContainer.appendChild(sendButton);
-sendContainer.style.height = "10%";
 sendContainer.style.border = "gray solid 0.5px";
 sendContainer.style.display = "flex";
-sendContainer.style.padding = "3px";
+sendContainer.style.height = "100%";
+sendContainer.style.padding = "1px";
 sendContainer.style.width = "100%";
 sendContainer.style.borderRadius = "5px";
-sendContainer.style.bottom = "0px";
-chatWindow.appendChild(sendContainer);
+sendContainerWrapper.appendChild(sendContainer);
+chatWindow.appendChild(sendContainerWrapper);
+
+const poweredByContainer = document.createElement("div");
+poweredByContainer.style.height = "5%";
+poweredByContainer.style.display = "flex";
+// poweredByContainer.style.marginBottom = "10px";
+// poweredByContainer.style.marginTop = "10px";
+poweredByContainer.style.padding = "2px";
+poweredByContainer.style.alignItems = "center";
+poweredByContainer.style.justifyContent = "center";
+const poweredByText = document.createElement("p");
+const poweredByCompanyName = document.createElement("span");
+poweredByCompanyName.style.fontWeight = 800;
+poweredByCompanyName.textContent = " Stealth";
+poweredByText.textContent = "Powered By ";
+poweredByText.style.fontFamily = "sans-serif";
+poweredByText.style.fontSize = "12px";
+poweredByText.style.marginRight = "5px";
+poweredByContainer.appendChild(poweredByText);
+poweredByContainer.appendChild(poweredByCompanyName);
+chatWindow.appendChild(poweredByContainer);
 
 // Toggle chat window visibility on icon click
 chatIconCustom.addEventListener("click", function () {
@@ -142,38 +229,59 @@ chatIconCustom.addEventListener("click", function () {
 		chatWindow.style.visibility === "hidden" ? "visible" : "hidden";
 });
 
-// Send message on pressing Enter key
-messageInput.addEventListener("keypress", function (event) {
-	if (event.key === "Enter") {
+function sendMessage(event) {
+	if (event.key === "Enter" || event.type === "click") {
 		const message = messageInput.value.trim();
 		if (message !== "" || message.length === 0) {
 			displayMessage("user", message);
 			// TODO: Process the user message here
 			messageInput.value = "";
+			let cookieValue = getCookie(cookieName);
+			if (!cookieValue) {
+				cookieValue = generateRandomId();
+				let expirationDate = new Date();
+				expirationDate.setDate(expirationDate.getDate() + 2);
 
-			// fetch("http://localhost:8000/api/v1/chatbot/message", {
-			// 	method: "POST",
-			// 	headers: {
-			// 		"Content-Type": "application/json",
-			// 	},
-			// 	body: JSON.stringify({
-			// 		question: message,
-			// 		chatbot_id: 1,
-			// 	}),
-			// })
-			// 	.then((res) => res.json())
-			// 	.then((data) => {
-			// 		displayMessage("bot", data.message);
-			// 	})
-			// 	.catch((err) => {
-			// 		displayMessage(
-			// 			"bot",
-			// 			"Something unexpected happened :( We are fixing it! Don't worry :) "
-			// 		);
-			// 	});
+				// 2 day expiration
+				let cookie =
+					cookieName +
+					"=" +
+					cookieValue +
+					"; expires=" +
+					expirationDate.toUTCString() +
+					"; path=/";
+				document.cookie = cookie;
+			}
+
+			fetch("http://localhost:8000/api/v1/chatbot/message", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					question: message,
+					chatbot_id: 3,
+					user_session_id: getCookie(cookieName),
+					channel: "web",
+				}),
+			})
+				.then((res) => res.json())
+				.then((data) => {
+					displayMessage("bot", data.message);
+				})
+				.catch((err) => {
+					displayMessage(
+						"bot",
+						"Something unexpected happened :( We are fixing it! Don't worry :) "
+					);
+				});
 		}
 	}
-});
+}
+
+// Send message on pressing Enter key, or send button
+messageInput.addEventListener("keypress", sendMessage);
+sendButton.addEventListener("click", sendMessage);
 
 // Function to display a message in the chat window
 function displayMessage(sender, message) {
