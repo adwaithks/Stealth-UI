@@ -14,9 +14,11 @@ import {
 import { useAppDispatch } from "../../../store/store";
 import { useSelector } from "react-redux";
 import CreateNewChatbotModal from "./components/CreateNewChatbotModal";
+import { useNavigate } from "react-router-dom";
 
 const AllChatbots = () => {
 	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
 	const getMyChatbotsApiStatus = useSelector(getMyChatbotsApiStatusSelector);
 	const chatbots = useSelector(myChatbotsSelector);
 	const createNewChatbotApiStatus = useSelector(
@@ -29,7 +31,9 @@ const AllChatbots = () => {
 	const [chatbotKnowledge, setChatbotKnowledge] = useState("");
 
 	const createAndTrainNewChatbot = (name: string, knowledgeBase: string) => {
-		dispatch(createNewChatbot({ name, knowledgeBase }));
+		dispatch(createNewChatbot({ name, knowledgeBase })).then(() => {
+			navigate("/app");
+		});
 	};
 
 	useEffect(() => {

@@ -19,26 +19,81 @@ import {
 	DeleteIcon,
 	EditIcon,
 } from "@chakra-ui/icons";
+import { useAppDispatch } from "../../../../store/store";
+import { useSelector } from "react-redux";
+import {
+	deleteChatbot,
+	udpateChatbotStatus,
+	updateChatbotName,
+} from "../../../../store/thunks/chatbotSettings.thunk";
+import {
+	deleteChatbotApiStatusSelector,
+	udpateChatbotStatusApiSelector,
+	updateChatbotNameApiStatusSelector,
+} from "../../../../store/selectors/chatbots.selector";
+import { useNavigate } from "react-router-dom";
 
 const ChatbotSettings: React.FC<{
 	domains: string[];
 	name: string;
 	status: string;
 }> = ({ domains, name, status }) => {
+	const dispatch = useAppDispatch();
+	const deleteChatbotApiStatus = useSelector(deleteChatbotApiStatusSelector);
+	const udpateChatbotNameApiStatus = useSelector(
+		updateChatbotNameApiStatusSelector
+	);
+	const updateChatbotStatusApiStatus = useSelector(
+		udpateChatbotStatusApiSelector
+	);
+
+	const navigate = useNavigate();
+
 	const [chatbotDomains, setChatbotDomains] = useState<string[]>([]);
 	const [newDomain, setNewDomain] = useState("");
 	const [newName, setNewName] = useState("");
 	const [isNameEditing, setIsNameEditing] = useState(false);
 	const [newStatus, setNewStatus] = useState(status);
+	const chatbotId = Number(window.location.pathname.split("/")[2] || -1);
 
 	useEffect(() => {
-		setChatbotDomains(domains);
+		setChatbotDomains(domains || []);
 		setNewName(name);
 		setNewStatus(status);
 	}, [domains, name, status]);
 
+	const handleDeleteChatbot = () => {
+		if (
+			window.confirm(
+				`Are you sure you want to delete chatbot ${newName} ?`
+			)
+		)
+			dispatch(deleteChatbot(chatbotId)).then(() => {
+				navigate("/app");
+			});
+		else return;
+	};
+
 	const handleChatbotNameUpdate = () => {
-		setIsNameEditing(false);
+		if (
+			window.confirm(
+				`Are you sure you want to rename chatbot to ${newName} ?`
+			)
+		) {
+			setIsNameEditing(false);
+			dispatch(updateChatbotName({ chatbotId, newName }));
+		} else return;
+	};
+
+	const handleChatbotStatusUpdate = (newStatus: string) => {
+		if (
+			window.confirm(
+				`Are you sure you want to change the status of chatbot to ${newStatus} ?`
+			)
+		) {
+			setNewStatus(newStatus);
+			dispatch(udpateChatbotStatus({ chatbotId, newStatus }));
+		} else return;
 	};
 
 	return (
@@ -75,6 +130,17 @@ const ChatbotSettings: React.FC<{
 					)}
 					{isNameEditing ? "Save" : "Edit"}
 				</Button>
+				{isNameEditing && (
+					<Button
+						onClick={() => {
+							setIsNameEditing(false);
+						}}
+						sx={{ ml: 3 }}
+						colorScheme="red"
+					>
+						Cancel
+					</Button>
+				)}
 			</Box>
 
 			<Divider sx={{ my: 5 }} orientation="horizontal" />
@@ -91,13 +157,22 @@ const ChatbotSettings: React.FC<{
 					<FormLabel htmlFor="email-alerts" mb="0">
 						Activate or Inactivate Chatbot
 					</FormLabel>
+					<Switch
+						sx={{ mr: 3 }}
+						onChange={(e) => {
+							handleChatbotStatusUpdate(
+								e.target.checked ? "active" : "inactive"
+							);
+						}}
+						isChecked={newStatus === "active"}
+						size="lg"
+						id="email-alerts"
+					/>
 					<Badge
-						sx={{ mr: 5, ml: -1 }}
-						colorScheme={status === "active" ? "green" : "red"}
+						colorScheme={newStatus === "active" ? "green" : "red"}
 					>
 						{newStatus}
 					</Badge>
-					<Switch size="lg" id="email-alerts" />
 				</FormControl>
 			</Box>
 
@@ -188,7 +263,12 @@ const ChatbotSettings: React.FC<{
 					</Text>
 				</Box>
 				<Box>
-					<Button colorScheme="red">
+					<Button
+						loadingText="Deleting Chatbot"
+						isLoading={deleteChatbotApiStatus === "pending"}
+						onClick={handleDeleteChatbot}
+						colorScheme="red"
+					>
 						<DeleteIcon sx={{ mr: 2 }} />
 						Delete {name}
 					</Button>

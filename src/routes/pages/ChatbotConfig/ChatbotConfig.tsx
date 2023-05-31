@@ -3,6 +3,7 @@ import {
 	Box,
 	Button,
 	Heading,
+	Skeleton,
 	Tab,
 	TabList,
 	TabPanel,
@@ -12,32 +13,49 @@ import {
 	Text,
 	useClipboard,
 } from "@chakra-ui/react";
-import React, { useMemo } from "react";
+import React, { useEffect } from "react";
 import KnowledgeBase from "./components/KnowledgeBase";
 import { ChevronLeftIcon, CopyIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
 import ChatbotSettings from "./components/ChatbotSettings";
 import { useSelector } from "react-redux";
-import { myChatbotsSelector } from "../../../store/selectors/chatbots.selector";
+import {
+	currentChatbotSelector,
+	getChatbotByIdApiStatusSelector,
+} from "../../../store/selectors/chatbots.selector";
 import ChatbotPreview from "./components/ChatbotPreview";
+import { useAppDispatch } from "../../../store/store";
+import { getChatbotById } from "../../../store/thunks/getChatbotById.thunk";
 
 const ChatbotConfig = () => {
 	const navigate = useNavigate();
+	const dispatch = useAppDispatch();
 	const { onCopy, value, setValue, hasCopied } = useClipboard("");
 
-	const myChatbots = useSelector(myChatbotsSelector);
-	const chatbotId = window.location.pathname.split("/")[2] || -1;
+	const chatbotId = Number(window.location.pathname.split("/")[2] || -1);
 
-	const chatbot = useMemo(() => {
-		let currentChatbot;
-		for (const chatbot of myChatbots) {
-			if (chatbot.chatbotId == chatbotId) {
-				currentChatbot = chatbot;
-				break;
-			}
-		}
-		return currentChatbot;
-	}, [chatbotId, myChatbots]);
+	const getChatbotByIdApiStatus = useSelector(
+		getChatbotByIdApiStatusSelector
+	);
+	const chatbot = useSelector(currentChatbotSelector);
+	console.log(chatbot);
+
+	useEffect(() => {
+		dispatch(getChatbotById(chatbotId)).catch(() => {
+			navigate("/app");
+		});
+	}, [chatbotId, dispatch, navigate]);
+
+	// const chatbot = useMemo(() => {
+	// 	let currentChatbot;
+	// 	for (const chatbot of myChatbots) {
+	// 		if (chatbot.chatbotId == chatbotId) {
+	// 			currentChatbot = chatbot;
+	// 			break;
+	// 		}
+	// 	}
+	// 	return currentChatbot;
+	// }, [chatbotId, myChatbots]);
 
 	// const chatbot = {
 	// 	chatbotId: 1,
@@ -50,7 +68,7 @@ const ChatbotConfig = () => {
 	// };
 
 	return (
-		<Box>
+		<Skeleton isLoaded={getChatbotByIdApiStatus === "fulfilled"}>
 			<Box sx={{ mb: 2 }}>
 				<Button
 					onClick={() => navigate("/app")}
@@ -71,7 +89,7 @@ const ChatbotConfig = () => {
 				}}
 			>
 				<Box>
-					<Heading sx={{ mb: 1 }}>{chatbot.chatbotName}</Heading>
+					<Heading sx={{ mb: 1 }}>{chatbot?.chatbotName}</Heading>
 					<Box sx={{ display: "flex", alignItems: "center" }}>
 						<Text fontSize="sm" sx={{ mr: 5 }}>
 							Created At: {chatbot.creationDate}
@@ -137,7 +155,7 @@ const ChatbotConfig = () => {
 					</TabPanels>
 				</Tabs>
 			</Box>
-		</Box>
+		</Skeleton>
 	);
 };
 
