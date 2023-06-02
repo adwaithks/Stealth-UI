@@ -5,11 +5,14 @@ import "./index.css";
 import { ChakraProvider } from "@chakra-ui/react";
 import { Provider } from "react-redux";
 import store from "./store/store.ts";
+import { ClerkProvider } from "@clerk/clerk-react";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
 	<ChakraProvider>
 		<Provider store={store}>
-			<App />
+			<ClerkProvider publishableKey="pk_test_c3RlYWR5LXBpcmFuaGEtMzcuY2xlcmsuYWNjb3VudHMuZGV2JA">
+				<App />
+			</ClerkProvider>
 		</Provider>
 	</ChakraProvider>
 );

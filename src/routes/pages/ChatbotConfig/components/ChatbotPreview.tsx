@@ -7,6 +7,7 @@ import {
 	InputRightAddon,
 	Text,
 } from "@chakra-ui/react";
+import { useClerk } from "@clerk/clerk-react";
 import React, { useState } from "react";
 
 interface Chat {
@@ -20,42 +21,53 @@ const ChatbotPreview: React.FC<{ chatbotId: number }> = ({ chatbotId }) => {
 	const [question, setQuestion] = useState("");
 	const [waitingReply, setWaitingReply] = useState(false);
 
+	const { session } = useClerk();
+
 	const handleSend = () => {
-		setWaitingReply(true);
-		setQuestion("");
-		setChats((prev) => [
-			...prev,
-			{
-				message: question,
-				timestamp: "",
-				origin: "user",
-			},
-		]);
-		fetch("http://localhost:8000/api/v1/chatbot/message/demo", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				question: question,
-				chatbot_id: chatbotId,
-			}),
-		})
-			.then((res) => res.json())
-			.then((data) => {
-				console.log(data);
-				const reply = data.message;
+		session
+			?.getToken({ template: "stealth-token-template" })
+			.then((token) => {
+				if (!token) {
+					alert("Something unexpected happened");
+					return;
+				}
+
+				setWaitingReply(true);
+				setQuestion("");
 				setChats((prev) => [
 					...prev,
 					{
-						message: reply,
+						message: question,
 						timestamp: "",
-						origin: "bot",
+						origin: "user",
 					},
 				]);
-			})
-			.finally(() => {
-				setWaitingReply(false);
+				fetch("http://localhost:8000/api/v1/chatbot/message/demo", {
+					method: "POST",
+					headers: {
+						"STEALTH-ACCESS-TOKEN": token,
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						question: question,
+						chatbot_id: chatbotId,
+					}),
+				})
+					.then((res) => res.json())
+					.then((data) => {
+						const reply = data.message;
+						setChats((prev) => [
+							...prev,
+							{
+								message: reply,
+								timestamp: "",
+								origin: "bot",
+							},
+						]);
+					})
+					.finally(() => {
+						setWaitingReply(false);
+					});
 			});
 	};
 
@@ -82,9 +94,9 @@ const ChatbotPreview: React.FC<{ chatbotId: number }> = ({ chatbotId }) => {
 				}}
 			>
 				<Box sx={{ display: "flex", flexDirection: "column" }}>
-					{chats.map((chat) => {
+					{chats.map((chat, idx) => {
 						return (
-							<Box>
+							<Box key={idx}>
 								<Box
 									sx={{
 										backgroundColor: "black",
@@ -98,8 +110,8 @@ const ChatbotPreview: React.FC<{ chatbotId: number }> = ({ chatbotId }) => {
 										mb: 1,
 										float:
 											chat.origin === "user"
-												? "left"
-												: "right",
+												? "right"
+												: "left",
 									}}
 								>
 									<Text

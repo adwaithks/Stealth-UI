@@ -4,9 +4,9 @@ import { getChatbotByIdApi } from "../../api/getChatbotById.api";
 
 export const getChatbotById = createAsyncThunk(
 	"chatbots/getChatbotById",
-	async (chatbotId: number) => {
+	async ({ chatbotId, token }: { chatbotId: number; token: string }) => {
 		try {
-			const data = await getChatbotByIdApi(chatbotId);
+			const data = await getChatbotByIdApi(chatbotId, token);
 			return data;
 		} catch (err) {
 			throw err;

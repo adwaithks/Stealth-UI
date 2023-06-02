@@ -1,4 +1,10 @@
-import { Box, Heading, Link, Text } from "@chakra-ui/react";
+import { Box, Button, Heading, Link, Text } from "@chakra-ui/react";
+import {
+	SignInButton,
+	SignOutButton,
+	SignedIn,
+	SignedOut,
+} from "@clerk/clerk-react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -11,14 +17,15 @@ const Navbar = () => {
 				display: "flex",
 				justifyContent: "space-between",
 				alignItems: "center",
-				padding: "20px",
+				height: 50,
+				borderRadius: 55,
 				backgroundColor: "black",
 				color: "white",
 			}}
 		>
 			<Box>
 				<Text
-					sx={{ cursor: "pointer" }}
+					sx={{ cursor: "pointer", pl: 10 }}
 					onClick={() => navigate("/app")}
 					fontWeight="bold"
 				>
@@ -27,16 +34,28 @@ const Navbar = () => {
 			</Box>
 			<Box
 				sx={{
-					p: 2,
+					pr: 10,
 					width: 350,
 					display: "flex",
 					alignItems: "center",
 					justifyContent: "space-evenly",
 				}}
 			>
-				<Link href="/app">dashboard</Link>
-				<Link>Billing</Link>
-				<Link>Account</Link>
+				<SignedIn>
+					<Link href="/app">dashboard</Link>
+					<Link>Billing</Link>
+					<Link>Account</Link>
+					<Button size="sm" colorScheme="red">
+						<SignOutButton signOutCallback={() => navigate("/")}>
+							Log out
+						</SignOutButton>
+					</Button>
+				</SignedIn>
+				<SignedOut>
+					<SignInButton afterSignInUrl="/app" afterSignUpUrl="/app">
+						Sign In
+					</SignInButton>
+				</SignedOut>
 			</Box>
 		</Box>
 	);

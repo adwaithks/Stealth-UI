@@ -7,15 +7,16 @@ import { retrainChatbotApi } from "../../api/retrainChatbot.api";
 import {
 	deleteChatbot,
 	udpateChatbotStatus,
+	updateChatbotDomains,
 	updateChatbotName,
 } from "../thunks/chatbotSettings.thunk";
 import { getChatbotById } from "../thunks/getChatbotById.thunk";
 
 export const getMyChatbots = createAsyncThunk(
 	"chatbots/getMyChatbots",
-	async () => {
+	async (token: string) => {
 		try {
-			const data = await getMyChatbotsApi();
+			const data = await getMyChatbotsApi(token);
 			return data;
 		} catch (err) {
 			throw err;
@@ -25,9 +26,10 @@ export const getMyChatbots = createAsyncThunk(
 
 export const createNewChatbot = createAsyncThunk(
 	"chatbots/createNewChatbot",
-	async ({ name, knowledgeBase }: { [key: string]: string }) => {
+	async ({ name, knowledgeBase, token }: { [key: string]: string }) => {
 		try {
-			const data = await createNewChatbotApi(name, knowledgeBase);
+			console.log("qwe token: ", token);
+			const data = await createNewChatbotApi(name, knowledgeBase, token);
 			return data;
 		} catch (err) {
 			throw err;
@@ -40,12 +42,18 @@ export const retrainChatbot = createAsyncThunk(
 	async ({
 		chatbotId,
 		knowledgeBase,
+		token,
 	}: {
 		chatbotId: number;
 		knowledgeBase: string;
+		token: string;
 	}) => {
 		try {
-			const data = await retrainChatbotApi(chatbotId, knowledgeBase);
+			const data = await retrainChatbotApi(
+				chatbotId,
+				knowledgeBase,
+				token
+			);
 			return data;
 		} catch (err) {
 			throw err;
@@ -56,7 +64,7 @@ export const retrainChatbot = createAsyncThunk(
 const chatbotsSlice = createSlice({
 	name: "chatbots",
 	initialState: {
-		myChatbots: [] as Chatbot[] | [],
+		myChatbots: [] as Chatbot[],
 		currentChatbot: {} as Chatbot,
 		getMyChatbotsApiStatus: "idle",
 		createNewChatbotApiStatus: "idle",
@@ -84,8 +92,7 @@ const chatbotsSlice = createSlice({
 				state.createNewChatbotApiStatus = "pending";
 			})
 			.addCase(createNewChatbot.fulfilled, (state, action) => {
-				// state.myChatbots.push(action.payload);
-				console.log("oi: ", action.payload);
+				state.myChatbots.push(action.payload);
 				state.createNewChatbotApiStatus = "fulfilled";
 			})
 			.addCase(createNewChatbot.rejected, (state, action) => {
@@ -136,6 +143,15 @@ const chatbotsSlice = createSlice({
 			})
 			.addCase(getChatbotById.rejected, (state, action) => {
 				state.getChatbotByIdApiStatus = "rejected";
+			})
+			.addCase(updateChatbotDomains.pending, (state, action) => {
+				state.domainChangeApiStatus = "pending";
+			})
+			.addCase(updateChatbotDomains.fulfilled, (state, action) => {
+				state.domainChangeApiStatus = "fulfilled";
+			})
+			.addCase(updateChatbotDomains.rejected, (state, action) => {
+				state.domainChangeApiStatus = "rejected";
 			});
 	},
 });

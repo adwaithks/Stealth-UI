@@ -26,11 +26,14 @@ import {
 import ChatbotPreview from "./components/ChatbotPreview";
 import { useAppDispatch } from "../../../store/store";
 import { getChatbotById } from "../../../store/thunks/getChatbotById.thunk";
+import { useClerk } from "@clerk/clerk-react";
+import ChatbotConfigSkeleton from "./components/ChatbotConfigSkeleton";
 
 const ChatbotConfig = () => {
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 	const { onCopy, value, setValue, hasCopied } = useClipboard("");
+	const { session } = useClerk();
 
 	const chatbotId = Number(window.location.pathname.split("/")[2] || -1);
 
@@ -38,37 +41,31 @@ const ChatbotConfig = () => {
 		getChatbotByIdApiStatusSelector
 	);
 	const chatbot = useSelector(currentChatbotSelector);
-	console.log(chatbot);
+	console.log({ chatbot });
 
 	useEffect(() => {
-		dispatch(getChatbotById(chatbotId)).catch(() => {
-			navigate("/app");
-		});
-	}, [chatbotId, dispatch, navigate]);
+		session
+			?.getToken({ template: "stealth-token-template" })
+			.then((token) => {
+				if (!token) {
+					navigate("/");
+					return;
+				}
+				dispatch(getChatbotById({ chatbotId, token })).catch(() => {
+					navigate("/app");
+				});
+			})
+			.catch(() => {
+				navigate("/");
+			});
+	}, [chatbotId, dispatch, navigate, session]);
 
-	// const chatbot = useMemo(() => {
-	// 	let currentChatbot;
-	// 	for (const chatbot of myChatbots) {
-	// 		if (chatbot.chatbotId == chatbotId) {
-	// 			currentChatbot = chatbot;
-	// 			break;
-	// 		}
-	// 	}
-	// 	return currentChatbot;
-	// }, [chatbotId, myChatbots]);
-
-	// const chatbot = {
-	// 	chatbotId: 1,
-	// 	chatbotName: "stealth-ui",
-	// 	creationDate: "10th Apr 2023",
-	// 	domains: ["adwaithks.com"],
-	// 	status: "active",
-	// 	lastUpdated: "12th Apr 2023",
-	// 	knowledgeBase: `Company Name: XYZ Solutions\nBio: XYZ Solutions is a leading technology company specializing in software development and IT solutions. With a team of experienced professionals, we strive to deliver innovative and customized solutions to meet the unique needs of our clients. Our expertise spans across various industries, including healthcare, finance, and e-commerce. We are committed to delivering high-quality, scalable, and secure software solutions that drive business growth and success.\nPricing: At XYZ Solutions, we offer flexible pricing options tailored to your specific requirements. Our pricing model is transparent and competitive, ensuring that you receive the best value for your investment. Whether you need a one-time project or ongoing support, we work closely with you to provide cost-effective solutions that align with your budget and business goals.\nTimings: We understand the importance of timely delivery and responsive support. Our team operates during regular business hours from Monday to Friday, 9:00 AM to 6:00 PM (local time). We are dedicated to providing prompt communication, timely project updates, and reliable support to ensure a smooth and successful collaboration.\nContact us today to discuss your technology needs and explore how XYZ Solutions can empower your business with cutting-edge software solutions and exceptional service.`,
-	// };
+	if (getChatbotByIdApiStatus === "pending") {
+		return <ChatbotConfigSkeleton />;
+	}
 
 	return (
-		<Skeleton isLoaded={getChatbotByIdApiStatus === "fulfilled"}>
+		<Box>
 			<Box sx={{ mb: 2 }}>
 				<Button
 					onClick={() => navigate("/app")}
@@ -103,22 +100,43 @@ const ChatbotConfig = () => {
 						</Badge>
 					</Box>
 				</Box>
-				<Box sx={{ display: "flex", cursor: "pointer" }}>
+				<Box
+					sx={{
+						display: "flex",
+						alignItems: "center",
+						cursor: "pointer",
+						width: "fit-content",
+					}}
+				>
 					<Text fontSize="sm" fontWeight="bold" sx={{ mr: 1 }}>
 						Embed URL
 					</Text>
 					<Tag
-						size="xl"
-						colorScheme="orange"
-						sx={{ px: 3 }}
+						size="md"
+						colorScheme="red"
+						sx={{
+							px: 3,
+							width: 300,
+							whiteSpace: "nowrap",
+							overflow: "hidden",
+							textOverflow: "ellipsis",
+						}}
 						onClick={() => {
-							setValue("https://www.jsdelivr.com/chatbot/5");
+							setValue(`<script
+							id="stealth-chatbot-widget"
+							data-id=${chatbotId}
+							src="http://localhost:5173/stealth.js"
+						></script>`);
 							onCopy();
 						}}
 					>
-						https://www.jsdelivr.com/chatbot/5
-						<CopyIcon sx={{ ml: 2 }} />
+						{`<script
+							id="stealth-chatbot-widget"
+							data-id=${chatbotId}
+							src="http://localhost:5173/stealth.js"
+						></script>`}
 					</Tag>
+					<CopyIcon sx={{ ml: 2 }} />
 					{hasCopied && (
 						<Text sx={{ ml: 1 }} fontSize="smaller">
 							copied!
@@ -155,7 +173,7 @@ const ChatbotConfig = () => {
 					</TabPanels>
 				</Tabs>
 			</Box>
-		</Skeleton>
+		</Box>
 	);
 };
 

@@ -24,14 +24,17 @@ import { useSelector } from "react-redux";
 import {
 	deleteChatbot,
 	udpateChatbotStatus,
+	updateChatbotDomains,
 	updateChatbotName,
 } from "../../../../store/thunks/chatbotSettings.thunk";
 import {
 	deleteChatbotApiStatusSelector,
-	udpateChatbotStatusApiSelector,
-	updateChatbotNameApiStatusSelector,
+	// udpateChatbotStatusApiSelector,
+	// updateChatbotNameApiStatusSelector,
 } from "../../../../store/selectors/chatbots.selector";
 import { useNavigate } from "react-router-dom";
+import { isValidDomain } from "../../../../utils/isValidDomain";
+import { useClerk } from "@clerk/clerk-react";
 
 const ChatbotSettings: React.FC<{
 	domains: string[];
@@ -40,12 +43,12 @@ const ChatbotSettings: React.FC<{
 }> = ({ domains, name, status }) => {
 	const dispatch = useAppDispatch();
 	const deleteChatbotApiStatus = useSelector(deleteChatbotApiStatusSelector);
-	const udpateChatbotNameApiStatus = useSelector(
-		updateChatbotNameApiStatusSelector
-	);
-	const updateChatbotStatusApiStatus = useSelector(
-		udpateChatbotStatusApiSelector
-	);
+	// const udpateChatbotNameApiStatus = useSelector(
+	// 	updateChatbotNameApiStatusSelector
+	// );
+	// const updateChatbotStatusApiStatus = useSelector(
+	// 	udpateChatbotStatusApiSelector
+	// );
 
 	const navigate = useNavigate();
 
@@ -62,15 +65,33 @@ const ChatbotSettings: React.FC<{
 		setNewStatus(status);
 	}, [domains, name, status]);
 
+	console.log({ domains, name, status });
+	const { session } = useClerk();
+
 	const handleDeleteChatbot = () => {
 		if (
 			window.confirm(
 				`Are you sure you want to delete chatbot ${newName} ?`
 			)
 		)
-			dispatch(deleteChatbot(chatbotId)).then(() => {
-				navigate("/app");
-			});
+			session
+				?.getToken({ template: "stealth-token-template" })
+				.then((token) => {
+					if (!token) {
+						navigate("/");
+						return;
+					}
+					dispatch(deleteChatbot({ chatbotId, token }))
+						.then(() => {
+							navigate("/app");
+						})
+						.catch(() => {
+							navigate("/app");
+						});
+				})
+				.catch(() => {
+					navigate("/");
+				});
 		else return;
 	};
 
@@ -81,7 +102,22 @@ const ChatbotSettings: React.FC<{
 			)
 		) {
 			setIsNameEditing(false);
-			dispatch(updateChatbotName({ chatbotId, newName }));
+			session
+				?.getToken({ template: "stealth-token-template" })
+				.then((token) => {
+					if (!token) {
+						navigate("/");
+						return;
+					}
+					dispatch(
+						updateChatbotName({ chatbotId, newName, token })
+					).catch(() => {
+						navigate("/app");
+					});
+				})
+				.catch(() => {
+					navigate("/");
+				});
 		} else return;
 	};
 
@@ -91,8 +127,94 @@ const ChatbotSettings: React.FC<{
 				`Are you sure you want to change the status of chatbot to ${newStatus} ?`
 			)
 		) {
-			setNewStatus(newStatus);
-			dispatch(udpateChatbotStatus({ chatbotId, newStatus }));
+			session
+				?.getToken({ template: "stealth-token-template" })
+				.then((token) => {
+					if (!token) {
+						navigate("/signin");
+						return;
+					}
+					console.log({ token });
+
+					dispatch(
+						udpateChatbotStatus({ chatbotId, newStatus, token })
+					).then(() => {
+						setNewStatus(newStatus);
+					});
+				})
+				.catch(() => {
+					navigate("/signin");
+				});
+		} else return;
+	};
+
+	const handleRemoveDomain = (newDomains: string[]) => {
+		if (
+			window.confirm(
+				`Are you sure you want to modify the domains list of chatbot ?`
+			)
+		) {
+			setChatbotDomains(newDomains);
+			session
+				?.getToken({ template: "stealth-token-template" })
+				.then((token) => {
+					if (!token) {
+						navigate("/signin");
+						return;
+					}
+					setNewStatus(newStatus);
+					dispatch(
+						updateChatbotDomains({
+							chatbotId,
+							domains: newDomains,
+							token,
+						})
+					);
+				})
+				.catch(() => {
+					navigate("/signin");
+				});
+		} else return;
+	};
+
+	const handleAddNewDomain = (newDomain: string) => {
+		if (newDomain.length === 0) {
+			window.alert("Please enter a domain!");
+			return;
+		}
+
+		if (!isValidDomain(newDomain)) {
+			window.alert("Please enter a domain!");
+			return;
+		}
+
+		if (
+			window.confirm(
+				`Are you sure you want to modify the domains list of chatbot ?`
+			)
+		) {
+			session
+				?.getToken({ template: "stealth-token-template" })
+				.then((token) => {
+					if (!token) {
+						navigate("/signin");
+						return;
+					}
+					setNewStatus(newStatus);
+					dispatch(
+						updateChatbotDomains({
+							chatbotId,
+							domains: [...chatbotDomains, newDomain],
+							token,
+						})
+					);
+				})
+				.catch(() => {
+					navigate("/signin");
+				});
+
+			setChatbotDomains((prev) => [...prev, `https://${newDomain}`]);
+			setNewDomain("");
 		} else return;
 	};
 
@@ -202,13 +324,7 @@ const ChatbotSettings: React.FC<{
 					</InputGroup>
 					<Button
 						onClick={() => {
-							if (newDomain.length > 0) {
-								setChatbotDomains((prev) => [
-									...prev,
-									newDomain,
-								]);
-								setNewDomain("");
-							}
+							handleAddNewDomain(newDomain);
 						}}
 					>
 						<AddIcon sx={{ mr: 2 }} /> Add Domain
@@ -216,37 +332,39 @@ const ChatbotSettings: React.FC<{
 				</Box>
 				<Box sx={{ mt: 3 }}>
 					{chatbotDomains.map((domain: string) => {
-						return (
-							<Box
-								sx={{
-									display: "flex",
-									width: "fit-content",
-									backgroundColor: "whitesmoke",
-									p: 1,
-									borderRadius: 5,
-									mb: 1,
-									alignItems: "center",
-								}}
-							>
-								<Text fontSize="sm">https://{domain}</Text>
-								<CloseIcon
+						if (domain.length > 0)
+							return (
+								<Box
+									key={domain}
 									sx={{
-										ml: 2,
-										backgroundColor: "black",
-										color: "white",
-										borderRadius: "50%",
-										cursor: "pointer",
+										display: "flex",
+										width: "fit-content",
+										backgroundColor: "whitesmoke",
 										p: 1,
+										borderRadius: 5,
+										mb: 1,
+										alignItems: "center",
 									}}
-									onClick={() => {
-										const domains_ = [...domains].filter(
-											(d) => d !== domain
-										);
-										setChatbotDomains(domains_);
-									}}
-								/>
-							</Box>
-						);
+								>
+									<Text fontSize="sm">{domain}</Text>
+									<CloseIcon
+										sx={{
+											ml: 2,
+											backgroundColor: "black",
+											color: "white",
+											borderRadius: "50%",
+											cursor: "pointer",
+											p: 1,
+										}}
+										onClick={() => {
+											const domains_ = [
+												...domains,
+											].filter((d) => d !== domain);
+											handleRemoveDomain(domains_);
+										}}
+									/>
+								</Box>
+							);
 					})}
 				</Box>
 			</Box>

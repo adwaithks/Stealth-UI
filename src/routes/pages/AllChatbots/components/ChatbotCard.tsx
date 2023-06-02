@@ -9,6 +9,7 @@ interface IProps {
 	status: string;
 	id: number;
 	knowledgeBase: string;
+	domains: string[];
 }
 
 const ChatbotCard: React.FC<IProps> = ({
@@ -17,14 +18,9 @@ const ChatbotCard: React.FC<IProps> = ({
 	creationDate,
 	knowledgeBase,
 	status,
+	domains,
 }) => {
-	const [chatbotStatus, setChatbotStatus] = useState("active");
-
 	const navigate = useNavigate();
-
-	useEffect(() => {
-		setChatbotStatus(status);
-	}, [status]);
 
 	return (
 		<Box
@@ -59,16 +55,13 @@ const ChatbotCard: React.FC<IProps> = ({
 			</Box>
 
 			<Box sx={{ display: "flex", alignItems: "center" }}>
-				{/* <Text sx={{ mr: 1 }}>Status: </Text>
-				<Select
-					onChange={(e) => setChatbotStatus(e.target.value)}
-					value={chatbotStatus}
-				>
-					<option value="active">Active</option>
-					<option value="inactive">Inactive</option>
-				</Select> */}
-				{knowledgeBase.length === 0 && (
-					<Badge colorScheme="red">Add knowledge base !</Badge>
+				{knowledgeBase?.length === 0 && (
+					<Badge sx={{ mr: 1 }} colorScheme="red">
+						Add knowledge base !
+					</Badge>
+				)}
+				{domains?.length === 0 && (
+					<Badge colorScheme="red">Add domains !</Badge>
 				)}
 
 				<Box sx={{ ml: 5 }}>

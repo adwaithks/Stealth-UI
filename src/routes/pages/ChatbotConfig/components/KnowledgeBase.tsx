@@ -4,7 +4,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { useAppDispatch } from "../../../../store/store";
 import { retrainChatbot } from "../../../../store/reducers/chatbots.reducer";
 import { useSelector } from "react-redux";
-import { retrainChatbotApi } from "../../../../api/retrainChatbot.api";
 import { retrainChatbotApiStatusSelector } from "../../../../store/selectors/chatbots.selector";
 
 const KnowledgeBase: React.FC<{ base: string; chatbotId: number }> = ({
@@ -30,7 +29,6 @@ const KnowledgeBase: React.FC<{ base: string; chatbotId: number }> = ({
 
 	const handleRetrainChatbot = () => {
 		setIsDisabled(true);
-		console.log({ chatbotId, chatbotKnowledge });
 		dispatch(
 			retrainChatbot({ chatbotId, knowledgeBase: chatbotKnowledge })
 		).catch(() => {

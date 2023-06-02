@@ -15,12 +15,17 @@ import { useAppDispatch } from "../../../store/store";
 import { useSelector } from "react-redux";
 import CreateNewChatbotModal from "./components/CreateNewChatbotModal";
 import { useNavigate } from "react-router-dom";
+import { useClerk } from "@clerk/clerk-react";
+import AllChatbotsSkeleton from "./components/AllChatbotsSkeleton";
 
 const AllChatbots = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const getMyChatbotsApiStatus = useSelector(getMyChatbotsApiStatusSelector);
 	const chatbots = useSelector(myChatbotsSelector);
+	const { session } = useClerk();
+	console.log(session);
+
 	const createNewChatbotApiStatus = useSelector(
 		createNewChatbotApiStatusSelector
 	);
@@ -31,14 +36,41 @@ const AllChatbots = () => {
 	const [chatbotKnowledge, setChatbotKnowledge] = useState("");
 
 	const createAndTrainNewChatbot = (name: string, knowledgeBase: string) => {
-		dispatch(createNewChatbot({ name, knowledgeBase })).then(() => {
-			navigate("/app");
-		});
+		if (name.length === 0) {
+			alert("Please provide a name for the chatbot!");
+			return;
+		}
+		session
+			?.getToken({ template: "stealth-token-template" })
+			.then((token) => {
+				if (!token) {
+					navigate("/signin");
+					return;
+				}
+				console.log({ token });
+				dispatch(createNewChatbot({ name, knowledgeBase, token })).then(
+					() => {
+						setCreateNewChatbotModalIsOpen(false);
+						navigate("/app");
+					}
+				);
+			})
+			.catch(() => {
+				navigate("/signin");
+			});
 	};
 
 	useEffect(() => {
-		dispatch(getMyChatbots());
-	}, [dispatch]);
+		session
+			?.getToken({ template: "stealth-token-template" })
+			.then((token) => {
+				if (!token) {
+					navigate("/");
+					return;
+				}
+				dispatch(getMyChatbots(token));
+			});
+	}, [dispatch, navigate, session]);
 
 	return (
 		<Box>
@@ -67,14 +99,15 @@ const AllChatbots = () => {
 				</Box>
 				<Divider sx={{ my: 5 }} orientation="horizontal" />
 				<Box>
-					<Text fontWeight="bold">
-						Chatbot Knowledge Base (Optional, You can fill this
-						later)
-					</Text>
+					<Text fontWeight="bold">Chatbot Knowledge Base</Text>
 					<Text sx={{ mb: 1 }} color="gray">
 						Provide a detailed information about company and product
-						related information here (Please do not include anything
-						confidential!)
+						related information here. (You can edit later on)
+						<span>
+							<Text color="red" fontWeight="bold">
+								(Please do not include anything confidential!)
+							</Text>
+						</span>
 					</Text>
 
 					<textarea
@@ -128,7 +161,9 @@ Timings: ...`}
 			<Divider sx={{ mb: 5 }} orientation="horizontal" />
 
 			<Box>
-				{getMyChatbotsApiStatus === "pending" && <Text>Loading</Text>}
+				{getMyChatbotsApiStatus === "pending" && (
+					<AllChatbotsSkeleton />
+				)}
 				{getMyChatbotsApiStatus === "fulfilled" &&
 					chatbots.map(
 						({
@@ -137,6 +172,7 @@ Timings: ...`}
 							knowledgeBase,
 							status,
 							chatbotId,
+							domains,
 						}) => {
 							return (
 								<ChatbotCard
@@ -146,6 +182,7 @@ Timings: ...`}
 									knowledgeBase={knowledgeBase}
 									creationDate={creationDate}
 									status={status}
+									domains={domains}
 								/>
 							);
 						}

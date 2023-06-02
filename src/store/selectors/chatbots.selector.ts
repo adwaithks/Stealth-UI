@@ -36,3 +36,7 @@ export const currentChatbotSelector = (state: IAppState) => {
 export const getChatbotByIdApiStatusSelector = (state: IAppState) => {
 	return state.chatbots.getChatbotByIdApiStatus;
 };
+
+export const updateChatbotDomainsApiStatusSelector = (state: IAppState) => {
+	return state.chatbots.domainChangeApiStatus;
+};

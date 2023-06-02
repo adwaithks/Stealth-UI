@@ -6,8 +6,10 @@ import Navbar from "../Navbar/Navbar";
 const RootLayout: React.FC = () => {
 	return (
 		<Box sx={{ width: "100%", height: "100vh" }}>
-			<Navbar />
-			<Box sx={{ m: 10 }}>
+			<Box sx={{ p: 5 }}>
+				<Navbar />
+			</Box>
+			<Box sx={{ mx: 10, mt: 5 }}>
 				<Outlet />
 			</Box>
 		</Box>

@@ -2,12 +2,15 @@ import { createNewChatbotSerializer } from "./serializers/createNewChatbot.seria
 
 export const createNewChatbotApi = async (
 	chatbotName: string,
-	knowledgeBase: string
+	knowledgeBase: string,
+	token: string
 ) => {
+	console.log("tokenn here : ", token);
 	const res = await fetch("http://localhost:8000/api/v1/chatbot/new", {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
+			"STEALTH-ACCESS-TOKEN": token,
 		},
 		body: JSON.stringify({
 			chatbot_name: chatbotName,

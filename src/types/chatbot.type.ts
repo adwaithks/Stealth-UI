@@ -4,7 +4,7 @@ export interface Chatbot {
 	knowledgeBase: string;
 	creationDate: string;
 	lastUpdated: string;
-	domains?: string[];
+	domains: string[];
 	status: string;
 }
 
@@ -14,6 +14,6 @@ export interface ChatbotDTO {
 	knowledge_base: string;
 	creation_date: string;
 	last_updated: string;
-	domains?: string[];
+	domains: string;
 	status: string;
 }
