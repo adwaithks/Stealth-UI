@@ -165,6 +165,12 @@ Timings: ...`}
 					<AllChatbotsSkeleton />
 				)}
 				{getMyChatbotsApiStatus === "fulfilled" &&
+					chatbots.length === 0 && (
+						<Text fontSize="xl" fontWeight="black" color="gray">
+							You don't have any chatbots. Create one 🚀
+						</Text>
+					)}
+				{getMyChatbotsApiStatus === "fulfilled" &&
 					chatbots.map(
 						({
 							chatbotName,

@@ -1,14 +1,93 @@
-import { Box, Container, Text } from "@chakra-ui/react";
+import {
+	Box,
+	Button,
+	Container,
+	FormControl,
+	FormLabel,
+	Input,
+	Text,
+} from "@chakra-ui/react";
 import React from "react";
 
 const Landing = () => {
 	return (
-		<Container>
-			<Box>
-				<Text></Text>
-				<Text></Text>
+		<Box
+			sx={{
+				width: "100%",
+			}}
+		>
+			<Box
+				sx={{
+					display: "flex",
+					alignItems: "center",
+					justifyContent: "center",
+					flexDirection: "column",
+				}}
+			>
+				<Text
+					fontSize="8xl"
+					fontFamily="Libre Baskerville"
+					fontWeight="extrabold"
+				>
+					Lemur AI
+				</Text>
+				<Container
+					sx={{ mt: -5, textAlign: "center" }}
+					color="gray"
+					fontSize="2xl"
+				>
+					"Leap into Seamless Support: Introducing Lemur AI - Your
+					Trusted Customer Support Chatbot Companion!"
+				</Container>
 			</Box>
-		</Container>
+			<Box
+				sx={{
+					mt: 55,
+					display: "flex",
+					alignItems: "center",
+					justifyContent: "center",
+					flexDirection: "column",
+				}}
+			>
+				<Text fontSize="2xl" fontWeight="extrabold">
+					Kindly join our waiting list. We'll notify you once we are
+					live 🎉
+				</Text>
+			</Box>
+			<Container sx={{ mt: 5 }}>
+				<FormControl>
+					<FormLabel>Enter your email address</FormLabel>
+					<Box
+						sx={{
+							display: "flex",
+							alignItems: "center",
+							flexDirection: "column",
+							justifyContent: "space-between",
+						}}
+					>
+						<Input placeholder="lemurai@gmail.com" type="email" />
+						<Button
+							bg="black"
+							color="white"
+							sx={{ width: "100%", mt: 2 }}
+						>
+							Join Waiting List
+						</Button>
+					</Box>
+				</FormControl>
+			</Container>
+			<footer
+				style={{
+					fontSize: "12px",
+					position: "absolute",
+					bottom: 0,
+					left: "50%",
+					transform: "translateX(-50%) ",
+				}}
+			>
+				All rights reserved Lemur AI.
+			</footer>
+		</Box>
 	);
 };
 

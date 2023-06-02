@@ -9,7 +9,14 @@ const RootLayout: React.FC = () => {
 			<Box sx={{ p: 5 }}>
 				<Navbar />
 			</Box>
-			<Box sx={{ mx: 10, mt: 5 }}>
+			<Box
+				sx={{
+					mx: 10,
+					mt: 5,
+					// overflowY: "auto",
+					// height: "calc(100vh - 120px)",
+				}}
+			>
 				<Outlet />
 			</Box>
 		</Box>

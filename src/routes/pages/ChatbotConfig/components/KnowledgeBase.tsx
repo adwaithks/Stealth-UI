@@ -5,6 +5,8 @@ import { useAppDispatch } from "../../../../store/store";
 import { retrainChatbot } from "../../../../store/reducers/chatbots.reducer";
 import { useSelector } from "react-redux";
 import { retrainChatbotApiStatusSelector } from "../../../../store/selectors/chatbots.selector";
+import { useClerk } from "@clerk/clerk-react";
+import { useNavigate } from "react-router-dom";
 
 const KnowledgeBase: React.FC<{ base: string; chatbotId: number }> = ({
 	base,
@@ -12,6 +14,8 @@ const KnowledgeBase: React.FC<{ base: string; chatbotId: number }> = ({
 }) => {
 	const [isDisabled, setIsDisabled] = useState<boolean>(true);
 	const [chatbotKnowledge, setChatbotKnowledge] = useState(base);
+	const { session } = useClerk();
+	const navigate = useNavigate();
 
 	const textAreaRef = useRef<any>(null);
 
@@ -28,12 +32,31 @@ const KnowledgeBase: React.FC<{ base: string; chatbotId: number }> = ({
 	}, [isDisabled, base]);
 
 	const handleRetrainChatbot = () => {
-		setIsDisabled(true);
-		dispatch(
-			retrainChatbot({ chatbotId, knowledgeBase: chatbotKnowledge })
-		).catch(() => {
-			setChatbotKnowledge(base);
-		});
+		session
+			?.getToken({ template: "stealth-token-template" })
+			.then((token) => {
+				if (!token) {
+					navigate("/signin");
+					return;
+				}
+				setIsDisabled(true);
+				dispatch(
+					retrainChatbot({
+						chatbotId,
+						knowledgeBase: chatbotKnowledge,
+						token,
+					})
+				)
+					.then(() => {
+						setChatbotKnowledge(chatbotKnowledge);
+					})
+					.catch(() => {
+						setChatbotKnowledge(base);
+					});
+			})
+			.catch(() => {
+				navigate("/signin");
+			});
 	};
 
 	return (

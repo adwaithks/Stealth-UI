@@ -13,11 +13,12 @@ const Navbar = () => {
 
 	return (
 		<Box
-			style={{
+			sx={{
 				display: "flex",
 				justifyContent: "space-between",
 				alignItems: "center",
 				height: 50,
+				px: 10,
 				borderRadius: 55,
 				backgroundColor: "black",
 				color: "white",
@@ -25,7 +26,7 @@ const Navbar = () => {
 		>
 			<Box>
 				<Text
-					sx={{ cursor: "pointer", pl: 10 }}
+					sx={{ cursor: "pointer" }}
 					onClick={() => navigate("/app")}
 					fontWeight="bold"
 				>
@@ -34,28 +35,41 @@ const Navbar = () => {
 			</Box>
 			<Box
 				sx={{
-					pr: 10,
-					width: 350,
 					display: "flex",
 					alignItems: "center",
-					justifyContent: "space-evenly",
+					justifyContent: "space-between",
 				}}
 			>
-				<SignedIn>
-					<Link href="/app">dashboard</Link>
-					<Link>Billing</Link>
-					<Link>Account</Link>
-					<Button size="sm" colorScheme="red">
-						<SignOutButton signOutCallback={() => navigate("/")}>
-							Log out
-						</SignOutButton>
-					</Button>
-				</SignedIn>
-				<SignedOut>
-					<SignInButton afterSignInUrl="/app" afterSignUpUrl="/app">
-						Sign In
-					</SignInButton>
-				</SignedOut>
+				<>
+					<SignedIn>
+						<Link sx={{ mr: 2 }} href="/app">
+							dashboard
+						</Link>
+						<Link sx={{ mr: 2 }}>Account</Link>
+						<Button size="sm" colorScheme="red">
+							<SignOutButton
+								signOutCallback={() => navigate("/")}
+							>
+								Log out
+							</SignOutButton>
+						</Button>
+					</SignedIn>
+				</>
+				<>
+					<SignedOut>
+						<Link href="/" sx={{ mr: 5 }}>
+							Home
+						</Link>
+						<Button size="sm" colorScheme="whatsapp">
+							<SignInButton
+								afterSignInUrl="/app"
+								afterSignUpUrl="/app"
+							>
+								Sign In
+							</SignInButton>
+						</Button>
+					</SignedOut>
+				</>
 			</Box>
 		</Box>
 	);
