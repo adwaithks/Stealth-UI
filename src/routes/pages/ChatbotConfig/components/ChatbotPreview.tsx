@@ -9,6 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { useClerk } from "@clerk/clerk-react";
 import React, { useState } from "react";
+import { BASE_URL } from "../../../../api/baseURL";
 
 interface Chat {
 	message: string;
@@ -42,7 +43,7 @@ const ChatbotPreview: React.FC<{ chatbotId: number }> = ({ chatbotId }) => {
 						origin: "user",
 					},
 				]);
-				fetch("http://localhost:8000/api/v1/chatbot/message/demo", {
+				fetch(BASE_URL + "/api/v1/chatbot/message/demo", {
 					method: "POST",
 					headers: {
 						"STEALTH-ACCESS-TOKEN": token,

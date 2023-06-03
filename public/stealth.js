@@ -16,6 +16,7 @@ let sendButtonActive = true;
 let sendInputActive = true;
 let chatBotDisabled = true;
 const cookieName = "STEALTH_CHATBOT";
+const BASE_URL = "https://stealth-dashboard.onrender.com";
 
 function generateRandomId() {
 	var characters =
@@ -258,7 +259,7 @@ function app() {
 					document.cookie = cookie;
 				}
 
-				fetch("http://localhost:8000/api/v1/chatbot/message", {
+				fetch(BASE_URL + "/api/v1/chatbot/message", {
 					method: "POST",
 					headers: {
 						"Content-Type": "application/json",
@@ -292,7 +293,7 @@ function app() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-	fetch(`http://localhost:8000/api/v1/chatbot/${chatbotId}/widgetstatus`, {
+	fetch(BASE_URL + `/api/v1/chatbot/${chatbotId}/widgetstatus`, {
 		method: "GET",
 	})
 		.then((res) => res.json())

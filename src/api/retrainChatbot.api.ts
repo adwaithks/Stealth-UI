@@ -1,9 +1,11 @@
+import { BASE_URL } from "./baseURL";
+
 export const retrainChatbotApi = async (
 	chatbotId: number,
 	knowledgeBase: string,
 	token: string
 ) => {
-	const res = await fetch("http://localhost:8000/api/v1/chatbot/retrain", {
+	const res = await fetch(BASE_URL + "/api/v1/chatbot/retrain", {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",

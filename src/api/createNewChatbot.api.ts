@@ -1,3 +1,4 @@
+import { BASE_URL } from "./baseURL";
 import { createNewChatbotSerializer } from "./serializers/createNewChatbot.serializer";
 
 export const createNewChatbotApi = async (
@@ -5,7 +6,7 @@ export const createNewChatbotApi = async (
 	knowledgeBase: string,
 	token: string
 ) => {
-	const res = await fetch("http://localhost:8000/api/v1/chatbot/new", {
+	const res = await fetch(BASE_URL + "/api/v1/chatbot/new", {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
