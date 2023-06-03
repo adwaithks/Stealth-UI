@@ -3,7 +3,6 @@ import {
 	Box,
 	Button,
 	Heading,
-	Skeleton,
 	Tab,
 	TabList,
 	TabPanel,
@@ -29,10 +28,10 @@ import { getChatbotById } from "../../../store/thunks/getChatbotById.thunk";
 import { useClerk } from "@clerk/clerk-react";
 import ChatbotConfigSkeleton from "./components/ChatbotConfigSkeleton";
 
-const ChatbotConfig = () => {
+const ChatbotConfig: React.FC = () => {
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
-	const { onCopy, value, setValue, hasCopied } = useClipboard("");
+	const { onCopy, setValue, hasCopied } = useClipboard("");
 	const { session } = useClerk();
 
 	const chatbotId = Number(window.location.pathname.split("/")[2] || -1);

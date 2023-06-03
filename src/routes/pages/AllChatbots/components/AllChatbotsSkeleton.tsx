@@ -1,7 +1,7 @@
 import { Skeleton, Stack } from "@chakra-ui/react";
 import React from "react";
 
-const AllChatbotsSkeleton = () => {
+const AllChatbotsSkeleton: React.FC = () => {
 	return (
 		<Stack>
 			<Skeleton height="70px" rounded="base" />

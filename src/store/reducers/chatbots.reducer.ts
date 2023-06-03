@@ -126,79 +126,79 @@ const chatbotsSlice = createSlice({
 	reducers: {},
 	extraReducers(builder) {
 		builder
-			.addCase(getMyChatbots.pending, (state, action) => {
+			.addCase(getMyChatbots.pending, (state) => {
 				state.getMyChatbotsApiStatus = "pending";
 			})
 			.addCase(getMyChatbots.fulfilled, (state, action) => {
 				state.myChatbots = action.payload || [];
 				state.getMyChatbotsApiStatus = "fulfilled";
 			})
-			.addCase(getMyChatbots.rejected, (state, action) => {
+			.addCase(getMyChatbots.rejected, (state) => {
 				state.getMyChatbotsApiStatus = "rejected";
 			})
-			.addCase(createNewChatbot.pending, (state, action) => {
+			.addCase(createNewChatbot.pending, (state) => {
 				state.createNewChatbotApiStatus = "pending";
 			})
 			.addCase(createNewChatbot.fulfilled, (state, action) => {
 				state.myChatbots.push(action.payload);
 				state.createNewChatbotApiStatus = "fulfilled";
 			})
-			.addCase(createNewChatbot.rejected, (state, action) => {
+			.addCase(createNewChatbot.rejected, (state) => {
 				state.createNewChatbotApiStatus = "rejected";
 			})
-			.addCase(retrainChatbot.pending, (state, action) => {
+			.addCase(retrainChatbot.pending, (state) => {
 				state.retrainChatbotApiStatus = "pending";
 			})
-			.addCase(retrainChatbot.fulfilled, (state, action) => {
+			.addCase(retrainChatbot.fulfilled, (state) => {
 				state.retrainChatbotApiStatus = "fulfilled";
 			})
-			.addCase(retrainChatbot.rejected, (state, action) => {
+			.addCase(retrainChatbot.rejected, (state) => {
 				state.retrainChatbotApiStatus = "rejected";
 			})
-			.addCase(udpateChatbotStatus.pending, (state, action) => {
+			.addCase(udpateChatbotStatus.pending, (state) => {
 				state.chatbotStatusChangeApiStatus = "pending";
 			})
-			.addCase(udpateChatbotStatus.fulfilled, (state, action) => {
+			.addCase(udpateChatbotStatus.fulfilled, (state) => {
 				state.chatbotStatusChangeApiStatus = "fulfilled";
 			})
-			.addCase(udpateChatbotStatus.rejected, (state, action) => {
+			.addCase(udpateChatbotStatus.rejected, (state) => {
 				state.chatbotStatusChangeApiStatus = "rejected";
 			})
-			.addCase(updateChatbotName.pending, (state, action) => {
+			.addCase(updateChatbotName.pending, (state) => {
 				state.chatbotNameChangeApiStatus = "pending";
 			})
-			.addCase(updateChatbotName.fulfilled, (state, action) => {
+			.addCase(updateChatbotName.fulfilled, (state) => {
 				state.chatbotNameChangeApiStatus = "fulfilled";
 			})
-			.addCase(updateChatbotName.rejected, (state, action) => {
+			.addCase(updateChatbotName.rejected, (state) => {
 				state.chatbotNameChangeApiStatus = "rejected";
 			})
-			.addCase(deleteChatbot.pending, (state, action) => {
+			.addCase(deleteChatbot.pending, (state) => {
 				state.deleteChatbotApiStatus = "pending";
 			})
-			.addCase(deleteChatbot.fulfilled, (state, action) => {
+			.addCase(deleteChatbot.fulfilled, (state) => {
 				state.deleteChatbotApiStatus = "fulfilled";
 			})
-			.addCase(deleteChatbot.rejected, (state, action) => {
+			.addCase(deleteChatbot.rejected, (state) => {
 				state.deleteChatbotApiStatus = "rejected";
 			})
-			.addCase(getChatbotById.pending, (state, action) => {
+			.addCase(getChatbotById.pending, (state) => {
 				state.getChatbotByIdApiStatus = "pending";
 			})
 			.addCase(getChatbotById.fulfilled, (state, action) => {
 				state.currentChatbot = action.payload;
 				state.getChatbotByIdApiStatus = "fulfilled";
 			})
-			.addCase(getChatbotById.rejected, (state, action) => {
+			.addCase(getChatbotById.rejected, (state) => {
 				state.getChatbotByIdApiStatus = "rejected";
 			})
-			.addCase(updateChatbotDomains.pending, (state, action) => {
+			.addCase(updateChatbotDomains.pending, (state) => {
 				state.domainChangeApiStatus = "pending";
 			})
-			.addCase(updateChatbotDomains.fulfilled, (state, action) => {
+			.addCase(updateChatbotDomains.fulfilled, (state) => {
 				state.domainChangeApiStatus = "fulfilled";
 			})
-			.addCase(updateChatbotDomains.rejected, (state, action) => {
+			.addCase(updateChatbotDomains.rejected, (state) => {
 				state.domainChangeApiStatus = "rejected";
 			});
 	},

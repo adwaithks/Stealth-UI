@@ -1,4 +1,3 @@
-import React from "react";
 import RouteConfig from "./routes/route.config";
 
 function App() {

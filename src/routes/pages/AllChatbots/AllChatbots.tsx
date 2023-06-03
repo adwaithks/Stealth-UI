@@ -1,5 +1,5 @@
 import { Box, Button, Divider, Input, Text } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import ChatbotCard from "./components/ChatbotCard";
 import { AddIcon } from "@chakra-ui/icons";
 import {

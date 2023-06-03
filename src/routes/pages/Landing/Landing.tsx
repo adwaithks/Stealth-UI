@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 
-const Landing = () => {
+const Landing: React.FC = () => {
 	return (
 		<Box
 			sx={{
