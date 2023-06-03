@@ -11,6 +11,9 @@ import {
 	updateChatbotName,
 } from "../thunks/chatbotSettings.thunk";
 import { getChatbotById } from "../thunks/getChatbotById.thunk";
+import { createStandaloneToast } from "@chakra-ui/react";
+
+const { toast } = createStandaloneToast();
 
 export const getMyChatbots = createAsyncThunk(
 	"chatbots/getMyChatbots",
@@ -18,7 +21,17 @@ export const getMyChatbots = createAsyncThunk(
 		try {
 			const data = await getMyChatbotsApi(token);
 			return data;
-		} catch (err) {
+		} catch (err: any) {
+			toast({
+				title: "Something went wrong",
+				description: err?.message
+					? err.message
+					: "Failed to get your chatbots!",
+				status: "error",
+				duration: 9000,
+				isClosable: true,
+				variant: "left-accent",
+			});
 			throw err;
 		}
 	}
@@ -28,10 +41,27 @@ export const createNewChatbot = createAsyncThunk(
 	"chatbots/createNewChatbot",
 	async ({ name, knowledgeBase, token }: { [key: string]: string }) => {
 		try {
-			console.log("qwe token: ", token);
 			const data = await createNewChatbotApi(name, knowledgeBase, token);
+			toast({
+				title: "Success",
+				description: "New chatbot created successfully!",
+				status: "success",
+				duration: 9000,
+				isClosable: true,
+				variant: "left-accent",
+			});
 			return data;
-		} catch (err) {
+		} catch (err: any) {
+			toast({
+				title: "Something went wrong",
+				description: err?.message
+					? err.message
+					: "Failed to create new chatbot!",
+				status: "error",
+				duration: 9000,
+				isClosable: true,
+				variant: "left-accent",
+			});
 			throw err;
 		}
 	}
@@ -54,8 +84,26 @@ export const retrainChatbot = createAsyncThunk(
 				knowledgeBase,
 				token
 			);
+			toast({
+				title: "Success",
+				description: "Retrained chatbot successfully!",
+				status: "success",
+				duration: 9000,
+				isClosable: true,
+				variant: "left-accent",
+			});
 			return data;
-		} catch (err) {
+		} catch (err: any) {
+			toast({
+				title: "Something went wrong",
+				description: err?.message
+					? err.message
+					: "Failed to retrain chatbot!",
+				status: "error",
+				duration: 9000,
+				isClosable: true,
+				variant: "left-accent",
+			});
 			throw err;
 		}
 	}
@@ -82,7 +130,7 @@ const chatbotsSlice = createSlice({
 				state.getMyChatbotsApiStatus = "pending";
 			})
 			.addCase(getMyChatbots.fulfilled, (state, action) => {
-				state.myChatbots = action.payload;
+				state.myChatbots = action.payload || [];
 				state.getMyChatbotsApiStatus = "fulfilled";
 			})
 			.addCase(getMyChatbots.rejected, (state, action) => {

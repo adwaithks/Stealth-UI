@@ -6,6 +6,9 @@ import {
 	updateChatbotNameApi,
 	updateChatbotStatusApi,
 } from "../../api/chatbotSettings.api";
+import { createStandaloneToast } from "@chakra-ui/react";
+
+const { toast } = createStandaloneToast();
 
 export const udpateChatbotStatus = createAsyncThunk(
 	"chatbots/udpateChatbotStatus",
@@ -24,8 +27,26 @@ export const udpateChatbotStatus = createAsyncThunk(
 				newStatus,
 				token
 			);
+			toast({
+				title: "Success",
+				description: "Status updatation success!",
+				status: "success",
+				duration: 9000,
+				isClosable: true,
+				variant: "left-accent",
+			});
 			return data;
-		} catch (err) {
+		} catch (err: any) {
+			toast({
+				title: "Something went wrong",
+				description: err?.message
+					? err.message
+					: "Status updation failed!",
+				status: "error",
+				duration: 9000,
+				isClosable: true,
+				variant: "left-accent",
+			});
 			throw err;
 		}
 	}
@@ -44,8 +65,26 @@ export const updateChatbotName = createAsyncThunk(
 	}) => {
 		try {
 			const data = await updateChatbotNameApi(chatbotId, newName, token);
+			toast({
+				title: "Success",
+				description: "Name successfully updated!",
+				status: "success",
+				duration: 9000,
+				isClosable: true,
+				variant: "left-accent",
+			});
 			return data;
-		} catch (err) {
+		} catch (err: any) {
+			toast({
+				title: "Something went wrong",
+				description: err?.message
+					? err.message
+					: "Name updation failed!",
+				status: "error",
+				duration: 9000,
+				isClosable: true,
+				variant: "left-accent",
+			});
 			throw err;
 		}
 	}
@@ -68,8 +107,26 @@ export const updateChatbotDomains = createAsyncThunk(
 				domains,
 				token
 			);
+			toast({
+				title: "Success",
+				description: "Domains updated successfully!",
+				status: "success",
+				duration: 9000,
+				isClosable: true,
+				variant: "left-accent",
+			});
 			return data;
-		} catch (err) {
+		} catch (err: any) {
+			toast({
+				title: "Something went wrong",
+				description: err?.message
+					? err.message
+					: "Domain updation failed!",
+				status: "error",
+				duration: 9000,
+				isClosable: true,
+				variant: "left-accent",
+			});
 			throw err;
 		}
 	}
@@ -80,8 +137,26 @@ export const deleteChatbot = createAsyncThunk(
 	async ({ chatbotId, token }: { chatbotId: number; token: string }) => {
 		try {
 			const data = await deleteChatbotApi(chatbotId, token);
+			toast({
+				title: "Success",
+				description: "Chatbot deleted successfully!",
+				status: "success",
+				duration: 9000,
+				isClosable: true,
+				variant: "left-accent",
+			});
 			return data;
-		} catch (err) {
+		} catch (err: any) {
+			toast({
+				title: "Something went wrong",
+				description: err?.message
+					? err.message
+					: "Chatbot deletion failed!",
+				status: "error",
+				duration: 9000,
+				isClosable: true,
+				variant: "left-accent",
+			});
 			throw err;
 		}
 	}

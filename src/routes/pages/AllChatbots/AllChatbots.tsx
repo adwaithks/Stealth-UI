@@ -24,7 +24,6 @@ const AllChatbots = () => {
 	const getMyChatbotsApiStatus = useSelector(getMyChatbotsApiStatusSelector);
 	const chatbots = useSelector(myChatbotsSelector);
 	const { session } = useClerk();
-	console.log(session);
 
 	const createNewChatbotApiStatus = useSelector(
 		createNewChatbotApiStatusSelector
@@ -47,7 +46,6 @@ const AllChatbots = () => {
 					navigate("/signin");
 					return;
 				}
-				console.log({ token });
 				dispatch(createNewChatbot({ name, knowledgeBase, token })).then(
 					() => {
 						setCreateNewChatbotModalIsOpen(false);

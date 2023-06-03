@@ -35,6 +35,9 @@ export const updateChatbotStatusApi = async (
 	);
 
 	const data = await res.json();
+	if (!res.ok) {
+		throw data;
+	}
 	return data;
 };
 

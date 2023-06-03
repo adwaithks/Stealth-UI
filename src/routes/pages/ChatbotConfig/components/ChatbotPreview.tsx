@@ -87,7 +87,7 @@ const ChatbotPreview: React.FC<{ chatbotId: number }> = ({ chatbotId }) => {
 				sx={{
 					width: "100%",
 					p: 5,
-					height: "400px",
+					height: "300px",
 					border: "lightgray solid 0.5px",
 					borderRadius: 5,
 					overflowY: "scroll",
@@ -136,6 +136,11 @@ const ChatbotPreview: React.FC<{ chatbotId: number }> = ({ chatbotId }) => {
 					<Input
 						disabled={waitingReply}
 						value={question}
+						onKeyPress={(e) => {
+							if (e.key === "Enter") {
+								handleSend();
+							}
+						}}
 						onChange={(e) => {
 							setQuestion(e.target.value);
 						}}

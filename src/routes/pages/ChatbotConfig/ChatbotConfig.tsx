@@ -41,7 +41,6 @@ const ChatbotConfig = () => {
 		getChatbotByIdApiStatusSelector
 	);
 	const chatbot = useSelector(currentChatbotSelector);
-	console.log({ chatbot });
 
 	useEffect(() => {
 		session
@@ -79,7 +78,7 @@ const ChatbotConfig = () => {
 			</Box>
 			<Box
 				sx={{
-					mb: 5,
+					mb: 3,
 					display: "flex",
 					alignItems: "center",
 					justifyContent: "space-between",

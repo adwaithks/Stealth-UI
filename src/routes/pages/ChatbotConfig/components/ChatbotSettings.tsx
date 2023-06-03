@@ -65,7 +65,6 @@ const ChatbotSettings: React.FC<{
 		setNewStatus(status);
 	}, [domains, name, status]);
 
-	console.log({ domains, name, status });
 	const { session } = useClerk();
 
 	const handleDeleteChatbot = () => {
@@ -134,7 +133,6 @@ const ChatbotSettings: React.FC<{
 						navigate("/signin");
 						return;
 					}
-					console.log({ token });
 
 					dispatch(
 						udpateChatbotStatus({ chatbotId, newStatus, token })

@@ -5,7 +5,6 @@ export const createNewChatbotApi = async (
 	knowledgeBase: string,
 	token: string
 ) => {
-	console.log("tokenn here : ", token);
 	const res = await fetch("http://localhost:8000/api/v1/chatbot/new", {
 		method: "POST",
 		headers: {
