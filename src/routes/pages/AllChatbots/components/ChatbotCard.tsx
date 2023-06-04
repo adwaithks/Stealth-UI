@@ -67,7 +67,7 @@ const ChatbotCard: React.FC<IProps> = ({
 				<Box sx={{ ml: 5 }}>
 					<IconButton
 						onClick={() => {
-							navigate(`/configure/${id}`);
+							navigate(`/app/configure/${id}`);
 						}}
 						aria-label="goto-chatbot"
 						variant="outline"

@@ -17,6 +17,18 @@ let sendInputActive = true;
 let chatBotDisabled = true;
 const cookieName = "STEALTH_CHATBOT";
 const BASE_URL = "https://stealth-dashboard.onrender.com";
+let messages = [];
+
+function getDeviceType() {
+	const userAgent = navigator.userAgent;
+	if (/Mobi|Android/i.test(userAgent)) {
+		return "Mobile";
+	} else if (/iPad|Tablet|PlayBook|Windows NT|Macintosh/i.test(userAgent)) {
+		return "Tablet";
+	} else {
+		return "Desktop";
+	}
+}
 
 function generateRandomId() {
 	var characters =
@@ -43,7 +55,8 @@ function getCookie(cookieName) {
 	return null;
 }
 
-const messageContainer = document.createElement("div");
+let messageContainer = document.createElement("div");
+let messageLoader = document.createElement("div");
 
 function displayMessage(sender, message) {
 	const messageElement = document.createElement("div");
@@ -53,13 +66,15 @@ function displayMessage(sender, message) {
 	messageElement.style.maxWidth = "280px";
 	messageElement.style.fontSize = "15px";
 	if (sender === "bot") {
-		messageElement.style.backgroundColor = "lightgray";
+		messageElement.style.backgroundColor = "rgba(0,0,0, 0.1)";
 		messageElement.style.color = "black";
 		messageElement.style.borderTopRightRadius = "5px";
+		messageElement.style.boxShadow = "0 0 3px rgba(0,0,0,0.3)";
 		messageElement.style.borderBottomRightRadius = "5px";
 		messageElement.style.borderBottomLeftRadius = "5px";
 	} else {
 		messageElement.style.backgroundColor = "black";
+		messageElement.style.boxShadow = "0 0 3px rgba(0,0,0,0.3)";
 		messageElement.style.color = "white";
 		messageElement.style.marginLeft = "auto"; // align right
 		messageElement.style.borderTopLeftRadius = "5px";
@@ -73,7 +88,7 @@ function displayMessage(sender, message) {
 	const origin = document.createElement("p");
 	const message_ = document.createElement("p");
 
-	origin.textContent = `${sender}`;
+	origin.textContent = `${sender === "bot" ? "Lemur AI" : "User"}`;
 	message_.textContent = `${message}`;
 
 	origin.style.fontWeight = "bold";
@@ -136,7 +151,7 @@ function app() {
 	const chatWindow = document.createElement("div");
 	chatWindow.id = "chat-window";
 	chatWindow.style.marginLeft = "20px";
-	chatWindow.style.border = "solid 0.5px gray";
+	chatWindow.style.border = "solid 0.5px lightgray";
 	chatWindow.style.height = "470px";
 	chatWindow.style.boxShadow = "0 0 3px rgba(0,0,0,0.3)";
 	chatWindow.style.position = "absolute";
@@ -174,6 +189,47 @@ function app() {
 	messageInput.placeholder = "Ask any question...";
 	messageInput.disabled = !sendInputActive;
 
+	messageLoader = document.createElement("div");
+	messageLoader.className = "loader";
+	messageLoader.style.backgroundColor = "rgba(0,0,0, 0.1)";
+	messageLoader.style.width = "fit-content";
+	messageLoader.style.padding = "10px";
+	messageLoader.style.borderTopRightRadius = "5px";
+	messageLoader.style.borderBottomRightRadius = "5px";
+	messageLoader.style.marginTop = "10px";
+	messageLoader.style.borderBottomLeftRadius = "5px";
+	messageLoader.style.display = "flex"; // Hide the loader initially
+	messageLoader.style.height = "10px";
+	for (let i = 0; i < 3; i++) {
+		const dot = document.createElement("div");
+		const bounceAnimation = `
+		@keyframes bounce-animation-${i} {
+		  0% {
+			transform: translateY(0);
+		  }
+		  100% {
+			transform: translateY(-5px);
+		  }
+		}
+		`;
+		const style = document.createElement("style");
+		style.appendChild(document.createTextNode(bounceAnimation));
+		document.head.appendChild(style);
+
+		dot.className = "dot";
+		dot.style.width = "10px";
+		dot.style.height = "10px";
+		dot.style.marginRight = "3px";
+		dot.style.backgroundColor = "gray";
+		dot.style.borderRadius = "50%";
+		dot.style.animationName = `bounce-animation-${i}`;
+		dot.style.animationDuration = "0.3s";
+		dot.style.animationIterationCount = "infinite";
+		dot.style.animationDirection = "alternate";
+
+		messageLoader.appendChild(dot);
+	}
+
 	// Send button
 	const sendButton = document.createElement("button");
 	sendButton.textContent = "Ask";
@@ -200,7 +256,8 @@ function app() {
 	const sendContainer = document.createElement("div");
 	sendContainer.appendChild(messageInput);
 	sendContainer.appendChild(sendButton);
-	sendContainer.style.border = "gray solid 0.5px";
+	sendContainer.style.border = "lightgray solid 0.5px";
+	sendContainer.style.boxShadow = "0 0 3px rgba(0,0,0,0.1)";
 	sendContainer.style.display = "flex";
 	sendContainer.style.height = "100%";
 	sendContainer.style.padding = "1px";
@@ -235,10 +292,30 @@ function app() {
 			chatWindow.style.visibility === "hidden" ? "visible" : "hidden";
 	});
 
+	function scrollToBottom() {
+		messageContainer.scrollTop = messageContainer.scrollHeight;
+	}
+
 	function sendMessage(event) {
 		if (event.key === "Enter" || event.type === "click") {
 			const message = messageInput.value.trim();
-			if (message !== "" || message.length === 0) {
+			if (message !== "" || message.length !== 0) {
+				let context = "";
+				if (messages.length > 1) {
+					context = "";
+					messages.slice(-2).forEach((m) => {
+						context += `${m.origin}: ${m.message}`;
+					});
+				} else if (messages.length > 3) {
+					context = "";
+					messages.slice(-4).forEach((m) => {
+						context += `${m.origin}: ${m.message}`;
+					});
+				}
+				messages.push({
+					origin: "user",
+					message: message,
+				});
 				displayMessage("user", message);
 				// TODO: Process the user message here
 				messageInput.value = "";
@@ -258,7 +335,8 @@ function app() {
 						"; path=/";
 					document.cookie = cookie;
 				}
-
+				messageContainer.appendChild(messageLoader);
+				scrollToBottom();
 				fetch(BASE_URL + "/api/v1/chatbot/message", {
 					method: "POST",
 					headers: {
@@ -268,14 +346,21 @@ function app() {
 						question: message,
 						chatbot_id: chatbotId,
 						user_session_id: getCookie(cookieName),
-						channel: "web",
+						channel: getDeviceType(),
+						context: context,
 					}),
 				})
 					.then((res) => res.json())
 					.then((data) => {
+						messageContainer.removeChild(messageLoader);
+						messages.push({
+							origin: "lemurAI",
+							message: data.message,
+						});
 						displayMessage("bot", data.message);
 					})
 					.catch((err) => {
+						messageContainer.removeChild(messageLoader);
 						displayMessage(
 							"bot",
 							"Something unexpected happened :( We are fixing it! Don't worry :) "
@@ -304,12 +389,14 @@ document.addEventListener("DOMContentLoaded", () => {
 			try {
 				domains = data.message.domains;
 				status = data.message.status;
-				const match = domains.find((domain) => {
+
+				domains.forEach((domain) => {
 					const host =
 						window.location.protocol + "//" + window.location.host;
 
-					if (domain === host) return true;
-					else return false;
+					if (domain == host) {
+						match = true;
+					}
 				});
 				if (!match) {
 					return;

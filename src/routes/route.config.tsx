@@ -15,12 +15,7 @@ const RouteConfig: React.FC = () => {
 						index
 						element={
 							<>
-								<SignedIn>
-									<Navigate to="/app" replace />
-								</SignedIn>
-								<SignedOut>
-									<Landing />
-								</SignedOut>
+								<Landing />
 							</>
 						}
 					/>
@@ -39,7 +34,7 @@ const RouteConfig: React.FC = () => {
 						}
 					/>
 					<Route
-						path="configure/:id"
+						path="app/configure/:id"
 						element={
 							<>
 								<SignedIn>

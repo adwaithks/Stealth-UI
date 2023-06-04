@@ -88,7 +88,7 @@ const ChatbotPreview: React.FC<{ chatbotId: number }> = ({ chatbotId }) => {
 				sx={{
 					width: "100%",
 					p: 5,
-					height: "300px",
+					height: "350px",
 					border: "lightgray solid 0.5px",
 					borderRadius: 5,
 					overflowY: "scroll",

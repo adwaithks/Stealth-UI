@@ -34,7 +34,7 @@ const ChatbotConfig: React.FC = () => {
 	const { onCopy, setValue, hasCopied } = useClipboard("");
 	const { session } = useClerk();
 
-	const chatbotId = Number(window.location.pathname.split("/")[2] || -1);
+	const chatbotId = Number(window.location.pathname.split("/")[3] || -1);
 
 	const getChatbotByIdApiStatus = useSelector(
 		getChatbotByIdApiStatusSelector
@@ -79,11 +79,12 @@ const ChatbotConfig: React.FC = () => {
 				sx={{
 					mb: 3,
 					display: "flex",
+					flexWrap: "wrap",
 					alignItems: "center",
 					justifyContent: "space-between",
 				}}
 			>
-				<Box>
+				<Box sx={{ mb: 1 }}>
 					<Heading sx={{ mb: 1 }}>{chatbot?.chatbotName}</Heading>
 					<Box sx={{ display: "flex", alignItems: "center" }}>
 						<Text fontSize="sm" sx={{ mr: 5 }}>
@@ -120,19 +121,21 @@ const ChatbotConfig: React.FC = () => {
 							textOverflow: "ellipsis",
 						}}
 						onClick={() => {
-							setValue(`<script
-							id="stealth-chatbot-widget"
-							data-id=${chatbotId}
-							src="http://localhost:5173/stealth.js"
-						></script>`);
+							setValue(
+								`<script id="stealth-chatbot-widget" data-id=${chatbotId} src=${
+									window.location.protocol +
+									"//" +
+									window.location.host
+								}></script>`
+							);
 							onCopy();
 						}}
 					>
-						{`<script
-							id="stealth-chatbot-widget"
-							data-id=${chatbotId}
-							src="http://localhost:5173/stealth.js"
-						></script>`}
+						{`<script id="stealth-chatbot-widget" data-id=${chatbotId} src=${
+							window.location.protocol +
+							"//" +
+							window.location.host
+						}></script>`}
 					</Tag>
 					<CopyIcon sx={{ ml: 2 }} />
 					{hasCopied && (

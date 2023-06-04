@@ -32,7 +32,7 @@ const Navbar: React.FC = () => {
 					onClick={() => navigate("/app")}
 					fontWeight="bold"
 				>
-					Stealth Bot
+					Lemur AI
 				</Text>
 			</Box>
 			<Box

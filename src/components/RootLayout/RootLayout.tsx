@@ -13,10 +13,11 @@ const RootLayout: React.FC = () => {
 			</Box>
 			<Box
 				sx={{
-					mx: 10,
-					mt: 5,
-					// overflowY: "auto",
-					// height: "calc(100vh - 120px)",
+					mx: {
+						lg: 10,
+						sm: 5,
+					},
+					mt: 2,
 				}}
 			>
 				<Outlet />

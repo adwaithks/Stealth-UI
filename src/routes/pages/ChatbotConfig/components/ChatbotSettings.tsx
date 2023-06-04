@@ -57,7 +57,7 @@ const ChatbotSettings: React.FC<{
 	const [newName, setNewName] = useState("");
 	const [isNameEditing, setIsNameEditing] = useState(false);
 	const [newStatus, setNewStatus] = useState(status);
-	const chatbotId = Number(window.location.pathname.split("/")[2] || -1);
+	const chatbotId = Number(window.location.pathname.split("/")[3] || -1);
 
 	useEffect(() => {
 		setChatbotDomains(domains || []);
