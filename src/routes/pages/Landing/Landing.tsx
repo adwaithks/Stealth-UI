@@ -29,14 +29,14 @@ const Landing: React.FC = () => {
 					fontFamily="Libre Baskerville"
 					fontWeight="extrabold"
 				>
-					Lemur AI
+					Lemuur AI
 				</Text>
 				<Container
 					sx={{ mt: -5, textAlign: "center" }}
 					color="gray"
 					fontSize="2xl"
 				>
-					"Leap into Seamless Support: Introducing Lemur AI - Your
+					"Leap into Seamless Support: Introducing Lemuur AI - Your
 					Trusted Customer Support Chatbot Companion!"
 				</Container>
 			</Box>
@@ -65,7 +65,10 @@ const Landing: React.FC = () => {
 							justifyContent: "space-between",
 						}}
 					>
-						<Input placeholder="lemurai@gmail.com" type="email" />
+						<Input
+							placeholder="lemuurofficial@gmail.com"
+							type="email"
+						/>
 						<Button
 							bg="black"
 							color="white"
@@ -85,7 +88,7 @@ const Landing: React.FC = () => {
 					transform: "translateX(-50%) ",
 				}}
 			>
-				All rights reserved Lemur AI.
+				All rights reserved Lemuur AI.
 			</footer>
 		</Box>
 	);

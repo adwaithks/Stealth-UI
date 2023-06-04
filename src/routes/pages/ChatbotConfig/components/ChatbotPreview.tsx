@@ -43,6 +43,17 @@ const ChatbotPreview: React.FC<{ chatbotId: number }> = ({ chatbotId }) => {
 						origin: "user",
 					},
 				]);
+				let context = "";
+				if (chats.length > 1) {
+					chats.slice(-2).forEach((chat) => {
+						context += `${chat.origin}: ${chat.message}`;
+					});
+				} else if (chats.length > 3) {
+					chats.slice(-4).forEach((chat) => {
+						context += `${chat.origin}: ${chat.message}`;
+					});
+				}
+
 				fetch(BASE_URL + "/api/v1/chatbot/message/demo", {
 					method: "POST",
 					headers: {
@@ -52,6 +63,7 @@ const ChatbotPreview: React.FC<{ chatbotId: number }> = ({ chatbotId }) => {
 					body: JSON.stringify({
 						question: question,
 						chatbot_id: chatbotId,
+						context: context,
 					}),
 				})
 					.then((res) => res.json())
@@ -100,8 +112,14 @@ const ChatbotPreview: React.FC<{ chatbotId: number }> = ({ chatbotId }) => {
 							<Box key={idx}>
 								<Box
 									sx={{
-										backgroundColor: "black",
-										color: "white",
+										backgroundColor:
+											chat.origin === "user"
+												? "black"
+												: "lightgray",
+										color:
+											chat.origin === "user"
+												? "white"
+												: "black",
 										borderTopRightRadius: 5,
 										borderBottomRightRadius: 5,
 										borderBottomLeftRadius: 5,

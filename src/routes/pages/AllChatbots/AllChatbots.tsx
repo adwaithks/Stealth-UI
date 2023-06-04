@@ -23,7 +23,7 @@ const AllChatbots = () => {
 	const navigate = useNavigate();
 	const getMyChatbotsApiStatus = useSelector(getMyChatbotsApiStatusSelector);
 	const chatbots = useSelector(myChatbotsSelector);
-	const { session } = useClerk();
+	const { session, loaded } = useClerk();
 
 	const createNewChatbotApiStatus = useSelector(
 		createNewChatbotApiStatusSelector
@@ -69,6 +69,14 @@ const AllChatbots = () => {
 				dispatch(getMyChatbots(token));
 			});
 	}, [dispatch, navigate, session]);
+
+	if (
+		!loaded ||
+		getMyChatbotsApiStatus === "pending" ||
+		getMyChatbotsApiStatus === "idle"
+	) {
+		return <AllChatbotsSkeleton />;
+	}
 
 	return (
 		<Box>
@@ -159,9 +167,6 @@ Timings: ...`}
 			<Divider sx={{ mb: 5 }} orientation="horizontal" />
 
 			<Box>
-				{getMyChatbotsApiStatus === "pending" && (
-					<AllChatbotsSkeleton />
-				)}
 				{getMyChatbotsApiStatus === "fulfilled" &&
 					chatbots.length === 0 && (
 						<Text fontSize="xl" fontWeight="black" color="gray">

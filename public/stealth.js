@@ -88,7 +88,7 @@ function displayMessage(sender, message) {
 	const origin = document.createElement("p");
 	const message_ = document.createElement("p");
 
-	origin.textContent = `${sender === "bot" ? "Lemur AI" : "User"}`;
+	origin.textContent = `${sender === "bot" ? "Lemuur AI" : "User"}`;
 	message_.textContent = `${message}`;
 
 	origin.style.fontWeight = "bold";
@@ -277,7 +277,7 @@ function app() {
 	const poweredByText = document.createElement("p");
 	const poweredByCompanyName = document.createElement("span");
 	poweredByCompanyName.style.fontWeight = 800;
-	poweredByCompanyName.textContent = " Lemur AI";
+	poweredByCompanyName.textContent = " Lemuur AI";
 	poweredByText.textContent = "Powered By ";
 	poweredByText.style.fontFamily = "sans-serif";
 	poweredByText.style.fontSize = "12px";
@@ -354,7 +354,7 @@ function app() {
 					.then((data) => {
 						messageContainer.removeChild(messageLoader);
 						messages.push({
-							origin: "lemurAI",
+							origin: "lemuurAI",
 							message: data.message,
 						});
 						displayMessage("bot", data.message);

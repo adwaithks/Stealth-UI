@@ -1,4 +1,4 @@
-import { Box, Button, Link, Text } from "@chakra-ui/react";
+import { Box, Button, Image, Link, Text } from "@chakra-ui/react";
 import {
 	SignInButton,
 	SignOutButton,
@@ -8,6 +8,7 @@ import {
 } from "@clerk/clerk-react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import Logo from "../../../public/logo.svg";
 
 const Navbar: React.FC = () => {
 	const navigate = useNavigate();
@@ -26,13 +27,14 @@ const Navbar: React.FC = () => {
 				color: "white",
 			}}
 		>
-			<Box>
+			<Box sx={{ display: "flex", alignItems: "center" }}>
+				<Image sx={{ borderRadius: "50%" }} height={10} src={Logo} />
 				<Text
 					sx={{ cursor: "pointer" }}
 					onClick={() => navigate("/app")}
-					fontWeight="bold"
+					fontWeight="black"
 				>
-					Lemur AI
+					Lemuur AI
 				</Text>
 			</Box>
 			<Box
