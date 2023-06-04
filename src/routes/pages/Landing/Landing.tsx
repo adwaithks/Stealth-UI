@@ -4,21 +4,26 @@ import {
 	Container,
 	FormControl,
 	FormLabel,
+	Image,
 	Input,
 	Text,
 } from "@chakra-ui/react";
 import React from "react";
+import Home from "./home.png";
+import Features from "./components/Features";
 
 const Landing: React.FC = () => {
 	return (
 		<Box
 			sx={{
 				width: "100%",
+				height: "100%",
 			}}
 		>
-			<Box
-				sx={{
+			<section
+				style={{
 					display: "flex",
+					height: "100vh",
 					alignItems: "center",
 					justifyContent: "center",
 					flexDirection: "column",
@@ -36,10 +41,22 @@ const Landing: React.FC = () => {
 					color="gray"
 					fontSize="2xl"
 				>
-					"Leap into Seamless Support: Introducing Lemuur AI - Your
-					Trusted Customer Support Chatbot Companion!"
+					Leap into Seamless Support: Introducing Lemuur AI - Your
+					Trusted Customer Support Chatbot Companion!
 				</Container>
-			</Box>
+				<Box
+					sx={{
+						boxShadow: "0 0 3px lightgray",
+						borderRadius: 5,
+						mt: 12,
+					}}
+				>
+					<Image src={Home} />
+				</Box>
+			</section>
+
+			<Features />
+
 			<Box
 				sx={{
 					mt: 55,
@@ -50,8 +67,8 @@ const Landing: React.FC = () => {
 				}}
 			>
 				<Text fontSize="2xl" fontWeight="extrabold">
-					Kindly join our waiting list. We'll notify you once we are
-					live 🎉
+					Let's Connect and Spark a Conversation: Reach Out to Us
+					Today!
 				</Text>
 			</Box>
 			<Container sx={{ mt: 5 }}>
@@ -74,22 +91,22 @@ const Landing: React.FC = () => {
 							color="white"
 							sx={{ width: "100%", mt: 2 }}
 						>
-							Join Waiting List
+							Let's Go!
 						</Button>
 					</Box>
 				</FormControl>
 			</Container>
-			<footer
-				style={{
-					fontSize: "12px",
-					position: "absolute",
-					bottom: 0,
-					left: "50%",
-					transform: "translateX(-50%) ",
+			<Box
+				sx={{
+					marginTop: 50,
+					display: "flex",
+
+					alignItems: "center",
+					justifyContent: "center",
 				}}
 			>
-				All rights reserved Lemuur AI.
-			</footer>
+				<Text fontSize="sm">All rights reserved Lemuur AI.</Text>
+			</Box>
 		</Box>
 	);
 };

@@ -8,7 +8,7 @@ import {
 } from "@clerk/clerk-react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import Logo from "../../../public/logo.svg";
+import Logo from "./logo.svg";
 
 const Navbar: React.FC = () => {
 	const navigate = useNavigate();
