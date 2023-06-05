@@ -10,48 +10,74 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import Home from "./home.png";
+import Homemob from "./homemob.png";
 import Features from "./components/Features";
+import { useMediaQuery } from "@chakra-ui/react";
 
 const Landing: React.FC = () => {
+	const [isMobile] = useMediaQuery("(max-width: 768px)");
+
 	return (
 		<Box
 			sx={{
-				width: "100%",
+				backgroundColor: "rgb(202, 196, 255)",
+				borderRadius: 5,
+				mx: 2,
 				height: "100%",
 			}}
 		>
 			<section
 				style={{
 					display: "flex",
-					height: "100vh",
+					height: "100%",
 					alignItems: "center",
-					justifyContent: "center",
 					flexDirection: "column",
+					marginBottom: 110,
 				}}
 			>
 				<Text
-					fontSize="8xl"
-					fontFamily="Libre Baskerville"
-					fontWeight="extrabold"
+					sx={{
+						fontSize: {
+							base: "6xl",
+							md: "7xl",
+							lg: "8xl",
+						},
+						mb: isMobile ? 5 : 0,
+						mt: isMobile ? 5 : 0,
+					}}
+					fontWeight="black"
 				>
 					Lemuur AI
 				</Text>
 				<Container
-					sx={{ mt: -5, textAlign: "center" }}
-					color="gray"
-					fontSize="2xl"
+					sx={{
+						mt: -5,
+						textAlign: "center",
+						fontSize: {
+							base: "xl",
+							md: "1xl",
+							lg: "2xl",
+						},
+					}}
+					color="black"
 				>
 					Leap into Seamless Support: Introducing Lemuur AI - Your
 					Trusted Customer Support Chatbot Companion!
 				</Container>
 				<Box
 					sx={{
+						mx: 2,
 						boxShadow: "0 0 3px lightgray",
 						borderRadius: 5,
 						mt: 12,
+						height: isMobile ? 250 : 400,
+						border: "solid 5px",
 					}}
 				>
-					<Image src={Home} />
+					<Image
+						sx={{ height: "100%" }}
+						src={isMobile ? Homemob : Home}
+					/>
 				</Box>
 			</section>
 
@@ -59,48 +85,59 @@ const Landing: React.FC = () => {
 
 			<Box
 				sx={{
+					borderRadius: 5,
 					mt: 55,
-					display: "flex",
-					alignItems: "center",
-					justifyContent: "center",
-					flexDirection: "column",
+					p: 5,
+					mx: 2,
+					backgroundColor: "black",
+					color: "white",
 				}}
 			>
-				<Text fontSize="2xl" fontWeight="extrabold">
-					Let's Connect and Spark a Conversation: Reach Out to Us
-					Today!
-				</Text>
-			</Box>
-			<Container sx={{ mt: 5 }}>
-				<FormControl>
-					<FormLabel>Enter your email address</FormLabel>
-					<Box
-						sx={{
-							display: "flex",
-							alignItems: "center",
-							flexDirection: "column",
-							justifyContent: "space-between",
-						}}
-					>
-						<Input
-							placeholder="lemuurofficial@gmail.com"
-							type="email"
-						/>
-						<Button
-							bg="black"
-							color="white"
-							sx={{ width: "100%", mt: 2 }}
+				<Box
+					sx={{
+						display: "flex",
+						alignItems: "center",
+						justifyContent: "center",
+						flexDirection: "column",
+					}}
+				>
+					<Text fontSize="3xl" fontWeight="extrabold">
+						Let's Connect and Spark a Conversation: Reach Out to Us
+						Today!
+					</Text>
+				</Box>
+				<Container sx={{ mt: 5 }}>
+					<FormControl>
+						<FormLabel>Enter your email address</FormLabel>
+						<Box
+							sx={{
+								display: "flex",
+								alignItems: "center",
+								flexDirection: "column",
+								justifyContent: "space-between",
+							}}
 						>
-							Let's Go!
-						</Button>
-					</Box>
-				</FormControl>
-			</Container>
+							<Input
+								sx={{ border: "white solid 2px" }}
+								placeholder="lemuurofficial@gmail.com"
+								type="email"
+							/>
+							<Button
+								bg="white"
+								color="black"
+								sx={{ width: "100%", mt: 2 }}
+							>
+								Let's Go!
+							</Button>
+						</Box>
+					</FormControl>
+				</Container>
+			</Box>
+
 			<Box
 				sx={{
-					marginTop: 50,
+					mt: 50,
 					display: "flex",
-
 					alignItems: "center",
 					justifyContent: "center",
 				}}

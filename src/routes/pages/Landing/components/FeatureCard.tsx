@@ -12,17 +12,30 @@ const FeatureCard: React.FC<{ title: string; description: string }> = ({
 				width: {
 					md: "45%",
 				},
-				border: "lightgray solid 1px",
+				border: "gray solid 1px",
 				p: 3,
+				bg: "white",
 				flexWrap: "wrap",
-				height: 180,
+				height: "fit-content",
 				boxShadow: "0 0 2px lightgray",
-				borderRadius: 3,
+				borderRadius: 5,
 			}}
 		>
 			<Box sx={{ display: "flex", alignItems: "center" }}>
-				<CheckIcon fontSize="2xl" sx={{ mr: 2 }} color="green" />
-				<Text fontWeight="black" fontSize="xl">
+				<Box
+					sx={{
+						mr: 2,
+						p: 2,
+						borderRadius: "50%",
+						border: "green solid 3px",
+						display: "flex",
+						alignItems: "center",
+						justifyContent: "center",
+					}}
+				>
+					<CheckIcon fontSize="2xl" color="green" />
+				</Box>
+				<Text fontWeight="black" fontSize="2xl">
 					{title}
 				</Text>
 			</Box>
