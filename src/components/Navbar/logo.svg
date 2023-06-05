@@ -1,11 +1,11 @@
 <svg width="1228" height="1116" viewBox="0 0 1228 1116" fill="none" xmlns="http://www.w3.org/2000/svg">
 <rect width="1228" height="1116" fill="#070707"/>
-<rect x="214" y="158" width="788.06" height="91.954" fill="white"/>
-<rect x="214" y="196.095" width="92.869" height="746.141" fill="white"/>
-<rect x="556.289" y="158" width="92.869" height="449.261" fill="white"/>
-<rect x="921.131" y="158" width="92.869" height="449.261" fill="white"/>
-<rect x="214" y="866.046" width="800" height="91.954" fill="white"/>
-<rect x="513" y="570" width="180" height="100" rx="50" fill="white"/>
-<rect x="878" y="570" width="180" height="100" rx="50" fill="white"/>
-<rect x="918" y="998" width="180" height="100" rx="50" transform="rotate(-90 918 998)" fill="white"/>
+<rect x="171" y="114" width="788.06" height="140" fill="white"/>
+<rect x="171" y="152.095" width="140" height="746.141" fill="white"/>
+<rect x="513.289" y="114" width="140" height="449.261" fill="white"/>
+<rect x="878.131" y="114" width="140" height="449.261" fill="white"/>
+<rect x="171" y="822.046" width="800" height="140" fill="white"/>
+<rect x="513" y="526" width="180" height="100" rx="50" fill="white"/>
+<rect x="878" y="526" width="180" height="100" rx="50" fill="white"/>
+<rect x="921" y="1002" width="180" height="100" rx="50" transform="rotate(-90 921 1002)" fill="white"/>
 </svg>

@@ -13,7 +13,7 @@ const Features: React.FC = () => {
 				justifyContent: "center",
 			}}
 		>
-			<Box sx={{ mb: 10 }}>
+			<Box sx={{ mb: 5, textAlign: "center" }}>
 				<Text fontSize="3xl" fontWeight="bold">
 					Unleashing AI-Powered Banter for Maximum Smiles!
 				</Text>
@@ -24,16 +24,17 @@ const Features: React.FC = () => {
 					alignItems: "center",
 					justifyContent: "center",
 					flexWrap: "wrap",
-					gap: 10,
+					gap: 5,
+					margin: 2,
 				}}
 			>
 				<FeatureCard
 					title="24x7 Customer Support"
-					description="Deliver round-the-clock customer support with the help of our AI chatbots. Our chatbots are available 24 hours a day, 7 days a week, to assist your customers. They provide instant responses, answer frequently asked questions, and guide users through various processes, ensuring seamless support at any time of the day."
+					description="Deliver round-the-clock customer support with the help of our AI chatbots. Our chatbots are available 24 hours a day, 7 days a week, to assist your customers. They provide instant responses, answer frequently asked questions, ensuring seamless support at any time of the day."
 				/>
 				<FeatureCard
 					title="Manual Training Control"
-					description="Take complete control over the training process of your chatbots. Our platform empowers you to manually curate and refine the knowledge base of your chatbots. You can easily update and customize the responses to ensure accurate and relevant interactions with your users."
+					description="Take charge of chatbot training. Our platform lets you curate and refine knowledge bases manually. Update and customize responses effortlessly, ensuring accurate and relevant interactions with users. Have complete control over the training process for precise and meaningful engagement."
 				/>
 				<FeatureCard
 					title="Unlimited Chatbot Creation"
@@ -41,7 +42,7 @@ const Features: React.FC = () => {
 				/>
 				<FeatureCard
 					title="Intelligent Replies"
-					description="Harness the power of Open AI to deliver intelligent and contextually relevant replies. Our chatbots utilize advanced natural language processing and machine learning techniques to understand user intent, analyze context, and generate intelligent responses that align with user expectations."
+					description="Harness the power of Open AI to deliver intelligent and contextually relevant replies. Chatbots utilize advanced NLP and machine learning techniques to understand user intent, analyze context, and generate intelligent responses that align with user expectations."
 				/>
 			</Box>
 		</section>
