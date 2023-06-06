@@ -67,11 +67,11 @@ const Landing: React.FC = () => {
 				<Box
 					sx={{
 						mx: 2,
-						boxShadow: "2px 2px 20px black",
+						boxShadow: "2px 2px 10px gray",
 						borderRadius: 5,
 						mt: 12,
 						height: isMobile ? 250 : 400,
-						border: "solid 5px",
+						border: "solid 3px",
 						transform: isMobile ? "rotate(-5deg)" : "rotate(0)",
 					}}
 				>

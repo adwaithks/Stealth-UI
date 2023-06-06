@@ -17,6 +17,8 @@ let sendInputActive = true;
 let chatBotDisabled = true;
 const cookieName = "STEALTH_CHATBOT";
 const BASE_URL = "https://stealth-dashboard.onrender.com";
+// const BASE_URL = "http://localhost:8000";
+const ASSETS_URL = "https://grand-pastelito-e71d8f.netlify.app";
 let messages = [];
 
 function getDeviceType() {
@@ -57,6 +59,9 @@ function getCookie(cookieName) {
 
 let messageContainer = document.createElement("div");
 let messageLoader = document.createElement("div");
+let chatWindow = document.createElement("div");
+let chatIconCustom = document.createElement("div");
+let chatIcon = document.createElement("img");
 
 function displayMessage(sender, message) {
 	const messageElement = document.createElement("div");
@@ -121,20 +126,19 @@ function app() {
 	chatHeader.appendChild(chatHeaderText);
 
 	// Inner circle (white)
-	const chatIconCustom = document.createElement("div");
-	const chatIconInnerCircle = document.createElement("div");
-	chatIconInnerCircle.style.borderRadius = "50%";
-	chatIconInnerCircle.style.border = "white solid 2px";
-	chatIconInnerCircle.style.height = "60px";
-	chatIconInnerCircle.style.width = "60px";
-	chatIconCustom.appendChild(chatIconInnerCircle);
+	// const chatIconInnerCircle = document.createElement("div");
+	// chatIconInnerCircle.style.borderRadius = "50%";
+	// chatIconInnerCircle.style.border = "white solid 2px";
+	// chatIconInnerCircle.style.height = "60px";
+	// chatIconInnerCircle.style.width = "60px";
+	// chatIconCustom.appendChild(chatIconInnerCircle);
 
 	// Chatbot icon black
 	chatIconCustom.id = "chat-icon";
-	chatIconCustom.style.height = "70px";
-	chatIconCustom.style.width = "70px";
+	chatIconCustom.style.height = "60px";
+	chatIconCustom.style.width = "60px";
 	chatIconCustom.style.borderRadius = "50%";
-	chatIconCustom.style.position = "absolute";
+	chatIconCustom.style.position = "fixed";
 	chatIconCustom.style.display = "flex";
 	chatIconCustom.style.alignItems = "center";
 	chatIconCustom.style.justifyContent = "center";
@@ -145,16 +149,21 @@ function app() {
 	chatIconCustom.style.right = "20px";
 	chatIconCustom.style.zIndex = 100;
 	chatIconCustom.style.backgroundColor = "black";
+
+	chatIcon.src = ASSETS_URL + "/lemuurchat.png";
+	chatIcon.style.height = "30px";
+	chatIcon.style.width = "30px";
+	chatIconCustom.appendChild(chatIcon);
 	document.body.appendChild(chatIconCustom);
 
 	// Chat window
-	const chatWindow = document.createElement("div");
 	chatWindow.id = "chat-window";
 	chatWindow.style.marginLeft = "20px";
+	chatWindow.style.backgroundColor = "white";
 	chatWindow.style.border = "solid 0.5px lightgray";
 	chatWindow.style.height = "470px";
 	chatWindow.style.boxShadow = "0 0 3px rgba(0,0,0,0.3)";
-	chatWindow.style.position = "absolute";
+	chatWindow.style.position = "fixed";
 	chatWindow.style.bottom = "95px";
 	chatWindow.style.right = "10px";
 	chatWindow.style.width = "345px";
@@ -171,6 +180,7 @@ function app() {
 	messageContainer.style.height = "75%";
 	messageContainer.style.borderRadius = "5px";
 	messageContainer.style.padding = "5px";
+	messageContainer.style.backgroundColor = "white";
 	messageContainer.style.marginBottom = "2px";
 	messageContainer.style.overflowY = "auto";
 	messageContainer.style.display = "flex";
@@ -290,6 +300,10 @@ function app() {
 	chatIconCustom.addEventListener("click", function () {
 		chatWindow.style.visibility =
 			chatWindow.style.visibility === "hidden" ? "visible" : "hidden";
+		chatIcon.src =
+			chatWindow.style.visibility === "hidden"
+				? ASSETS_URL + "/lemuurchat.png"
+				: ASSETS_URL + "/close.png";
 	});
 
 	function scrollToBottom() {
@@ -385,7 +399,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		.then((data) => {
 			let domains = [];
 			let status = "";
-			let match = null;
+			let match = false;
 			try {
 				domains = data.message.domains;
 				status = data.message.status;
@@ -393,8 +407,7 @@ document.addEventListener("DOMContentLoaded", () => {
 				domains.forEach((domain) => {
 					const host =
 						window.location.protocol + "//" + window.location.host;
-
-					if (domain == host) {
+					if (domain.trim() == host.trim()) {
 						match = true;
 					}
 				});

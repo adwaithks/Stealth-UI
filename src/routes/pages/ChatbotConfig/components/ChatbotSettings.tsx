@@ -33,7 +33,7 @@ import {
 	// updateChatbotNameApiStatusSelector,
 } from "../../../../store/selectors/chatbots.selector";
 import { useNavigate } from "react-router-dom";
-import { isValidDomain } from "../../../../utils/isValidDomain";
+import { validateURL } from "../../../../utils/isValidDomain";
 import { useClerk } from "@clerk/clerk-react";
 
 const ChatbotSettings: React.FC<{
@@ -181,8 +181,24 @@ const ChatbotSettings: React.FC<{
 			return;
 		}
 
-		if (!isValidDomain(newDomain)) {
-			window.alert("Please enter a domain!");
+		const lastCharacter = newDomain.slice(-1);
+		const specialCharacterPattern = /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/;
+
+		if (specialCharacterPattern.test(lastCharacter)) {
+			window.alert("Please enter a protocol : http or https");
+			return;
+		}
+
+		if (!newDomain.includes("http") && !newDomain.includes("https")) {
+			window.alert("Please enter a protocol : http or https");
+			return;
+		}
+
+		if (
+			!newDomain.startsWith("http://") &&
+			!newDomain.startsWith("https://")
+		) {
+			window.alert("Please enter a valid domain!");
 			return;
 		}
 
@@ -211,7 +227,7 @@ const ChatbotSettings: React.FC<{
 					navigate("/signin");
 				});
 
-			setChatbotDomains((prev) => [...prev, `https://${newDomain}`]);
+			setChatbotDomains((prev) => [...prev, `${newDomain}`]);
 			setNewDomain("");
 		} else return;
 	};
@@ -311,7 +327,6 @@ const ChatbotSettings: React.FC<{
 				</Box>
 				<Box sx={{ display: "flex", alignItems: "center" }}>
 					<InputGroup sx={{ width: 400, mr: 3 }}>
-						<InputLeftAddon children="https://" />
 						<Input
 							value={newDomain}
 							onChange={(e) => {
