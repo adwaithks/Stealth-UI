@@ -7,7 +7,6 @@ import {
 	FormLabel,
 	Input,
 	InputGroup,
-	InputLeftAddon,
 	Text,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
@@ -33,7 +32,6 @@ import {
 	// updateChatbotNameApiStatusSelector,
 } from "../../../../store/selectors/chatbots.selector";
 import { useNavigate } from "react-router-dom";
-import { validateURL } from "../../../../utils/isValidDomain";
 import { useClerk } from "@clerk/clerk-react";
 
 const ChatbotSettings: React.FC<{
