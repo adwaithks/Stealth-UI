@@ -11,15 +11,12 @@ styleSheet.insertRule(cssRule, 0);
 var scriptTag = document.getElementById("stealth-chatbot-widget");
 var chatbotId = Number(scriptTag.getAttribute("data-id"));
 
-let chatActive = true;
-let sendButtonActive = true;
-let sendInputActive = true;
-let chatBotDisabled = true;
 const cookieName = "STEALTH_CHATBOT";
 const BASE_URL = "https://stealth-dashboard.onrender.com";
 // const BASE_URL = "http://localhost:8000";
 const ASSETS_URL = "https://grand-pastelito-e71d8f.netlify.app";
 let messages = [];
+let isTabletOrBelow = window.innerWidth <= 820 ? true : false;
 
 function getDeviceType() {
 	const userAgent = navigator.userAgent;
@@ -62,6 +59,8 @@ let messageLoader = document.createElement("div");
 let chatWindow = document.createElement("div");
 let chatIconCustom = document.createElement("div");
 let chatIcon = document.createElement("img");
+let sendButton = document.createElement("button");
+let messageInput = document.createElement("input");
 
 function displayMessage(sender, message) {
 	const messageElement = document.createElement("div");
@@ -112,18 +111,38 @@ function app() {
 	chatHeader.style.height = "10%";
 	chatHeader.style.backgroundColor = "black";
 	chatHeader.style.color = "white";
-	chatHeader.style.borderTopLeftRadius = "5px";
-	chatHeader.style.borderTopRightRadius = "5px";
+	if (!isTabletOrBelow) {
+		chatHeader.style.borderTopLeftRadius = "5px";
+		chatHeader.style.borderTopRightRadius = "5px";
+	}
 	chatHeader.style.display = "flex";
-	chatHeader.style.flexDirection = "column";
-	chatHeader.style.justifyContent = "center";
-	chatHeader.style.padding = "10px";
+	chatHeader.style.alignItems = "center";
+	chatHeader.style.justifyContent = "space-between";
+	chatHeader.style.padding = "10px 20px 10px 20px";
 
 	const chatHeaderText = document.createElement("p");
 	chatHeaderText.textContent = "Customer Support";
 	chatHeaderText.style.fontFamily = "sans-serif";
 	chatHeaderText.style.fontWeight = 800;
 	chatHeader.appendChild(chatHeaderText);
+
+	const chatHeaderClose = document.createElement("div");
+	chatHeaderClose.style = `
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	`;
+	chatHeaderClose.addEventListener("click", () => {
+		chatWindow.style.visibility = "hidden";
+		chatIcon.src = ASSETS_URL + "/lemuurchat.png";
+	});
+	const chatHeaderCloseIcon = document.createElement("img");
+	chatHeaderCloseIcon.src = ASSETS_URL + "/close.png";
+	chatHeaderCloseIcon.style = `
+		height: 15px;
+	`;
+	chatHeaderClose.appendChild(chatHeaderCloseIcon);
+	chatHeader.appendChild(chatHeaderClose);
 
 	// Inner circle (white)
 	// const chatIconInnerCircle = document.createElement("div");
@@ -147,7 +166,7 @@ function app() {
 	chatIconCustom.style.border = "white solid 1px";
 	chatIconCustom.style.cursor = "pointer";
 	chatIconCustom.style.right = "20px";
-	chatIconCustom.style.zIndex = 100;
+	chatIconCustom.style.zIndex = 90;
 	chatIconCustom.style.backgroundColor = "black";
 
 	chatIcon.src = ASSETS_URL + "/lemuurchat.png";
@@ -158,18 +177,28 @@ function app() {
 
 	// Chat window
 	chatWindow.id = "chat-window";
-	chatWindow.style.marginLeft = "20px";
 	chatWindow.style.backgroundColor = "white";
-	chatWindow.style.border = "solid 0.5px lightgray";
-	chatWindow.style.height = "470px";
-	chatWindow.style.boxShadow = "0 0 3px rgba(0,0,0,0.3)";
-	chatWindow.style.position = "fixed";
-	chatWindow.style.bottom = "95px";
-	chatWindow.style.right = "10px";
-	chatWindow.style.width = "345px";
-	chatWindow.style.borderRadius = "5px";
-	// chatWindow.style.padding = "5px";
-	chatIconCustom.style.zIndex = 100;
+
+	if (isTabletOrBelow) {
+		chatWindow.style.height = "100vh";
+		chatWindow.style.width = "100%";
+		chatWindow.style.position = "fixed";
+		chatWindow.style.top = "0";
+		chatWindow.style.left = "0";
+		chatWindow.style.borderRadius = "0px";
+		chatWindow.style.border = "solid 1px";
+	} else {
+		chatWindow.style.border = "solid 0.5px lightgray";
+		chatWindow.style.boxShadow = "0 0 3px rgba(0,0,0,0.3)";
+		chatWindow.style.marginLeft = "20px";
+		chatWindow.style.height = "470px";
+		chatWindow.style.position = "fixed";
+		chatWindow.style.bottom = "95px";
+		chatWindow.style.right = "10px";
+		chatWindow.style.borderRadius = "5px";
+		chatWindow.style.width = "370px";
+	}
+	chatWindow.style.zIndex = 200;
 	chatWindow.style.visibility = "hidden";
 	document.body.appendChild(chatWindow);
 	chatWindow.appendChild(chatHeader);
@@ -188,7 +217,6 @@ function app() {
 	chatWindow.appendChild(messageContainer);
 
 	// message typing input
-	const messageInput = document.createElement("input");
 	messageInput.type = "text";
 	messageInput.style.padding = "5px";
 	messageInput.style.borderRadius = "5px";
@@ -197,7 +225,6 @@ function app() {
 	messageInput.style.flex = 1;
 	messageInput.style.fontSize = "14px";
 	messageInput.placeholder = "Ask any question...";
-	messageInput.disabled = !sendInputActive;
 
 	messageLoader = document.createElement("div");
 	messageLoader.className = "loader";
@@ -241,7 +268,6 @@ function app() {
 	}
 
 	// Send button
-	const sendButton = document.createElement("button");
 	sendButton.textContent = "Ask";
 	sendButton.style.width = "70px";
 	sendButton.style.backgroundColor = "black";
@@ -250,16 +276,14 @@ function app() {
 	sendButton.style.border = "none";
 	sendButton.style.cursor = "pointer";
 	sendButton.style.fontSize = "13px";
-	sendButton.disabled = !sendButtonActive;
-	sendButton.addEventListener("click", () => {
+	sendButton.addEventListener("click", (e) => {
 		const message = messageInput.value.trim();
 		if (message.length === 0) return;
-		displayMessage("user", message);
-		messageInput.value = "";
+		sendMessage(e);
 	});
 
 	const sendContainerWrapper = document.createElement("div");
-	sendContainerWrapper.style.height = "10%";
+	sendContainerWrapper.style.height = isTabletOrBelow ? "7%" : "10%";
 	sendContainerWrapper.style.padding = "5px";
 
 	// Send container - input + button
@@ -349,6 +373,8 @@ function app() {
 						"; path=/";
 					document.cookie = cookie;
 				}
+				sendButton.disabled = true;
+				messageInput.disabled = true;
 				messageContainer.appendChild(messageLoader);
 				scrollToBottom();
 				fetch(BASE_URL + "/api/v1/chatbot/message", {
@@ -379,6 +405,10 @@ function app() {
 							"bot",
 							"Something unexpected happened :( We are fixing it! Don't worry :) "
 						);
+					})
+					.finally(() => {
+						sendButton.disabled = false;
+						messageInput.disabled = false;
 					});
 			}
 		}
@@ -419,10 +449,6 @@ document.addEventListener("DOMContentLoaded", () => {
 			}
 
 			if (domains.length > 0 && match && status == "active") {
-				chatActive = true;
-				sendButtonActive = true;
-				sendInputActive = true;
-				chatBotDisabled = false;
 				let cookieValue = generateRandomId();
 
 				if (!document.cookie.includes(cookieName)) {
