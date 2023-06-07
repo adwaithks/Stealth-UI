@@ -1,4 +1,4 @@
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Button, Text } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import { useAppDispatch } from "../../../store/store";
 import { useSelector } from "react-redux";
@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { getChatsByChatbotId } from "../../../store/thunks/chats.thunk";
 import ChatWidget from "./components/ChatWidget";
 import ChatsSkeleton from "./components/ChatsSkeleton";
+import { ChevronLeftIcon } from "@chakra-ui/icons";
 
 const Chats: React.FC = () => {
 	const chatbotId = Number(window.location.pathname.split("/")[3]);
@@ -41,6 +42,17 @@ const Chats: React.FC = () => {
 
 	return (
 		<Box>
+			<Box sx={{ mb: 2 }}>
+				<Button
+					onClick={() => navigate("/app")}
+					size="sm"
+					fontWeight="hairline"
+					variant="outline"
+				>
+					<ChevronLeftIcon />
+					Go Back
+				</Button>
+			</Box>
 			<Box>
 				<Text fontSize="xl" fontWeight="bold">
 					Customer Chats

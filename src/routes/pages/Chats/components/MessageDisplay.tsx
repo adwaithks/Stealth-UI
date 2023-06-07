@@ -4,89 +4,119 @@ import { Chat } from "../../../../types/chats.type";
 
 const MessageDisplay: React.FC<{ currentChat: Chat[] }> = ({ currentChat }) => {
 	function formatDate(date: Date) {
-		return new Intl.DateTimeFormat("en-US", {
-			day: "numeric",
+		const dateTimeString = date.toLocaleString(undefined, {
+			year: "numeric",
 			month: "long",
-			year: "2-digit",
-		}).format(date);
+			day: "numeric",
+			hour: "numeric",
+			minute: "numeric",
+			second: "numeric",
+			hour12: true,
+		});
+		return dateTimeString;
 	}
 
 	return (
 		<Box
 			sx={{
+				p: 1,
 				width: "100%",
-				height: "calc(100vh - 200px)",
+				height: "calc(100vh - 220px)",
 				overflowY: "auto",
 			}}
 		>
-			{currentChat.map((chat: Chat) => {
-				return (
-					<Box
-						sx={{
-							p: 4,
-							display: "flex",
-							flexDirection: "column",
-						}}
-					>
+			<Box
+				sx={{
+					backgroundColor: "black",
+					color: "white",
+					p: 2,
+					mb: 2,
+					borderRadius: 5,
+				}}
+			>
+				<Text fontWeight="black" fontSize="xl">
+					Chats
+				</Text>
+			</Box>
+			<Box>
+				{currentChat.map((chat: Chat) => {
+					return (
 						<Box
 							sx={{
+								p: 4,
 								display: "flex",
-								width: "100%",
-								justifyContent: "flex-end",
+								flexDirection: "column",
 							}}
 						>
 							<Box
 								sx={{
-									mb: 2,
-									borderTopLeftRadius: 5,
-									borderBottomLeftRadius: 5,
-									borderBottomRightRadius: 5,
-									p: 3,
-									maxWidth: 300,
-									backgroundColor: "black",
-									color: "white",
-									width: "fit-content",
+									display: "flex",
+									width: "100%",
+									justifyContent: "flex-start",
 								}}
 							>
-								<Text fontWeight="bold">
-									User
-									<span
-										style={{
-											marginLeft: "5px",
+								<Box
+									sx={{
+										mb: 2,
+										borderTopRightRadius: 5,
+										borderBottomLeftRadius: 5,
+										borderBottomRightRadius: 5,
+
+										p: 3,
+										maxWidth: 300,
+										backgroundColor: "black",
+										color: "white",
+										width: "fit-content",
+									}}
+								>
+									<Text fontWeight="bold">User</Text>
+									<Text
+										sx={{
+											mt: -1,
+											mb: 3,
 											fontWeight: 400,
 										}}
 									>
-										({formatDate(chat.timestamp)})
-									</span>
-								</Text>
-								<Text>{chat.question}</Text>
+										{formatDate(chat.timestamp)}
+									</Text>
+									<Text>{chat.question}</Text>
+								</Box>
 							</Box>
-						</Box>
-						<Box
-							sx={{
-								display: "flex",
-								justifyContent: "flex-start",
-							}}
-						>
 							<Box
 								sx={{
-									borderTopRightRadius: 5,
-									borderBottomLeftRadius: 5,
-									borderBottomRightRadius: 5,
-									p: 3,
-									maxWidth: 300,
-									backgroundColor: "lightgray",
-									color: "black",
-									width: "fit-content",
+									display: "flex",
+									justifyContent: "flex-end",
 								}}
 							>
-								<Text>Bot</Text>
-								<Text>{chat.answer}</Text>
+								<Box
+									sx={{
+										borderTopLeftRadius: 5,
+										borderBottomLeftRadius: 5,
+										borderBottomRightRadius: 5,
+										p: 3,
+										maxWidth: 300,
+										backgroundColor: "lightgray",
+										color: "black",
+										width: "fit-content",
+									}}
+								>
+									<Text fontWeight="bold">Bot</Text>
+									<Text
+										sx={{
+											mt: -1,
+											mb: 3,
+											fontWeight: 400,
+										}}
+									>
+										{formatDate(chat.timestamp)}
+									</Text>
+									<Text>{chat.answer}</Text>
+								</Box>
 							</Box>
 						</Box>
-					</Box>
-				);
-			})}
+					);
+				})}
+			</Box>
 		</Box>
 	);
 };

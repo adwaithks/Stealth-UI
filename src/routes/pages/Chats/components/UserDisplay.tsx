@@ -7,25 +7,46 @@ const UserDisplay: React.FC<{
 	handleChangeUser: (userId: string) => void;
 }> = ({ users, currentUser, handleChangeUser }) => {
 	return (
-		<Box>
-			{users.map((user: string) => {
-				return (
-					<Box
-						onClick={() => handleChangeUser(user)}
-						sx={{
-							p: 2,
-							mr: 1,
-							borderRadius: 5,
-							cursor: "pointer",
-							backgroundColor:
-								currentUser === user ? "black" : "white",
-							color: currentUser === user ? "white" : "black",
-						}}
-					>
-						<Text>user-{user}</Text>
-					</Box>
-				);
-			})}
+		<Box sx={{ p: 1 }}>
+			<Box
+				sx={{
+					backgroundColor: "black",
+					color: "white",
+					p: 2,
+					mb: 2,
+					borderRadius: 5,
+				}}
+			>
+				<Text fontWeight="black" fontSize="xl">
+					Customer
+				</Text>
+			</Box>
+			<Box
+				sx={{
+					display: "flex",
+					flexDirection: "column",
+				}}
+			>
+				{users.map((user: string) => {
+					return (
+						<Box
+							onClick={() => handleChangeUser(user)}
+							sx={{
+								p: 2,
+								borderRadius: 5,
+								cursor: "pointer",
+								backgroundColor:
+									currentUser === user
+										? "lightgray"
+										: "white",
+								color: "black",
+							}}
+						>
+							<Text>user-{user}</Text>
+						</Box>
+					);
+				})}
+			</Box>
 		</Box>
 	);
 };

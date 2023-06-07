@@ -131,12 +131,10 @@ const ChatbotSettings: React.FC<{
 						navigate("/signin");
 						return;
 					}
-
+					setNewStatus(newStatus);
 					dispatch(
 						udpateChatbotStatus({ chatbotId, newStatus, token })
-					).then(() => {
-						setNewStatus(newStatus);
-					});
+					);
 				})
 				.catch(() => {
 					navigate("/signin");
@@ -150,7 +148,6 @@ const ChatbotSettings: React.FC<{
 				`Are you sure you want to modify the domains list of chatbot ?`
 			)
 		) {
-			setChatbotDomains(newDomains);
 			session
 				?.getToken({ template: "stealth-token-template" })
 				.then((token) => {
@@ -158,7 +155,7 @@ const ChatbotSettings: React.FC<{
 						navigate("/signin");
 						return;
 					}
-					setNewStatus(newStatus);
+					setChatbotDomains(newDomains);
 					dispatch(
 						updateChatbotDomains({
 							chatbotId,
@@ -212,7 +209,6 @@ const ChatbotSettings: React.FC<{
 						navigate("/signin");
 						return;
 					}
-					setNewStatus(newStatus);
 					dispatch(
 						updateChatbotDomains({
 							chatbotId,
