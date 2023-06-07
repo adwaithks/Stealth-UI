@@ -20,7 +20,7 @@ const Landing: React.FC = () => {
 	return (
 		<Box
 			sx={{
-				backgroundColor: "rgb(235, 255, 61)",
+				backgroundColor: "whitesmoke",
 				borderRadius: 5,
 				mx: 2,
 				height: "100%",
@@ -72,7 +72,6 @@ const Landing: React.FC = () => {
 						mt: 12,
 						height: isMobile ? 250 : 400,
 						border: "solid 3px",
-						transform: isMobile ? "rotate(-5deg)" : "rotate(0)",
 					}}
 				>
 					<Image

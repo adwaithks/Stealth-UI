@@ -140,6 +140,7 @@ function app() {
 	chatHeaderCloseIcon.src = ASSETS_URL + "/close.png";
 	chatHeaderCloseIcon.style = `
 		height: 15px;
+		cursor: pointer;
 	`;
 	chatHeaderClose.appendChild(chatHeaderCloseIcon);
 	chatHeader.appendChild(chatHeaderClose);

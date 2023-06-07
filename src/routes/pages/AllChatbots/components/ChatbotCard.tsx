@@ -1,4 +1,4 @@
-import { SettingsIcon } from "@chakra-ui/icons";
+import { ChatIcon, SettingsIcon } from "@chakra-ui/icons";
 import { Badge, Box, IconButton, Text } from "@chakra-ui/react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
@@ -65,6 +65,17 @@ const ChatbotCard: React.FC<IProps> = ({
 				)}
 
 				<Box sx={{ ml: 5 }}>
+					<IconButton
+						onClick={() => {
+							navigate(`/app/chats/${id}`);
+						}}
+						aria-label="goto-chatbot"
+						variant="outline"
+						icon={<ChatIcon />}
+					/>
+				</Box>
+
+				<Box sx={{ ml: 2 }}>
 					<IconButton
 						onClick={() => {
 							navigate(`/app/configure/${id}`);

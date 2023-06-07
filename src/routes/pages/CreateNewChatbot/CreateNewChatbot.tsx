@@ -42,6 +42,14 @@ const CreateNewChatbot: React.FC = () => {
 	};
 	return (
 		<Box>
+			<Box sx={{ mb: 2 }}>
+				<Text fontSize="2xl" fontWeight="bold">
+					Create New Chatbot
+				</Text>
+				<Text color="gray">Train a whole new chatbot on your data</Text>
+			</Box>
+			<Divider sx={{ my: 3 }} orientation="horizontal" />
+
 			<Box sx={{ mb: 5 }}>
 				<Text fontWeight="bold">Chatbot Name</Text>
 				<Text sx={{ mb: 1 }} color="gray">
@@ -54,12 +62,11 @@ const CreateNewChatbot: React.FC = () => {
 					placeholder="Eg: stealth bot"
 				/>
 			</Box>
-			<Divider sx={{ my: 5 }} orientation="horizontal" />
 			<Box>
 				<Text fontWeight="bold">Chatbot Knowledge Base</Text>
 				<Text sx={{ mb: 1 }} color="gray">
 					Provide a detailed information about company and product
-					related information here. (You can edit later on)
+					related information here.
 					<span>
 						<Text color="red" fontWeight="bold">
 							(Please do not include anything confidential!)
