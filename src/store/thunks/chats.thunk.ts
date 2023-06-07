@@ -1,6 +1,5 @@
 /* eslint-disable no-useless-catch */
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { getChatbotByIdApi } from "../../api/getChatbotById.api";
 import { createStandaloneToast } from "@chakra-ui/react";
 import { getChatsByChatbotIdApi } from "../../api/chats.api";
 
