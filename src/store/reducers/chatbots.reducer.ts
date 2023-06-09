@@ -39,9 +39,17 @@ export const getMyChatbots = createAsyncThunk(
 
 export const createNewChatbot = createAsyncThunk(
 	"chatbots/createNewChatbot",
-	async ({ name, knowledgeBase, token }: { [key: string]: string }) => {
+	async ({
+		name,
+		urls,
+		token,
+	}: {
+		name: string;
+		urls: string[];
+		token: string;
+	}) => {
 		try {
-			const data = await createNewChatbotApi(name, knowledgeBase, token);
+			const data = await createNewChatbotApi(name, urls, token);
 			toast({
 				title: "Success",
 				description: "New chatbot created successfully!",

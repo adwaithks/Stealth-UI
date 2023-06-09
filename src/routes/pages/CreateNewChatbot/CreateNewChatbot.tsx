@@ -1,11 +1,14 @@
 import { Box, Button, Divider, Input, Text } from "@chakra-ui/react";
 import { useClerk } from "@clerk/clerk-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { createNewChatbotApiStatusSelector } from "../../../store/selectors/chatbots.selector";
 import { useAppDispatch } from "../../../store/store";
 import { useNavigate } from "react-router-dom";
 import { createNewChatbot } from "../../../store/reducers/chatbots.reducer";
+import { ChevronLeftIcon } from "@chakra-ui/icons";
+import CrawlUrlSelection from "./components/CrawlUrlSelection";
+import { crawlerActions } from "../../../store/reducers/crawler.reducer";
 
 const CreateNewChatbot: React.FC = () => {
 	const { session } = useClerk();
@@ -16,11 +19,24 @@ const CreateNewChatbot: React.FC = () => {
 		createNewChatbotApiStatusSelector
 	);
 	const [chatbotName, setChatbotName] = useState("");
-	const [chatbotKnowledge, setChatbotKnowledge] = useState("");
+	const [checkedUrls, setCheckedUrls] = useState<string[]>([]);
 
-	const createAndTrainNewChatbot = (name: string, knowledgeBase: string) => {
+	const handleUpdateCheckedUrls = (urls: string[]) => {
+		setCheckedUrls(urls);
+	};
+
+	useEffect(() => {
+		dispatch(crawlerActions.resetCrawlStates());
+	}, [dispatch]);
+
+	const createAndTrainNewChatbot = (name: string, checkedUrls: string[]) => {
 		if (name.length === 0) {
 			alert("Please provide a name for the chatbot!");
+			return;
+		}
+
+		if (checkedUrls.length === 0) {
+			alert("Select atleast one url to train");
 			return;
 		}
 		session
@@ -30,11 +46,11 @@ const CreateNewChatbot: React.FC = () => {
 					navigate("/signin");
 					return;
 				}
-				dispatch(createNewChatbot({ name, knowledgeBase, token })).then(
-					() => {
-						navigate("/app");
-					}
-				);
+				dispatch(
+					createNewChatbot({ name, urls: checkedUrls, token })
+				).then((res: any) => {
+					if (!res.error.message) navigate("/app");
+				});
 			})
 			.catch(() => {
 				navigate("/signin");
@@ -43,66 +59,61 @@ const CreateNewChatbot: React.FC = () => {
 	return (
 		<Box>
 			<Box sx={{ mb: 2 }}>
-				<Text fontSize="2xl" fontWeight="bold">
-					Create New Chatbot
-				</Text>
-				<Text color="gray">Train a whole new chatbot on your data</Text>
+				<Button
+					onClick={() => navigate("/app")}
+					size="sm"
+					fontWeight="hairline"
+					variant="outline"
+				>
+					<ChevronLeftIcon />
+					Go Back
+				</Button>
 			</Box>
-			<Divider sx={{ my: 3 }} orientation="horizontal" />
+			<Box sx={{ mb: 6 }}>
+				<Box>
+					<Text fontSize="2xl" fontWeight="bold">
+						Create New Chatbot
+					</Text>
+					<Text color="gray">
+						Train a whole new chatbot on your data
+					</Text>
+				</Box>
+			</Box>
 
-			<Box sx={{ mb: 5 }}>
+			<Box>
 				<Text fontWeight="bold">Chatbot Name</Text>
 				<Text sx={{ mb: 1 }} color="gray">
 					Name of your Chatbot (You can change this later)
 				</Text>
 				<Input
+					width={400}
 					required
 					value={chatbotName}
 					onChange={(e) => setChatbotName(e.target.value)}
 					placeholder="Eg: stealth bot"
 				/>
 			</Box>
-			<Box>
-				<Text fontWeight="bold">Chatbot Knowledge Base</Text>
-				<Text sx={{ mb: 1 }} color="gray">
-					Provide a detailed information about company and product
-					related information here.
-					<span>
-						<Text color="red" fontWeight="bold">
-							(Please do not include anything confidential!)
-						</Text>
-					</span>
-				</Text>
+			<Divider sx={{ my: 3 }} orientation="horizontal" />
 
-				<textarea
-					required
-					value={chatbotKnowledge}
-					placeholder={`Example:
-Company Name: Stealth Bot
-Bio: ...
-Products: ...
-Services: ...
-Pricing: ...
-Timings: ...`}
-					onChange={(e) => {
-						e.stopPropagation();
-						setChatbotKnowledge(e.target.value);
-					}}
-					style={{
-						border: "#CBD5E0 solid 1px",
-						width: "100%",
-						borderRadius: 5,
-						height: "300px",
-						padding: "10px",
-						lineHeight: "25px",
-					}}
-				/>
-			</Box>
-			<Box>
+			<CrawlUrlSelection
+				checkedUrls={checkedUrls}
+				handleUpdateCheckedUrls={handleUpdateCheckedUrls}
+			/>
+
+			<Box
+				sx={{
+					backgroundColor: "white",
+					py: 4,
+					width: "100%",
+					position: "fixed",
+					bottom: 0,
+					zIndex: 2,
+				}}
+			>
 				<Button
 					color="white"
 					onClick={() =>
-						createAndTrainNewChatbot(chatbotName, chatbotKnowledge)
+						createAndTrainNewChatbot(chatbotName, checkedUrls)
 					}
 					isLoading={createNewChatbotApiStatus === "pending"}
 					loadingText="Training Chatbot..."

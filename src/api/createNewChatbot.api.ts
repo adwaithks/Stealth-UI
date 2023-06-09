@@ -3,10 +3,10 @@ import { createNewChatbotSerializer } from "./serializers/createNewChatbot.seria
 
 export const createNewChatbotApi = async (
 	chatbotName: string,
-	knowledgeBase: string,
+	urls: string[],
 	token: string
 ) => {
-	const res = await fetch(BASE_URL + "/api/v1/chatbot/new", {
+	const res = await fetch(BASE_URL + "/api/v1/chatbot/train", {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
@@ -14,9 +14,13 @@ export const createNewChatbotApi = async (
 		},
 		body: JSON.stringify({
 			chatbot_name: chatbotName,
-			knowledge_base: knowledgeBase,
+			urls: urls,
 		}),
 	});
+	if (!res.ok) {
+		throw { message: "Something went wrong!" };
+	}
 	const data = await res.json();
+	console.log({ data });
 	return createNewChatbotSerializer(data);
 };
