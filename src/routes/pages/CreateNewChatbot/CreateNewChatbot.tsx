@@ -48,8 +48,8 @@ const CreateNewChatbot: React.FC = () => {
 				}
 				dispatch(
 					createNewChatbot({ name, urls: checkedUrls, token })
-				).then(() => {
-					navigate("/app");
+				).then((res: any) => {
+					if (!res.error.message) navigate("/app");
 				});
 			})
 			.catch(() => {

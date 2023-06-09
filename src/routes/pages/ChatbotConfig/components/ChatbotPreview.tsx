@@ -112,10 +112,11 @@ const ChatbotPreview: React.FC<{ chatbotId: number }> = ({ chatbotId }) => {
 							<Box key={idx}>
 								<Box
 									sx={{
+										whiteSpace: "pre-line",
 										backgroundColor:
 											chat.origin === "user"
 												? "black"
-												: "lightgray",
+												: "rgba(0,0,0,0.05)",
 										color:
 											chat.origin === "user"
 												? "white"

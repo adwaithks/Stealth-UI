@@ -20,9 +20,10 @@ const Navbar: React.FC = () => {
 				display: "flex",
 				justifyContent: "space-between",
 				alignItems: "center",
-				height: 50,
+				height: 65,
 				px: 10,
-				borderRadius: 55,
+				py: 5,
+				// borderRadius: 55,
 				backgroundColor: "black",
 				color: "white",
 			}}
