@@ -34,67 +34,6 @@ const AllChatbots = () => {
 
 	return (
 		<Box>
-			{/* <CreateNewChatbotModal
-				isOpen={createNewChatbotModalIsOpen}
-				isLoading={createNewChatbotApiStatus === "pending"}
-				onClose={() => setCreateNewChatbotModalIsOpen(false)}
-				onSuccess={() =>
-					createAndTrainNewChatbot(chatbotName, chatbotKnowledge)
-				}
-				title="Create New Chatbot"
-				primaryActionText="Create & Train New Chatbot"
-				secondaryActionText="Cancel"
-			>
-				<Box sx={{ mb: 5 }}>
-					<Text fontWeight="bold">Chatbot Name</Text>
-					<Text sx={{ mb: 1 }} color="gray">
-						Name of your Chatbot (You can change this later)
-					</Text>
-					<Input
-						required
-						value={chatbotName}
-						onChange={(e) => setChatbotName(e.target.value)}
-						placeholder="Eg: stealth bot"
-					/>
-				</Box>
-				<Divider sx={{ my: 5 }} orientation="horizontal" />
-				<Box>
-					<Text fontWeight="bold">Chatbot Knowledge Base</Text>
-					<Text sx={{ mb: 1 }} color="gray">
-						Provide a detailed information about company and product
-						related information here. (You can edit later on)
-						<span>
-							<Text color="red" fontWeight="bold">
-								(Please do not include anything confidential!)
-							</Text>
-						</span>
-					</Text>
-
-					<textarea
-						required
-						value={chatbotKnowledge}
-						placeholder={`Example:
-Company Name: Stealth Bot
-Bio: ...
-Products: ...
-Services: ...
-Pricing: ...
-Timings: ...`}
-						onChange={(e) => {
-							e.stopPropagation();
-							setChatbotKnowledge(e.target.value);
-						}}
-						style={{
-							border: "#CBD5E0 solid 1px",
-							width: "100%",
-							borderRadius: 5,
-							height: "300px",
-							padding: "10px",
-							lineHeight: "25px",
-						}}
-					/>
-				</Box>
-			</CreateNewChatbotModal> */}
 			<Box
 				sx={{
 					display: "flex",

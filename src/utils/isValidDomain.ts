@@ -1,5 +1,10 @@
-export function isValidDomain(input: any) {
-	const regex =
-		/^(?!.*:\/\/)(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]$/i;
-	return regex.test(input);
+export function validateURL(url: string) {
+	// Regular expression pattern to match the URL
+	const urlPattern =
+		/^(https?:\/\/)?(localhost|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}|([a-zA-Z0-9]+\.)+[a-zA-Z]{2,})(:\d+)?(\/\S*)?$/;
+
+	// Test the URL against the pattern
+	const isValidURL = urlPattern.test(url);
+
+	return isValidURL;
 }

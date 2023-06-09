@@ -4,6 +4,7 @@ import rootReducer from "./reducers/root.reducer.ts";
 import thunkMiddleware from "redux-thunk";
 import { useDispatch } from "react-redux";
 import { Chatbot } from "../types/chatbot.type.ts";
+import { Chat } from "../types/chats.type.ts";
 
 export type AppDispatch = typeof store.dispatch;
 export const useAppDispatch = () => useDispatch<AppDispatch>();
@@ -22,7 +23,7 @@ export interface IAppState {
 		getChatbotByIdApiStatus: string;
 	};
 	chatbotChats: {
-		// chats: { [key: string]: Chat[] };
+		chats: { [key: string]: Chat[] };
 		getChatsByChatbotIdApiStatus: string;
 	};
 	crawler: {

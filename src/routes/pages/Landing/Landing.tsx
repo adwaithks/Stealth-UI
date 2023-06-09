@@ -20,7 +20,7 @@ const Landing: React.FC = () => {
 	return (
 		<Box
 			sx={{
-				backgroundColor: "rgb(202, 196, 255)",
+				backgroundColor: "whitesmoke",
 				borderRadius: 5,
 				mx: 2,
 				height: "100%",
@@ -59,7 +59,7 @@ const Landing: React.FC = () => {
 							lg: "2xl",
 						},
 					}}
-					color="black"
+					color="rgba(0, 0, 0, 0.5)"
 				>
 					Leap into Seamless Support: Introducing Lemuur AI - Your
 					Trusted Customer Support Chatbot Companion!
@@ -67,14 +67,15 @@ const Landing: React.FC = () => {
 				<Box
 					sx={{
 						mx: 2,
-						boxShadow: "0 0 3px lightgray",
+						boxShadow: "2px 2px 10px gray",
 						borderRadius: 5,
 						mt: 12,
 						height: isMobile ? 250 : 400,
-						border: "solid 5px",
+						border: "solid 3px",
 					}}
 				>
 					<Image
+						aspectRatio={isMobile ? 5 / 4 : 12 / 4.5}
 						sx={{ height: "100%" }}
 						src={isMobile ? Homemob : Home}
 					/>

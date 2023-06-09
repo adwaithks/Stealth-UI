@@ -6,6 +6,7 @@ import ChatbotConfig from "./pages/ChatbotConfig/ChatbotConfig";
 import { SignedIn, SignedOut } from "@clerk/clerk-react";
 import Landing from "./pages/Landing/Landing";
 import CreateNewChatbot from "./pages/CreateNewChatbot/CreateNewChatbot";
+import Chats from "./pages/Chats/Chats";
 
 const RouteConfig: React.FC = () => {
 	return (
@@ -54,6 +55,20 @@ const RouteConfig: React.FC = () => {
 							<>
 								<SignedIn>
 									<ChatbotConfig />
+								</SignedIn>
+								<SignedOut>
+									<Navigate to="/" replace />
+								</SignedOut>
+							</>
+						}
+					/>
+
+					<Route
+						path="app/chats/:id"
+						element={
+							<>
+								<SignedIn>
+									<Chats />
 								</SignedIn>
 								<SignedOut>
 									<Navigate to="/" replace />

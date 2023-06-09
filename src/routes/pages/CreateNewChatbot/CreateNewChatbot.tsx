@@ -69,7 +69,7 @@ const CreateNewChatbot: React.FC = () => {
 					Go Back
 				</Button>
 			</Box>
-			<Box sx={{ mb: 2 }}>
+			<Box sx={{ mb: 6 }}>
 				<Box>
 					<Text fontSize="2xl" fontWeight="bold">
 						Create New Chatbot
@@ -80,7 +80,7 @@ const CreateNewChatbot: React.FC = () => {
 				</Box>
 			</Box>
 
-			<Box sx={{ mb: 5 }}>
+			<Box>
 				<Text fontWeight="bold">Chatbot Name</Text>
 				<Text sx={{ mb: 1 }} color="gray">
 					Name of your Chatbot (You can change this later)
