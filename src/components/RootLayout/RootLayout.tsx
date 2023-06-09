@@ -8,14 +8,15 @@ const RootLayout: React.FC = () => {
 
 	return (
 		<Box sx={{ width: "100%", height: "100vh" }}>
-			<Navbar />
+			<Box sx={{ pt: 5, px: 5 }}>
+				<Navbar />
+			</Box>
 			<Box
 				sx={{
 					mx: {
 						lg: 10,
 						sm: 5,
 					},
-					mt: 2,
 				}}
 			>
 				<Outlet />

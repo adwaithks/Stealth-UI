@@ -1,4 +1,4 @@
-import { Box, Button, Image, Link, Text } from "@chakra-ui/react";
+import { Box, Button, Link, Text } from "@chakra-ui/react";
 import {
 	SignInButton,
 	SignOutButton,
@@ -8,7 +8,6 @@ import {
 } from "@clerk/clerk-react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import Logo from "./logo.svg";
 
 const Navbar: React.FC = () => {
 	const navigate = useNavigate();
@@ -17,23 +16,25 @@ const Navbar: React.FC = () => {
 	return (
 		<Box
 			sx={{
+				borderBottom: "lightgray solid 1px",
 				display: "flex",
 				justifyContent: "space-between",
 				alignItems: "center",
 				height: 65,
-				px: 10,
-				py: 5,
-				// borderRadius: 55,
 				backgroundColor: "black",
+				borderRadius: 50,
+				boxShadow: "0 0 2px lightgray",
+				px: 10,
+				mb: 5,
 				color: "white",
 			}}
 		>
 			<Box sx={{ display: "flex", alignItems: "center" }}>
-				<Image sx={{ borderRadius: "50%" }} height={10} src={Logo} />
 				<Text
+					color="white"
 					sx={{ cursor: "pointer" }}
 					onClick={() => navigate("/app")}
-					fontWeight="black"
+					fontWeight="white"
 				>
 					Lemuur AI
 				</Text>
@@ -46,10 +47,11 @@ const Navbar: React.FC = () => {
 				}}
 			>
 				<SignedIn>
-					<Link sx={{ mr: 4 }} href="/app">
+					<Link color="white" sx={{ mr: 4 }} href="/app">
 						dashboard
 					</Link>
 					<Link
+						color="white"
 						onClick={() => redirectToUserProfile()}
 						sx={{ mr: 4 }}
 					>
@@ -60,10 +62,10 @@ const Navbar: React.FC = () => {
 					</Button>
 				</SignedIn>
 				<SignedOut>
-					<Link href="/" sx={{ mr: 5 }}>
+					<Link color="white" href="/" sx={{ mr: 5 }}>
 						Home
 					</Link>
-					<Button size="sm" colorScheme="whatsapp">
+					<Button size="sm" bgColor="whatsapp.500">
 						<SignInButton
 							afterSignInUrl="/app"
 							afterSignUpUrl="/app"

@@ -60,7 +60,7 @@ const CreateNewChatbot: React.FC = () => {
 		<Box>
 			<Box sx={{ mb: 2 }}>
 				<Button
-					onClick={() => navigate("/app")}
+					onClick={() => navigate("/app", { replace: true })}
 					size="sm"
 					fontWeight="hairline"
 					variant="outline"

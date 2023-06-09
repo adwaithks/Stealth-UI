@@ -11,6 +11,7 @@ const Features: React.FC = () => {
 				alignItems: "center",
 				flexDirection: "column",
 				justifyContent: "center",
+				marginBottom: 150,
 			}}
 		>
 			<Box sx={{ mb: 5, textAlign: "center" }}>

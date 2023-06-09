@@ -13,6 +13,8 @@ import Home from "./home.png";
 import Homemob from "./homemob.png";
 import Features from "./components/Features";
 import { useMediaQuery } from "@chakra-ui/react";
+import { ArrowForwardIcon } from "@chakra-ui/icons";
+import HowItWorks from "./components/HowItWorks";
 
 const Landing: React.FC = () => {
 	const [isMobile] = useMediaQuery("(max-width: 768px)");
@@ -20,7 +22,6 @@ const Landing: React.FC = () => {
 	return (
 		<Box
 			sx={{
-				backgroundColor: "whitesmoke",
 				borderRadius: 5,
 				mx: 2,
 				height: "100%",
@@ -32,16 +33,18 @@ const Landing: React.FC = () => {
 					height: "100%",
 					alignItems: "center",
 					flexDirection: "column",
-					marginBottom: 110,
+					marginBottom: 150,
 				}}
 			>
 				<Text
+					p={0}
 					sx={{
 						fontSize: {
 							base: "6xl",
 							md: "7xl",
 							lg: "8xl",
 						},
+
 						mb: isMobile ? 5 : 0,
 						mt: isMobile ? 5 : 0,
 					}}
@@ -49,14 +52,15 @@ const Landing: React.FC = () => {
 				>
 					Lemuur AI
 				</Text>
+
 				<Container
 					sx={{
 						mt: -5,
 						textAlign: "center",
 						fontSize: {
 							base: "xl",
-							md: "1xl",
-							lg: "2xl",
+							md: "xl",
+							lg: "xl",
 						},
 					}}
 					color="rgba(0, 0, 0, 0.5)"
@@ -64,6 +68,12 @@ const Landing: React.FC = () => {
 					Leap into Seamless Support: Introducing Lemuur AI - Your
 					Trusted Customer Support Chatbot Companion!
 				</Container>
+				<Box sx={{ mt: 5 }}>
+					<Button size="lg" color="white" bgColor="black">
+						Create your chatbot now{" "}
+						<ArrowForwardIcon sx={{ ml: 1 }} />
+					</Button>
+				</Box>
 				<Box
 					sx={{
 						mx: 2,
@@ -81,6 +91,8 @@ const Landing: React.FC = () => {
 					/>
 				</Box>
 			</section>
+
+			<HowItWorks />
 
 			<Features />
 

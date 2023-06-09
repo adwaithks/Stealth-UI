@@ -1,6 +1,13 @@
-import { CheckIcon } from "@chakra-ui/icons";
+import { ChatIcon, CheckIcon, EditIcon, TimeIcon } from "@chakra-ui/icons";
 import { Box, Text } from "@chakra-ui/react";
 import React from "react";
+
+const titleToIcon: { [key: string]: React.ReactNode } = {
+	"24x7 Customer Support": <TimeIcon color="white" fontSize="2xl" />,
+	"Manual Training Control": <EditIcon color="white" fontSize="2xl" />,
+	"Unlimited Chatbot Creation": <CheckIcon color="white" fontSize="2xl" />,
+	"Intelligent Replies": <ChatIcon color="white" fontSize="2xl" />,
+};
 
 const FeatureCard: React.FC<{ title: string; description: string }> = ({
 	title,
@@ -12,12 +19,11 @@ const FeatureCard: React.FC<{ title: string; description: string }> = ({
 				width: {
 					md: "45%",
 				},
-				border: "gray solid 1px",
 				p: 3,
 				bg: "white",
 				flexWrap: "wrap",
 				height: "fit-content",
-				boxShadow: "0 0 2px lightgray",
+				boxShadow: "0 0 5px lightgray",
 				borderRadius: 5,
 			}}
 		>
@@ -25,15 +31,15 @@ const FeatureCard: React.FC<{ title: string; description: string }> = ({
 				<Box
 					sx={{
 						mr: 2,
-						p: 2,
+						p: 3,
 						borderRadius: "50%",
-						border: "green solid 3px",
 						display: "flex",
+						backgroundColor: "green",
 						alignItems: "center",
 						justifyContent: "center",
 					}}
 				>
-					<CheckIcon fontSize="2xl" color="green" />
+					{titleToIcon[title]}
 				</Box>
 				<Text fontWeight="black" fontSize="2xl">
 					{title}
