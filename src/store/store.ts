@@ -21,6 +21,14 @@ export interface IAppState {
 		domainChangeApiStatus: string;
 		getChatbotByIdApiStatus: string;
 	};
+	chatbotChats: {
+		// chats: { [key: string]: Chat[] };
+		getChatsByChatbotIdApiStatus: string;
+	};
+	crawler: {
+		urls: string[];
+		getAllUrlsApiStatus: string;
+	};
 }
 
 const store = configureStore({
