@@ -4,7 +4,7 @@ import { getAllUrls } from "../thunks/crawl.thunk";
 const crawlerSlice = createSlice({
 	name: "crawler",
 	initialState: {
-		urls: [],
+		urls: [] as string[],
 		getAllUrlsApiStatus: "idle",
 	},
 	reducers: {
