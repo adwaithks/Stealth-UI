@@ -11,7 +11,6 @@ const Features: React.FC = () => {
 				alignItems: "center",
 				flexDirection: "column",
 				borderRadius: 5,
-				padding: 40,
 				justifyContent: "center",
 				marginBottom: 150,
 			}}
