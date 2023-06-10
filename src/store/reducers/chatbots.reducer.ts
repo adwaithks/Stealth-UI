@@ -131,7 +131,17 @@ const chatbotsSlice = createSlice({
 		domainChangeApiStatus: "idle",
 		getChatbotByIdApiStatus: "idle",
 	},
-	reducers: {},
+	reducers: {
+		updateCurrentChatbotStatus: (state, action) => {
+			state.currentChatbot.status = action.payload;
+		},
+		updateCurrentChatbotName: (state, action) => {
+			state.currentChatbot.chatbotName = action.payload;
+		},
+		updateCurrentChatbotDomains: (state, action) => {
+			state.currentChatbot.domains = action.payload;
+		},
+	},
 	extraReducers(builder) {
 		builder
 			.addCase(getMyChatbots.pending, (state) => {
@@ -212,4 +222,7 @@ const chatbotsSlice = createSlice({
 	},
 });
 
+export const chatbotsActions = {
+	...chatbotsSlice.actions,
+};
 export default chatbotsSlice.reducer;

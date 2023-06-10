@@ -7,26 +7,31 @@ import {
 	updateChatbotStatusApi,
 } from "../../api/chatbotSettings.api";
 import { createStandaloneToast } from "@chakra-ui/react";
+import { chatbotsActions } from "../reducers/chatbots.reducer";
 
 const { toast } = createStandaloneToast();
 
 export const udpateChatbotStatus = createAsyncThunk(
 	"chatbots/udpateChatbotStatus",
-	async ({
-		chatbotId,
-		newStatus,
-		token,
-	}: {
-		chatbotId: number;
-		newStatus: string;
-		token: string;
-	}) => {
+	async (
+		{
+			chatbotId,
+			newStatus,
+			token,
+		}: {
+			chatbotId: number;
+			newStatus: string;
+			token: string;
+		},
+		{ dispatch }
+	) => {
 		try {
 			const data = await updateChatbotStatusApi(
 				chatbotId,
 				newStatus,
 				token
 			);
+			dispatch(chatbotsActions.updateCurrentChatbotStatus(newStatus));
 			toast({
 				title: "Success",
 				description: "Status updatation success!",
@@ -54,17 +59,21 @@ export const udpateChatbotStatus = createAsyncThunk(
 
 export const updateChatbotName = createAsyncThunk(
 	"chatbots/updateChatbotName",
-	async ({
-		chatbotId,
-		newName,
-		token,
-	}: {
-		chatbotId: number;
-		newName: string;
-		token: string;
-	}) => {
+	async (
+		{
+			chatbotId,
+			newName,
+			token,
+		}: {
+			chatbotId: number;
+			newName: string;
+			token: string;
+		},
+		{ dispatch }
+	) => {
 		try {
 			const data = await updateChatbotNameApi(chatbotId, newName, token);
+			dispatch(chatbotsActions.updateCurrentChatbotName(newName));
 			toast({
 				title: "Success",
 				description: "Name successfully updated!",
@@ -92,21 +101,25 @@ export const updateChatbotName = createAsyncThunk(
 
 export const updateChatbotDomains = createAsyncThunk(
 	"chatbots/updateChatbotDomains",
-	async ({
-		chatbotId,
-		domains,
-		token,
-	}: {
-		chatbotId: number;
-		domains: string[];
-		token: string;
-	}) => {
+	async (
+		{
+			chatbotId,
+			domains,
+			token,
+		}: {
+			chatbotId: number;
+			domains: string[];
+			token: string;
+		},
+		{ dispatch }
+	) => {
 		try {
 			const data = await updateChatbotDomainsApi(
 				chatbotId,
 				domains,
 				token
 			);
+			dispatch(chatbotsActions.updateCurrentChatbotDomains(domains));
 			toast({
 				title: "Success",
 				description: "Domains updated successfully!",

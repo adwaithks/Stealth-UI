@@ -19,7 +19,12 @@ const WorkCard: React.FC<{ title: string; description: string }> = ({
 		>
 			<Box>
 				<Text
-					sx={{ display: "flex", alignItems: "center" }}
+					sx={{
+						display: "flex",
+						alignItems: "center",
+						justifyContent: "center",
+						mb: 3,
+					}}
 					fontSize="3xl"
 					fontWeight="black"
 				>

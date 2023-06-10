@@ -19,22 +19,23 @@ const MessageDisplay: React.FC<{ currentChat: Chat[] }> = ({ currentChat }) => {
 	return (
 		<Box
 			sx={{
-				p: 1,
 				width: "100%",
+				borderTopRightRadius: 5,
 				height: "calc(100vh - 220px)",
 				overflowY: "auto",
 			}}
 		>
 			<Box
 				sx={{
-					backgroundColor: "black",
-					color: "white",
+					backgroundColor: "whitesmoke",
+					color: "black",
 					p: 2,
 					mb: 2,
-					borderRadius: 5,
+					position: "sticky",
+					top: 0,
 				}}
 			>
-				<Text fontWeight="black" fontSize="xl">
+				<Text fontWeight="bold" fontSize="xl">
 					Chats
 				</Text>
 			</Box>
@@ -61,10 +62,10 @@ const MessageDisplay: React.FC<{ currentChat: Chat[] }> = ({ currentChat }) => {
 										borderTopRightRadius: 5,
 										borderBottomLeftRadius: 5,
 										borderBottomRightRadius: 5,
-
 										p: 3,
 										maxWidth: 300,
-										backgroundColor: "black",
+										backgroundColor: "rgba(0, 0, 0, 0.8)",
+										boxShadow: "0 0 2px lightgray",
 										color: "white",
 										width: "fit-content",
 									}}
@@ -95,7 +96,8 @@ const MessageDisplay: React.FC<{ currentChat: Chat[] }> = ({ currentChat }) => {
 										borderBottomRightRadius: 5,
 										p: 3,
 										maxWidth: 300,
-										backgroundColor: "lightgray",
+										backgroundColor: "rgba(0,0,0,0.1)",
+										boxShadow: "0 0 2px lightgray",
 										color: "black",
 										width: "fit-content",
 									}}

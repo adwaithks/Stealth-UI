@@ -27,7 +27,12 @@ const FeatureCard: React.FC<{ title: string; description: string }> = ({
 				borderRadius: 5,
 			}}
 		>
-			<Box sx={{ display: "flex", alignItems: "center" }}>
+			<Box
+				sx={{
+					display: "flex",
+					alignItems: "center",
+				}}
+			>
 				<Box
 					sx={{
 						mr: 2,

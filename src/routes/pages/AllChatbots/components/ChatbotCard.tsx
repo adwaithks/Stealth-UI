@@ -26,10 +26,9 @@ const ChatbotCard: React.FC<IProps> = ({
 		<Box
 			sx={{
 				display: "flex",
-				border: "lightgray solid 0.5px",
-				borderLeft: "black solid 5px",
+				boxShadow: "0 0 2px lightgray",
+				borderLeft: "black solid 0px",
 				p: 4,
-				borderRadius: 5,
 				mb: 1,
 				alignItems: "center",
 				justifyContent: "space-between",

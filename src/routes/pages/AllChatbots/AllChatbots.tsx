@@ -67,7 +67,9 @@ const AllChatbots = () => {
 
 			<Divider sx={{ mb: 5 }} orientation="horizontal" />
 
-			<Box>
+			<Box
+				sx={{ borderRadius: 5, border: "rgba(0,0,0,0.05) solid 0.5px" }}
+			>
 				{getMyChatbotsApiStatus === "pending" && (
 					<AllChatbotsSkeleton />
 				)}

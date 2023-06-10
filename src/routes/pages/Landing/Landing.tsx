@@ -15,9 +15,11 @@ import Features from "./components/Features";
 import { useMediaQuery } from "@chakra-ui/react";
 import { ArrowForwardIcon } from "@chakra-ui/icons";
 import HowItWorks from "./components/HowItWorks";
+import { useClerk } from "@clerk/clerk-react";
 
 const Landing: React.FC = () => {
 	const [isMobile] = useMediaQuery("(max-width: 768px)");
+	const { redirectToSignIn } = useClerk();
 
 	return (
 		<Box
@@ -37,7 +39,6 @@ const Landing: React.FC = () => {
 				}}
 			>
 				<Text
-					p={0}
 					sx={{
 						fontSize: {
 							base: "6xl",
@@ -48,9 +49,9 @@ const Landing: React.FC = () => {
 						mb: isMobile ? 5 : 0,
 						mt: isMobile ? 5 : 0,
 					}}
-					fontWeight="black"
+					fontWeight="extrabold"
 				>
-					Lemuur AI
+					Assist Desk
 				</Text>
 
 				<Container
@@ -65,11 +66,16 @@ const Landing: React.FC = () => {
 					}}
 					color="rgba(0, 0, 0, 0.5)"
 				>
-					Leap into Seamless Support: Introducing Lemuur AI - Your
+					Leap into Seamless Support: Introducing Assist Desk - Your
 					Trusted Customer Support Chatbot Companion!
 				</Container>
 				<Box sx={{ mt: 5 }}>
-					<Button size="lg" color="white" bgColor="black">
+					<Button
+						onClick={() => redirectToSignIn()}
+						size="lg"
+						color="white"
+						bgColor="black"
+					>
 						Create your chatbot now{" "}
 						<ArrowForwardIcon sx={{ ml: 1 }} />
 					</Button>
@@ -92,18 +98,49 @@ const Landing: React.FC = () => {
 				</Box>
 			</section>
 
+			<Features />
 			<HowItWorks />
 
-			<Features />
+			<Box
+				sx={{
+					p: 10,
+					boxShadow: "0 0 2px lightgray",
+					backgroundColor: "black",
+					borderRadius: 5,
+					flexDirection: "column",
+					display: "flex",
+					alignItems: "center",
+					justifyContent: "center",
+				}}
+			>
+				<Text color="white" fontWeight="extrabold" fontSize="2xl">
+					Train your chatbot now and unlock new heights of customer
+					support!
+				</Text>
+				<Container color="whitesmoke">
+					Achieve round-the-clock customer support with our AI chatbot
+					platform.
+				</Container>
+
+				<Button
+					onClick={() => redirectToSignIn()}
+					size="lg"
+					bg="white"
+					color="black"
+					sx={{ mt: 5 }}
+				>
+					Create your chatbot now
+					<ArrowForwardIcon sx={{ ml: 1 }} />
+				</Button>
+			</Box>
 
 			<Box
 				sx={{
 					borderRadius: 5,
-					mt: 55,
+					mt: 10,
 					p: 5,
 					mx: 2,
-					backgroundColor: "black",
-					color: "white",
+					color: "black",
 				}}
 			>
 				<Box
@@ -131,13 +168,13 @@ const Landing: React.FC = () => {
 							}}
 						>
 							<Input
-								sx={{ border: "white solid 2px" }}
+								sx={{ border: "lightgray solid 2px" }}
 								placeholder="lemuurofficial@gmail.com"
 								type="email"
 							/>
 							<Button
-								bg="white"
-								color="black"
+								bg="black"
+								color="white"
 								sx={{ width: "100%", mt: 2 }}
 							>
 								Let's Go!
@@ -155,7 +192,7 @@ const Landing: React.FC = () => {
 					justifyContent: "center",
 				}}
 			>
-				<Text fontSize="sm">All rights reserved Lemuur AI.</Text>
+				<Text fontSize="sm">All rights reserved Assist Desk.</Text>
 			</Box>
 		</Box>
 	);

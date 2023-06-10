@@ -10,12 +10,14 @@ const Features: React.FC = () => {
 				height: "100%",
 				alignItems: "center",
 				flexDirection: "column",
+				borderRadius: 5,
+				padding: 40,
 				justifyContent: "center",
 				marginBottom: 150,
 			}}
 		>
 			<Box sx={{ mb: 5, textAlign: "center" }}>
-				<Text fontSize="3xl" fontWeight="bold">
+				<Text color="black" fontSize="3xl" fontWeight="bold">
 					Unleashing AI-Powered Banter for Maximum Smiles!
 				</Text>
 			</Box>

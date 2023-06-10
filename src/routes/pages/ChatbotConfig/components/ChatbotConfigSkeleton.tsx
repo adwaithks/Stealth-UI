@@ -5,20 +5,20 @@ const ChatbotConfigSkeleton: React.FC = () => {
 	return (
 		<Stack>
 			<Skeleton
-				startColor="pink.100"
-				endColor="orange.100"
+				startColor="lightgray"
+				endColor="gray.100"
 				height="120px"
 				rounded="base"
 			/>
 			<Skeleton
-				startColor="pink.100"
-				endColor="orange.100"
+				startColor="lightgray"
+				endColor="gray.100"
 				height="60px"
 				rounded="base"
 			/>
 			<Skeleton
-				startColor="pink.100"
-				endColor="orange.100"
+				startColor="lightgray"
+				endColor="gray.100"
 				height="400px"
 				rounded="base"
 			/>

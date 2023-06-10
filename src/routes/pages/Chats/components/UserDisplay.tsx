@@ -7,18 +7,17 @@ const UserDisplay: React.FC<{
 	handleChangeUser: (userId: string) => void;
 }> = ({ users, currentUser, handleChangeUser }) => {
 	return (
-		<Box sx={{ p: 1 }}>
+		<Box>
 			<Box
 				sx={{
-					backgroundColor: "black",
-					color: "white",
 					p: 2,
 					mb: 2,
-					borderRadius: 5,
+					borderTopLeftRadius: 5,
+					backgroundColor: "whitesmoke",
 				}}
 			>
-				<Text fontWeight="black" fontSize="xl">
-					Customer
+				<Text color="black" fontWeight="bold" fontSize="xl">
+					Customers
 				</Text>
 			</Box>
 			<Box
@@ -33,11 +32,10 @@ const UserDisplay: React.FC<{
 							onClick={() => handleChangeUser(user)}
 							sx={{
 								p: 2,
-								borderRadius: 5,
 								cursor: "pointer",
 								backgroundColor:
 									currentUser === user
-										? "lightgray"
+										? "rgba(0,0,0,0.1)"
 										: "white",
 								color: "black",
 							}}

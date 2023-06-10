@@ -170,6 +170,7 @@ const ChatbotPreview: React.FC<{ chatbotId: number }> = ({ chatbotId }) => {
 						p={0}
 						children={
 							<Button
+								isLoading={waitingReply}
 								disabled={waitingReply}
 								onClick={handleSend}
 							>

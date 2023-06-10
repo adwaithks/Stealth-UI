@@ -15,7 +15,7 @@ const HowItWorks: React.FC = () => {
 				width: "100%",
 				alignItems: "center",
 				justifyContent: "center",
-				marginBottom: 150,
+				marginBottom: 100,
 			}}
 		>
 			<Container

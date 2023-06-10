@@ -155,6 +155,7 @@ const ChatbotSettings: React.FC<{
 						navigate("/signin");
 						return;
 					}
+					console.log("inside : ", newDomains);
 					setChatbotDomains(newDomains);
 					dispatch(
 						updateChatbotDomains({
@@ -315,8 +316,7 @@ const ChatbotSettings: React.FC<{
 						Whitelisted Domains
 					</Text>
 					<Text sx={{ color: "gray" }}>
-						Add or Remove domains where you are going to embed the
-						chatbot
+						Add domains where you are going to embed the chatbot
 					</Text>
 				</Box>
 				<Box sx={{ display: "flex", alignItems: "center" }}>
@@ -326,7 +326,7 @@ const ChatbotSettings: React.FC<{
 							onChange={(e) => {
 								setNewDomain(e.target.value);
 							}}
-							placeholder="example.com"
+							placeholder="https://yourwebsite.com"
 						/>
 					</InputGroup>
 					<Button
@@ -364,9 +364,11 @@ const ChatbotSettings: React.FC<{
 											p: 1,
 										}}
 										onClick={() => {
+											console.log("before: ", domains);
 											const domains_ = [
 												...domains,
 											].filter((d) => d !== domain);
+											console.log("after: ", domains_);
 											handleRemoveDomain(domains_);
 										}}
 									/>

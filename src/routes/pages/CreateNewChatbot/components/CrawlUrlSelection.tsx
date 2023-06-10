@@ -19,7 +19,7 @@ import {
 	getUrlsSelector,
 } from "../../../../store/selectors/crawler.selector";
 import { crawlerActions } from "../../../../store/reducers/crawler.reducer";
-import { DeleteIcon } from "@chakra-ui/icons";
+import { AddIcon, DeleteIcon, RepeatIcon } from "@chakra-ui/icons";
 
 const CrawlUrlSelection: React.FC<{
 	checkedUrls: string[];
@@ -58,16 +58,27 @@ const CrawlUrlSelection: React.FC<{
 	return (
 		<Box>
 			<Box mb={2}>
-				<Text fontWeight="black" fontSize="md">
+				<Text fontWeight="bold">
 					Generate data to train your chatbot
 				</Text>
-				<Text color="gray">
-					Fetch all links of the url that you provide. (Please provide
-					domain that you own or have control over.)
+				<Text
+					sx={{
+						width: {
+							lg: "60%",
+							md: "80%",
+						},
+					}}
+					color="gray"
+				>
+					Fetch all links in the website that you provide. Then you
+					can decide which all links we should crawl to generate
+					training data for your chatbot (Please provide domain that
+					you own or have control over!)
 				</Text>
 			</Box>
 			<Box sx={{ mb: 2 }}>
 				<Input
+					placeholder="https://yourwebsite.com"
 					mr={2}
 					onChange={(e) => setUrl(e.target.value)}
 					width={400}
@@ -77,6 +88,7 @@ const CrawlUrlSelection: React.FC<{
 					isLoading={getAllUrlsApiStatus === "pending"}
 					onClick={fetchUrls}
 				>
+					<RepeatIcon sx={{ mr: 1 }} />
 					Get All Links
 				</Button>
 			</Box>
@@ -84,20 +96,21 @@ const CrawlUrlSelection: React.FC<{
 				{getAllUrlsApiStatus === "fulfilled" && (
 					<Box
 						sx={{
-							borderColor: "rgba(0,0,0,0.02)",
-							p: 2,
+							px: 5,
+							py: 2,
 							borderRadius: 5,
 							width: 500,
 						}}
 					>
 						<Box sx={{ mb: 1 }}>
-							<Text fontSize="md" fontWeight="black">
-								Select all urls to crawl
+							<Text fontSize="md" fontWeight="bold">
+								Select urls to crawl
 							</Text>
 							<Text color="gray">
 								Chatbot will trained on knowledge base created
 								from the contents on the links you select. (You
-								can modify it later on)
+								can modify knowledge base later on, to add your
+								touch.)
 							</Text>
 						</Box>
 						<Box sx={{ mb: 20 }}>
@@ -107,6 +120,7 @@ const CrawlUrlSelection: React.FC<{
 									size="sm"
 									mr={2}
 									width={400}
+									placeholder="https://yourwebsite.com/something"
 								/>
 								<Button
 									bgColor="black"
@@ -114,7 +128,8 @@ const CrawlUrlSelection: React.FC<{
 									onClick={addNewLink}
 									size="sm"
 								>
-									Add new link
+									<AddIcon sx={{ mr: 1 }} />
+									Add Url
 								</Button>
 							</Box>
 							<CheckboxGroup

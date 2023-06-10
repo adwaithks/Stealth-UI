@@ -12,9 +12,8 @@ var scriptTag = document.getElementById("stealth-chatbot-widget");
 var chatbotId = Number(scriptTag.getAttribute("data-id"));
 
 const cookieName = "STEALTH_CHATBOT";
-const BASE_URL = "https://stealth-dashboard.onrender.com";
-// const BASE_URL = "http://localhost:8000";
-const ASSETS_URL = "https://grand-pastelito-e71d8f.netlify.app";
+const BASE_URL = "https://api.assistdesk.in";
+const ASSETS_URL = "https://www.assistdesk.in";
 let messages = [];
 let isTabletOrBelow = window.innerWidth <= 820 ? true : false;
 
@@ -92,7 +91,7 @@ function displayMessage(sender, message) {
 	const origin = document.createElement("p");
 	const message_ = document.createElement("p");
 
-	origin.textContent = `${sender === "bot" ? "Lemuur AI" : "User"}`;
+	origin.textContent = `${sender === "bot" ? "AI Assistant" : "User"}`;
 	message_.textContent = `${message}`;
 
 	origin.style.fontWeight = "bold";
@@ -312,7 +311,7 @@ function app() {
 	const poweredByText = document.createElement("p");
 	const poweredByCompanyName = document.createElement("span");
 	poweredByCompanyName.style.fontWeight = 800;
-	poweredByCompanyName.textContent = " Lemuur AI";
+	poweredByCompanyName.textContent = "Assist Desk";
 	poweredByText.textContent = "Powered By ";
 	poweredByText.style.fontFamily = "sans-serif";
 	poweredByText.style.fontSize = "12px";
@@ -395,7 +394,7 @@ function app() {
 					.then((data) => {
 						messageContainer.removeChild(messageLoader);
 						messages.push({
-							origin: "lemuurAI",
+							origin: "AI Assistant",
 							message: data.message,
 						});
 						displayMessage("bot", data.message);
