@@ -46,7 +46,7 @@ const FeatureCard: React.FC<{ title: string; description: string }> = ({
 				>
 					{titleToIcon[title]}
 				</Box>
-				<Text fontWeight="black" fontSize="2xl">
+				<Text fontWeight="bold" fontSize="2xl">
 					{title}
 				</Text>
 			</Box>

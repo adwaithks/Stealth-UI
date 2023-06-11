@@ -26,7 +26,7 @@ const WorkCard: React.FC<{ title: string; description: string }> = ({
 						mb: 3,
 					}}
 					fontSize="3xl"
-					fontWeight="black"
+					fontWeight="bold"
 				>
 					<CheckCircleIcon color="green" fontSize="3xl" mr={1} />
 					{title}
