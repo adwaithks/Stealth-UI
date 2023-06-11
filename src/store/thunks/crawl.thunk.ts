@@ -12,10 +12,11 @@ export const getAllUrls = createAsyncThunk(
 			const data = await getAllUrlsApi(url, token);
 			return data;
 		} catch (err: any) {
-			console.log("err: ", err);
 			toast({
 				title: "Something went wrong",
-				description: err?.message ? err.message : "Failed to get urls!",
+				description: err?.message
+					? err.message
+					: "Failed to fetch urls",
 				status: "error",
 				duration: 9000,
 				isClosable: true,

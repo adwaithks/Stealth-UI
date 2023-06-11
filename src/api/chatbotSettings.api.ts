@@ -12,6 +12,10 @@ export const deleteChatbotApi = async (chatbotId: number, token: string) => {
 		}),
 	});
 
+	if (!res.ok) {
+		throw res.statusText;
+	}
+
 	const data = await res.json();
 	return data;
 };
@@ -33,10 +37,11 @@ export const updateChatbotStatusApi = async (
 		}),
 	});
 
-	const data = await res.json();
 	if (!res.ok) {
-		throw data;
+		throw res.statusText;
 	}
+
+	const data = await res.json();
 	return data;
 };
 
@@ -56,6 +61,10 @@ export const updateChatbotNameApi = async (
 			chatbot_name: newName,
 		}),
 	});
+
+	if (!res.ok) {
+		throw res.statusText;
+	}
 
 	const data = await res.json();
 	return data;
@@ -77,6 +86,10 @@ export const updateChatbotDomainsApi = async (
 			domains: domains,
 		}),
 	});
+
+	if (!res.ok) {
+		throw res.statusText;
+	}
 
 	const data = await res.json();
 	return data;

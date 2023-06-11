@@ -88,11 +88,7 @@ const Landing: React.FC = () => {
 						mt: 12,
 					}}
 				>
-					<Image
-						aspectRatio={isMobile ? 6 / 4 : 10 / 6}
-						sx={{ height: "100%" }}
-						src={Home}
-					/>
+					<Image aspectRatio={isMobile ? 6 / 4 : 10 / 6} src={Home} />
 				</Box>
 			</section>
 

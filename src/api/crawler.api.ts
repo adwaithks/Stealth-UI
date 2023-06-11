@@ -11,7 +11,11 @@ export const getAllUrlsApi = async (url: string, token: string) => {
 			url: url,
 		}),
 	});
+
+	if (!res.ok) {
+		throw res.statusText;
+	}
+
 	const data = await res.json();
-	console.log("data: ", data);
 	return data.message;
 };

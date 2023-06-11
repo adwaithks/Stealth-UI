@@ -16,6 +16,11 @@ export const retrainChatbotApi = async (
 			knowledge_base: knowledgeBase,
 		}),
 	});
+
+	if (!res.ok) {
+		throw res.statusText;
+	}
+
 	const data = await res.json();
 	return data;
 };

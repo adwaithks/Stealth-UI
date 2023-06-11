@@ -49,7 +49,7 @@ const CreateNewChatbot: React.FC = () => {
 				dispatch(
 					createNewChatbot({ name, urls: checkedUrls, token })
 				).then((res: any) => {
-					if (!res.error.message) navigate("/app");
+					if (!res.error.message) navigate("/app", { replace: true });
 				});
 			})
 			.catch(() => {

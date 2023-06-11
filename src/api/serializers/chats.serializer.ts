@@ -40,6 +40,5 @@ export const chatByUserSessionId = (chats: ChatDTO[]) => {
 		chatByUser[user].sort((a: any, b: any) => a.timestamp - b.timestamp);
 	}
 
-	console.log("yo: ", chatByUser);
 	return chatByUser;
 };

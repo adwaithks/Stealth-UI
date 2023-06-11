@@ -41,12 +41,6 @@ const ChatbotSettings: React.FC<{
 }> = ({ domains, name, status }) => {
 	const dispatch = useAppDispatch();
 	const deleteChatbotApiStatus = useSelector(deleteChatbotApiStatusSelector);
-	// const udpateChatbotNameApiStatus = useSelector(
-	// 	updateChatbotNameApiStatusSelector
-	// );
-	// const updateChatbotStatusApiStatus = useSelector(
-	// 	udpateChatbotStatusApiSelector
-	// );
 
 	const navigate = useNavigate();
 
@@ -107,7 +101,12 @@ const ChatbotSettings: React.FC<{
 						return;
 					}
 					dispatch(
-						updateChatbotName({ chatbotId, newName, token })
+						updateChatbotName({
+							chatbotId,
+							newName,
+							oldName: name,
+							token,
+						})
 					).catch(() => {
 						navigate("/app");
 					});
@@ -131,7 +130,7 @@ const ChatbotSettings: React.FC<{
 						navigate("/signin");
 						return;
 					}
-					setNewStatus(newStatus);
+					// setNewStatus(newStatus);
 					dispatch(
 						udpateChatbotStatus({ chatbotId, newStatus, token })
 					);
@@ -155,8 +154,7 @@ const ChatbotSettings: React.FC<{
 						navigate("/signin");
 						return;
 					}
-					console.log("inside : ", newDomains);
-					setChatbotDomains(newDomains);
+					// setChatbotDomains(newDomains);
 					dispatch(
 						updateChatbotDomains({
 							chatbotId,
@@ -174,19 +172,6 @@ const ChatbotSettings: React.FC<{
 	const handleAddNewDomain = (newDomain: string) => {
 		if (newDomain.length === 0) {
 			window.alert("Please enter a domain!");
-			return;
-		}
-
-		const lastCharacter = newDomain.slice(-1);
-		const specialCharacterPattern = /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/;
-
-		if (specialCharacterPattern.test(lastCharacter)) {
-			window.alert("Please enter a protocol : http or https");
-			return;
-		}
-
-		if (!newDomain.includes("http") && !newDomain.includes("https")) {
-			window.alert("Please enter a protocol : http or https");
 			return;
 		}
 
@@ -222,7 +207,6 @@ const ChatbotSettings: React.FC<{
 					navigate("/signin");
 				});
 
-			setChatbotDomains((prev) => [...prev, `${newDomain}`]);
 			setNewDomain("");
 		} else return;
 	};
@@ -242,8 +226,7 @@ const ChatbotSettings: React.FC<{
 					sx={{ width: 400, mr: 3 }}
 					value={newName}
 					onChange={(e) => {
-						if (e.target.value.length > 0 && e.target.value != name)
-							setNewName(e.target.value);
+						setNewName(e.target.value);
 					}}
 					disabled={isNameEditing ? false : true}
 				/>
@@ -364,11 +347,9 @@ const ChatbotSettings: React.FC<{
 											p: 1,
 										}}
 										onClick={() => {
-											console.log("before: ", domains);
 											const domains_ = [
 												...domains,
 											].filter((d) => d !== domain);
-											console.log("after: ", domains_);
 											handleRemoveDomain(domains_);
 										}}
 									/>

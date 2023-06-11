@@ -64,10 +64,12 @@ export const updateChatbotName = createAsyncThunk(
 			chatbotId,
 			newName,
 			token,
+			oldName,
 		}: {
 			chatbotId: number;
 			newName: string;
 			token: string;
+			oldName: string;
 		},
 		{ dispatch }
 	) => {
@@ -84,11 +86,12 @@ export const updateChatbotName = createAsyncThunk(
 			});
 			return data;
 		} catch (err: any) {
+			dispatch(chatbotsActions.updateCurrentChatbotName(oldName));
 			toast({
 				title: "Something went wrong",
 				description: err?.message
 					? err.message
-					: "Name updation failed!",
+					: "Failed to update chatbot name!",
 				status: "error",
 				duration: 9000,
 				isClosable: true,
@@ -164,7 +167,7 @@ export const deleteChatbot = createAsyncThunk(
 				title: "Something went wrong",
 				description: err?.message
 					? err.message
-					: "Chatbot deletion failed!",
+					: "Failed to delete chatbot",
 				status: "error",
 				duration: 9000,
 				isClosable: true,

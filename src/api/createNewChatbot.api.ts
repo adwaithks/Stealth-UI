@@ -17,10 +17,10 @@ export const createNewChatbotApi = async (
 			urls: urls,
 		}),
 	});
+
 	if (!res.ok) {
 		throw { message: "Something went wrong!" };
 	}
 	const data = await res.json();
-	console.log({ data });
 	return createNewChatbotSerializer(data);
 };

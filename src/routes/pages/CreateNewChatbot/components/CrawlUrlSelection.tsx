@@ -33,7 +33,7 @@ const CrawlUrlSelection: React.FC<{
 	const [url, setUrl] = useState("");
 	const [newLink, setNewLink] = useState("");
 
-	console.log({ urls, checkedUrls });
+	console.log(checkedUrls);
 
 	const addNewLink = () => {
 		if (newLink.length > 0 && !urls.includes(newLink))
