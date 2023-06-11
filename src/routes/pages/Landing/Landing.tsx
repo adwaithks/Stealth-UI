@@ -9,8 +9,7 @@ import {
 	Text,
 } from "@chakra-ui/react";
 import React from "react";
-import Home from "./home.png";
-import Homemob from "./homemob.png";
+import Home from "./home2.png";
 import Features from "./components/Features";
 import { useMediaQuery } from "@chakra-ui/react";
 import { ArrowForwardIcon } from "@chakra-ui/icons";
@@ -35,23 +34,25 @@ const Landing: React.FC = () => {
 					height: "100%",
 					alignItems: "center",
 					flexDirection: "column",
-					marginBottom: 150,
+					marginBottom: 100,
 				}}
 			>
 				<Text
 					sx={{
 						fontSize: {
-							base: "6xl",
-							md: "7xl",
-							lg: "8xl",
+							base: "5xl",
+							md: "6xl",
+							lg: "7xl",
 						},
-
-						mb: isMobile ? 5 : 0,
+						mb: 5,
 						mt: isMobile ? 5 : 0,
+						textAlign: "center",
+						textDecoration: "underline",
+						textDecorationColor: "yellow",
 					}}
 					fontWeight="extrabold"
 				>
-					Assist Desk
+					Always On. Always Helpful.
 				</Text>
 
 				<Container
@@ -83,17 +84,14 @@ const Landing: React.FC = () => {
 				<Box
 					sx={{
 						mx: 2,
-						boxShadow: "2px 2px 10px gray",
 						borderRadius: 5,
 						mt: 12,
-						height: isMobile ? 250 : 400,
-						border: "solid 3px",
 					}}
 				>
 					<Image
-						aspectRatio={isMobile ? 5 / 4 : 12 / 4.5}
+						aspectRatio={isMobile ? 6 / 4 : 10 / 6}
 						sx={{ height: "100%" }}
-						src={isMobile ? Homemob : Home}
+						src={Home}
 					/>
 				</Box>
 			</section>
@@ -169,7 +167,7 @@ const Landing: React.FC = () => {
 						>
 							<Input
 								sx={{ border: "lightgray solid 2px" }}
-								placeholder="lemuurofficial@gmail.com"
+								placeholder="official@assistdesk.in"
 								type="email"
 							/>
 							<Button

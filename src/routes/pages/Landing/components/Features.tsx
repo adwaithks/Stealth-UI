@@ -12,7 +12,7 @@ const Features: React.FC = () => {
 				flexDirection: "column",
 				borderRadius: 5,
 				justifyContent: "center",
-				marginBottom: 150,
+				marginBottom: 100,
 			}}
 		>
 			<Box sx={{ mb: 5, textAlign: "center" }}>

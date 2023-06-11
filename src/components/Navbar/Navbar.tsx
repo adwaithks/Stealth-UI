@@ -16,15 +16,11 @@ const Navbar: React.FC = () => {
 	return (
 		<Box
 			sx={{
-				// borderBottom: "lightgray solid 0.5px",
 				display: "flex",
 				backgroundColor: "rgba(0,0,0,0.05)",
 				justifyContent: "space-between",
 				alignItems: "center",
 				height: 65,
-				// backgroundColor: "black",
-				// borderRadius: 50,
-				// boxShadow: "0 0 1px lightgray",
 				px: 10,
 				mb: 5,
 				color: "white",
@@ -35,7 +31,7 @@ const Navbar: React.FC = () => {
 					color="black"
 					sx={{ cursor: "pointer" }}
 					onClick={() => navigate("/app")}
-					fontWeight="white"
+					fontWeight="bold"
 				>
 					Assist Desk
 				</Text>
