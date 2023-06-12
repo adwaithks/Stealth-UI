@@ -1,4 +1,4 @@
-import { Box, Button, Link, Text } from "@chakra-ui/react";
+import { Box, Button, Link, Text, useMediaQuery } from "@chakra-ui/react";
 import {
 	SignInButton,
 	SignOutButton,
@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 const Navbar: React.FC = () => {
 	const navigate = useNavigate();
 	const { redirectToUserProfile } = useClerk();
+	const [isMobile] = useMediaQuery("(max-width: 768px)");
 
 	return (
 		<Box
@@ -62,6 +63,24 @@ const Navbar: React.FC = () => {
 					<Link color="black" href="/" sx={{ mr: 5 }}>
 						Home
 					</Link>
+					{!isMobile && (
+						<>
+							<Link
+								color="black"
+								onClick={() => redirectToUserProfile()}
+								sx={{ mr: 4 }}
+							>
+								Pricing
+							</Link>
+							<Link
+								color="black"
+								onClick={() => redirectToUserProfile()}
+								sx={{ mr: 4 }}
+							>
+								Contact Us
+							</Link>
+						</>
+					)}
 					<Button size="sm" bgColor="whatsapp.500">
 						<SignInButton
 							afterSignInUrl="/app"

@@ -14,6 +14,7 @@ const RootLayout: React.FC = () => {
 					mx: {
 						lg: 10,
 						sm: 5,
+						xs: 2,
 					},
 				}}
 			>

@@ -15,6 +15,8 @@ import { useMediaQuery } from "@chakra-ui/react";
 import { ArrowForwardIcon } from "@chakra-ui/icons";
 import HowItWorks from "./components/HowItWorks";
 import { useClerk } from "@clerk/clerk-react";
+import TrainChatbotNow from "./components/TrainChatbotNow";
+import Footer from "../Footer/Footer";
 
 const Landing: React.FC = () => {
 	const [isMobile] = useMediaQuery("(max-width: 768px)");
@@ -95,38 +97,7 @@ const Landing: React.FC = () => {
 			<Features />
 			<HowItWorks />
 
-			<Box
-				sx={{
-					p: 10,
-					boxShadow: "0 0 2px lightgray",
-					backgroundColor: "black",
-					borderRadius: 5,
-					flexDirection: "column",
-					display: "flex",
-					alignItems: "center",
-					justifyContent: "center",
-				}}
-			>
-				<Text color="white" fontWeight="extrabold" fontSize="2xl">
-					Train your chatbot now and unlock new heights of customer
-					support!
-				</Text>
-				<Container color="whitesmoke">
-					Achieve round-the-clock customer support with our AI chatbot
-					platform.
-				</Container>
-
-				<Button
-					onClick={() => redirectToSignIn()}
-					size="lg"
-					bg="white"
-					color="black"
-					sx={{ mt: 5 }}
-				>
-					Create your chatbot now
-					<ArrowForwardIcon sx={{ ml: 1 }} />
-				</Button>
-			</Box>
+			<TrainChatbotNow />
 
 			<Box
 				sx={{
@@ -150,7 +121,7 @@ const Landing: React.FC = () => {
 						Today!
 					</Text>
 				</Box>
-				<Container sx={{ mt: 5 }}>
+				<Container sx={{ mt: 5, mb: 5 }}>
 					<FormControl>
 						<FormLabel>Enter your email address</FormLabel>
 						<Box
@@ -178,16 +149,7 @@ const Landing: React.FC = () => {
 				</Container>
 			</Box>
 
-			<Box
-				sx={{
-					mt: 50,
-					display: "flex",
-					alignItems: "center",
-					justifyContent: "center",
-				}}
-			>
-				<Text fontSize="sm">All rights reserved Assist Desk.</Text>
-			</Box>
+			<Footer />
 		</Box>
 	);
 };

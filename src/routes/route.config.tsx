@@ -7,20 +7,22 @@ import { SignedIn, SignedOut } from "@clerk/clerk-react";
 import Landing from "./pages/Landing/Landing";
 import CreateNewChatbot from "./pages/CreateNewChatbot/CreateNewChatbot";
 import Chats from "./pages/Chats/Chats";
+import TermsNConditions from "./pages/TermsNConditions/TermsNConditions";
+import Pricing from "./pages/Pricing/Pricing";
+import Contact from "./pages/Contact/Contact";
 
 const RouteConfig: React.FC = () => {
 	return (
 		<BrowserRouter>
 			<Routes>
 				<Route path="/" element={<RootLayout />}>
-					<Route
-						index
-						element={
-							<>
-								<Landing />
-							</>
-						}
-					/>
+					<Route index element={<Landing />} />
+
+					<Route path="/terms" element={<TermsNConditions />} />
+
+					<Route path="/pricing" element={<Pricing />} />
+
+					<Route path="/contact" element={<Contact />} />
 
 					<Route
 						path="app"
