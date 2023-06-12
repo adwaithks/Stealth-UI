@@ -35,6 +35,12 @@ const Footer: React.FC = () => {
 				</Link>
 				<Link
 					style={{ marginBottom: 8, marginRight: 8, marginLeft: 8 }}
+					to="/privacy"
+				>
+					Privacy
+				</Link>
+				<Link
+					style={{ marginBottom: 8, marginRight: 8, marginLeft: 8 }}
 					to="/contact"
 				>
 					Contact Us

@@ -10,6 +10,7 @@ import Chats from "./pages/Chats/Chats";
 import TermsNConditions from "./pages/TermsNConditions/TermsNConditions";
 import Pricing from "./pages/Pricing/Pricing";
 import Contact from "./pages/Contact/Contact";
+import Privacy from "./pages/Privacy/Privacy";
 
 const RouteConfig: React.FC = () => {
 	return (
@@ -23,6 +24,8 @@ const RouteConfig: React.FC = () => {
 					<Route path="/pricing" element={<Pricing />} />
 
 					<Route path="/contact" element={<Contact />} />
+
+					<Route path="/privacy" element={<Privacy />} />
 
 					<Route
 						path="app"

@@ -67,14 +67,14 @@ const Navbar: React.FC = () => {
 						<>
 							<Link
 								color="black"
-								onClick={() => redirectToUserProfile()}
+								onClick={() => navigate("/pricing")}
 								sx={{ mr: 4 }}
 							>
 								Pricing
 							</Link>
 							<Link
 								color="black"
-								onClick={() => redirectToUserProfile()}
+								onClick={() => navigate("/contact")}
 								sx={{ mr: 4 }}
 							>
 								Contact Us

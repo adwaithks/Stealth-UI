@@ -16,7 +16,11 @@ const TermsNConditions: React.FC = () => {
 	const navigate = useNavigate();
 
 	return (
-		<Box sx={{ mx: 2 }}>
+		<Box
+			sx={{
+				mx: 2,
+			}}
+		>
 			<Box sx={{ ml: 2 }}>
 				<Button
 					onClick={() => navigate("/", { replace: true })}
@@ -38,48 +42,74 @@ const TermsNConditions: React.FC = () => {
 				</Text>
 			</Box>
 			<Divider />
-			<Box mt={5}>
-				<Heading fontWeight="bold" fontSize="2xl">
-					Billing & Refunds
-				</Heading>
-				<Text>
-					- We charge you for access to the product in monthly and
-					yearly plans.
-				</Text>
-				<Text>
-					- Due to the nature of our product, we currently do not
-					offer refunds, either partial or in full.
-				</Text>
-				<Text>
-					- You can easily cancel your subscription at any time you
-					like. We will no longer charge you anything once you cancel
-					your subscription.
-				</Text>
-				<Text>
-					- We may change our pricing, pricing policies, features and
-					access restrictions at any time.
-				</Text>
-			</Box>
+			<Box
+				sx={{
+					mx: {
+						md: 10,
+						base: 3,
+					},
+				}}
+			>
+				<Box mt={5}>
+					<Heading mb={2} fontWeight="bold" fontSize="2xl">
+						Billing & Refunds
+					</Heading>
+					<Text mb={5}>
+						Subscription Charges: We charge a monthly fee for
+						accessing our product as part of our monthly plan.
+					</Text>
+					<Text mb={5}>
+						Refunds: Due to the nature of our product, we currently
+						do not offer refunds, whether partial or in full.
+					</Text>
+					<Text mb={5}>
+						Subscription Cancellation: You have the freedom to
+						cancel your subscription at any time. Once you cancel,
+						no further charges will be applied.
+					</Text>
+					<Text mb={5}>
+						Pricing and Policy Changes: We reserve the right to
+						modify our pricing, pricing policies, features, and
+						access restrictions at any time. We will notify you in
+						advance of any significant changes.
+					</Text>
+				</Box>
 
-			<Box mt={5}>
-				<Heading fontSize="2xl">Emails</Heading>
-				<Text>
-					- We may use your email to contact you about your account,
-					product updates, and other marketing activities. You can
-					unsubscribe from these emails at any time you like.
-				</Text>
-			</Box>
+				<Box mt={5}>
+					<Heading mb={2} fontSize="2xl">
+						Emails
+					</Heading>
+					<Text mb={5}>
+						Communication via Email: We may use your provided email
+						address to contact you regarding your account, product
+						updates, important announcements, and other relevant
+						information.
+					</Text>
+					<Text mb={5}>
+						Opting Out: You have the option to unsubscribe from
+						these emails at any time by following the instructions
+						provided in the emails or by contacting our support
+						team.
+					</Text>
+				</Box>
 
-			<Box mt={5} mb={10}>
-				<Heading fontSize="2xl">Conditions</Heading>
-				<Text>
-					- We reserve the right to change / amend the policy at any
-					time.
-				</Text>
-				<Text>
-					- By continuing to use our platform, you agree to these
-					terms and conditions.
-				</Text>
+				<Box mt={5} mb={10}>
+					<Heading mb={2} fontSize="2xl">
+						Conditions
+					</Heading>
+					<Text mb={5}>
+						Policy Amendments: We reserve the right to change or
+						amend this policy at any time without prior notice. Any
+						modifications will be effective immediately upon posting
+						the updated policy on our website. It is your
+						responsibility to review the policy periodically.
+					</Text>
+					<Text mb={5}>
+						Agreement to Terms and Conditions: By continuing to use
+						our platform, you agree to abide by and be bound by
+						these terms and conditions.
+					</Text>
+				</Box>
 			</Box>
 
 			<TrainChatbotNow />
