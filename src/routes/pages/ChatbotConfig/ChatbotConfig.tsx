@@ -122,12 +122,12 @@ const ChatbotConfig: React.FC = () => {
 						}}
 						onClick={() => {
 							setValue(
-								`<script id="stealth-chatbot-widget" data-id=${chatbotId} src="https://assistdesk.com/stealth.js"></script>`
+								`<script id="stealth-chatbot-widget" data-id="${chatbotId}" data-bot="${chatbot.chatbotHashId}" src="https://assistdesk.com/stealth.js"></script>`
 							);
 							onCopy();
 						}}
 					>
-						{`<script id="stealth-chatbot-widget" data-id=${chatbotId} src="https://assistdesk.com/stealth.js"></script>`}
+						{`<script id="stealth-chatbot-widget" data-id="${chatbotId}" data-bot="${chatbot.chatbotHashId}" src="https://assistdesk.com/stealth.js"></script>`}
 					</Tag>
 					<CopyIcon sx={{ ml: 2 }} />
 					{hasCopied && (
@@ -140,7 +140,14 @@ const ChatbotConfig: React.FC = () => {
 
 			<Box>
 				<Tabs>
-					<TabList>
+					<TabList
+						sx={{
+							position: "sticky",
+							top: 0,
+							bgColor: "white",
+							backdropFilter: "blur(40px)",
+						}}
+					>
 						<Tab>Knowledge Base</Tab>
 						<Tab>Settings</Tab>
 						<Tab>Preview</Tab>
@@ -155,6 +162,7 @@ const ChatbotConfig: React.FC = () => {
 						</TabPanel>
 						<TabPanel>
 							<ChatbotSettings
+								position={chatbot?.position || ""}
 								name={chatbot?.chatbotName || ""}
 								domains={chatbot?.domains || []}
 								status={chatbot?.status || ""}

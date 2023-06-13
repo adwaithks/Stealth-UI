@@ -7,6 +7,7 @@ import {
 	FormLabel,
 	Input,
 	InputGroup,
+	Select,
 	Text,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
@@ -25,12 +26,9 @@ import {
 	udpateChatbotStatus,
 	updateChatbotDomains,
 	updateChatbotName,
+	updateChatbotPosition,
 } from "../../../../store/thunks/chatbotSettings.thunk";
-import {
-	deleteChatbotApiStatusSelector,
-	// udpateChatbotStatusApiSelector,
-	// updateChatbotNameApiStatusSelector,
-} from "../../../../store/selectors/chatbots.selector";
+import { deleteChatbotApiStatusSelector } from "../../../../store/selectors/chatbots.selector";
 import { useNavigate } from "react-router-dom";
 import { useClerk } from "@clerk/clerk-react";
 
@@ -38,7 +36,8 @@ const ChatbotSettings: React.FC<{
 	domains: string[];
 	name: string;
 	status: string;
-}> = ({ domains, name, status }) => {
+	position: string;
+}> = ({ domains, name, status, position }) => {
 	const dispatch = useAppDispatch();
 	const deleteChatbotApiStatus = useSelector(deleteChatbotApiStatusSelector);
 
@@ -49,15 +48,44 @@ const ChatbotSettings: React.FC<{
 	const [newName, setNewName] = useState("");
 	const [isNameEditing, setIsNameEditing] = useState(false);
 	const [newStatus, setNewStatus] = useState(status);
+	const [chatbotPosition, setChatbotPosition] = useState<string>("");
+
 	const chatbotId = Number(window.location.pathname.split("/")[3] || -1);
 
 	useEffect(() => {
 		setChatbotDomains(domains || []);
 		setNewName(name);
 		setNewStatus(status);
-	}, [domains, name, status]);
+		setChatbotPosition(position);
+	}, [domains, name, status, position]);
 
 	const { session } = useClerk();
+
+	const handleChatbotPositionChange:
+		| React.ChangeEventHandler<HTMLSelectElement>
+		| undefined = (e) => {
+		const newPosition = e.target.value;
+		if (
+			window.confirm(
+				`Are you sure you want to change the position of chatbot ?`
+			)
+		)
+			session
+				?.getToken({ template: "stealth-token-template" })
+				.then((token) => {
+					if (!token) {
+						navigate("/");
+						return;
+					}
+					dispatch(
+						updateChatbotPosition({ chatbotId, newPosition, token })
+					);
+				})
+				.catch(() => {
+					navigate("/");
+				});
+		else return;
+	};
 
 	const handleDeleteChatbot = () => {
 		if (
@@ -74,7 +102,7 @@ const ChatbotSettings: React.FC<{
 					}
 					dispatch(deleteChatbot({ chatbotId, token }))
 						.then(() => {
-							navigate("/app");
+							navigate("/app", { replace: true });
 						})
 						.catch(() => {
 							navigate("/app");
@@ -130,7 +158,6 @@ const ChatbotSettings: React.FC<{
 						navigate("/signin");
 						return;
 					}
-					// setNewStatus(newStatus);
 					dispatch(
 						udpateChatbotStatus({ chatbotId, newStatus, token })
 					);
@@ -268,7 +295,11 @@ const ChatbotSettings: React.FC<{
 			</Box>
 			<Box>
 				<FormControl display="flex" alignItems="center">
-					<FormLabel htmlFor="email-alerts" mb="0">
+					<FormLabel
+						fontWeight="normal"
+						htmlFor="email-alerts"
+						mb="0"
+					>
 						Activate or Inactivate Chatbot
 					</FormLabel>
 					<Switch
@@ -320,7 +351,15 @@ const ChatbotSettings: React.FC<{
 						<AddIcon sx={{ mr: 2 }} /> Add Domain
 					</Button>
 				</Box>
-				<Box sx={{ mt: 3 }}>
+				<Box
+					sx={{
+						mt: 3,
+						display: "flex",
+						alignItems: "center",
+						flexWrap: "wrap",
+						width: 350,
+					}}
+				>
 					{chatbotDomains.map((domain: string) => {
 						if (domain.length > 0)
 							return (
@@ -329,8 +368,9 @@ const ChatbotSettings: React.FC<{
 									sx={{
 										display: "flex",
 										width: "fit-content",
-										backgroundColor: "whitesmoke",
-										p: 1,
+										backgroundColor: "rgba(0,0,0,0.05)",
+										boxShadow: "0 0 2px lightgray",
+										p: 2,
 										borderRadius: 5,
 										mb: 1,
 										alignItems: "center",
@@ -338,6 +378,7 @@ const ChatbotSettings: React.FC<{
 								>
 									<Text fontSize="sm">{domain}</Text>
 									<CloseIcon
+										fontSize="md"
 										sx={{
 											ml: 2,
 											backgroundColor: "black",
@@ -356,6 +397,41 @@ const ChatbotSettings: React.FC<{
 								</Box>
 							);
 					})}
+				</Box>
+			</Box>
+
+			<Divider sx={{ my: 5 }} orientation="horizontal" />
+
+			<Box>
+				<Box sx={{ mb: 5 }}>
+					<Text fontSize="lg" fontWeight="bold">
+						Chatbot Widget Position
+					</Text>
+					<Text sx={{ color: "gray" }}>
+						Position where the chatbot icon will be displayed on
+						your website
+					</Text>
+				</Box>
+				<Box>
+					<Select
+						onChange={handleChatbotPositionChange}
+						width={200}
+						placeholder="Select option"
+						value={chatbotPosition}
+					>
+						<option
+							selected={chatbotPosition === "bottomright"}
+							value="bottomright"
+						>
+							Bottom Right
+						</option>
+						<option
+							selected={chatbotPosition === "bottomleft"}
+							value="bottomleft"
+						>
+							Bottom Left
+						</option>
+					</Select>
 				</Box>
 			</Box>
 

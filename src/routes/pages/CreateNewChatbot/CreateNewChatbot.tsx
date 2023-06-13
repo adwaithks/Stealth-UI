@@ -27,9 +27,16 @@ const CreateNewChatbot: React.FC = () => {
 
 	useEffect(() => {
 		dispatch(crawlerActions.resetCrawlStates());
+		// dispatch(chatbotsActions.resetCreateNewChatbotStatus());
 	}, [dispatch]);
 
 	const createAndTrainNewChatbot = (name: string, checkedUrls: string[]) => {
+		if (
+			!window.confirm(
+				`Are you sure you want to start training your chatbot based of contents in the selected pages ?`
+			)
+		)
+			return;
 		if (name.length === 0) {
 			alert("Please provide a name for the chatbot!");
 			return;
@@ -60,6 +67,7 @@ const CreateNewChatbot: React.FC = () => {
 		<Box>
 			<Box sx={{ mb: 2 }}>
 				<Button
+					disabled={createNewChatbotApiStatus === "pending"}
 					onClick={() => navigate("/app", { replace: true })}
 					size="sm"
 					fontWeight="hairline"

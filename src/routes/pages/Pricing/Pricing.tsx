@@ -70,7 +70,7 @@ const Pricing: React.FC = () => {
 				<PriceCard
 					title="Growth"
 					pricingInfo={{
-						price: "2000",
+						price: "1999",
 						type: "month",
 					}}
 					features={[

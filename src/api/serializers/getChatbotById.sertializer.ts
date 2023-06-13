@@ -14,5 +14,7 @@ export const getChatbotByIdSerializer = (chatbot: ChatbotDTO): Chatbot => {
 		knowledgeBase: chatbot.knowledge_base,
 		domains: domains || [],
 		status: chatbot.status,
+		position: chatbot.position,
+		chatbotHashId: chatbot.chatbot_hash_id,
 	};
 };

@@ -1,4 +1,11 @@
-import { Box, Button, Divider, Heading, Text } from "@chakra-ui/react";
+import {
+	Box,
+	Button,
+	Divider,
+	Heading,
+	Text,
+	useMediaQuery,
+} from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import TrainChatbotNow from "../Landing/components/TrainChatbotNow";
 import Footer from "../Footer/Footer";
@@ -12,6 +19,8 @@ const TermsNConditions: React.FC = () => {
 			behavior: "smooth",
 		});
 	}, []);
+
+	const [isMobile] = useMediaQuery("(max-width: 768px)");
 
 	const navigate = useNavigate();
 
@@ -44,6 +53,7 @@ const TermsNConditions: React.FC = () => {
 			<Divider />
 			<Box
 				sx={{
+					width: isMobile ? "100%" : "90%",
 					mx: {
 						md: 10,
 						base: 3,

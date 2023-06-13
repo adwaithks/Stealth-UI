@@ -123,6 +123,10 @@ const CrawlUrlSelection: React.FC<{
 									placeholder="https://yourwebsite.com/something"
 								/>
 								<Button
+									sx={{
+										display: "flex",
+										alignItems: "center",
+									}}
 									bgColor="black"
 									color="white"
 									onClick={addNewLink}
