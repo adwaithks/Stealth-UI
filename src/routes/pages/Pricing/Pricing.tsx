@@ -50,7 +50,7 @@ const Pricing: React.FC = () => {
 					flexWrap: "wrap",
 					justifyContent: "center",
 					gap: 10,
-					mb: 10,
+
 					mt: 10,
 				}}
 			>
@@ -70,17 +70,21 @@ const Pricing: React.FC = () => {
 				<PriceCard
 					title="Growth"
 					pricingInfo={{
-						price: "2000",
+						price: "1999",
 						type: "month",
 					}}
 					features={[
 						"Create 5 Chatbots",
 						"Train each chatbot on 5 web pages",
 						"Unlimited manual training data addition",
-						"More features incoming tailored to customer support! 🚀",
+						"More features incoming! 🚀",
 					]}
 				/>
 			</Box>
+			<Text mb={10} mt={10} textAlign="center" color="gray">
+				* The pricing is exclusive of taxes and additional local tax may
+				be collected.
+			</Text>
 
 			<TrainChatbotNow />
 			<Footer />

@@ -55,39 +55,38 @@ const TermsNConditions: React.FC = () => {
 						Billing & Refunds
 					</Heading>
 					<Text mb={5}>
-						Subscription Charges: We charge a monthly fee for
-						accessing our product as part of our monthly plan.
+						Subscription Charges: We offer various pricing plans for
+						subscribing the service.
 					</Text>
 					<Text mb={5}>
-						Refunds: Due to the nature of our product, we currently
-						do not offer refunds, whether partial or in full.
+						Refunds: No refund of subscription charges, whether
+						partial or in full.
 					</Text>
 					<Text mb={5}>
 						Subscription Cancellation: You have the freedom to
 						cancel your subscription at any time. Once you cancel,
-						no further charges will be applied.
+						no refund is possible, even though the subscription is
+						cancelled before the expiry of the plan.
 					</Text>
 					<Text mb={5}>
 						Pricing and Policy Changes: We reserve the right to
 						modify our pricing, pricing policies, features, and
-						access restrictions at any time. We will notify you in
-						advance of any significant changes.
+						access restrictions at any time without further notice.
 					</Text>
 				</Box>
 
 				<Box mt={5}>
 					<Heading mb={2} fontSize="2xl">
-						Emails
+						Contact
 					</Heading>
 					<Text mb={5}>
-						Communication via Email: We may use your provided email
-						address to contact you regarding your account, product
-						updates, important announcements, and other relevant
-						information.
+						Notifications on product updates, important announcement
+						and other relevant information will be communicated to
+						the email IDs provided by the subscribers.
 					</Text>
 					<Text mb={5}>
-						Opting Out: You have the option to unsubscribe from
-						these emails at any time by following the instructions
+						You have the option to unsubscribe from the
+						Notifications at any time by following the instructions
 						provided in the emails or by contacting our support
 						team.
 					</Text>
@@ -99,10 +98,10 @@ const TermsNConditions: React.FC = () => {
 					</Heading>
 					<Text mb={5}>
 						Policy Amendments: We reserve the right to change or
-						amend this policy at any time without prior notice. Any
+						amend the policies at any time without prior notice. Any
 						modifications will be effective immediately upon posting
-						the updated policy on our website. It is your
-						responsibility to review the policy periodically.
+						the updated policy on our website. Please read the
+						company policies before subscribing our services.
 					</Text>
 					<Text mb={5}>
 						Agreement to Terms and Conditions: By continuing to use

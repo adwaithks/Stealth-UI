@@ -46,6 +46,9 @@ const Footer: React.FC = () => {
 					Contact Us
 				</Link>
 			</Box>
+			<Box>
+				<Text color="gray">Made in India</Text>
+			</Box>
 		</Box>
 	);
 };
