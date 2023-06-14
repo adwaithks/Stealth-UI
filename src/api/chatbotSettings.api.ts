@@ -70,6 +70,31 @@ export const updateChatbotNameApi = async (
 	return data;
 };
 
+export const updateChatbotPositionApi = async (
+	chatbotId: number,
+	newPosition: string,
+	token: string
+) => {
+	const res = await fetch(BASE_URL + "/api/v1/chatbot/position/update", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+			"STEALTH-ACCESS-TOKEN": token,
+		},
+		body: JSON.stringify({
+			chatbot_id: chatbotId,
+			position: newPosition,
+		}),
+	});
+
+	if (!res.ok) {
+		throw res.statusText;
+	}
+
+	const data = await res.json();
+	return data;
+};
+
 export const updateChatbotDomainsApi = async (
 	chatbotId: number,
 	domains: string[],

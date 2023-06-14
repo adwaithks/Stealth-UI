@@ -9,6 +9,7 @@ import {
 	udpateChatbotStatus,
 	updateChatbotDomains,
 	updateChatbotName,
+	updateChatbotPosition,
 } from "../thunks/chatbotSettings.thunk";
 import { getChatbotById } from "../thunks/getChatbotById.thunk";
 import { createStandaloneToast } from "@chakra-ui/react";
@@ -130,8 +131,12 @@ const chatbotsSlice = createSlice({
 		chatbotNameChangeApiStatus: "idle",
 		domainChangeApiStatus: "idle",
 		getChatbotByIdApiStatus: "idle",
+		chatbotPositionChangeApiStatus: "idle",
 	},
 	reducers: {
+		resetCreateNewChatbotStatus: (state) => {
+			state.createNewChatbotApiStatus = "idle";
+		},
 		updateCurrentChatbotStatus: (state, action) => {
 			state.currentChatbot.status = action.payload;
 		},
@@ -141,9 +146,21 @@ const chatbotsSlice = createSlice({
 		updateCurrentChatbotDomains: (state, action) => {
 			state.currentChatbot.domains = action.payload;
 		},
+		updateCurrentChatbotPosition: (state, action) => {
+			state.currentChatbot.position = action.payload;
+		},
 	},
 	extraReducers(builder) {
 		builder
+			.addCase(updateChatbotPosition.pending, (state) => {
+				state.chatbotPositionChangeApiStatus = "pending";
+			})
+			.addCase(updateChatbotPosition.fulfilled, (state) => {
+				state.chatbotPositionChangeApiStatus = "fulfilled";
+			})
+			.addCase(updateChatbotPosition.rejected, (state) => {
+				state.chatbotPositionChangeApiStatus = "rejected";
+			})
 			.addCase(getMyChatbots.pending, (state) => {
 				state.getMyChatbotsApiStatus = "pending";
 			})

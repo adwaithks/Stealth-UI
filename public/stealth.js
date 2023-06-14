@@ -10,10 +10,13 @@ styleSheet.insertRule(cssRule, 0);
 
 var scriptTag = document.getElementById("stealth-chatbot-widget");
 var chatbotId = Number(scriptTag.getAttribute("data-id"));
+var chatbotHashId = scriptTag.getAttribute("data-bot");
 
 const cookieName = "STEALTH_CHATBOT";
 const BASE_URL = "https://api.assistdesk.in";
 const ASSETS_URL = "https://www.assistdesk.in";
+// const BASE_URL = "http://localhost:8000";
+// const ASSETS_URL = "http://localhost:5173";
 let messages = [];
 let isTabletOrBelow = window.innerWidth <= 820 ? true : false;
 
@@ -104,7 +107,7 @@ function displayMessage(sender, message) {
 	messageContainer.scrollTop = messageContainer.scrollHeight;
 }
 
-function app() {
+function app({ position }) {
 	const chatHeader = document.createElement("div");
 	chatHeader.style.width = "100%";
 	chatHeader.style.height = "10%";
@@ -134,6 +137,8 @@ function app() {
 	chatHeaderClose.addEventListener("click", () => {
 		chatWindow.style.visibility = "hidden";
 		chatIcon.src = ASSETS_URL + "/lemuurchat.png";
+		chatIcon.style.height = "30px";
+		chatIcon.style.width = "35px";
 	});
 	const chatHeaderCloseIcon = document.createElement("img");
 	chatHeaderCloseIcon.src = ASSETS_URL + "/close.png";
@@ -143,14 +148,6 @@ function app() {
 	`;
 	chatHeaderClose.appendChild(chatHeaderCloseIcon);
 	chatHeader.appendChild(chatHeaderClose);
-
-	// Inner circle (white)
-	// const chatIconInnerCircle = document.createElement("div");
-	// chatIconInnerCircle.style.borderRadius = "50%";
-	// chatIconInnerCircle.style.border = "white solid 2px";
-	// chatIconInnerCircle.style.height = "60px";
-	// chatIconInnerCircle.style.width = "60px";
-	// chatIconCustom.appendChild(chatIconInnerCircle);
 
 	// Chatbot icon black
 	chatIconCustom.id = "chat-icon";
@@ -165,13 +162,14 @@ function app() {
 	chatIconCustom.style.textContent = "chat";
 	chatIconCustom.style.border = "white solid 1px";
 	chatIconCustom.style.cursor = "pointer";
-	chatIconCustom.style.right = "20px";
+	if (position === "bottomright") chatIconCustom.style.right = "20px";
+	else chatIconCustom.style.left = "20px";
 	chatIconCustom.style.zIndex = 90;
 	chatIconCustom.style.backgroundColor = "black";
 
 	chatIcon.src = ASSETS_URL + "/lemuurchat.png";
 	chatIcon.style.height = "30px";
-	chatIcon.style.width = "30px";
+	chatIcon.style.width = "35px";
 	chatIconCustom.appendChild(chatIcon);
 	document.body.appendChild(chatIconCustom);
 
@@ -194,7 +192,8 @@ function app() {
 		chatWindow.style.height = "470px";
 		chatWindow.style.position = "fixed";
 		chatWindow.style.bottom = "95px";
-		chatWindow.style.right = "10px";
+		if (position === "bottomright") chatWindow.style.right = "10px";
+		else chatWindow.style.left = "10px";
 		chatWindow.style.borderRadius = "5px";
 		chatWindow.style.width = "370px";
 	}
@@ -328,6 +327,15 @@ function app() {
 			chatWindow.style.visibility === "hidden"
 				? ASSETS_URL + "/lemuurchat.png"
 				: ASSETS_URL + "/close.png";
+		if (chatWindow.style.visibility !== "hidden") {
+			// close icon
+			chatIcon.style.height = "20px";
+			chatIcon.style.width = "20px";
+		} else {
+			// chatt icon
+			chatIcon.style.height = "30px";
+			chatIcon.style.width = "35px";
+		}
 	});
 
 	function scrollToBottom() {
@@ -422,17 +430,26 @@ function app() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-	fetch(BASE_URL + `/api/v1/chatbot/${chatbotId}/widgetstatus`, {
-		method: "GET",
+	fetch(BASE_URL + `/api/v1/chatbot/widgetstatus`, {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({
+			chatbot_id: chatbotId,
+			chatbot_hash: chatbotHashId,
+		}),
 	})
 		.then((res) => res.json())
 		.then((data) => {
 			let domains = [];
 			let status = "";
 			let match = false;
+			let position = "bottomright";
 			try {
 				domains = data.message.domains;
 				status = data.message.status;
+				position = data.message.position;
 
 				domains.forEach((domain) => {
 					const host =
@@ -466,7 +483,9 @@ document.addEventListener("DOMContentLoaded", () => {
 					document.cookie = cookie;
 				}
 
-				app();
+				app({
+					position,
+				});
 				displayMessage(
 					"bot",
 					"I am your AI support agent.  I can help you with any questions or inquiries you might have."

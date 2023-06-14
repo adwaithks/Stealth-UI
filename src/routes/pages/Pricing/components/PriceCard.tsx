@@ -1,4 +1,4 @@
-import { Box, Button, Text } from "@chakra-ui/react";
+import { Box, Button, Text, useMediaQuery } from "@chakra-ui/react";
 import React from "react";
 
 const PriceCard: React.FC<{
@@ -6,10 +6,12 @@ const PriceCard: React.FC<{
 	pricingInfo: { [key: string]: string };
 	features: string[];
 }> = ({ title, pricingInfo, features }) => {
+	const [isMobile] = useMediaQuery("(max-width: 468px)");
+
 	return (
 		<Box
 			sx={{
-				width: 310,
+				width: isMobile ? "90%" : 310,
 				height: 310,
 				boxShadow: "0 0 10px lightgray",
 				borderRadius: 5,

@@ -4,6 +4,7 @@ import {
 	deleteChatbotApi,
 	updateChatbotDomainsApi,
 	updateChatbotNameApi,
+	updateChatbotPositionApi,
 	updateChatbotStatusApi,
 } from "../../api/chatbotSettings.api";
 import { createStandaloneToast } from "@chakra-ui/react";
@@ -138,6 +139,52 @@ export const updateChatbotDomains = createAsyncThunk(
 				description: err?.message
 					? err.message
 					: "Domain updation failed!",
+				status: "error",
+				duration: 9000,
+				isClosable: true,
+				variant: "left-accent",
+			});
+			throw err;
+		}
+	}
+);
+
+export const updateChatbotPosition = createAsyncThunk(
+	"chatbots/updateChatbotPosition",
+	async (
+		{
+			chatbotId,
+			newPosition,
+			token,
+		}: {
+			chatbotId: number;
+			newPosition: string;
+			token: string;
+		},
+		{ dispatch }
+	) => {
+		try {
+			const data = await updateChatbotPositionApi(
+				chatbotId,
+				newPosition,
+				token
+			);
+			dispatch(chatbotsActions.updateCurrentChatbotPosition(newPosition));
+			toast({
+				title: "Success",
+				description: "Chatbot position updated successfully!",
+				status: "success",
+				duration: 9000,
+				isClosable: true,
+				variant: "left-accent",
+			});
+			return data;
+		} catch (err: any) {
+			toast({
+				title: "Something went wrong",
+				description: err?.message
+					? err.message
+					: "Failed to update chatbot position",
 				status: "error",
 				duration: 9000,
 				isClosable: true,

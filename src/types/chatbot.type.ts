@@ -6,6 +6,8 @@ export interface Chatbot {
 	lastUpdated: string;
 	domains: string[];
 	status: string;
+	position?: string;
+	chatbotHashId?: string;
 }
 
 export interface ChatbotDTO {
@@ -16,4 +18,6 @@ export interface ChatbotDTO {
 	last_updated: string;
 	domains: string;
 	status: string;
+	position?: string;
+	chatbot_hash_id?: string;
 }
