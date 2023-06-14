@@ -13,10 +13,10 @@ var chatbotId = Number(scriptTag.getAttribute("data-id"));
 var chatbotHashId = scriptTag.getAttribute("data-bot");
 
 const cookieName = "STEALTH_CHATBOT";
-const BASE_URL = "https://api.assistdesk.in";
-const ASSETS_URL = "https://www.assistdesk.in";
-// const BASE_URL = "http://localhost:8000";
-// const ASSETS_URL = "http://localhost:5173";
+// const BASE_URL = "https://api.assistdesk.in";
+// const ASSETS_URL = "https://www.assistdesk.in";
+const BASE_URL = "http://localhost:8000";
+const ASSETS_URL = "http://localhost:5173";
 let messages = [];
 let isTabletOrBelow = window.innerWidth <= 820 ? true : false;
 
@@ -107,7 +107,7 @@ function displayMessage(sender, message) {
 	messageContainer.scrollTop = messageContainer.scrollHeight;
 }
 
-function app({ position }) {
+function app({ position = "bottomright", name = "Customer Support" }) {
 	const chatHeader = document.createElement("div");
 	chatHeader.style.width = "100%";
 	chatHeader.style.height = "10%";
@@ -123,7 +123,7 @@ function app({ position }) {
 	chatHeader.style.padding = "10px 20px 10px 20px";
 
 	const chatHeaderText = document.createElement("p");
-	chatHeaderText.textContent = "Customer Support";
+	chatHeaderText.textContent = name;
 	chatHeaderText.style.fontFamily = "sans-serif";
 	chatHeaderText.style.fontWeight = 800;
 	chatHeader.appendChild(chatHeaderText);
@@ -446,10 +446,12 @@ document.addEventListener("DOMContentLoaded", () => {
 			let status = "";
 			let match = false;
 			let position = "bottomright";
+			let name = "Customer Support";
 			try {
 				domains = data.message.domains;
 				status = data.message.status;
 				position = data.message.position;
+				name = data.message.name;
 
 				domains.forEach((domain) => {
 					const host =
@@ -485,6 +487,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 				app({
 					position,
+					name,
 				});
 				displayMessage(
 					"bot",

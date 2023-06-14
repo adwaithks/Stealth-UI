@@ -122,12 +122,12 @@ const ChatbotConfig: React.FC = () => {
 						}}
 						onClick={() => {
 							setValue(
-								`<script id="stealth-chatbot-widget" data-id="${chatbotId}" data-bot="${chatbot.chatbotHashId}" src="https://assistdesk.com/stealth.js"></script>`
+								`<script id="stealth-chatbot-widget" data-id="${chatbotId}" data-bot="${chatbot.chatbotHashId}" src="https://assistdesk.in/stealth.js"></script>`
 							);
 							onCopy();
 						}}
 					>
-						{`<script id="stealth-chatbot-widget" data-id="${chatbotId}" data-bot="${chatbot.chatbotHashId}" src="https://assistdesk.com/stealth.js"></script>`}
+						{`<script id="stealth-chatbot-widget" data-id="${chatbotId}" data-bot="${chatbot.chatbotHashId}" src="https://assistdesk.in/stealth.js"></script>`}
 					</Tag>
 					<CopyIcon sx={{ ml: 2 }} />
 					{hasCopied && (
