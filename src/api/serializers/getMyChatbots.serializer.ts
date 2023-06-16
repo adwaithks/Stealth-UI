@@ -1,5 +1,6 @@
 import { Chatbot, ChatbotDTO } from "../../types/chatbot.type";
 import { formatDateTime } from "../../utils/formatDate";
+import { quickReplySerializer } from "./getChatbotById.sertializer";
 
 export const getMyChatbotsSerializer = (
 	chatbots: ChatbotDTO[]
@@ -21,6 +22,12 @@ export const getMyChatbotsSerializer = (
 			status: chatbot.status,
 			position: chatbot.position,
 			chatbotHashId: chatbot.chatbot_hash_id,
+			quickReplies:
+				chatbot?.quick_replies && chatbot?.quick_replies?.length > 0
+					? chatbot?.quick_replies?.map((qr) =>
+							quickReplySerializer(qr)
+					  )
+					: [],
 		};
 		serializedChatbots.push(temp);
 	});

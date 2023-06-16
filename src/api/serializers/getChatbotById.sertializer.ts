@@ -1,5 +1,14 @@
-import { Chatbot, ChatbotDTO } from "../../types/chatbot.type";
+import { Chatbot, ChatbotDTO, QuickReplyDTO } from "../../types/chatbot.type";
 import { formatDateTime } from "../../utils/formatDate";
+
+export const quickReplySerializer = (quickReply: QuickReplyDTO) => {
+	return {
+		quickReplyId: quickReply.qr_id,
+		question: quickReply.question,
+		keyword: quickReply.keyword,
+		chatbotId: quickReply.chatbot_id,
+	};
+};
 
 export const getChatbotByIdSerializer = (chatbot: ChatbotDTO): Chatbot => {
 	let domains = chatbot.domains ? chatbot.domains.split(",") : [];
@@ -16,5 +25,9 @@ export const getChatbotByIdSerializer = (chatbot: ChatbotDTO): Chatbot => {
 		status: chatbot.status,
 		position: chatbot.position,
 		chatbotHashId: chatbot.chatbot_hash_id,
+		quickReplies:
+			chatbot?.quick_replies && chatbot?.quick_replies?.length > 0
+				? chatbot?.quick_replies?.map((qr) => quickReplySerializer(qr))
+				: [],
 	};
 };

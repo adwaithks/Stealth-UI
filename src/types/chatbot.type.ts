@@ -8,6 +8,7 @@ export interface Chatbot {
 	status: string;
 	position?: string;
 	chatbotHashId?: string;
+	quickReplies?: QuickReply[];
 }
 
 export interface ChatbotDTO {
@@ -20,4 +21,19 @@ export interface ChatbotDTO {
 	status: string;
 	position?: string;
 	chatbot_hash_id?: string;
+	quick_replies?: QuickReplyDTO[];
+}
+
+export interface QuickReplyDTO {
+	qr_id: number;
+	question: string;
+	keyword: string;
+	chatbot_id?: number;
+}
+
+export interface QuickReply {
+	quickReplyId: number;
+	question: string;
+	keyword: string;
+	chatbotId?: number;
 }

@@ -1,7 +1,7 @@
 /* eslint-disable no-useless-catch */
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getMyChatbotsApi } from "../../api/getMyChabots.api";
-import { Chatbot } from "../../types/chatbot.type";
+import { Chatbot, QuickReply } from "../../types/chatbot.type";
 import { createNewChatbotApi } from "../../api/createNewChatbot.api";
 import { retrainChatbotApi } from "../../api/retrainChatbot.api";
 import {
@@ -13,6 +13,11 @@ import {
 } from "../thunks/chatbotSettings.thunk";
 import { getChatbotById } from "../thunks/getChatbotById.thunk";
 import { createStandaloneToast } from "@chakra-ui/react";
+import {
+	addQuickReply,
+	deleteQuickReply,
+	editQuickReply,
+} from "../thunks/quickReplies.thunk";
 
 const { toast } = createStandaloneToast();
 
@@ -123,6 +128,9 @@ const chatbotsSlice = createSlice({
 	initialState: {
 		myChatbots: [] as Chatbot[],
 		currentChatbot: {} as Chatbot,
+		quickReplyAddApiStatus: "idle",
+		quickReplyEditApiStatus: "idle",
+		quickReplyDeleteApiStatus: "idle",
 		getMyChatbotsApiStatus: "idle",
 		createNewChatbotApiStatus: "idle",
 		retrainChatbotApiStatus: "idle",
@@ -148,6 +156,12 @@ const chatbotsSlice = createSlice({
 		},
 		updateCurrentChatbotPosition: (state, action) => {
 			state.currentChatbot.position = action.payload;
+		},
+		deleteThisQuickReply: (state, action) => {
+			const { quickReplies, quickReplyId } = action.payload;
+			state.currentChatbot.quickReplies = quickReplies.filter(
+				(qr: QuickReply) => qr.quickReplyId !== quickReplyId
+			);
 		},
 	},
 	extraReducers(builder) {
@@ -235,6 +249,41 @@ const chatbotsSlice = createSlice({
 			})
 			.addCase(updateChatbotDomains.rejected, (state) => {
 				state.domainChangeApiStatus = "rejected";
+			})
+			.addCase(addQuickReply.pending, (state) => {
+				state.quickReplyAddApiStatus = "pending";
+			})
+			.addCase(addQuickReply.fulfilled, (state, action) => {
+				state.currentChatbot.quickReplies?.push(action.payload);
+				state.quickReplyAddApiStatus = "fulfilled";
+			})
+			.addCase(addQuickReply.rejected, (state) => {
+				state.quickReplyAddApiStatus = "rejected";
+			})
+			.addCase(editQuickReply.pending, (state) => {
+				state.quickReplyEditApiStatus = "pending";
+			})
+			.addCase(editQuickReply.fulfilled, (state, action) => {
+				const { quickReplyId, question, keyword } = action.payload;
+				state.currentChatbot.quickReplies?.forEach((qr) => {
+					if (qr.quickReplyId === quickReplyId) {
+						qr.keyword = keyword;
+						qr.question = question;
+					}
+				});
+				state.quickReplyEditApiStatus = "fulfilled";
+			})
+			.addCase(editQuickReply.rejected, (state) => {
+				state.quickReplyEditApiStatus = "rejected";
+			})
+			.addCase(deleteQuickReply.pending, (state) => {
+				state.quickReplyDeleteApiStatus = "pending";
+			})
+			.addCase(deleteQuickReply.fulfilled, (state) => {
+				state.quickReplyDeleteApiStatus = "fulfilled";
+			})
+			.addCase(deleteQuickReply.rejected, (state) => {
+				state.quickReplyDeleteApiStatus = "rejected";
 			});
 	},
 });

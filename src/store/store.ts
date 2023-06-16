@@ -13,6 +13,9 @@ export interface IAppState {
 	chatbots: {
 		myChatbots: Chatbot[] | [];
 		currentChatbot: Chatbot;
+		quickReplyAddApiStatus: string;
+		quickReplyEditApiStatus: string;
+		quickReplyDeleteApiStatus: string;
 		getMyChatbotsApiStatus: string;
 		createNewChatbotApiStatus: string;
 		retrainChatbotApiStatus: string;

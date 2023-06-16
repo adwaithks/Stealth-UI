@@ -19,6 +19,7 @@ const BASE_URL = "http://localhost:8000";
 const ASSETS_URL = "http://localhost:5173";
 let messages = [];
 let isTabletOrBelow = window.innerWidth <= 820 ? true : false;
+let quickReplies = [];
 
 function getDeviceType() {
 	const userAgent = navigator.userAgent;
@@ -45,6 +46,16 @@ function generateRandomId() {
 	return randomId;
 }
 
+function getMessageContainerHeight(isTabletOrBelow, quickReplies) {
+	if (isTabletOrBelow && quickReplies.length > 0) {
+		return "68%";
+	}
+
+	if (!isTabletOrBelow && quickReplies.length > 0) {
+		return "68%";
+	}
+}
+
 function getCookie(cookieName) {
 	var cookies = document.cookie.split(";");
 	for (var i = 0; i < cookies.length; i++) {
@@ -69,8 +80,8 @@ function displayMessage(sender, message) {
 	messageElement.style.width = "fit-content";
 	messageElement.style.padding = "8px";
 	messageElement.style.marginTop = "10px";
-	messageElement.style.maxWidth = "280px";
-	messageElement.style.fontSize = "15px";
+	messageElement.style.maxWidth = isTabletOrBelow ? "90%" : "280px";
+	messageElement.style.fontSize = isTabletOrBelow ? "18px" : "15px";
 	if (sender === "bot") {
 		messageElement.style.backgroundColor = "rgba(0,0,0, 0.1)";
 		messageElement.style.color = "black";
@@ -87,8 +98,6 @@ function displayMessage(sender, message) {
 		messageElement.style.borderBottomRightRadius = "5px";
 		messageElement.style.borderBottomLeftRadius = "5px";
 	}
-
-	messageElement.style.fontFamily = "sans-serif";
 
 	messageElement.classList.add("message");
 	const origin = document.createElement("p");
@@ -107,10 +116,24 @@ function displayMessage(sender, message) {
 	messageContainer.scrollTop = messageContainer.scrollHeight;
 }
 
-function app({ position = "bottomright", name = "Customer Support" }) {
+function app({
+	position = "bottomright",
+	name = "Customer Support",
+	quickReplies = [
+		{
+			keyword: "Pricing",
+			question: "What is the pricing of this product ?",
+		},
+		{
+			keyword: "Products",
+			question: "What are the products and services ?",
+		},
+	],
+}) {
 	const chatHeader = document.createElement("div");
 	chatHeader.style.width = "100%";
 	chatHeader.style.height = "10%";
+	// chatHeader.style.border = "green solid 1px";
 	chatHeader.style.backgroundColor = "black";
 	chatHeader.style.color = "white";
 	if (!isTabletOrBelow) {
@@ -125,6 +148,7 @@ function app({ position = "bottomright", name = "Customer Support" }) {
 	const chatHeaderText = document.createElement("p");
 	chatHeaderText.textContent = name;
 	chatHeaderText.style.fontFamily = "sans-serif";
+	chatHeaderText.style.fontSize = isTabletOrBelow ? "20px" : "18px";
 	chatHeaderText.style.fontWeight = 800;
 	chatHeader.appendChild(chatHeaderText);
 
@@ -151,8 +175,8 @@ function app({ position = "bottomright", name = "Customer Support" }) {
 
 	// Chatbot icon black
 	chatIconCustom.id = "chat-icon";
-	chatIconCustom.style.height = "60px";
-	chatIconCustom.style.width = "60px";
+	chatIconCustom.style.height = isTabletOrBelow ? "65px" : "60px";
+	chatIconCustom.style.width = isTabletOrBelow ? "65px" : "60px";
 	chatIconCustom.style.borderRadius = "50%";
 	chatIconCustom.style.position = "fixed";
 	chatIconCustom.style.display = "flex";
@@ -189,13 +213,13 @@ function app({ position = "bottomright", name = "Customer Support" }) {
 		chatWindow.style.border = "solid 0.5px lightgray";
 		chatWindow.style.boxShadow = "0 0 3px rgba(0,0,0,0.3)";
 		chatWindow.style.marginLeft = "20px";
-		chatWindow.style.height = "470px";
+		chatWindow.style.height = "500px";
 		chatWindow.style.position = "fixed";
 		chatWindow.style.bottom = "95px";
 		if (position === "bottomright") chatWindow.style.right = "10px";
 		else chatWindow.style.left = "10px";
 		chatWindow.style.borderRadius = "5px";
-		chatWindow.style.width = "370px";
+		chatWindow.style.width = "390px";
 	}
 	chatWindow.style.zIndex = 200;
 	chatWindow.style.visibility = "hidden";
@@ -204,8 +228,12 @@ function app({ position = "bottomright", name = "Customer Support" }) {
 
 	// message display area
 	messageContainer.className = "message-container";
+	// messageContainer.style.border = "brown solid 1px";
 	messageContainer.style.width = "100%";
-	messageContainer.style.height = "75%";
+	messageContainer.style.height = getMessageContainerHeight(
+		isTabletOrBelow,
+		quickReplies
+	);
 	messageContainer.style.borderRadius = "5px";
 	messageContainer.style.padding = "5px";
 	messageContainer.style.backgroundColor = "white";
@@ -215,6 +243,56 @@ function app({ position = "bottomright", name = "Customer Support" }) {
 	messageContainer.style.flexDirection = "column";
 	chatWindow.appendChild(messageContainer);
 
+	if (quickReplies.length > 0) {
+		// quickreplies
+		const quickRepliesContainer = document.createElement("div");
+		quickRepliesContainer.style = `
+		display: flex;
+		gap: 5px;
+		height: 5%;
+		align-items: center;
+		padding: 0 5px 0 5px;
+		flex-wrap: wrap;
+	`;
+
+		quickReplies.forEach((qr) => {
+			const quickReply = document.createElement("div");
+			const text = document.createElement("p");
+			text.textContent = qr.keyword; // qr.keyword
+			text.style.fontSize = isTabletOrBelow ? "15px" : "13px";
+			quickReply.appendChild(text);
+			quickReply.style = `
+			cursor: pointer;
+			border: black solid 2px;
+			height: fit-content;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: 0 10px 0 10px;
+			border-radius: 20px;
+		`;
+
+			// Add event listener for mouseover (hover)
+			quickReply.addEventListener("mouseover", function () {
+				// Apply hover styles
+				quickReply.style.opacity = 0.5;
+			});
+
+			// Add event listener for mouseout (hover off)
+			quickReply.addEventListener("mouseout", function () {
+				// Remove hover styles
+				quickReply.style.opacity = 1;
+			});
+
+			quickReply.addEventListener("click", (e) => {
+				sendMessage(e, qr.question);
+			});
+			quickRepliesContainer.appendChild(quickReply);
+		});
+
+		chatWindow.appendChild(quickRepliesContainer);
+	}
+
 	// message typing input
 	messageInput.type = "text";
 	messageInput.style.padding = "5px";
@@ -222,7 +300,7 @@ function app({ position = "bottomright", name = "Customer Support" }) {
 	messageInput.style.outline = "none";
 	messageInput.style.border = "none";
 	messageInput.style.flex = 1;
-	messageInput.style.fontSize = "14px";
+	messageInput.style.fontSize = isTabletOrBelow ? "17px" : "14px";
 	messageInput.placeholder = "Ask any question...";
 
 	messageLoader = document.createElement("div");
@@ -282,8 +360,10 @@ function app({ position = "bottomright", name = "Customer Support" }) {
 	});
 
 	const sendContainerWrapper = document.createElement("div");
+	// sendContainerWrapper.style.border = "yellow solid 1px";
 	sendContainerWrapper.style.height = isTabletOrBelow ? "7%" : "10%";
 	sendContainerWrapper.style.padding = "5px";
+	sendContainerWrapper.style.marginTop = isTabletOrBelow ? "10px" : "0px";
 
 	// Send container - input + button
 	const sendContainer = document.createElement("div");
@@ -300,10 +380,9 @@ function app({ position = "bottomright", name = "Customer Support" }) {
 	chatWindow.appendChild(sendContainerWrapper);
 
 	const poweredByContainer = document.createElement("div");
-	poweredByContainer.style.height = "5%";
+	poweredByContainer.style.height = "3%";
 	poweredByContainer.style.display = "flex";
-	// poweredByContainer.style.marginBottom = "10px";
-	// poweredByContainer.style.marginTop = "10px";
+	// poweredByContainer.style.border = "brown solid 1px";
 	poweredByContainer.style.padding = "2px";
 	poweredByContainer.style.alignItems = "center";
 	poweredByContainer.style.justifyContent = "center";
@@ -342,9 +421,9 @@ function app({ position = "bottomright", name = "Customer Support" }) {
 		messageContainer.scrollTop = messageContainer.scrollHeight;
 	}
 
-	function sendMessage(event) {
+	function sendMessage(event, mes = "") {
 		if (event.key === "Enter" || event.type === "click") {
-			const message = messageInput.value.trim();
+			const message = mes.length === 0 ? messageInput.value.trim() : mes;
 			if (message !== "" || message.length !== 0) {
 				let context = "";
 				if (messages.length > 1) {
@@ -447,11 +526,13 @@ document.addEventListener("DOMContentLoaded", () => {
 			let match = false;
 			let position = "bottomright";
 			let name = "Customer Support";
+
 			try {
 				domains = data.message.domains;
 				status = data.message.status;
 				position = data.message.position;
 				name = data.message.name;
+				quickReplies = data.message.quickReplies;
 
 				domains.forEach((domain) => {
 					const host =
@@ -488,6 +569,7 @@ document.addEventListener("DOMContentLoaded", () => {
 				app({
 					position,
 					name,
+					quickReplies,
 				});
 				displayMessage(
 					"bot",

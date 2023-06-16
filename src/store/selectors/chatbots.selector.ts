@@ -5,6 +5,18 @@ export const getMyChatbotsApiStatusSelector = (state: IAppState) => {
 	return state.chatbots.getMyChatbotsApiStatus;
 };
 
+export const addQuickReplyApiStatusSelector = (state: IAppState) => {
+	return state.chatbots.quickReplyAddApiStatus;
+};
+
+export const editQuickReplyApiStatusSelector = (state: IAppState) => {
+	return state.chatbots.quickReplyEditApiStatus;
+};
+
+export const deleteQuickReplyApiStatusSelector = (state: IAppState) => {
+	return state.chatbots.deleteChatbotApiStatus;
+};
+
 export const myChatbotsSelector = (state: IAppState): Chatbot[] => {
 	return state.chatbots.myChatbots;
 };

@@ -27,6 +27,7 @@ import { useAppDispatch } from "../../../store/store";
 import { getChatbotById } from "../../../store/thunks/getChatbotById.thunk";
 import { useClerk } from "@clerk/clerk-react";
 import ChatbotConfigSkeleton from "./components/ChatbotConfigSkeleton";
+import QuickReplies from "./components/QuickReplies";
 
 const ChatbotConfig: React.FC = () => {
 	const navigate = useNavigate();
@@ -144,6 +145,7 @@ const ChatbotConfig: React.FC = () => {
 						sx={{
 							position: "sticky",
 							top: 0,
+							zIndex: 30,
 							bgColor: "white",
 							backdropFilter: "blur(40px)",
 						}}
@@ -151,6 +153,7 @@ const ChatbotConfig: React.FC = () => {
 						<Tab>Knowledge Base</Tab>
 						<Tab>Settings</Tab>
 						<Tab>Preview</Tab>
+						<Tab>Quick Replies</Tab>
 					</TabList>
 
 					<TabPanels>
@@ -170,6 +173,12 @@ const ChatbotConfig: React.FC = () => {
 						</TabPanel>
 						<TabPanel>
 							<ChatbotPreview chatbotId={chatbot?.chatbotId} />
+						</TabPanel>
+						<TabPanel>
+							<QuickReplies
+								chatbotId={chatbot?.chatbotId}
+								quickReplies={chatbot?.quickReplies}
+							/>
 						</TabPanel>
 					</TabPanels>
 				</Tabs>
