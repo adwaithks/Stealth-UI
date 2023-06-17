@@ -532,7 +532,7 @@ document.addEventListener("DOMContentLoaded", () => {
 				status = data.message.status;
 				position = data.message.position;
 				name = data.message.name;
-				quickReplies = data.message.quickReplies;
+				quickReplies = data.message.quickreplies;
 
 				domains.forEach((domain) => {
 					const host =

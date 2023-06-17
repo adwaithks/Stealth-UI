@@ -50,14 +50,13 @@ const Pricing: React.FC = () => {
 					flexWrap: "wrap",
 					justifyContent: "center",
 					gap: 10,
-
 					mt: 10,
 				}}
 			>
 				<PriceCard
 					title="Starter"
 					pricingInfo={{
-						price: "999",
+						price: "499",
 						type: "month",
 					}}
 					features={[
@@ -70,7 +69,7 @@ const Pricing: React.FC = () => {
 				<PriceCard
 					title="Growth"
 					pricingInfo={{
-						price: "1999",
+						price: "999",
 						type: "month",
 					}}
 					features={[
