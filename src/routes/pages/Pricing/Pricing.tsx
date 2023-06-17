@@ -50,19 +50,18 @@ const Pricing: React.FC = () => {
 					flexWrap: "wrap",
 					justifyContent: "center",
 					gap: 10,
-
 					mt: 10,
 				}}
 			>
 				<PriceCard
 					title="Starter"
 					pricingInfo={{
-						price: "999",
+						price: "499",
 						type: "month",
 					}}
 					features={[
 						"Create 1 Chatbots",
-						"Train chatbot on 3 web pages",
+						"Train chatbot on 5 web pages",
 						"Unlimited manual training data addition",
 					]}
 				/>
@@ -70,12 +69,12 @@ const Pricing: React.FC = () => {
 				<PriceCard
 					title="Growth"
 					pricingInfo={{
-						price: "1999",
+						price: "999",
 						type: "month",
 					}}
 					features={[
 						"Create 5 Chatbots",
-						"Train each chatbot on 5 web pages",
+						"Train each chatbot on 10 web pages",
 						"Unlimited manual training data addition",
 						"More features incoming! 🚀",
 					]}
