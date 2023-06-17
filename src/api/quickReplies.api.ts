@@ -1,6 +1,5 @@
 import { BASE_URL } from "./baseURL";
 import { quickReplySerializer } from "./serializers/getChatbotById.sertializer";
-import { getMyChatbotsSerializer } from "./serializers/getMyChatbots.serializer";
 
 export const addQuickReplyApi = async (
 	chatbotId: number,
