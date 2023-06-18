@@ -82,6 +82,13 @@ const Privacy: React.FC = () => {
 						system, referring URLs, access times, and other similar
 						data.
 					</Text>
+					<Text mb={5}>
+						User tracking: We will attach the following cookie to
+						track each of your customer and their chats during the
+						session. Cookie Name: ASSISTDESK_CHATBOT Kindly request
+						this permission in your website or product where you are
+						embedding the chatbot.
+					</Text>
 				</Box>
 
 				<Box mb={5}>
@@ -106,6 +113,13 @@ const Privacy: React.FC = () => {
 						aggregate your information with data from other users
 						for statistical and analytical purposes to improve the
 						Platform and enhance our services.
+					</Text>
+					<Text mb={5}>
+						Open AI: We are primarily relying on OpenAI for reply
+						generation to customer enquiries via our chatbot and
+						knowledge base creation. Therefore, we strongly urge you
+						to not put anything confidential in your knowledge base
+						(You will be able to manually edit the knowledge base).
 					</Text>
 				</Box>
 

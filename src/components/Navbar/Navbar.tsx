@@ -1,4 +1,11 @@
-import { Box, Button, Link, Text, useMediaQuery } from "@chakra-ui/react";
+import {
+	Badge,
+	Box,
+	Button,
+	Link,
+	Text,
+	useMediaQuery,
+} from "@chakra-ui/react";
 import {
 	SignInButton,
 	SignOutButton,
@@ -34,7 +41,10 @@ const Navbar: React.FC = () => {
 					onClick={() => navigate("/app")}
 					fontWeight="bold"
 				>
-					Assist Desk
+					Assist Desk{" "}
+					<Badge ml={2} variant="subtle" colorScheme="red">
+						Beta
+					</Badge>
 				</Text>
 			</Box>
 			<Box

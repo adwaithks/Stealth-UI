@@ -12,7 +12,7 @@ var scriptTag = document.getElementById("stealth-chatbot-widget");
 var chatbotId = Number(scriptTag.getAttribute("data-id"));
 var chatbotHashId = scriptTag.getAttribute("data-bot");
 
-const cookieName = "STEALTH_CHATBOT";
+const cookieName = "ASSISTDESK_CHATBOT";
 // const BASE_URL = "https://api.assistdesk.in";
 // const ASSETS_URL = "https://www.assistdesk.in";
 const BASE_URL = "http://localhost:8000";
