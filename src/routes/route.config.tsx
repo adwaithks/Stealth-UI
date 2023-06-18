@@ -11,6 +11,7 @@ import TermsNConditions from "./pages/TermsNConditions/TermsNConditions";
 import Pricing from "./pages/Pricing/Pricing";
 import Contact from "./pages/Contact/Contact";
 import Privacy from "./pages/Privacy/Privacy";
+import Billing from "./pages/Billing/Billing";
 
 const RouteConfig: React.FC = () => {
 	return (
@@ -47,6 +48,19 @@ const RouteConfig: React.FC = () => {
 							<>
 								<SignedIn>
 									<CreateNewChatbot />
+								</SignedIn>
+								<SignedOut>
+									<Navigate to="/" replace />
+								</SignedOut>
+							</>
+						}
+					/>
+					<Route
+						path="/app/billing"
+						element={
+							<>
+								<SignedIn>
+									<Billing />
 								</SignedIn>
 								<SignedOut>
 									<Navigate to="/" replace />

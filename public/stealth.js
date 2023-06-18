@@ -79,6 +79,7 @@ function displayMessage(sender, message) {
 	const messageElement = document.createElement("div");
 	messageElement.style.width = "fit-content";
 	messageElement.style.padding = "8px";
+	messageElement.style.whiteSpace = "pre-line";
 	messageElement.style.marginTop = "10px";
 	messageElement.style.maxWidth = isTabletOrBelow ? "90%" : "280px";
 	messageElement.style.fontSize = isTabletOrBelow ? "18px" : "15px";
@@ -104,7 +105,7 @@ function displayMessage(sender, message) {
 	const message_ = document.createElement("p");
 
 	origin.textContent = `${sender === "bot" ? "AI Assistant" : "User"}`;
-	message_.textContent = `${message}`;
+	message_.textContent = `${message.trim()}`;
 
 	origin.style.fontWeight = "bold";
 	origin.style.marginBottom = "5px";
@@ -177,9 +178,10 @@ function app({
 	chatIconCustom.id = "chat-icon";
 	chatIconCustom.style.height = isTabletOrBelow ? "65px" : "60px";
 	chatIconCustom.style.width = isTabletOrBelow ? "65px" : "60px";
-	chatIconCustom.style.borderRadius = "50%";
+	chatIconCustom.style.borderRadius = "15px";
 	chatIconCustom.style.position = "fixed";
 	chatIconCustom.style.display = "flex";
+	chatIconCustom.style.boxShadow = "0 0 5px lightgray";
 	chatIconCustom.style.alignItems = "center";
 	chatIconCustom.style.justifyContent = "center";
 	chatIconCustom.style.bottom = "20px";
@@ -243,10 +245,9 @@ function app({
 	messageContainer.style.flexDirection = "column";
 	chatWindow.appendChild(messageContainer);
 
-	if (quickReplies.length > 0) {
-		// quickreplies
-		const quickRepliesContainer = document.createElement("div");
-		quickRepliesContainer.style = `
+	// quickreplies
+	const quickRepliesContainer = document.createElement("div");
+	quickRepliesContainer.style = `
 		display: flex;
 		gap: 5px;
 		height: 5%;
@@ -255,13 +256,13 @@ function app({
 		flex-wrap: wrap;
 	`;
 
-		quickReplies.forEach((qr) => {
-			const quickReply = document.createElement("div");
-			const text = document.createElement("p");
-			text.textContent = qr.keyword; // qr.keyword
-			text.style.fontSize = isTabletOrBelow ? "15px" : "13px";
-			quickReply.appendChild(text);
-			quickReply.style = `
+	quickReplies.forEach((qr) => {
+		const quickReply = document.createElement("div");
+		const text = document.createElement("p");
+		text.textContent = qr.keyword; // qr.keyword
+		text.style.fontSize = isTabletOrBelow ? "15px" : "13px";
+		quickReply.appendChild(text);
+		quickReply.style = `
 			cursor: pointer;
 			border: black solid 2px;
 			height: fit-content;
@@ -272,36 +273,44 @@ function app({
 			border-radius: 20px;
 		`;
 
-			// Add event listener for mouseover (hover)
-			quickReply.addEventListener("mouseover", function () {
-				// Apply hover styles
-				quickReply.style.opacity = 0.5;
-			});
-
-			// Add event listener for mouseout (hover off)
-			quickReply.addEventListener("mouseout", function () {
-				// Remove hover styles
-				quickReply.style.opacity = 1;
-			});
-
-			quickReply.addEventListener("click", (e) => {
-				sendMessage(e, qr.question);
-			});
-			quickRepliesContainer.appendChild(quickReply);
+		// Add event listener for mouseover (hover)
+		quickReply.addEventListener("mouseover", function () {
+			// Apply hover styles
+			quickReply.style.opacity = 0.5;
 		});
 
-		chatWindow.appendChild(quickRepliesContainer);
-	}
+		// Add event listener for mouseout (hover off)
+		quickReply.addEventListener("mouseout", function () {
+			// Remove hover styles
+			quickReply.style.opacity = 1;
+		});
+
+		quickReply.addEventListener("click", (e) => {
+			sendMessage(e, qr.question);
+		});
+		quickRepliesContainer.appendChild(quickReply);
+	});
+
+	chatWindow.appendChild(quickRepliesContainer);
 
 	// message typing input
 	messageInput.type = "text";
 	messageInput.style.padding = "5px";
-	messageInput.style.borderRadius = "5px";
+	messageInput.style.borderTopLeftRadius = "5px";
+	messageInput.style.borderBottomLeftRadius = "5px";
 	messageInput.style.outline = "none";
-	messageInput.style.border = "none";
+	messageInput.style.border = "white solid 2px";
 	messageInput.style.flex = 1;
 	messageInput.style.fontSize = isTabletOrBelow ? "17px" : "14px";
 	messageInput.placeholder = "Ask any question...";
+
+	messageInput.addEventListener("focus", (e) => {
+		messageInput.style.border = "gray solid 2px";
+	});
+
+	messageInput.addEventListener("blur", (e) => {
+		messageInput.style.border = "white solid 2px";
+	});
 
 	messageLoader = document.createElement("div");
 	messageLoader.className = "loader";
@@ -349,7 +358,8 @@ function app({
 	sendButton.style.width = "70px";
 	sendButton.style.backgroundColor = "black";
 	sendButton.style.color = "white";
-	sendButton.style.borderRadius = "5px";
+	sendButton.style.borderTopRightRadius = "5px";
+	sendButton.style.borderBottomRightRadius = "5px";
 	sendButton.style.border = "none";
 	sendButton.style.cursor = "pointer";
 	sendButton.style.fontSize = "13px";
@@ -533,6 +543,21 @@ document.addEventListener("DOMContentLoaded", () => {
 				position = data.message.position;
 				name = data.message.name;
 				quickReplies = data.message.quickreplies;
+<<<<<<< Updated upstream
+=======
+				if (quickReplies[0].keyword == null) {
+					quickReplies = [
+						{
+							keyword: "Pricing",
+							question: "What is the pricing of this product ?",
+						},
+						{
+							keyword: "Products",
+							question: "What are the products and services ?",
+						},
+					];
+				}
+>>>>>>> Stashed changes
 
 				domains.forEach((domain) => {
 					const host =

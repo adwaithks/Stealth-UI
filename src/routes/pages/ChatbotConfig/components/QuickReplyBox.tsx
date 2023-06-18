@@ -24,9 +24,16 @@ const QuickReplyBox: React.FC<IProps> = ({
 		keyword: "",
 		question: "",
 	});
+	const [isDeleting, setIsDeleting] = useState(false);
 	const deleteQuickReplyApiStatus = useSelector(
 		deleteQuickReplyApiStatusSelector
 	);
+
+	useEffect(() => {
+		if (deleteQuickReplyApiStatus !== "pending") {
+			setIsDeleting(false);
+		}
+	}, [deleteQuickReplyApiStatus]);
 
 	useEffect(() => {
 		setQuickReplyInfo({
@@ -103,9 +110,10 @@ const QuickReplyBox: React.FC<IProps> = ({
 					onClick={() => {
 						setIsEditing(false);
 						onDelete(quickReplyId);
+						setIsDeleting(true);
 					}}
 					ml={2}
-					isLoading={deleteQuickReplyApiStatus === "pending"}
+					isLoading={isDeleting}
 					loadingText="Deleting"
 				>
 					<DeleteIcon mr={2} /> Delete

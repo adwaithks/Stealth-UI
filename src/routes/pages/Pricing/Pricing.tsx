@@ -38,8 +38,8 @@ const Pricing: React.FC = () => {
 					Pricing plans
 				</Text>
 				<Text color="gray">
-					We are still working on providing more features for the
-					existing pricing plans!
+					We are still in beta and are working on new pricing plans
+					and providing more features for the existing pricing plans!
 				</Text>
 			</Box>
 			<Divider />
@@ -60,13 +60,18 @@ const Pricing: React.FC = () => {
 						type: "month",
 					}}
 					features={[
+<<<<<<< Updated upstream
 						"Create 1 Chatbots",
 						"Train chatbot on 3 web pages",
 						"Unlimited manual training data addition",
+=======
+						"Create 2 Chatbots",
+						"Train chatbot on 3 web pages",
+>>>>>>> Stashed changes
 					]}
 				/>
 
-				<PriceCard
+				{/* <PriceCard
 					title="Growth"
 					pricingInfo={{
 						price: "999",
@@ -74,11 +79,15 @@ const Pricing: React.FC = () => {
 					}}
 					features={[
 						"Create 5 Chatbots",
+<<<<<<< Updated upstream
 						"Train each chatbot on 5 web pages",
 						"Unlimited manual training data addition",
+=======
+						"Train each chatbot on 10 web pages",
+>>>>>>> Stashed changes
 						"More features incoming! 🚀",
 					]}
-				/>
+				/> */}
 			</Box>
 			<Text mb={10} mt={10} textAlign="center" color="gray">
 				* The pricing is exclusive of taxes and additional local tax may

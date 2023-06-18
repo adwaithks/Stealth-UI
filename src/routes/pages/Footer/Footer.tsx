@@ -1,4 +1,4 @@
-import { Box, Text } from "@chakra-ui/react";
+import { Badge, Box, Text } from "@chakra-ui/react";
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -13,7 +13,12 @@ const Footer: React.FC = () => {
 				p: 5,
 			}}
 		>
-			<Text fontWeight="bold">Assist Desk</Text>
+			<Text fontWeight="bold">
+				Assist Desk{" "}
+				<Badge variant="subtle" colorScheme="red">
+					Beta
+				</Badge>
+			</Text>
 			<Box sx={{ p: 2 }}>
 				<Link
 					style={{ marginBottom: 8, marginRight: 8, marginLeft: 8 }}

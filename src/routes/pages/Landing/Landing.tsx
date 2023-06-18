@@ -8,7 +8,7 @@ import {
 	Input,
 	Text,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useState } from "react";
 import Home from "./home2.png";
 import Features from "./components/Features";
 import { useMediaQuery } from "@chakra-ui/react";
@@ -17,6 +17,7 @@ import HowItWorks from "./components/HowItWorks";
 import { useClerk } from "@clerk/clerk-react";
 import TrainChatbotNow from "./components/TrainChatbotNow";
 import Footer from "../Footer/Footer";
+import WarnModal from "../../../components/WarnModal/WarnModal";
 
 const Landing: React.FC = () => {
 	const [isMobile] = useMediaQuery("(max-width: 768px)");
@@ -30,6 +31,13 @@ const Landing: React.FC = () => {
 				height: "100%",
 			}}
 		>
+			<WarnModal
+				title={title}
+				isOpen={isOpen}
+				onClose={() => setIsOpen(false)}
+			>
+				<Text>test</Text>
+			</WarnModal>
 			<section
 				style={{
 					display: "flex",
@@ -70,7 +78,8 @@ const Landing: React.FC = () => {
 					color="rgba(0, 0, 0, 0.5)"
 				>
 					Leap into Seamless Support: Introducing Assist Desk - Your
-					Trusted Customer Support Chatbot Companion!
+					Trusted Customer Support Chatbot Companion for small scale
+					businesses!
 				</Container>
 				<Box sx={{ mt: 5 }}>
 					<Button
@@ -123,7 +132,6 @@ const Landing: React.FC = () => {
 				</Box>
 				<Container sx={{ mt: 5, mb: 5 }}>
 					<FormControl>
-						<FormLabel>Enter your email address</FormLabel>
 						<Box
 							sx={{
 								display: "flex",
@@ -132,15 +140,10 @@ const Landing: React.FC = () => {
 								justifyContent: "space-between",
 							}}
 						>
-							<Input
-								sx={{ border: "lightgray solid 2px" }}
-								placeholder="official@assistdesk.in"
-								type="email"
-							/>
 							<Button
 								bg="black"
 								color="white"
-								sx={{ width: "100%", mt: 2 }}
+								sx={{ width: "80%" }}
 							>
 								Let's Go!
 							</Button>

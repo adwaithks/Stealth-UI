@@ -28,6 +28,11 @@ const QuickReplies: React.FC<{
 	});
 
 	const onDelete = (quickReplyId: number) => {
+		if (
+			!window.confirm("Are you sure you want to delete this quick reply?")
+		) {
+			return;
+		}
 		session
 			?.getToken({ template: "stealth-token-template" })
 			.then((token) => {
@@ -55,6 +60,13 @@ const QuickReplies: React.FC<{
 		keyword: string,
 		question: string
 	) => {
+		if (
+			!window.confirm(
+				"Are you sure you want the save the latest changes?"
+			)
+		) {
+			return;
+		}
 		session
 			?.getToken({ template: "stealth-token-template" })
 			.then((token) => {
@@ -78,6 +90,14 @@ const QuickReplies: React.FC<{
 	};
 
 	const addNewQuickReply = () => {
+		if (
+			quickReplyInfo.question.length === 0 ||
+			quickReplyInfo.keyword.length === 0
+		) {
+			window.alert("Provide a keyword and a question!");
+			return;
+		}
+
 		session
 			?.getToken({ template: "stealth-token-template" })
 			.then((token) => {
@@ -98,8 +118,6 @@ const QuickReplies: React.FC<{
 				navigate("/signin");
 			});
 	};
-
-	console.log(quickReplies);
 
 	return (
 		<Box>

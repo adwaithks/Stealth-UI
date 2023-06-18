@@ -1,4 +1,11 @@
-import { Box, Button, Link, Text, useMediaQuery } from "@chakra-ui/react";
+import {
+	Badge,
+	Box,
+	Button,
+	Link,
+	Text,
+	useMediaQuery,
+} from "@chakra-ui/react";
 import {
 	SignInButton,
 	SignOutButton,
@@ -34,7 +41,10 @@ const Navbar: React.FC = () => {
 					onClick={() => navigate("/app")}
 					fontWeight="bold"
 				>
-					Assist Desk
+					Assist Desk{" "}
+					<Badge variant="subtle" colorScheme="red">
+						Beta
+					</Badge>
 				</Text>
 			</Box>
 			<Box
@@ -45,8 +55,21 @@ const Navbar: React.FC = () => {
 				}}
 			>
 				<SignedIn>
-					<Link color="black" sx={{ mr: 4 }} href="/app">
+					<Link
+						color="black"
+						sx={{ mr: 4 }}
+						onClick={() => navigate("/app", { replace: true })}
+					>
 						dashboard
+					</Link>
+					<Link
+						color="black"
+						sx={{ mr: 4 }}
+						onClick={() =>
+							navigate("/app/billing", { replace: true })
+						}
+					>
+						Billing
 					</Link>
 					<Link
 						color="black"
@@ -60,7 +83,11 @@ const Navbar: React.FC = () => {
 					</Button>
 				</SignedIn>
 				<SignedOut>
-					<Link color="black" href="/" sx={{ mr: 5 }}>
+					<Link
+						color="black"
+						onClick={() => navigate("/", { replace: true })}
+						sx={{ mr: 5 }}
+					>
 						Home
 					</Link>
 					{!isMobile && (
