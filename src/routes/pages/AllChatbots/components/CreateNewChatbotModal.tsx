@@ -39,6 +39,9 @@ const CreateNewChatbotModal: React.FC<{
 
 				<ModalFooter>
 					<Button
+						_hover={{
+							opacity: 0.6,
+						}}
 						color="white"
 						onClick={onSuccess}
 						isLoading={isLoading}

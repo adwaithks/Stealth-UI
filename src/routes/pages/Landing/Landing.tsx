@@ -1,13 +1,4 @@
-import {
-	Box,
-	Button,
-	Container,
-	FormControl,
-	FormLabel,
-	Image,
-	Input,
-	Text,
-} from "@chakra-ui/react";
+import { Box, Button, Container, Image, Link, Text } from "@chakra-ui/react";
 import React from "react";
 import Home from "./home2.png";
 import Features from "./components/Features";
@@ -116,36 +107,34 @@ const Landing: React.FC = () => {
 						flexDirection: "column",
 					}}
 				>
-					<Text fontSize="3xl" fontWeight="extrabold">
-						Let's Connect and Spark a Conversation: Reach Out to Us
-						Today!
+					<Text fontSize="xl" fontWeight="bold">
+						Knock, knock! Who's there? Opportunity! Email us for
+						exclusive alpha access.
 					</Text>
 				</Box>
-				<Container sx={{ mt: 5, mb: 5 }}>
-					<FormControl>
-						<FormLabel>Enter your email address</FormLabel>
-						<Box
-							sx={{
-								display: "flex",
-								alignItems: "center",
-								flexDirection: "column",
-								justifyContent: "space-between",
+				<Container sx={{ mt: 0, mb: 5 }}>
+					<Link
+						href="mailto:official@assistdesk.in?subject=Request%20for%20Alpha%20Access&body=Hey,"
+						sx={{
+							textDecoration: "none",
+							display: "flex",
+							alignItems: "center",
+							flexDirection: "column",
+							justifyContent: "space-between",
+						}}
+					>
+						<Button
+							bg="black"
+							_hover={{
+								opacity: 0.6,
 							}}
+							color="white"
+							sx={{ width: "100%", mt: 2 }}
 						>
-							<Input
-								sx={{ border: "lightgray solid 2px" }}
-								placeholder="official@assistdesk.in"
-								type="email"
-							/>
-							<Button
-								bg="black"
-								color="white"
-								sx={{ width: "100%", mt: 2 }}
-							>
-								Let's Go!
-							</Button>
-						</Box>
-					</FormControl>
+							Email Us for Exclusive Alpha Access
+							<ArrowForwardIcon sx={{ ml: 1 }} />
+						</Button>
+					</Link>
 				</Container>
 			</Box>
 

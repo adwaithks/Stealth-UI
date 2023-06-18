@@ -39,8 +39,8 @@ const Features: React.FC = () => {
 					description="Take charge of chatbot training. Our platform lets you curate and refine knowledge bases manually. Update and customize responses effortlessly, ensuring accurate and relevant interactions with users. Have complete control over the training process for precise and meaningful engagement."
 				/>
 				<FeatureCard
-					title="Unlimited Chatbot Creation"
-					description="Unlock unlimited possibilities with our platform. Create as many chatbots as you need to cater to different use cases, products, or services. With our flexible and scalable solution, you can effortlessly deploy multiple chatbots and manage them all from a single, intuitive interface."
+					title="Train on website content"
+					description="Unlock unlimited possibilities with our platform. Create chatbots on your website content to cater to different use cases, products, or services. With our flexible and scalable solution, you can effortlessly deploy multiple chatbots and manage them all from a single, intuitive interface."
 				/>
 				<FeatureCard
 					title="Intelligent Replies"

@@ -51,6 +51,9 @@ const AllChatbots = () => {
 					</Text>
 				</Box>
 				<Button
+					_hover={{
+						opacity: 0.6,
+					}}
 					onClick={(e) => {
 						e.preventDefault();
 						e.stopPropagation();

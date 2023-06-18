@@ -532,7 +532,19 @@ document.addEventListener("DOMContentLoaded", () => {
 				status = data.message.status;
 				position = data.message.position;
 				name = data.message.name;
-				quickReplies = data.message.quickReplies;
+				quickReplies = data.message.quickreplies;
+				if (quickReplies[0].keyword == null) {
+					quickReplies = [
+						{
+							keyword: "Pricing",
+							question: "What is the pricing of this product ?",
+						},
+						{
+							keyword: "Products",
+							question: "What are the products and services ?",
+						},
+					];
+				}
 
 				domains.forEach((domain) => {
 					const host =
