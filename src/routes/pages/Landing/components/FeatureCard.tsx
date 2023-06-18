@@ -5,7 +5,7 @@ import React from "react";
 const titleToIcon: { [key: string]: React.ReactNode } = {
 	"24x7 Customer Support": <TimeIcon color="white" fontSize="2xl" />,
 	"Manual Training Control": <EditIcon color="white" fontSize="2xl" />,
-	"Unlimited Chatbot Creation": <CheckIcon color="white" fontSize="2xl" />,
+	"Train on website content": <CheckIcon color="white" fontSize="2xl" />,
 	"Intelligent Replies": <ChatIcon color="white" fontSize="2xl" />,
 };
 

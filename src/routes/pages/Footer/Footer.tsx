@@ -1,6 +1,7 @@
-import { Badge, Box, Text } from "@chakra-ui/react";
+import { Badge, Box, Image, Text } from "@chakra-ui/react";
 import React from "react";
 import { Link } from "react-router-dom";
+import Logo from "./logoblack.png";
 
 const Footer: React.FC = () => {
 	return (
@@ -13,12 +14,21 @@ const Footer: React.FC = () => {
 				p: 5,
 			}}
 		>
-			<Text fontWeight="bold">
-				Assist Desk{" "}
-				<Badge variant="subtle" colorScheme="red">
-					Beta
-				</Badge>
-			</Text>
+			<Box
+				sx={{
+					display: "flex",
+					alignItems: "center",
+					justifyContent: "center",
+				}}
+			>
+				<Image mr={2} height={7} width={8} src={Logo} />{" "}
+				<Text fontWeight="bold">
+					Assist Desk
+					<Badge ml={2} variant="subtle" colorScheme="red">
+						Beta
+					</Badge>
+				</Text>
+			</Box>
 			<Box sx={{ p: 2 }}>
 				<Link
 					style={{ marginBottom: 8, marginRight: 8, marginLeft: 8 }}

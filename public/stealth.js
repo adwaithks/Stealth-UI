@@ -543,8 +543,6 @@ document.addEventListener("DOMContentLoaded", () => {
 				position = data.message.position;
 				name = data.message.name;
 				quickReplies = data.message.quickreplies;
-<<<<<<< Updated upstream
-=======
 				if (quickReplies[0].keyword == null) {
 					quickReplies = [
 						{
@@ -557,7 +555,6 @@ document.addEventListener("DOMContentLoaded", () => {
 						},
 					];
 				}
->>>>>>> Stashed changes
 
 				domains.forEach((domain) => {
 					const host =
