@@ -130,7 +130,7 @@ const Landing: React.FC = () => {
 							color="white"
 							sx={{ width: "100%", mt: 2 }}
 						>
-							Email Us for Exclusive Alpha Access
+							Email Us for Exclusive Beta Access
 							<ArrowForwardIcon sx={{ ml: 1 }} />
 						</Button>
 					</Link>

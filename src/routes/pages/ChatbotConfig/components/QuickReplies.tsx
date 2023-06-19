@@ -28,26 +28,29 @@ const QuickReplies: React.FC<{
 	});
 
 	const onDelete = (quickReplyId: number) => {
-		session
-			?.getToken({ template: "stealth-token-template" })
-			.then((token) => {
-				if (!token) {
+		if (
+			window.confirm("Are you sure you want to delete this quick reply ?")
+		)
+			session
+				?.getToken({ template: "stealth-token-template" })
+				.then((token) => {
+					if (!token) {
+						navigate("/signin");
+						return;
+					}
+					const quickReplies_ = quickReplies ? quickReplies : [];
+					dispatch(
+						deleteQuickReply({
+							quickReplies: quickReplies_,
+							chatbotId,
+							quickReplyId,
+							token,
+						})
+					);
+				})
+				.catch(() => {
 					navigate("/signin");
-					return;
-				}
-				const quickReplies_ = quickReplies ? quickReplies : [];
-				dispatch(
-					deleteQuickReply({
-						quickReplies: quickReplies_,
-						chatbotId,
-						quickReplyId,
-						token,
-					})
-				);
-			})
-			.catch(() => {
-				navigate("/signin");
-			});
+				});
 	};
 
 	const onEdit = (
@@ -55,6 +58,10 @@ const QuickReplies: React.FC<{
 		keyword: string,
 		question: string
 	) => {
+		if (question.length === 0 || keyword.length === 0) {
+			window.alert("Please provide both keyword and the question!");
+			return;
+		}
 		session
 			?.getToken({ template: "stealth-token-template" })
 			.then((token) => {
@@ -78,6 +85,13 @@ const QuickReplies: React.FC<{
 	};
 
 	const addNewQuickReply = () => {
+		if (
+			quickReplyInfo.question.length === 0 ||
+			quickReplyInfo.keyword.length === 0
+		) {
+			window.alert("Please provide both keyword and the question!");
+			return;
+		}
 		session
 			?.getToken({ template: "stealth-token-template" })
 			.then((token) => {

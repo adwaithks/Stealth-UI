@@ -24,6 +24,7 @@ export interface IAppState {
 		chatbotNameChangeApiStatus: string;
 		domainChangeApiStatus: string;
 		getChatbotByIdApiStatus: string;
+		chatbotPositionChangeApiStatus: string;
 	};
 	chatbotChats: {
 		chats: { [key: string]: Chat[] };

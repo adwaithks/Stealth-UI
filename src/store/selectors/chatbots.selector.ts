@@ -14,7 +14,7 @@ export const editQuickReplyApiStatusSelector = (state: IAppState) => {
 };
 
 export const deleteQuickReplyApiStatusSelector = (state: IAppState) => {
-	return state.chatbots.deleteChatbotApiStatus;
+	return state.chatbots.quickReplyDeleteApiStatus;
 };
 
 export const myChatbotsSelector = (state: IAppState): Chatbot[] => {
@@ -47,6 +47,10 @@ export const currentChatbotSelector = (state: IAppState) => {
 
 export const getChatbotByIdApiStatusSelector = (state: IAppState) => {
 	return state.chatbots.getChatbotByIdApiStatus;
+};
+
+export const positionChangeApiStatusSelector = (state: IAppState) => {
+	return state.chatbots.chatbotPositionChangeApiStatus;
 };
 
 export const updateChatbotDomainsApiStatusSelector = (state: IAppState) => {
