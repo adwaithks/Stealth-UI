@@ -61,8 +61,9 @@ const Pricing: React.FC = () => {
 					}}
 					features={[
 						"Create 2 Chatbots",
-						"Train chatbot on 3 web pages",
-						"Manual training data addition",
+						"Train each chatbot with data from 3 web pages using our crawler",
+						"Manually add training data",
+						"Insights into customer chat history",
 					]}
 				/>
 			</Box>

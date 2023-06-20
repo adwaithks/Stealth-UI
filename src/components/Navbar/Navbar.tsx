@@ -2,6 +2,7 @@ import {
 	Badge,
 	Box,
 	Button,
+	Image,
 	Link,
 	Text,
 	useMediaQuery,
@@ -15,6 +16,7 @@ import {
 } from "@clerk/clerk-react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import Logo from "./logoblack.png";
 
 const Navbar: React.FC = () => {
 	const navigate = useNavigate();
@@ -37,12 +39,16 @@ const Navbar: React.FC = () => {
 			<Box sx={{ display: "flex", alignItems: "center" }}>
 				<Text
 					color="black"
-					sx={{ cursor: "pointer" }}
+					sx={{
+						cursor: "pointer",
+						display: "flex",
+						alignItems: "center",
+					}}
 					onClick={() => navigate("/app")}
 					fontWeight="bold"
 				>
-					Assist Desk{" "}
-					<Badge variant="subtle" colorScheme="red">
+					<Image mr={2} height={6} width={7} src={Logo} /> Assist Desk{" "}
+					<Badge ml={2} variant="subtle" colorScheme="red">
 						Beta
 					</Badge>
 				</Text>

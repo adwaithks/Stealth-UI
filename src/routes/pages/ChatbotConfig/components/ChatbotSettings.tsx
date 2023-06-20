@@ -11,6 +11,7 @@ import {
 	Text,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
+import { Spinner } from "@chakra-ui/react";
 import { Switch } from "@chakra-ui/react";
 import {
 	AddIcon,
@@ -28,7 +29,13 @@ import {
 	updateChatbotName,
 	updateChatbotPosition,
 } from "../../../../store/thunks/chatbotSettings.thunk";
-import { deleteChatbotApiStatusSelector } from "../../../../store/selectors/chatbots.selector";
+import {
+	deleteChatbotApiStatusSelector,
+	positionChangeApiStatusSelector,
+	udpateChatbotStatusApiSelector,
+	updateChatbotDomainsApiStatusSelector,
+	updateChatbotNameApiStatusSelector,
+} from "../../../../store/selectors/chatbots.selector";
 import { useNavigate } from "react-router-dom";
 import { useClerk } from "@clerk/clerk-react";
 
@@ -40,7 +47,14 @@ const ChatbotSettings: React.FC<{
 }> = ({ domains, name, status, position }) => {
 	const dispatch = useAppDispatch();
 	const deleteChatbotApiStatus = useSelector(deleteChatbotApiStatusSelector);
-
+	const domainsUpdateApiStatus = useSelector(
+		updateChatbotDomainsApiStatusSelector
+	);
+	const nameChangeApiStatus = useSelector(updateChatbotNameApiStatusSelector);
+	const positionChangeApiStatus = useSelector(
+		positionChangeApiStatusSelector
+	);
+	const statusChangeApiStatus = useSelector(udpateChatbotStatusApiSelector);
 	const navigate = useNavigate();
 
 	const [chatbotDomains, setChatbotDomains] = useState<string[]>([]);
@@ -115,6 +129,10 @@ const ChatbotSettings: React.FC<{
 	};
 
 	const handleChatbotNameUpdate = () => {
+		if (newName.length === 0) {
+			alert("Enter a name for the chatbot");
+			return;
+		}
 		if (
 			window.confirm(
 				`Are you sure you want to rename chatbot to ${newName} ?`
@@ -262,6 +280,8 @@ const ChatbotSettings: React.FC<{
 						if (isNameEditing) handleChatbotNameUpdate();
 						else setIsNameEditing(true);
 					}}
+					isLoading={nameChangeApiStatus === "pending"}
+					loadingText="Saving"
 					colorScheme={isNameEditing ? "green" : "gray"}
 				>
 					{isNameEditing ? (
@@ -303,6 +323,7 @@ const ChatbotSettings: React.FC<{
 						Activate or Inactivate Chatbot
 					</FormLabel>
 					<Switch
+						disabled={statusChangeApiStatus === "pending"}
 						sx={{ mr: 3 }}
 						onChange={(e) => {
 							handleChatbotStatusUpdate(
@@ -318,6 +339,7 @@ const ChatbotSettings: React.FC<{
 					>
 						{newStatus}
 					</Badge>
+					{statusChangeApiStatus === "pending" && <Spinner ml={2} />}
 				</FormControl>
 			</Box>
 
@@ -347,6 +369,8 @@ const ChatbotSettings: React.FC<{
 						onClick={() => {
 							handleAddNewDomain(newDomain);
 						}}
+						isLoading={domainsUpdateApiStatus === "pending"}
+						loadingText="Updating domains"
 					>
 						<AddIcon sx={{ mr: 2 }} /> Add Domain
 					</Button>
@@ -412,8 +436,9 @@ const ChatbotSettings: React.FC<{
 						your website
 					</Text>
 				</Box>
-				<Box>
+				<Box sx={{ display: "flex", alignItems: "center" }}>
 					<Select
+						disabled={positionChangeApiStatus === "pending"}
 						onChange={handleChatbotPositionChange}
 						width={200}
 						placeholder="Select option"
@@ -432,6 +457,9 @@ const ChatbotSettings: React.FC<{
 							Bottom Left
 						</option>
 					</Select>
+					{positionChangeApiStatus === "pending" && (
+						<Spinner ml={2} />
+					)}
 				</Box>
 			</Box>
 

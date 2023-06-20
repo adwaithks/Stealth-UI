@@ -12,7 +12,7 @@ var scriptTag = document.getElementById("stealth-chatbot-widget");
 var chatbotId = Number(scriptTag.getAttribute("data-id"));
 var chatbotHashId = scriptTag.getAttribute("data-bot");
 
-const cookieName = "STEALTH_CHATBOT";
+const cookieName = "ASSISTDESK_CHATBOT";
 // const BASE_URL = "https://api.assistdesk.in";
 // const ASSETS_URL = "https://www.assistdesk.in";
 const BASE_URL = "http://localhost:8000";
@@ -87,12 +87,12 @@ function displayMessage(sender, message) {
 		messageElement.style.backgroundColor = "rgba(0,0,0, 0.1)";
 		messageElement.style.color = "black";
 		messageElement.style.borderTopRightRadius = "5px";
-		messageElement.style.boxShadow = "0 0 3px rgba(0,0,0,0.3)";
+		messageElement.style.boxShadow = "0 0 5px rgba(0,0,0,0.3)";
 		messageElement.style.borderBottomRightRadius = "5px";
 		messageElement.style.borderBottomLeftRadius = "5px";
 	} else {
 		messageElement.style.backgroundColor = "black";
-		messageElement.style.boxShadow = "0 0 3px rgba(0,0,0,0.3)";
+		messageElement.style.boxShadow = "0 0 5px rgba(0,0,0,0.3)";
 		messageElement.style.color = "white";
 		messageElement.style.marginLeft = "auto"; // align right
 		messageElement.style.borderTopLeftRadius = "5px";
@@ -210,7 +210,6 @@ function app({
 		chatWindow.style.top = "0";
 		chatWindow.style.left = "0";
 		chatWindow.style.borderRadius = "0px";
-		chatWindow.style.border = "solid 1px";
 	} else {
 		chatWindow.style.border = "solid 0.5px lightgray";
 		chatWindow.style.boxShadow = "0 0 3px rgba(0,0,0,0.3)";
@@ -304,11 +303,15 @@ function app({
 	messageInput.style.fontSize = isTabletOrBelow ? "17px" : "14px";
 	messageInput.placeholder = "Ask any question...";
 
-	messageInput.addEventListener("focus", (e) => {
-		messageInput.style.border = "gray solid 2px";
+	// Attach an event listener for the 'focus' event
+	messageInput.addEventListener("focus", function () {
+		// Apply a border color when the input is focused
+		messageInput.style.border = "black solid 2px";
 	});
 
-	messageInput.addEventListener("blur", (e) => {
+	// Attach an event listener for the 'blur' event
+	messageInput.addEventListener("blur", function () {
+		// Remove the border color when the input loses focus
 		messageInput.style.border = "white solid 2px";
 	});
 
@@ -390,16 +393,19 @@ function app({
 	chatWindow.appendChild(sendContainerWrapper);
 
 	const poweredByContainer = document.createElement("div");
-	poweredByContainer.style.height = "3%";
+	poweredByContainer.style.height = "5%";
 	poweredByContainer.style.display = "flex";
 	// poweredByContainer.style.border = "brown solid 1px";
 	poweredByContainer.style.padding = "2px";
 	poweredByContainer.style.alignItems = "center";
 	poweredByContainer.style.justifyContent = "center";
 	const poweredByText = document.createElement("p");
-	const poweredByCompanyName = document.createElement("span");
+	const poweredByCompanyName = document.createElement("a");
 	poweredByCompanyName.style.fontWeight = 800;
 	poweredByCompanyName.textContent = "Assist Desk";
+	poweredByCompanyName.href = "https://www.assistdesk.in";
+	poweredByCompanyName.target = "_blank";
+	poweredByCompanyName.style.textDecoration = "underline";
 	poweredByText.textContent = "Powered By ";
 	poweredByText.style.fontFamily = "sans-serif";
 	poweredByText.style.fontSize = "12px";

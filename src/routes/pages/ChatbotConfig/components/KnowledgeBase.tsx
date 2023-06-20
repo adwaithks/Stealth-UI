@@ -32,31 +32,36 @@ const KnowledgeBase: React.FC<{ base: string; chatbotId: number }> = ({
 	}, [isDisabled, base]);
 
 	const handleRetrainChatbot = () => {
-		session
-			?.getToken({ template: "stealth-token-template" })
-			.then((token) => {
-				if (!token) {
+		if (
+			window.confirm(
+				"Are you sure you want to retrain the chatbot with latest changes in your knowledge base?"
+			)
+		)
+			session
+				?.getToken({ template: "stealth-token-template" })
+				.then((token) => {
+					if (!token) {
+						navigate("/signin");
+						return;
+					}
+					setIsDisabled(true);
+					dispatch(
+						retrainChatbot({
+							chatbotId,
+							knowledgeBase: chatbotKnowledge,
+							token,
+						})
+					)
+						.then(() => {
+							setChatbotKnowledge(chatbotKnowledge);
+						})
+						.catch(() => {
+							setChatbotKnowledge(base);
+						});
+				})
+				.catch(() => {
 					navigate("/signin");
-					return;
-				}
-				setIsDisabled(true);
-				dispatch(
-					retrainChatbot({
-						chatbotId,
-						knowledgeBase: chatbotKnowledge,
-						token,
-					})
-				)
-					.then(() => {
-						setChatbotKnowledge(chatbotKnowledge);
-					})
-					.catch(() => {
-						setChatbotKnowledge(base);
-					});
-			})
-			.catch(() => {
-				navigate("/signin");
-			});
+				});
 	};
 
 	return (

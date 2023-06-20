@@ -25,6 +25,10 @@ const ChatbotPreview: React.FC<{ chatbotId: number }> = ({ chatbotId }) => {
 	const { session } = useClerk();
 
 	const handleSend = () => {
+		if (question.length === 0) {
+			alert("Please enter the question!");
+			return;
+		}
 		session
 			?.getToken({ template: "stealth-token-template" })
 			.then((token) => {

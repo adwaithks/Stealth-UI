@@ -88,7 +88,6 @@ const Landing: React.FC = () => {
 
 			<Features />
 			<HowItWorks />
-
 			<TrainChatbotNow />
 
 			<Box
@@ -108,9 +107,9 @@ const Landing: React.FC = () => {
 						flexDirection: "column",
 					}}
 				>
-					<Text fontSize="xl" fontWeight="bold">
+					<Text textAlign="center" fontSize="xl" fontWeight="bold">
 						Knock, knock! Who's there? Opportunity! Email us for
-						exclusive alpha access.
+						exclusive beta access.
 					</Text>
 				</Box>
 				<Container sx={{ mt: 0, mb: 5 }}>
@@ -132,7 +131,7 @@ const Landing: React.FC = () => {
 							color="white"
 							sx={{ width: "100%", mt: 2 }}
 						>
-							Email Us for Exclusive Alpha Access
+							Email Us for Exclusive Beta Access
 							<ArrowForwardIcon sx={{ ml: 1 }} />
 						</Button>
 					</Link>
