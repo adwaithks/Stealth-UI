@@ -458,7 +458,6 @@ function app({
 					message: message,
 				});
 				displayMessage("user", message);
-				// TODO: Process the user message here
 				messageInput.value = "";
 				let cookieValue = getCookie(cookieName);
 				if (!cookieValue) {
@@ -573,6 +572,7 @@ document.addEventListener("DOMContentLoaded", () => {
 					return;
 				}
 			} catch {
+				console.log("ASSIST DESK BOT FAILED TO LOAD");
 				return;
 			}
 
@@ -606,9 +606,6 @@ document.addEventListener("DOMContentLoaded", () => {
 			}
 		})
 		.catch((err) => {
-			// displayMessage(
-			// 	"bot",
-			// 	"Something unexpected happened :( We are fixing it! Don't worry :) "
-			// );
+			console.log("ASSIST DESK BOT FAILED TO LOAD");
 		});
 });
