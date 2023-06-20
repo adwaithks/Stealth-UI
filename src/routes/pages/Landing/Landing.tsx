@@ -33,7 +33,7 @@ const Landing: React.FC = () => {
 				<Text
 					sx={{
 						fontSize: {
-							base: "5xl",
+							base: "4xl",
 							md: "6xl",
 							lg: "7xl",
 						},
@@ -53,7 +53,7 @@ const Landing: React.FC = () => {
 						mt: -5,
 						textAlign: "center",
 						fontSize: {
-							base: "xl",
+							base: "lg",
 							md: "xl",
 							lg: "xl",
 						},
@@ -127,8 +127,10 @@ const Landing: React.FC = () => {
 							_hover={{
 								opacity: 0.6,
 							}}
+							size="md"
+							px={5}
 							color="white"
-							sx={{ width: "100%", mt: 2 }}
+							sx={{ mt: 2 }}
 						>
 							Email Us for Exclusive Beta Access
 							<ArrowForwardIcon sx={{ ml: 1 }} />
