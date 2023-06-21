@@ -34,6 +34,15 @@ export interface IAppState {
 		urls: string[];
 		getAllUrlsApiStatus: string;
 	};
+	user: {
+		userId: string;
+		email: string;
+		cancelUrl: string;
+		updateUrl: string;
+		subId: number;
+		subPlanId: number;
+		getUserApiStatus: string;
+	};
 }
 
 const store = configureStore({

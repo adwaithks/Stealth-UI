@@ -61,15 +61,26 @@ const Navbar: React.FC = () => {
 				}}
 			>
 				<SignedIn>
-					<Link color="black" sx={{ mr: 4 }} href="/app">
+					<Link
+						color="black"
+						sx={{ mr: 4 }}
+						onClick={() => navigate("/app")}
+					>
 						dashboard
+					</Link>
+					<Link
+						color="black"
+						sx={{ mr: 4 }}
+						onClick={() => navigate("/billing")}
+					>
+						billing
 					</Link>
 					<Link
 						color="black"
 						onClick={() => redirectToUserProfile()}
 						sx={{ mr: 4 }}
 					>
-						Account
+						account
 					</Link>
 					<Button size="sm" colorScheme="red">
 						<SignOutButton> Log out</SignOutButton>
