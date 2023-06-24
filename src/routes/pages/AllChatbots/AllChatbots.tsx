@@ -12,6 +12,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useClerk } from "@clerk/clerk-react";
 import AllChatbotsSkeleton from "./components/AllChatbotsSkeleton";
+import Tickets from "../Tickets/Tickets";
 
 const AllChatbots = () => {
 	const dispatch = useAppDispatch();
@@ -34,76 +35,82 @@ const AllChatbots = () => {
 
 	return (
 		<Box>
-			<Box
-				sx={{
-					display: "flex",
-					alignItems: "center",
-					mb: 5,
-					justifyContent: "space-between",
-				}}
-			>
-				<Box>
-					<Text sx={{ mb: -0.5 }} fontSize="3xl" fontWeight="bold">
-						Your Chatbots
-					</Text>
-					<Text fontSize="sm" color="gray">
-						Explore and manage your created chatbots
-					</Text>
-				</Box>
-				<Button
-					_hover={{
-						opacity: 0.6,
+			<Box sx={{ overflow: "hidden", height: "calc((100vh - 65px)/2)" }}>
+				<Box
+					sx={{
+						display: "flex",
+						alignItems: "center",
+						justifyContent: "space-between",
 					}}
-					onClick={(e) => {
-						e.preventDefault();
-						e.stopPropagation();
-						navigate("/app/createbot");
-						// setCreateNewChatbotModalIsOpen(true);
-					}}
-					sx={{ backgroundColor: "black", color: "white" }}
-					variant="solid"
 				>
-					<AddIcon sx={{ mr: 2 }} />
-					Create New Chatbot
-				</Button>
-			</Box>
-
-			<Divider sx={{ mb: 5 }} orientation="horizontal" />
-
-			<Box sx={{ borderRadius: 5 }}>
-				{getMyChatbotsApiStatus === "pending" && (
-					<AllChatbotsSkeleton />
-				)}
-				{getMyChatbotsApiStatus === "fulfilled" &&
-					chatbots.length === 0 && (
-						<Text fontSize="xl" fontWeight="black" color="gray">
-							You don't have any chatbots. Create one 🚀
+					<Box>
+						<Text
+							sx={{ mb: -0.5 }}
+							fontSize="3xl"
+							fontWeight="bold"
+						>
+							Your Chatbots
 						</Text>
+						<Text fontSize="sm" color="gray">
+							Explore and manage your created chatbots
+						</Text>
+					</Box>
+					<Button
+						_hover={{
+							opacity: 0.6,
+						}}
+						onClick={(e) => {
+							e.preventDefault();
+							e.stopPropagation();
+							navigate("/app/createbot");
+							// setCreateNewChatbotModalIsOpen(true);
+						}}
+						sx={{ backgroundColor: "black", color: "white" }}
+						variant="solid"
+					>
+						<AddIcon sx={{ mr: 2 }} />
+						Create New Chatbot
+					</Button>
+				</Box>
+
+				<Divider sx={{ mb: 5 }} orientation="horizontal" />
+
+				<Box sx={{ overflow: "auto" }}>
+					{getMyChatbotsApiStatus === "pending" && (
+						<AllChatbotsSkeleton />
 					)}
-				{getMyChatbotsApiStatus === "fulfilled" &&
-					chatbots.map(
-						({
-							chatbotName,
-							creationDate,
-							knowledgeBase,
-							status,
-							chatbotId,
-							domains,
-						}) => {
-							return (
-								<ChatbotCard
-									key={chatbotId}
-									id={chatbotId}
-									name={chatbotName}
-									knowledgeBase={knowledgeBase}
-									creationDate={creationDate}
-									status={status}
-									domains={domains}
-								/>
-							);
-						}
-					)}
+					{getMyChatbotsApiStatus === "fulfilled" &&
+						chatbots.length === 0 && (
+							<Text fontSize="xl" fontWeight="black" color="gray">
+								You don't have any chatbots. Create one 🚀
+							</Text>
+						)}
+					{getMyChatbotsApiStatus === "fulfilled" &&
+						chatbots.map(
+							({
+								chatbotName,
+								creationDate,
+								knowledgeBase,
+								status,
+								chatbotId,
+								domains,
+							}) => {
+								return (
+									<ChatbotCard
+										key={chatbotId}
+										id={chatbotId}
+										name={chatbotName}
+										knowledgeBase={knowledgeBase}
+										creationDate={creationDate}
+										status={status}
+										domains={domains}
+									/>
+								);
+							}
+						)}
+				</Box>
 			</Box>
+			<Tickets />
 		</Box>
 	);
 };

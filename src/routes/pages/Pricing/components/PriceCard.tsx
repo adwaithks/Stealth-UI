@@ -16,7 +16,7 @@ const PriceCard: React.FC<{
 		<Box
 			sx={{
 				width: isMobile ? "90%" : 310,
-				height: 310,
+				height: "fit-content",
 				boxShadow: "0 0 10px lightgray",
 				borderRadius: 5,
 				p: 3,
@@ -35,7 +35,11 @@ const PriceCard: React.FC<{
 				</Box>
 				<Box sx={{ mt: 2 }}>
 					{features.map((feature, idx) => {
-						return <Text key={idx}>- {feature}</Text>;
+						return (
+							<li style={{ padding: 2 }} key={idx}>
+								{feature}
+							</li>
+						);
 					})}
 				</Box>
 			</Box>
@@ -43,6 +47,7 @@ const PriceCard: React.FC<{
 				sx={{
 					height: "10%",
 					display: "flex",
+					mt: 2,
 					alignItems: "center",
 					justifyContent: "center",
 				}}

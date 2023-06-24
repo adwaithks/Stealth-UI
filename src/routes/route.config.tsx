@@ -12,6 +12,7 @@ import Pricing from "./pages/Pricing/Pricing";
 import Contact from "./pages/Contact/Contact";
 import Privacy from "./pages/Privacy/Privacy";
 import Billing from "./pages/Billing/Billing";
+import Tickets from "./pages/Tickets/Tickets";
 
 const RouteConfig: React.FC = () => {
 	return (
@@ -34,6 +35,20 @@ const RouteConfig: React.FC = () => {
 							<>
 								<SignedIn>
 									<AllChatbots />
+								</SignedIn>
+								<SignedOut>
+									<Navigate to="/" replace />
+								</SignedOut>
+							</>
+						}
+					/>
+
+					<Route
+						path="tickets"
+						element={
+							<>
+								<SignedIn>
+									<Tickets />
 								</SignedIn>
 								<SignedOut>
 									<Navigate to="/" replace />

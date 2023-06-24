@@ -18,7 +18,7 @@ export const getChatbotById = createAsyncThunk(
 					? err.message
 					: "Failed to get chatbot information!",
 				status: "error",
-				duration: 9000,
+				duration: 2000,
 				isClosable: true,
 				variant: "left-accent",
 			});

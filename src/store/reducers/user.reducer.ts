@@ -18,7 +18,7 @@ export const getUser = createAsyncThunk(
 					? err.message
 					: "Failed to get user information",
 				status: "error",
-				duration: 9000,
+				duration: 2000,
 				isClosable: true,
 				variant: "left-accent",
 			});

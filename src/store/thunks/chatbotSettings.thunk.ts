@@ -37,7 +37,7 @@ export const udpateChatbotStatus = createAsyncThunk(
 				title: "Success",
 				description: "Status updatation success!",
 				status: "success",
-				duration: 9000,
+				duration: 2000,
 				isClosable: true,
 				variant: "left-accent",
 			});
@@ -49,7 +49,7 @@ export const udpateChatbotStatus = createAsyncThunk(
 					? err.message
 					: "Status updation failed!",
 				status: "error",
-				duration: 9000,
+				duration: 2000,
 				isClosable: true,
 				variant: "left-accent",
 			});
@@ -81,7 +81,7 @@ export const updateChatbotName = createAsyncThunk(
 				title: "Success",
 				description: "Name successfully updated!",
 				status: "success",
-				duration: 9000,
+				duration: 2000,
 				isClosable: true,
 				variant: "left-accent",
 			});
@@ -94,7 +94,7 @@ export const updateChatbotName = createAsyncThunk(
 					? err.message
 					: "Failed to update chatbot name!",
 				status: "error",
-				duration: 9000,
+				duration: 2000,
 				isClosable: true,
 				variant: "left-accent",
 			});
@@ -128,7 +128,7 @@ export const updateChatbotDomains = createAsyncThunk(
 				title: "Success",
 				description: "Domains updated successfully!",
 				status: "success",
-				duration: 9000,
+				duration: 2000,
 				isClosable: true,
 				variant: "left-accent",
 			});
@@ -140,7 +140,7 @@ export const updateChatbotDomains = createAsyncThunk(
 					? err.message
 					: "Domain updation failed!",
 				status: "error",
-				duration: 9000,
+				duration: 2000,
 				isClosable: true,
 				variant: "left-accent",
 			});
@@ -174,7 +174,7 @@ export const updateChatbotPosition = createAsyncThunk(
 				title: "Success",
 				description: "Chatbot position updated successfully!",
 				status: "success",
-				duration: 9000,
+				duration: 2000,
 				isClosable: true,
 				variant: "left-accent",
 			});
@@ -186,7 +186,7 @@ export const updateChatbotPosition = createAsyncThunk(
 					? err.message
 					: "Failed to update chatbot position",
 				status: "error",
-				duration: 9000,
+				duration: 2000,
 				isClosable: true,
 				variant: "left-accent",
 			});
@@ -204,7 +204,7 @@ export const deleteChatbot = createAsyncThunk(
 				title: "Success",
 				description: "Chatbot deleted successfully!",
 				status: "success",
-				duration: 9000,
+				duration: 2000,
 				isClosable: true,
 				variant: "left-accent",
 			});
@@ -216,7 +216,7 @@ export const deleteChatbot = createAsyncThunk(
 					? err.message
 					: "Failed to delete chatbot",
 				status: "error",
-				duration: 9000,
+				duration: 2000,
 				isClosable: true,
 				variant: "left-accent",
 			});
