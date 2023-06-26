@@ -808,7 +808,6 @@ document.addEventListener("DOMContentLoaded", () => {
 					}
 				});
 
-				console.log({ match });
 				if (!match) {
 					return;
 				}

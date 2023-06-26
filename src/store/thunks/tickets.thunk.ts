@@ -9,7 +9,6 @@ export const getTickets = createAsyncThunk(
 	async ({ token }: { token: string }) => {
 		try {
 			const data = await getTicketsApi(token);
-			console.log(data);
 			return data;
 		} catch (err: any) {
 			toast({

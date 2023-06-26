@@ -1,7 +1,7 @@
-import { Badge, Box, Button, Divider, Text } from "@chakra-ui/react";
+import { Badge, Box, Button, Text } from "@chakra-ui/react";
 import { useClerk } from "@clerk/clerk-react";
 import React from "react";
-import { subscriptionPlanIdToName } from "../../../../utils/subscriptionPlans";
+import { useNavigate } from "react-router-dom";
 
 const BillCard: React.FC<{
 	id: number;
@@ -11,28 +11,32 @@ const BillCard: React.FC<{
 	currentSubscription: any;
 }> = ({ id, name, price, type, currentSubscription: sub }) => {
 	const { session } = useClerk();
+	const navigate = useNavigate();
 
 	return (
 		<Box
 			sx={{
 				boxShadow: "0 0 5px lightgray",
 				borderRadius: 5,
-				border:
-					sub && sub.plan_id === id && sub.state === "active"
-						? "green solid 1px"
-						: "none",
 				minWidth: 250,
-				bgColor:
-					sub &&
-					sub.plan_id === id &&
-					sub.state === "active" &&
-					"rgba(0, 237, 64, 0.1)",
 				maxWidth: "fit-content",
 				height: "fit-content",
 				p: 3,
 			}}
 		>
-			{(!sub || sub.plan_id !== id || sub.state === "deleted") && (
+			{sub && sub.subscription_plan_id === id ? (
+				<Box>
+					<Text fontSize="2xl" fontWeight="bold">
+						{name}
+					</Text>
+					<Text fontSize="xl">
+						{price}/{type}
+					</Text>
+					<Badge mr={2} colorScheme="green">
+						Subscribed
+					</Badge>
+				</Box>
+			) : (
 				<Box>
 					<Text fontSize="2xl" fontWeight="bold">
 						{name}
@@ -46,63 +50,8 @@ const BillCard: React.FC<{
 				</Box>
 			)}
 
-			{sub && sub.plan_id === id && sub.state === "active" && (
-				<>
-					<Box mb={2}>
-						<Text>
-							<Text fontSize="2xl" fontWeight="bold">
-								{subscriptionPlanIdToName[sub.plan_id]}
-							</Text>{" "}
-							<Badge mr={2} colorScheme="orange">
-								#{sub.plan_id}
-							</Badge>
-							<Badge colorScheme="green">
-								{" "}
-								Subscription Active
-							</Badge>
-						</Text>
-					</Box>
-					<Divider />
-					<Box
-						sx={{
-							bgColor: "rgba(0 ,0, 0,0.05)",
-							borderRadius: 5,
-							width: "fit-content",
-							mt: 2,
-							px: 2,
-						}}
-					>
-						<Text sx={{ display: "flex", alignItems: "center" }}>
-							Last Payment on
-							<Text fontSize="xl" fontWeight="bold" mx={2}>
-								{sub.last_payment.date}
-							</Text>
-							of
-							<Text fontSize="xl" fontWeight="bold" mx={2}>
-								{sub.last_payment.currency}
-								{sub.last_payment.amount}
-							</Text>
-						</Text>
-
-						<Text sx={{ display: "flex", alignItems: "center" }}>
-							Next Payment on
-							<Text fontSize="xl" fontWeight="bold" mx={2}>
-								{sub.next_payment.date}
-							</Text>
-						</Text>
-
-						<Text sx={{ display: "flex", alignItems: "center" }}>
-							Subscribed on{" "}
-							<Text fontSize="xl" fontWeight="bold" mx={2}>
-								{sub.signup_date.split(" ")[0]}
-							</Text>
-						</Text>
-					</Box>
-				</>
-			)}
-
 			<Box>
-				{sub && sub.plan_id === id && sub.state === "active" ? (
+				{sub && sub.subscription_plan_id === id ? (
 					<Button
 						onClick={() => {
 							window.open(sub.cancel_url, "_blank");
@@ -123,6 +72,9 @@ const BillCard: React.FC<{
 									email: session?.user.primaryEmailAddress
 										?.emailAddress,
 								}),
+								successCallback: () => {
+									navigate("/app");
+								},
 							});
 						}}
 						mt={2}

@@ -1,7 +1,6 @@
 import { createStandaloneToast } from "@chakra-ui/react";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getUserApi } from "../../api/user.api";
-import { IUser } from "../../types/user.type";
 
 const { toast } = createStandaloneToast();
 
@@ -37,10 +36,17 @@ const userSlice = createSlice({
 			updateUrl: "",
 			subId: -1,
 			subPlanId: -1,
-		} as IUser,
+			subscription: {
+				status: false,
+			},
+		},
 		getUserApiStatus: "idle",
 	},
-	reducers: {},
+	reducers: {
+		notSubscribed: (state) => {
+			state.user.subscription.status = false;
+		},
+	},
 	extraReducers(builder) {
 		builder
 			.addCase(getUser.pending, (state) => {
@@ -60,5 +66,7 @@ const userSlice = createSlice({
 			});
 	},
 });
+
+export const userAction = userSlice.actions;
 
 export default userSlice.reducer;

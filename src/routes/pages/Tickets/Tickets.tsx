@@ -1,4 +1,4 @@
-import { Badge, Box, Divider, Text } from "@chakra-ui/react";
+import { Badge, Box, Button, Divider, Text } from "@chakra-ui/react";
 import { useClerk } from "@clerk/clerk-react";
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
@@ -10,8 +10,9 @@ import {
 	ticketsSelector,
 } from "../../../store/selectors/tickets.selector";
 import TicketWidget from "./components/TicketWidget";
-import { ArrowForwardIcon } from "@chakra-ui/icons";
+import { ArrowForwardIcon, ChevronLeftIcon } from "@chakra-ui/icons";
 import TicketSkeleton from "./components/TicketSkeleton";
+import TicketTabs from "./components/TicketTabs";
 
 const Tickets: React.FC = () => {
 	const { session } = useClerk();
@@ -25,7 +26,7 @@ const Tickets: React.FC = () => {
 			?.getToken({ template: "stealth-token-template" })
 			.then((token) => {
 				if (!token) {
-					navigate("/signin");
+					navigate("/");
 					return;
 				}
 				dispatch(
@@ -35,7 +36,7 @@ const Tickets: React.FC = () => {
 				);
 			})
 			.catch(() => {
-				navigate("/signin");
+				navigate("/");
 			});
 	}, [dispatch, navigate, session]);
 
@@ -53,6 +54,19 @@ const Tickets: React.FC = () => {
 				overflow: "hidden",
 			}}
 		>
+			{isTicketsDedicatedPage && (
+				<Box sx={{ mb: 2 }}>
+					<Button
+						onClick={() => navigate("/app", { replace: true })}
+						size="sm"
+						fontWeight="hairline"
+						variant="outline"
+					>
+						<ChevronLeftIcon />
+						Go Back
+					</Button>
+				</Box>
+			)}
 			<Box
 				sx={{ cursor: "pointer" }}
 				onClick={() => navigate("/tickets", { replace: true })}
@@ -87,13 +101,13 @@ const Tickets: React.FC = () => {
 			<Box sx={{ height: "100%", overflow: "auto" }}>
 				{ticketsApiStatus === "fulfilled" && (
 					<Box>
-						{isTicketsDedicatedPage
-							? tickets.map((ticket) => {
-									return <TicketWidget ticket={ticket} />;
-							  })
-							: tickets.slice(0, 5).map((ticket) => {
-									return <TicketWidget ticket={ticket} />;
-							  })}
+						{isTicketsDedicatedPage ? (
+							<TicketTabs tickets={tickets} />
+						) : (
+							tickets.slice(0, 5).map((ticket) => {
+								return <TicketWidget ticket={ticket} />;
+							})
+						)}
 					</Box>
 				)}
 			</Box>

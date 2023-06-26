@@ -1,31 +1,20 @@
 import { Alert, AlertIcon, Box, createStandaloneToast } from "@chakra-ui/react";
-import React, { useEffect } from "react";
+import React from "react";
 import { Outlet } from "react-router-dom";
 import Navbar from "../Navbar/Navbar";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { createNewChatbotApiStatusSelector } from "../../store/selectors/chatbots.selector";
-import { useClerk } from "@clerk/clerk-react";
-import { getUser } from "../../store/reducers/user.reducer";
+import NotSubscribedModal from "../NotSubscribedModal/NotSubscribedModal";
+import { isSubscribedSelector } from "../../store/selectors/user.selector";
 
 const RootLayout: React.FC = () => {
 	const { ToastContainer } = createStandaloneToast();
 	const isTraining = useSelector(createNewChatbotApiStatusSelector);
-	const { session } = useClerk();
-	const dispatch = useDispatch();
-
-	// useEffect(() => {
-	// 	session
-	// 		?.getToken({ template: "stealth-token-template" })
-	// 		.then((token) => {
-	// 			if (!token) {
-	// 				return;
-	// 			}
-	// 			dispatch(getUser({ token }));
-	// 		});
-	// });
+	const isSubscribed = useSelector(isSubscribedSelector);
 
 	return (
 		<Box sx={{ width: "100%", height: "100vh" }}>
+			{isSubscribed?.state && <NotSubscribedModal />}
 			{isTraining === "pending" && (
 				<Alert status="loading" variant="subtle">
 					<AlertIcon />

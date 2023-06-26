@@ -63,7 +63,7 @@ const TicketWidget: React.FC<{ ticket: ITicket }> = (ticket) => {
 			?.getToken({ template: "stealth-token-template" })
 			.then((token) => {
 				if (!token) {
-					navigate("/signin");
+					navigate("/");
 					return;
 				}
 				dispatch(
@@ -79,7 +79,7 @@ const TicketWidget: React.FC<{ ticket: ITicket }> = (ticket) => {
 				);
 			})
 			.catch(() => {
-				navigate("/signin");
+				navigate("/");
 			})
 			.finally(() => {
 				setIsUpdating(false);

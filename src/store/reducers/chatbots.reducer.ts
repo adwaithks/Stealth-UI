@@ -28,6 +28,7 @@ export const getMyChatbots = createAsyncThunk(
 			const data = await getMyChatbotsApi(token);
 			return data;
 		} catch (err: any) {
+			console.log(err);
 			toast({
 				title: "Something went wrong",
 				description: err?.message

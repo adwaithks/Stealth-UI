@@ -108,7 +108,15 @@ const Navbar: React.FC = () => {
 							</Link>
 						</>
 					)}
-					<Button size="sm" bgColor="whatsapp.500">
+					<Button
+						size="sm"
+						sx={{
+							display: "flex",
+							alignItems: "center",
+							justifyContent: "center",
+						}}
+						bgColor="whatsapp.500"
+					>
 						<SignInButton
 							afterSignInUrl="/app"
 							afterSignUpUrl="/app"

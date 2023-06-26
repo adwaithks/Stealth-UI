@@ -25,6 +25,7 @@ const Billing: React.FC = () => {
 				}
 				getMySubscriptionApi(token)
 					.then((data) => {
+						console.log("getmysubapi", data);
 						setCurrentSubscription(data);
 					})
 					.catch(() => {

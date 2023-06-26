@@ -43,6 +43,9 @@ export interface IAppState {
 		subId: number;
 		subPlanId: number;
 		getUserApiStatus: string;
+		subscription: {
+			state: boolean;
+		};
 	};
 	tickets: {
 		tickets: ITicket[];

@@ -39,11 +39,10 @@ export const getTicketsApi = async (token: string) => {
 		},
 	});
 
-	if (!res.ok) {
-		throw res.statusText;
-	}
-
 	const data = await res.json();
+	if (!res.ok) {
+		throw data?.message || res.statusText;
+	}
 	return ticketsSerializer(data.message);
 };
 
@@ -72,11 +71,10 @@ export const updateTicketStatusApi = async (
 		}),
 	});
 
-	if (!res.ok) {
-		throw res.statusText;
-	}
-
 	const data = await res.json();
-	console.log("data: ", data);
+
+	if (!res.ok) {
+		throw data || res.statusText;
+	}
 	return ticketSerializer(data.message);
 };
