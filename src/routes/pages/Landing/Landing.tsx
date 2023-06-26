@@ -61,7 +61,7 @@ const Landing: React.FC = () => {
 					color="rgba(0, 0, 0, 0.5)"
 				>
 					Leap into Seamless Support: Introducing Assist Desk - Your
-					Trusted Customer Support Chatbot Companion!
+					Customer Support Chatbot Companion!
 				</Container>
 				<Box sx={{ mt: 5 }}>
 					<Button
@@ -113,7 +113,7 @@ const Landing: React.FC = () => {
 				</Box>
 				<Container sx={{ mt: 0, mb: 5 }}>
 					<Link
-						href="mailto:official@assistdesk.in?subject=Request%20for%20Alpha%20Access&body=Hey,"
+						href="mailto:official@assistdesk.in?subject=Request%20for%20Beta%20Access&body=Hey,"
 						sx={{
 							textDecoration: "none",
 							display: "flex",

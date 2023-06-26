@@ -42,9 +42,13 @@ const Features: React.FC = () => {
 					title="Train on website content"
 					description="Unlock unlimited possibilities with our platform. Create chatbots on your website content to cater to different use cases, products, or services. With our flexible and scalable solution, you can effortlessly deploy multiple chatbots and manage them all from a single, intuitive interface."
 				/>
-				<FeatureCard
+				{/* <FeatureCard
 					title="Intelligent Replies"
 					description="Harness the power of Open AI to deliver intelligent and contextually relevant replies. Chatbots utilize advanced NLP and machine learning techniques to understand user intent, analyze context, and generate intelligent responses that align with user expectations."
+				/> */}
+				<FeatureCard
+					title="Raise Tickets"
+					description="Streamline your customer support process by enabling users to raise tickets directly through our AI chatbots. When users encounter complex or specific issues that require further assistance, they can easily raise a ticket for a support agent to address. "
 				/>
 			</Box>
 		</section>

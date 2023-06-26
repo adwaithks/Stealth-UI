@@ -64,7 +64,7 @@ const HowItWorks: React.FC = () => {
 				/>
 				<WorkCard
 					title="Step 4"
-					description="you can retrain your chatbot anytime you want. As your website evolves and your content grows, you can easily update your chatbot to stay up to date."
+					description="You can retrain your chatbot anytime you want. As your website evolves and your content grows, you can easily update your chatbot to stay up to date."
 				/>
 			</Box>
 		</section>

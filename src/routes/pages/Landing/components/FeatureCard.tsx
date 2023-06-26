@@ -1,4 +1,10 @@
-import { ChatIcon, CheckIcon, EditIcon, TimeIcon } from "@chakra-ui/icons";
+import {
+	BellIcon,
+	ChatIcon,
+	CheckIcon,
+	EditIcon,
+	TimeIcon,
+} from "@chakra-ui/icons";
 import { Box, Text } from "@chakra-ui/react";
 import React from "react";
 
@@ -7,6 +13,7 @@ const titleToIcon: { [key: string]: React.ReactNode } = {
 	"Manual Training Control": <EditIcon color="white" fontSize="2xl" />,
 	"Train on website content": <CheckIcon color="white" fontSize="2xl" />,
 	"Intelligent Replies": <ChatIcon color="white" fontSize="2xl" />,
+	"Raise Tickets": <BellIcon color="white" fontSize="2xl" />,
 };
 
 const FeatureCard: React.FC<{ title: string; description: string }> = ({
