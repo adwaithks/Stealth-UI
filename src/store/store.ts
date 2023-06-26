@@ -5,6 +5,7 @@ import thunkMiddleware from "redux-thunk";
 import { useDispatch } from "react-redux";
 import { Chatbot } from "../types/chatbot.type.ts";
 import { Chat } from "../types/chats.type.ts";
+import { ITicket } from "../types/ticket.type.ts";
 
 export type AppDispatch = typeof store.dispatch;
 export const useAppDispatch = () => useDispatch<AppDispatch>();
@@ -33,6 +34,23 @@ export interface IAppState {
 	crawler: {
 		urls: string[];
 		getAllUrlsApiStatus: string;
+	};
+	user: {
+		userId: string;
+		email: string;
+		cancelUrl: string;
+		updateUrl: string;
+		subId: number;
+		subPlanId: number;
+		getUserApiStatus: string;
+		subscription: {
+			state: boolean;
+		};
+	};
+	tickets: {
+		tickets: ITicket[];
+		getTicketsApiStatus: string;
+		updateTicketStatusApiStatus: string;
 	};
 }
 

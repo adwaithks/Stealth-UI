@@ -35,7 +35,7 @@ const QuickReplies: React.FC<{
 				?.getToken({ template: "stealth-token-template" })
 				.then((token) => {
 					if (!token) {
-						navigate("/signin");
+						navigate("/");
 						return;
 					}
 					const quickReplies_ = quickReplies ? quickReplies : [];
@@ -49,7 +49,7 @@ const QuickReplies: React.FC<{
 					);
 				})
 				.catch(() => {
-					navigate("/signin");
+					navigate("/");
 				});
 	};
 
@@ -66,7 +66,7 @@ const QuickReplies: React.FC<{
 			?.getToken({ template: "stealth-token-template" })
 			.then((token) => {
 				if (!token) {
-					navigate("/signin");
+					navigate("/");
 					return;
 				}
 				dispatch(
@@ -80,7 +80,7 @@ const QuickReplies: React.FC<{
 				);
 			})
 			.catch(() => {
-				navigate("/signin");
+				navigate("/");
 			});
 	};
 
@@ -96,7 +96,7 @@ const QuickReplies: React.FC<{
 			?.getToken({ template: "stealth-token-template" })
 			.then((token) => {
 				if (!token) {
-					navigate("/signin");
+					navigate("/");
 					return;
 				}
 				dispatch(
@@ -109,7 +109,7 @@ const QuickReplies: React.FC<{
 				);
 			})
 			.catch(() => {
-				navigate("/signin");
+				navigate("/");
 			});
 	};
 

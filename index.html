@@ -21,10 +21,15 @@
 	<body>
 		<div id="root"></div>
 		<script type="module" src="/src/main.tsx"></script>
+		<script src="https://cdn.paddle.com/paddle/paddle.js"></script>
+		<script type="text/javascript">
+			Paddle.Setup({ vendor: 12787 }); // replace with your vendor ID
+			Paddle.Environment.set("sandbox"); // only include if testing in sandbox
+		</script>
 		<script
 			id="stealth-chatbot-widget"
-			data-id="28"
-			data-bot="b1f75c7b-65e2-401a-849e-b0f11770e3cf"
+			data-id="30"
+			data-bot="3d12c006-36ee-4b78-bd9d-68c2c9f8a477"
 			src="http://localhost:5173/stealth.js"
 		></script>
 	</body>

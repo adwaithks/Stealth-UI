@@ -5,6 +5,7 @@ import PriceCard from "./components/PriceCard";
 import TrainChatbotNow from "../Landing/components/TrainChatbotNow";
 import Footer from "../Footer/Footer";
 import { ChevronLeftIcon } from "@chakra-ui/icons";
+import { subscriptionPlans } from "../../../utils/subscriptionPlans";
 
 const Pricing: React.FC = () => {
 	useEffect(() => {
@@ -53,19 +54,18 @@ const Pricing: React.FC = () => {
 					mt: 10,
 				}}
 			>
-				<PriceCard
-					title="Starter"
-					pricingInfo={{
-						price: "499",
-						type: "month",
-					}}
-					features={[
-						"Create 2 Chatbots",
-						"Train each chatbot with data from 3 web pages using our crawler",
-						"Manually add training data",
-						"Insights into customer chat history",
-					]}
-				/>
+				{subscriptionPlans.map((plan) => {
+					return (
+						<PriceCard
+							title={plan.name}
+							pricingInfo={{
+								price: plan.recurringPrice.INR,
+								type: plan.billingType,
+							}}
+							features={plan.features}
+						/>
+					);
+				})}
 			</Box>
 			<Text mb={10} mt={10} textAlign="center" color="gray">
 				* The pricing is exclusive of taxes and additional local tax may

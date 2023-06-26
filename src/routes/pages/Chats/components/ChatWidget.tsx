@@ -31,7 +31,6 @@ const ChatWidget: React.FC<{ chats: { [key: string]: Chat[] } }> = ({
 		<Box
 			sx={{
 				display: "flex",
-				boxShadow: "0 0 5px lightgray",
 				borderRadius: 5,
 			}}
 		>

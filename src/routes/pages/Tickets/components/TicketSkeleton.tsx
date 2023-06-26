@@ -1,14 +1,13 @@
 import { Skeleton, Stack } from "@chakra-ui/react";
 import React from "react";
 
-const AllChatbotsSkeleton: React.FC = () => {
+const TicketSkeleton: React.FC = () => {
 	return (
 		<Stack>
 			<Skeleton
 				startColor="lightgray"
 				endColor="gray.100"
-				sx={{ mb: 5 }}
-				height="90px"
+				height="70px"
 				rounded="base"
 			/>
 			<Skeleton
@@ -27,4 +26,4 @@ const AllChatbotsSkeleton: React.FC = () => {
 	);
 };
 
-export default AllChatbotsSkeleton;
+export default TicketSkeleton;

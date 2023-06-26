@@ -28,13 +28,14 @@ export const getMyChatbots = createAsyncThunk(
 			const data = await getMyChatbotsApi(token);
 			return data;
 		} catch (err: any) {
+			console.log(err);
 			toast({
 				title: "Something went wrong",
 				description: err?.message
 					? err.message
 					: "Failed to get your chatbots!",
 				status: "error",
-				duration: 9000,
+				duration: 2000,
 				isClosable: true,
 				variant: "left-accent",
 			});
@@ -60,7 +61,7 @@ export const createNewChatbot = createAsyncThunk(
 				title: "Success",
 				description: "New chatbot created successfully!",
 				status: "success",
-				duration: 9000,
+				duration: 2000,
 				isClosable: true,
 				variant: "left-accent",
 			});
@@ -72,7 +73,7 @@ export const createNewChatbot = createAsyncThunk(
 					? err.message
 					: "Failed to create new chatbot!",
 				status: "error",
-				duration: 9000,
+				duration: 2000,
 				isClosable: true,
 				variant: "left-accent",
 			});
@@ -102,7 +103,7 @@ export const retrainChatbot = createAsyncThunk(
 				title: "Success",
 				description: "Retrained chatbot successfully!",
 				status: "success",
-				duration: 9000,
+				duration: 2000,
 				isClosable: true,
 				variant: "left-accent",
 			});
@@ -114,7 +115,7 @@ export const retrainChatbot = createAsyncThunk(
 					? err.message
 					: "Failed to retrain chatbot!",
 				status: "error",
-				duration: 9000,
+				duration: 2000,
 				isClosable: true,
 				variant: "left-accent",
 			});

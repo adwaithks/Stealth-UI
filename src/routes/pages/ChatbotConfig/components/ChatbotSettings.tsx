@@ -173,7 +173,7 @@ const ChatbotSettings: React.FC<{
 				?.getToken({ template: "stealth-token-template" })
 				.then((token) => {
 					if (!token) {
-						navigate("/signin");
+						navigate("/");
 						return;
 					}
 					dispatch(
@@ -181,7 +181,7 @@ const ChatbotSettings: React.FC<{
 					);
 				})
 				.catch(() => {
-					navigate("/signin");
+					navigate("/");
 				});
 		} else return;
 	};
@@ -196,7 +196,7 @@ const ChatbotSettings: React.FC<{
 				?.getToken({ template: "stealth-token-template" })
 				.then((token) => {
 					if (!token) {
-						navigate("/signin");
+						navigate("/");
 						return;
 					}
 					// setChatbotDomains(newDomains);
@@ -209,7 +209,7 @@ const ChatbotSettings: React.FC<{
 					);
 				})
 				.catch(() => {
-					navigate("/signin");
+					navigate("/");
 				});
 		} else return;
 	};
@@ -237,7 +237,7 @@ const ChatbotSettings: React.FC<{
 				?.getToken({ template: "stealth-token-template" })
 				.then((token) => {
 					if (!token) {
-						navigate("/signin");
+						navigate("/");
 						return;
 					}
 					dispatch(
@@ -249,7 +249,7 @@ const ChatbotSettings: React.FC<{
 					);
 				})
 				.catch(() => {
-					navigate("/signin");
+					navigate("/");
 				});
 
 			setNewDomain("");

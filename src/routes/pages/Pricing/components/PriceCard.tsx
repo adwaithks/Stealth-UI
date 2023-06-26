@@ -1,5 +1,7 @@
 import { Box, Button, Text, useMediaQuery } from "@chakra-ui/react";
+import { useClerk } from "@clerk/clerk-react";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const PriceCard: React.FC<{
 	title: string;
@@ -7,12 +9,14 @@ const PriceCard: React.FC<{
 	features: string[];
 }> = ({ title, pricingInfo, features }) => {
 	const [isMobile] = useMediaQuery("(max-width: 468px)");
+	const { session, redirectToSignIn } = useClerk();
+	const navigate = useNavigate();
 
 	return (
 		<Box
 			sx={{
 				width: isMobile ? "90%" : 310,
-				height: 310,
+				height: "fit-content",
 				boxShadow: "0 0 10px lightgray",
 				borderRadius: 5,
 				p: 3,
@@ -31,7 +35,11 @@ const PriceCard: React.FC<{
 				</Box>
 				<Box sx={{ mt: 2 }}>
 					{features.map((feature, idx) => {
-						return <Text key={idx}>- {feature}</Text>;
+						return (
+							<li style={{ padding: 2 }} key={idx}>
+								{feature}
+							</li>
+						);
 					})}
 				</Box>
 			</Box>
@@ -39,11 +47,23 @@ const PriceCard: React.FC<{
 				sx={{
 					height: "10%",
 					display: "flex",
+					mt: 2,
 					alignItems: "center",
 					justifyContent: "center",
 				}}
 			>
-				<Button width="100%" color="white" bgColor="black">
+				<Button
+					onClick={() => {
+						if (session) {
+							navigate("/billing");
+						} else {
+							redirectToSignIn();
+						}
+					}}
+					width="100%"
+					color="white"
+					bgColor="black"
+				>
 					Subscribe
 				</Button>
 			</Box>
