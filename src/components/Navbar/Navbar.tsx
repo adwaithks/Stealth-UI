@@ -47,7 +47,7 @@ const Navbar: React.FC = () => {
 					onClick={() => navigate("/app")}
 					fontWeight="bold"
 				>
-					<Image mr={2} height={6} width={7} src={Logo} /> Assist Desk{" "}
+					<Image mr={2} height={6} width={6} src={Logo} /> Assist Desk{" "}
 					<Badge ml={2} variant="subtle" colorScheme="red">
 						Beta
 					</Badge>
