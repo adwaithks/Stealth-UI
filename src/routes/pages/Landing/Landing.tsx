@@ -5,13 +5,13 @@ import Features from "./components/Features";
 import { useMediaQuery } from "@chakra-ui/react";
 import { ArrowForwardIcon } from "@chakra-ui/icons";
 import HowItWorks from "./components/HowItWorks";
-import { useClerk } from "@clerk/clerk-react";
 import TrainChatbotNow from "./components/TrainChatbotNow";
 import Footer from "../Footer/Footer";
+import { useNavigate } from "react-router-dom";
 
 const Landing: React.FC = () => {
 	const [isMobile] = useMediaQuery("(max-width: 768px)");
-	const { redirectToSignIn } = useClerk();
+	const navigate = useNavigate();
 
 	return (
 		<Box
@@ -65,7 +65,7 @@ const Landing: React.FC = () => {
 				</Container>
 				<Box sx={{ mt: 5 }}>
 					<Button
-						onClick={() => redirectToSignIn()}
+						onClick={() => navigate("/signup", { replace: true })}
 						size="lg"
 						color="white"
 						bgColor="black"

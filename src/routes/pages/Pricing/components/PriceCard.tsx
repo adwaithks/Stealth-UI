@@ -63,7 +63,7 @@ const PriceCard: React.FC<{
 						if (session) {
 							navigate("/billing");
 						} else {
-							redirectToSignIn();
+							navigate("/signup", { replace: true });
 						}
 					}}
 					width="100%"

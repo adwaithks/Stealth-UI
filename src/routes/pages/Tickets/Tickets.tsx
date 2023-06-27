@@ -110,6 +110,15 @@ const Tickets: React.FC = () => {
 						)}
 					</Box>
 				)}
+				{ticketsApiStatus === "fulfilled" && (
+					<Box>
+						{tickets.length === 0 && (
+							<Text fontSize="xl" fontWeight="black" color="gray">
+								You don't have any tickets.
+							</Text>
+						)}
+					</Box>
+				)}
 			</Box>
 		</Box>
 	);
