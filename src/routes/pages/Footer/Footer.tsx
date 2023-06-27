@@ -21,7 +21,7 @@ const Footer: React.FC = () => {
 					justifyContent: "center",
 				}}
 			>
-				<Image mr={2} height={7} width={8} src={Logo} />{" "}
+				<Image mr={1} height={8} width={9} src={Logo} />{" "}
 				<Text fontWeight="bold">
 					Assist Desk
 					<Badge ml={2} variant="subtle" colorScheme="red">

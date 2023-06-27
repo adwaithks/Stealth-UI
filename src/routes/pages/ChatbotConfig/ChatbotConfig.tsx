@@ -10,9 +10,8 @@ import {
 	Tabs,
 	Tag,
 	Text,
-	useClipboard,
 } from "@chakra-ui/react";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import KnowledgeBase from "./components/KnowledgeBase";
 import { ChevronLeftIcon, CopyIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
@@ -32,8 +31,9 @@ import QuickReplies from "./components/QuickReplies";
 const ChatbotConfig: React.FC = () => {
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
-	const { onCopy, setValue, hasCopied } = useClipboard("");
 	const { session } = useClerk();
+
+	const [isCopied, setIsCopied] = useState(false);
 
 	const chatbotId = Number(window.location.pathname.split("/")[3] || -1);
 
@@ -41,6 +41,19 @@ const ChatbotConfig: React.FC = () => {
 		getChatbotByIdApiStatusSelector
 	);
 	const chatbot = useSelector(currentChatbotSelector);
+
+	useEffect(() => {
+		let timeoutId = -1;
+		if (isCopied) {
+			timeoutId = setTimeout(() => {
+				setIsCopied(false);
+			}, 1500);
+		}
+
+		return () => {
+			if (timeoutId) clearTimeout(timeoutId);
+		};
+	}, [isCopied]);
 
 	useEffect(() => {
 		session
@@ -107,6 +120,17 @@ const ChatbotConfig: React.FC = () => {
 						cursor: "pointer",
 						width: "fit-content",
 					}}
+					onClick={() => {
+						const url = `<script id="stealth-chatbot-widget" data-id="${chatbotId}" data-user="${session?.user.id}" data-bot="${chatbot.chatbotHashId}" src="https://assistdesk.in/assistdesk.min.js"></script>`;
+						navigator.clipboard
+							.writeText(url)
+							.then(() => {
+								setIsCopied(true);
+							})
+							.catch((error) => {
+								console.error("Failed to copy text: ", error);
+							});
+					}}
 				>
 					<Text fontSize="sm" fontWeight="bold" sx={{ mr: 1 }}>
 						Embed URL
@@ -121,17 +145,11 @@ const ChatbotConfig: React.FC = () => {
 							overflow: "hidden",
 							textOverflow: "ellipsis",
 						}}
-						onClick={() => {
-							setValue(
-								`<script id="stealth-chatbot-widget" data-id="${chatbotId}" data-bot="${chatbot.chatbotHashId}" src="https://assistdesk.in/stealth.js"></script>`
-							);
-							onCopy();
-						}}
 					>
-						{`<script id="stealth-chatbot-widget" data-id="${chatbotId}" data-bot="${chatbot.chatbotHashId}" src="https://assistdesk.in/stealth.js"></script>`}
+						{`<script id="stealth-chatbot-widget" data-id="${chatbotId}" data-user="${session?.user.id}" data-bot="${chatbot.chatbotHashId}" src="https://assistdesk.in/assistdesk.min.js"></script>`}
 					</Tag>
 					<CopyIcon sx={{ ml: 2 }} />
-					{hasCopied && (
+					{isCopied && (
 						<Text sx={{ ml: 1 }} fontSize="smaller">
 							copied!
 						</Text>

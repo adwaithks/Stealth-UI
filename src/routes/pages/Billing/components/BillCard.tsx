@@ -73,7 +73,7 @@ const BillCard: React.FC<{
 										?.emailAddress,
 								}),
 								successCallback: () => {
-									navigate("/app");
+									navigate("/billing", { replace: true });
 								},
 							});
 						}}

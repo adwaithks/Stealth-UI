@@ -10,6 +10,7 @@ styleSheet.insertRule(cssRule, 0);
 
 var scriptTag = document.getElementById("stealth-chatbot-widget");
 var chatbotId = Number(scriptTag.getAttribute("data-id"));
+var userId = scriptTag.getAttribute("data-user");
 var chatbotHashId = scriptTag.getAttribute("data-bot");
 var chatbotName = "";
 
@@ -376,7 +377,7 @@ function app({
 		chatWindow.style.display = "none";
 		chatIcon.src = ASSETS_URL + "/lemuurchat.png";
 		chatIcon.style.height = "30px";
-		chatIcon.style.width = "35px";
+		chatIcon.style.width = "33px";
 	});
 	const chatHeaderCloseIcon = document.createElement("img");
 	chatHeaderCloseIcon.src = ASSETS_URL + "/close.png";
@@ -389,8 +390,8 @@ function app({
 
 	// Chatbot icon black
 	chatIconCustom.id = "chat-icon";
-	chatIconCustom.style.height = isTabletOrBelow ? "65px" : "58px";
-	chatIconCustom.style.width = isTabletOrBelow ? "65px" : "58px";
+	chatIconCustom.style.height = isTabletOrBelow ? "53px" : "53px";
+	chatIconCustom.style.width = isTabletOrBelow ? "53px" : "53px";
 	chatIconCustom.style.borderRadius = "50%";
 	chatIconCustom.style.position = "fixed";
 	chatIconCustom.style.display = "flex";
@@ -407,7 +408,7 @@ function app({
 
 	chatIcon.src = ASSETS_URL + "/lemuurchat.png";
 	chatIcon.style.height = "30px";
-	chatIcon.style.width = "35px";
+	chatIcon.style.width = "33px";
 	chatIconCustom.appendChild(chatIcon);
 	document.body.appendChild(chatIconCustom);
 
@@ -637,7 +638,7 @@ function app({
 		} else {
 			// chatt icon
 			chatIcon.style.height = "30px";
-			chatIcon.style.width = "35px";
+			chatIcon.style.width = "33px";
 		}
 	});
 
@@ -660,13 +661,12 @@ function app({
 					messages.slice(-4).forEach((m) => {
 						context += `${m.origin}: ${m.message}`;
 					});
+				} else if (messages.length > 5 && ticketRaise >= 1) {
+					context = "";
+					messages.slice(-6).forEach((m) => {
+						context += `${m.origin}: ${m.message}`;
+					});
 				}
-				// } else if (messages.length > 5 && ticketRaise >= 1) {
-				// 	context = "";
-				// 	messages.slice(-6).forEach((m) => {
-				// 		context += `${m.origin}: ${m.message}`;
-				// 	});
-				// }
 				messages.push({
 					origin: "user",
 					message: message,
@@ -701,6 +701,7 @@ function app({
 					body: JSON.stringify({
 						question: message,
 						chatbot_id: chatbotId,
+						user_id: userId,
 						user_session_id: getCookie(cookieName),
 						channel: getDeviceType(),
 						context: context,
@@ -767,6 +768,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		body: JSON.stringify({
 			chatbot_id: chatbotId,
 			chatbot_hash: chatbotHashId,
+			user_id: userId,
 		}),
 	})
 		.then((res) => res.json())
@@ -809,6 +811,9 @@ document.addEventListener("DOMContentLoaded", () => {
 				});
 
 				if (!match) {
+					console.log(
+						"ASSIST DESK BOT FAILED TO LOAD BECAUSE OF WRONG WHITE LIST DOMAIN!"
+					);
 					return;
 				}
 			} catch {
@@ -816,7 +821,6 @@ document.addEventListener("DOMContentLoaded", () => {
 				return;
 			}
 
-			console.log(domains, match, status);
 			if (domains.length > 0 && match && status == "active") {
 				let cookieValue = generateRandomId();
 
@@ -842,11 +846,11 @@ document.addEventListener("DOMContentLoaded", () => {
 				});
 				displayMessage(
 					"bot",
-					"I am your AI support agent.  I can help you with any questions or inquiries you might have."
+					"I am your AI support agent. I can help you with any questions or inquiries you might have."
 				);
 			}
 		})
 		.catch((err) => {
-			console.log("ASSIST DESK BOT FAILED TO LOAD, TRY AGAIN", err);
+			console.log("ASSIST DESK BOT FAILED TO LOAD, RELOAD", err);
 		});
 });

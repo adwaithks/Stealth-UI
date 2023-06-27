@@ -113,8 +113,6 @@ const QuickReplies: React.FC<{
 			});
 	};
 
-	console.log(quickReplies);
-
 	return (
 		<Box>
 			<Box mb={3}>

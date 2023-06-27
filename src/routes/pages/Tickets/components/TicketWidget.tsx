@@ -10,8 +10,6 @@ import { getTimeAgo } from "../../../../utils/formatDate";
 const TicketWidget: React.FC<{ ticket: ITicket }> = (ticket) => {
 	const { ticket: t } = ticket;
 
-	console.log(ticket);
-
 	const { session } = useClerk();
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();

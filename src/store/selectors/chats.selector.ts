@@ -5,6 +5,5 @@ export const chatbotChatsSelector = (state: IAppState) => {
 };
 
 export const getChatsByChatbotIdApiStatusSelector = (state: IAppState) => {
-	console.log(state);
 	return state.chatbotChats.getChatsByChatbotIdApiStatus;
 };

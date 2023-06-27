@@ -1,4 +1,4 @@
-import { Box, Button, Text, useMediaQuery } from "@chakra-ui/react";
+import { Badge, Box, Button, Text, useMediaQuery } from "@chakra-ui/react";
 import { useClerk } from "@clerk/clerk-react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
@@ -25,13 +25,19 @@ const PriceCard: React.FC<{
 		>
 			<Box sx={{ height: "90%" }}>
 				<Box>
-					<Text fontSize="3xl" fontWeight="bold">
-						{title}
-					</Text>
+					<Badge colorScheme="green">
+						<Text fontSize="xl" fontWeight="bold">
+							{title}
+						</Text>
+					</Badge>
 				</Box>
 				<Box sx={{ display: "flex", alignItems: "center" }}>
-					<Text fontSize="2xl">Rs.{pricingInfo.price}</Text>
-					<Text fontSize="2xl">/{pricingInfo.type}</Text>
+					<Text fontSize="2xl" fontWeight="bold">
+						Rs.{pricingInfo.price}
+					</Text>
+					<Text fontSize="2xl" fontWeight="bold">
+						/{pricingInfo.type}
+					</Text>
 				</Box>
 				<Box sx={{ mt: 2 }}>
 					{features.map((feature, idx) => {

@@ -28,7 +28,6 @@ const ticketsSlice = createSlice({
 			.addCase(updateTicketStatus.fulfilled, (state, action) => {
 				state.tickets = state.tickets.map((t) => {
 					if (t.ticketId === action.payload.ticketId) {
-						console.log("match");
 						return {
 							...t,
 							status: action.payload.status,
@@ -40,7 +39,6 @@ const ticketsSlice = createSlice({
 				state.updateTicketStatusApiStatus = "fulfilled";
 			})
 			.addCase(updateTicketStatus.rejected, (state) => {
-				console.log("rejected");
 				state.updateTicketStatusApiStatus = "rejected";
 			});
 	},
