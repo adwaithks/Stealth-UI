@@ -16,32 +16,43 @@ const BillCard: React.FC<{
 	return (
 		<Box
 			sx={{
-				boxShadow: "0 0 5px lightgray",
+				boxShadow: "0 0 2px lightgray",
 				borderRadius: 5,
 				minWidth: 250,
-				maxWidth: "fit-content",
+				display: "flex",
+				border:
+					sub && sub.subscription_plan_id === id
+						? "green solid 1px"
+						: "white solid 1px",
+				justifyContent: "space-between",
+				alignItems: "center",
+				width: "100%",
 				height: "fit-content",
 				p: 3,
 			}}
 		>
 			{sub && sub.subscription_plan_id === id ? (
 				<Box>
-					<Text fontSize="2xl" fontWeight="bold">
-						{name}
-					</Text>
-					<Text fontSize="xl">
+					<Badge colorScheme="green">
+						<Text fontSize="xl" fontWeight="bold">
+							{name}
+						</Text>
+					</Badge>
+					<Text fontWeight="bold" fontSize="2xl">
 						{price}/{type}
 					</Text>
-					<Badge mr={2} colorScheme="green">
-						Subscribed
+					<Badge mr={2} colorScheme="orange">
+						You are subscribed to {name} plan
 					</Badge>
 				</Box>
 			) : (
 				<Box>
-					<Text fontSize="2xl" fontWeight="bold">
-						{name}
-					</Text>
-					<Text fontSize="xl">
+					<Badge colorScheme="green">
+						<Text fontSize="xl" fontWeight="bold">
+							{name}
+						</Text>
+					</Badge>
+					<Text fontWeight="bold" fontSize="xl">
 						{price}/{type}
 					</Text>
 					<Badge mr={2} colorScheme="orange">
@@ -57,7 +68,7 @@ const BillCard: React.FC<{
 							window.open(sub.cancel_url, "_blank");
 						}}
 						colorScheme="red"
-						size="sm"
+						size="md"
 						mt={2}
 					>
 						Unsubscribe
@@ -80,7 +91,7 @@ const BillCard: React.FC<{
 						mt={2}
 						width="100%"
 						colorScheme="green"
-						size="sm"
+						size="md"
 					>
 						Subscribe
 					</Button>
