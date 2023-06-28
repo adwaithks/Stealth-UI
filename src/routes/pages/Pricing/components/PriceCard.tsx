@@ -9,7 +9,7 @@ const PriceCard: React.FC<{
 	features: string[];
 }> = ({ title, pricingInfo, features }) => {
 	const [isMobile] = useMediaQuery("(max-width: 468px)");
-	const { session, redirectToSignIn } = useClerk();
+	const { session } = useClerk();
 	const navigate = useNavigate();
 
 	return (

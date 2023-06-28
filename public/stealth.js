@@ -13,6 +13,7 @@ var chatbotId = Number(scriptTag.getAttribute("data-id"));
 var userId = scriptTag.getAttribute("data-user");
 var chatbotHashId = scriptTag.getAttribute("data-bot");
 var chatbotName = "";
+let chatIconName = "lemuurchat.png";
 
 const cookieName = "ASSISTDESK_CHATBOT";
 // const BASE_URL = "https://api.assistdesk.in";
@@ -375,9 +376,9 @@ function app({
 	`;
 	chatHeaderClose.addEventListener("click", () => {
 		chatWindow.style.display = "none";
-		chatIcon.src = ASSETS_URL + "/lemuurchat.png";
-		chatIcon.style.height = "30px";
-		chatIcon.style.width = "33px";
+		chatIcon.src = ASSETS_URL + "/" + chatIconName;
+		chatIcon.style.height = "33px";
+		chatIcon.style.width = "36px";
 	});
 	const chatHeaderCloseIcon = document.createElement("img");
 	chatHeaderCloseIcon.src = ASSETS_URL + "/close.png";
@@ -390,8 +391,8 @@ function app({
 
 	// Chatbot icon black
 	chatIconCustom.id = "chat-icon";
-	chatIconCustom.style.height = isTabletOrBelow ? "53px" : "53px";
-	chatIconCustom.style.width = isTabletOrBelow ? "53px" : "53px";
+	chatIconCustom.style.height = isTabletOrBelow ? "53px" : "58px";
+	chatIconCustom.style.width = isTabletOrBelow ? "53px" : "58px";
 	chatIconCustom.style.borderRadius = "50%";
 	chatIconCustom.style.position = "fixed";
 	chatIconCustom.style.display = "flex";
@@ -405,10 +406,11 @@ function app({
 	else chatIconCustom.style.left = "20px";
 	chatIconCustom.style.zIndex = 90;
 	chatIconCustom.style.backgroundColor = "black";
+	chatIconCustom.style.border = "white solid 2px";
 
-	chatIcon.src = ASSETS_URL + "/lemuurchat.png";
-	chatIcon.style.height = "30px";
-	chatIcon.style.width = "33px";
+	chatIcon.src = ASSETS_URL + "/" + chatIconName;
+	chatIcon.style.height = "33px";
+	chatIcon.style.width = "36px";
 	chatIconCustom.appendChild(chatIcon);
 	document.body.appendChild(chatIconCustom);
 
@@ -629,7 +631,7 @@ function app({
 			chatWindow.style.display === "none" ? "block" : "none";
 		chatIcon.src =
 			chatWindow.style.display === "none"
-				? ASSETS_URL + "/lemuurchat.png"
+				? ASSETS_URL + "/" + chatIconName
 				: ASSETS_URL + "/close.png";
 		if (chatWindow.style.display !== "none") {
 			// close icon
@@ -637,8 +639,8 @@ function app({
 			chatIcon.style.width = "20px";
 		} else {
 			// chatt icon
-			chatIcon.style.height = "30px";
-			chatIcon.style.width = "33px";
+			chatIcon.style.height = "33px";
+			chatIcon.style.width = "36px";
 		}
 	});
 
