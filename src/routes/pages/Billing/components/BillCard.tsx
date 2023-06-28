@@ -19,11 +19,8 @@ const BillCard: React.FC<{
 				boxShadow: "0 0 2px lightgray",
 				borderRadius: 5,
 				minWidth: 250,
+				mt: 1,
 				display: "flex",
-				border:
-					sub && sub.subscription_plan_id === id
-						? "green solid 1px"
-						: "white solid 1px",
 				justifyContent: "space-between",
 				alignItems: "center",
 				width: "100%",

@@ -1,10 +1,14 @@
 import { Box, Divider, Skeleton, Stack, Text } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import { getMySubscriptionApi } from "../../../api/subscriptions.api";
+import {
+	getMySubscriptionApi,
+	getMySubscriptionInfoApi,
+} from "../../../api/subscriptions.api";
 import { useClerk } from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom";
 import BillCard from "./components/BillCard";
 import { subscriptionPlans } from "../../../utils/subscriptionPlans";
+import SubscriptionInfo from "./components/SubscriptionInfo";
 
 const Billing: React.FC = () => {
 	const { session } = useClerk();
@@ -13,7 +17,11 @@ const Billing: React.FC = () => {
 	const [currentSubscription, setCurrentSubscription] = useState<
 		object | null
 	>(null);
-	const [isLoading, setIsLoading] = useState(true);
+	const [subscriptionInfo, setSubscriptionInfo] = useState(null);
+	const [currentSubscriptionIsLoading, setCurrentSubscriptionIsLoading] =
+		useState(true);
+	const [subscriptionInfoIsLoading, setSubscriptionInfoIsLoading] =
+		useState(true);
 
 	useEffect(() => {
 		session
@@ -31,7 +39,15 @@ const Billing: React.FC = () => {
 						setCurrentSubscription(null);
 					})
 					.finally(() => {
-						setIsLoading(false);
+						setCurrentSubscriptionIsLoading(false);
+					});
+				getMySubscriptionInfoApi(token)
+					.then((data) => {
+						setSubscriptionInfo(data);
+					})
+					.catch(() => setSubscriptionInfo(null))
+					.finally(() => {
+						setSubscriptionInfoIsLoading(false);
 					});
 			});
 	}, [navigate, session]);
@@ -47,20 +63,52 @@ const Billing: React.FC = () => {
 				</Text>
 				<Divider />
 			</Box>
+			{
+				<>
+					<Text fontWeight="bold" fontSize="xl">
+						Your Active Plan
+					</Text>
+					<Text color="gray">
+						Subscription plan that you are subscribed to.
+					</Text>
+					{subscriptionInfoIsLoading && (
+						<Stack>
+							<Skeleton
+								startColor="lightgray"
+								endColor="gray.100"
+								height="220px"
+								rounded="base"
+							/>
+						</Stack>
+					)}
+					{!subscriptionInfoIsLoading && subscriptionInfo && (
+						<SubscriptionInfo info={subscriptionInfo} />
+					)}
+					{!subscriptionInfoIsLoading && subscriptionInfo == null && (
+						<Text>You are not subscribed to our plan</Text>
+					)}
+					<Divider my={5} />
+				</>
+			}
 
-			{isLoading && (
-				<Stack>
-					<Skeleton
-						startColor="lightgray"
-						endColor="gray.100"
-						height="220px"
-						rounded="base"
-					/>
-				</Stack>
-			)}
-
-			<Box sx={{ display: "flex", gap: 5 }}>
-				{!isLoading &&
+			<Box sx={{ gap: 5 }}>
+				<Text fontWeight="bold" fontSize="xl">
+					Available Subscription Plans
+				</Text>
+				<Text color="gray">
+					Subscription plan that you are subscribed to.
+				</Text>
+				{currentSubscriptionIsLoading && (
+					<Stack>
+						<Skeleton
+							startColor="lightgray"
+							endColor="gray.100"
+							height="220px"
+							rounded="base"
+						/>
+					</Stack>
+				)}
+				{!currentSubscriptionIsLoading &&
 					subscriptionPlans.map((plan) => {
 						return (
 							<BillCard
