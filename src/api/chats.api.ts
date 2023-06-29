@@ -11,5 +11,9 @@ export const getChatsByChatbotIdApi = async (
 		},
 	});
 	const data = await res.json();
+
+	if (!res.ok) {
+		throw data;
+	}
 	return chatByUserSessionId(data.message);
 };

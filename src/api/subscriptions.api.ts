@@ -7,12 +7,11 @@ export const getMySubscriptionApi = async (token: string) => {
 			"STEALTH-ACCESS-TOKEN": token,
 		},
 	});
+	const data = await res.json();
 
 	if (!res.ok) {
-		throw res.statusText;
+		throw data.message;
 	}
-
-	const data = await res.json();
 	return data.message;
 };
 
@@ -24,11 +23,11 @@ export const getMySubscriptionInfoApi = async (token: string) => {
 		},
 	});
 
-	if (!res.ok) {
-		throw res.statusText;
-	}
-
 	const data = await res.json();
+
+	if (!res.ok) {
+		throw data.message;
+	}
 	return data.message;
 };
 
@@ -39,11 +38,10 @@ export const getPlansApi = async (token: string) => {
 			"STEALTH-ACCESS-TOKEN": token,
 		},
 	});
+	const data = await res.json();
 
 	if (!res.ok) {
-		throw res.statusText;
+		throw data;
 	}
-
-	const data = await res.json();
 	return data.message;
 };

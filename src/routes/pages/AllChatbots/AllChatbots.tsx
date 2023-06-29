@@ -13,7 +13,6 @@ import { useNavigate } from "react-router-dom";
 import { useClerk } from "@clerk/clerk-react";
 import AllChatbotsSkeleton from "./components/AllChatbotsSkeleton";
 import Tickets from "../Tickets/Tickets";
-import { getMySubscriptionApi } from "../../../api/subscriptions.api";
 
 const AllChatbots = () => {
 	const dispatch = useAppDispatch();
@@ -30,19 +29,7 @@ const AllChatbots = () => {
 					navigate("/");
 					return;
 				}
-				getMySubscriptionApi(token)
-					.then((data) => {
-						if (
-							data?.sub_id != -1 &&
-							data?.sub_plan_id != -1 &&
-							data?.update_url?.length == 0 &&
-							data?.cancel_url?.length == 0
-						)
-							navigate("/billing", { replace: true });
-					})
-					.catch(() => {
-						navigate("/billing", { replace: true });
-					});
+
 				dispatch(getMyChatbots(token));
 			});
 	}, [dispatch, navigate, session]);

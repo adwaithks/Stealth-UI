@@ -121,7 +121,10 @@ const QuickReplies: React.FC<{
 				</Text>
 				<Text sx={{ color: "gray" }}>
 					Attach small keywords corresponding to questions, enhancing
-					customer experience.
+					customer experience. You can test them out in the preview
+					section. (If you don't add any quick replies, we will
+					automatically assign pricing and product info as quick
+					replies in your production chatbot.)
 				</Text>
 			</Box>
 
@@ -129,7 +132,6 @@ const QuickReplies: React.FC<{
 				sx={{
 					mb: 5,
 					borderRadius: 5,
-					p: 2,
 				}}
 			>
 				<>

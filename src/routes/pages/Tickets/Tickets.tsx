@@ -86,7 +86,7 @@ const Tickets: React.FC = () => {
 								width: "fit-content",
 							}}
 						>
-							View All
+							View All Tickets
 							<ArrowForwardIcon fontSize="sm" />
 						</Badge>
 					)}

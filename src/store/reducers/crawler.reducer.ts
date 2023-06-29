@@ -27,7 +27,7 @@ const crawlerSlice = createSlice({
 				state.getAllUrlsApiStatus = "pending";
 			})
 			.addCase(getAllUrls.fulfilled, (state, action) => {
-				state.urls = action.payload;
+				state.urls = [...state.urls, ...action.payload];
 				state.getAllUrlsApiStatus = "fulfilled";
 			})
 			.addCase(getAllUrls.rejected, (state) => {

@@ -20,10 +20,10 @@ export const getUserApi = async (token: string) => {
 		},
 	});
 
-	if (!res.ok) {
-		throw res.statusText;
-	}
-
 	const data = await res.json();
+
+	if (!res.ok) {
+		throw data;
+	}
 	return meSerializer(data.message);
 };

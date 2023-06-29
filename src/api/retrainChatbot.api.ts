@@ -17,10 +17,10 @@ export const retrainChatbotApi = async (
 		}),
 	});
 
-	if (!res.ok) {
-		throw res.statusText;
-	}
-
 	const data = await res.json();
+
+	if (!res.ok) {
+		throw data;
+	}
 	return data;
 };

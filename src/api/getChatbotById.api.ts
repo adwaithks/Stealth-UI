@@ -7,11 +7,10 @@ export const getChatbotByIdApi = async (chatbotId: number, token: string) => {
 			"STEALTH-ACCESS-TOKEN": token,
 		},
 	});
+	const data = await res.json();
 
 	if (!res.ok) {
-		throw res.statusText;
+		throw data;
 	}
-
-	const data = await res.json();
 	return getChatbotByIdSerializer(data.message);
 };

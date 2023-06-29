@@ -40,8 +40,9 @@ export const getTicketsApi = async (token: string) => {
 	});
 
 	const data = await res.json();
+
 	if (!res.ok) {
-		throw data?.message || res.statusText;
+		throw data;
 	}
 	return ticketsSerializer(data.message);
 };
@@ -74,7 +75,7 @@ export const updateTicketStatusApi = async (
 	const data = await res.json();
 
 	if (!res.ok) {
-		throw data || res.statusText;
+		throw data;
 	}
 	return ticketSerializer(data.message);
 };

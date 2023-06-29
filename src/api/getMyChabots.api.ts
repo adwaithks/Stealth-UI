@@ -9,8 +9,9 @@ export const getMyChatbotsApi = async (token: string) => {
 	});
 
 	const data = await res.json();
+
 	if (!res.ok) {
-		throw data || res.statusText;
+		throw data;
 	}
 	return getMyChatbotsSerializer(data.message);
 };
