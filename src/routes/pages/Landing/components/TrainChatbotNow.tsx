@@ -1,10 +1,11 @@
 import { ArrowForwardIcon } from "@chakra-ui/icons";
 import { Box, Button, Container, Text } from "@chakra-ui/react";
-import { useClerk } from "@clerk/clerk-react";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const TrainChatbotNow: React.FC = () => {
-	const { redirectToSignIn } = useClerk();
+	const navigate = useNavigate();
+
 	return (
 		<Box
 			sx={{
@@ -29,7 +30,7 @@ const TrainChatbotNow: React.FC = () => {
 			</Container>
 
 			<Button
-				onClick={() => redirectToSignIn()}
+				onClick={() => navigate("/signup", { replace: true })}
 				size="lg"
 				bg="white"
 				color="black"

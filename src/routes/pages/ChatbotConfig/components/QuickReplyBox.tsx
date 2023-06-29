@@ -2,7 +2,10 @@ import { CheckIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import { Box, Button, Input, Text, Textarea } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { deleteQuickReplyApiStatusSelector } from "../../../../store/selectors/chatbots.selector";
+import {
+	deleteQuickReplyApiStatusSelector,
+	editQuickReplyApiStatusSelector,
+} from "../../../../store/selectors/chatbots.selector";
 
 interface IProps {
 	quickReplyId: number;
@@ -28,6 +31,9 @@ const QuickReplyBox: React.FC<IProps> = ({
 	const deleteQuickReplyApiStatus = useSelector(
 		deleteQuickReplyApiStatusSelector
 	);
+	const editQuickReplyApiStatus = useSelector(
+		editQuickReplyApiStatusSelector
+	);
 
 	useEffect(() => {
 		if (deleteQuickReplyApiStatus !== "pending") {
@@ -41,6 +47,12 @@ const QuickReplyBox: React.FC<IProps> = ({
 			question,
 		});
 	}, [keyword, question]);
+
+	useEffect(() => {
+		if (editQuickReplyApiStatus === "fulfilled") {
+			setIsEditing(false);
+		}
+	}, [editQuickReplyApiStatus]);
 
 	return (
 		<Box
@@ -82,10 +94,11 @@ const QuickReplyBox: React.FC<IProps> = ({
 			<Box mt={2}>
 				{isEditing ? (
 					<Button
+						isLoading={editQuickReplyApiStatus === "pending"}
+						loadingText="Saving"
 						onClick={() => {
-							setIsEditing(false);
 							if (
-								quickReplyInfo.question !== question &&
+								quickReplyInfo.question !== question ||
 								quickReplyInfo.keyword !== keyword
 							)
 								onEdit(

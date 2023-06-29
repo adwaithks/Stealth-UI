@@ -35,7 +35,7 @@ const QuickReplies: React.FC<{
 				?.getToken({ template: "stealth-token-template" })
 				.then((token) => {
 					if (!token) {
-						navigate("/signin");
+						navigate("/");
 						return;
 					}
 					const quickReplies_ = quickReplies ? quickReplies : [];
@@ -49,7 +49,7 @@ const QuickReplies: React.FC<{
 					);
 				})
 				.catch(() => {
-					navigate("/signin");
+					navigate("/");
 				});
 	};
 
@@ -62,32 +62,26 @@ const QuickReplies: React.FC<{
 			window.alert("Please provide both keyword and the question!");
 			return;
 		}
-		if (
-			!window.confirm(
-				"Are you sure you want the save the latest changes?"
-			)
-		) {
-			session
-				?.getToken({ template: "stealth-token-template" })
-				.then((token) => {
-					if (!token) {
-						navigate("/signin");
-						return;
-					}
-					dispatch(
-						editQuickReply({
-							chatbotId,
-							quickReplyId,
-							question,
-							keyword,
-							token,
-						})
-					);
-				})
-				.catch(() => {
-					navigate("/signin");
-				});
-		}
+		session
+			?.getToken({ template: "stealth-token-template" })
+			.then((token) => {
+				if (!token) {
+					navigate("/");
+					return;
+				}
+				dispatch(
+					editQuickReply({
+						chatbotId,
+						quickReplyId,
+						question,
+						keyword,
+						token,
+					})
+				);
+			})
+			.catch(() => {
+				navigate("/");
+			});
 	};
 
 	const addNewQuickReply = () => {
@@ -98,27 +92,25 @@ const QuickReplies: React.FC<{
 			window.alert("Please provide both keyword and the question!");
 			return;
 		}
-
-		if (window.confirm("Are you sure you want to create a new quick reply"))
-			session
-				?.getToken({ template: "stealth-token-template" })
-				.then((token) => {
-					if (!token) {
-						navigate("/signin");
-						return;
-					}
-					dispatch(
-						addQuickReply({
-							chatbotId,
-							question: quickReplyInfo.question,
-							keyword: quickReplyInfo.keyword,
-							token,
-						})
-					);
-				})
-				.catch(() => {
-					navigate("/signin");
-				});
+		session
+			?.getToken({ template: "stealth-token-template" })
+			.then((token) => {
+				if (!token) {
+					navigate("/");
+					return;
+				}
+				dispatch(
+					addQuickReply({
+						chatbotId,
+						question: quickReplyInfo.question,
+						keyword: quickReplyInfo.keyword,
+						token,
+					})
+				);
+			})
+			.catch(() => {
+				navigate("/");
+			});
 	};
 
 	return (
@@ -129,7 +121,10 @@ const QuickReplies: React.FC<{
 				</Text>
 				<Text sx={{ color: "gray" }}>
 					Attach small keywords corresponding to questions, enhancing
-					customer experience.
+					customer experience. You can test them out in the preview
+					section. (If you don't add any quick replies, we will
+					automatically assign pricing and product info as quick
+					replies in your production chatbot.)
 				</Text>
 			</Box>
 
@@ -137,7 +132,6 @@ const QuickReplies: React.FC<{
 				sx={{
 					mb: 5,
 					borderRadius: 5,
-					p: 2,
 				}}
 			>
 				<>

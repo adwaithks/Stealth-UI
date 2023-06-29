@@ -8,7 +8,6 @@ import {
 	useMediaQuery,
 } from "@chakra-ui/react";
 import {
-	SignInButton,
 	SignOutButton,
 	SignedIn,
 	SignedOut,
@@ -47,7 +46,7 @@ const Navbar: React.FC = () => {
 					onClick={() => navigate("/app")}
 					fontWeight="bold"
 				>
-					<Image mr={2} height={6} width={7} src={Logo} /> Assist Desk{" "}
+					<Image mr={1} height={8} width={9} src={Logo} /> Assist Desk{" "}
 					<Badge ml={2} variant="subtle" colorScheme="red">
 						Beta
 					</Badge>
@@ -64,25 +63,23 @@ const Navbar: React.FC = () => {
 					<Link
 						color="black"
 						sx={{ mr: 4 }}
-						onClick={() => navigate("/app", { replace: true })}
+						onClick={() => navigate("/app")}
 					>
 						dashboard
 					</Link>
 					<Link
 						color="black"
 						sx={{ mr: 4 }}
-						onClick={() =>
-							navigate("/app/billing", { replace: true })
-						}
+						onClick={() => navigate("/billing")}
 					>
-						Billing
+						billing
 					</Link>
 					<Link
 						color="black"
 						onClick={() => redirectToUserProfile()}
 						sx={{ mr: 4 }}
 					>
-						Account
+						account
 					</Link>
 					<Button size="sm" colorScheme="red">
 						<SignOutButton> Log out</SignOutButton>
@@ -114,13 +111,23 @@ const Navbar: React.FC = () => {
 							</Link>
 						</>
 					)}
-					<Button size="sm" bgColor="whatsapp.500">
-						<SignInButton
+					<Button
+						size="sm"
+						sx={{
+							display: "flex",
+							alignItems: "center",
+							justifyContent: "center",
+						}}
+						bgColor="whatsapp.500"
+						onClick={() => navigate("/signin")}
+					>
+						Sign In
+						{/* <SignInButton
 							afterSignInUrl="/app"
 							afterSignUpUrl="/app"
 						>
 							Sign In
-						</SignInButton>
+						</SignInButton> */}
 					</Button>
 				</SignedOut>
 			</Box>

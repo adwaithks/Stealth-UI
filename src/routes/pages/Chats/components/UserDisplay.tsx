@@ -35,8 +35,12 @@ const UserDisplay: React.FC<{
 								cursor: "pointer",
 								backgroundColor:
 									currentUser === user
-										? "rgba(0,0,0,0.1)"
+										? "rgba(0,0,0,0.05)"
 										: "white",
+								border:
+									currentUser === user
+										? "black solid 1px"
+										: "white solid 1px",
 								color: "black",
 							}}
 						>

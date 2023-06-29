@@ -5,13 +5,13 @@ import Features from "./components/Features";
 import { useMediaQuery } from "@chakra-ui/react";
 import { ArrowForwardIcon } from "@chakra-ui/icons";
 import HowItWorks from "./components/HowItWorks";
-import { useClerk } from "@clerk/clerk-react";
 import TrainChatbotNow from "./components/TrainChatbotNow";
 import Footer from "../Footer/Footer";
+import { useNavigate } from "react-router-dom";
 
 const Landing: React.FC = () => {
 	const [isMobile] = useMediaQuery("(max-width: 768px)");
-	const { redirectToSignIn } = useClerk();
+	const navigate = useNavigate();
 
 	return (
 		<Box
@@ -33,7 +33,7 @@ const Landing: React.FC = () => {
 				<Text
 					sx={{
 						fontSize: {
-							base: "5xl",
+							base: "4xl",
 							md: "6xl",
 							lg: "7xl",
 						},
@@ -53,7 +53,7 @@ const Landing: React.FC = () => {
 						mt: -5,
 						textAlign: "center",
 						fontSize: {
-							base: "xl",
+							base: "lg",
 							md: "xl",
 							lg: "xl",
 						},
@@ -61,12 +61,11 @@ const Landing: React.FC = () => {
 					color="rgba(0, 0, 0, 0.5)"
 				>
 					Leap into Seamless Support: Introducing Assist Desk - Your
-					Trusted Customer Support Chatbot Companion for small scale
-					businesses!
+					Customer Support Chatbot Companion!
 				</Container>
 				<Box sx={{ mt: 5 }}>
 					<Button
-						onClick={() => redirectToSignIn()}
+						onClick={() => navigate("/signup", { replace: true })}
 						size="lg"
 						color="white"
 						bgColor="black"
@@ -114,7 +113,7 @@ const Landing: React.FC = () => {
 				</Box>
 				<Container sx={{ mt: 0, mb: 5 }}>
 					<Link
-						href="mailto:official@assistdesk.in?subject=Request%20for%20Alpha%20Access&body=Hey,"
+						href="mailto:official@assistdesk.in?subject=Request%20for%20Beta%20Access&body=Hey,"
 						sx={{
 							textDecoration: "none",
 							display: "flex",
@@ -128,8 +127,10 @@ const Landing: React.FC = () => {
 							_hover={{
 								opacity: 0.6,
 							}}
+							size="md"
+							px={5}
 							color="white"
-							sx={{ width: "100%", mt: 2 }}
+							sx={{ mt: 2 }}
 						>
 							Email Us for Exclusive Beta Access
 							<ArrowForwardIcon sx={{ ml: 1 }} />

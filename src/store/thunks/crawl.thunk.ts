@@ -18,7 +18,7 @@ export const getAllUrls = createAsyncThunk(
 					? err.message
 					: "Failed to fetch urls",
 				status: "error",
-				duration: 9000,
+				duration: 2000,
 				isClosable: true,
 				variant: "left-accent",
 			});

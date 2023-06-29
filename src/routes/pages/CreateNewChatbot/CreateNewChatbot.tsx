@@ -50,7 +50,7 @@ const CreateNewChatbot: React.FC = () => {
 			?.getToken({ template: "stealth-token-template" })
 			.then((token) => {
 				if (!token) {
-					navigate("/signin");
+					navigate("/");
 					return;
 				}
 				dispatch(
@@ -60,7 +60,7 @@ const CreateNewChatbot: React.FC = () => {
 				});
 			})
 			.catch(() => {
-				navigate("/signin");
+				navigate("/");
 			});
 	};
 	return (

@@ -19,12 +19,11 @@ export const addQuickReplyApi = async (
 			question,
 		}),
 	});
+	const data = await res.json();
 
 	if (!res.ok) {
-		throw res.statusText;
+		throw data;
 	}
-
-	const data = await res.json();
 	return quickReplySerializer(data.message);
 };
 
@@ -49,11 +48,11 @@ export const editQuickReplyApi = async (
 		}),
 	});
 
-	if (!res.ok) {
-		throw res.statusText;
-	}
-
 	const data = await res.json();
+
+	if (!res.ok) {
+		throw data;
+	}
 	return quickReplySerializer(data.message);
 };
 
@@ -73,11 +72,10 @@ export const deleteQuickReplyApi = async (
 			qr_id: quickReplyId,
 		}),
 	});
+	const data = await res.json();
 
 	if (!res.ok) {
-		throw res.statusText;
+		throw data;
 	}
-
-	const data = await res.json();
 	return data.message;
 };

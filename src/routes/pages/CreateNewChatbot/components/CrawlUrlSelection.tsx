@@ -92,11 +92,10 @@ const CrawlUrlSelection: React.FC<{
 					Get All Links
 				</Button>
 			</Box>
-			<Box>
-				{getAllUrlsApiStatus === "fulfilled" && (
+			{urls.length > 0 && (
+				<Box>
 					<Box
 						sx={{
-							px: 5,
 							py: 2,
 							borderRadius: 5,
 							width: 500,
@@ -114,6 +113,9 @@ const CrawlUrlSelection: React.FC<{
 							</Text>
 						</Box>
 						<Box sx={{ mb: 20 }}>
+							<label style={{ color: "gray" }}>
+								No endpoint found in the list ? Add manually
+							</label>
 							<Box sx={{ mb: 2, display: "flex" }}>
 								<Input
 									onChange={(e) => setNewLink(e.target.value)}
@@ -122,6 +124,7 @@ const CrawlUrlSelection: React.FC<{
 									width={400}
 									placeholder="https://yourwebsite.com/something"
 								/>
+
 								<Button
 									sx={{
 										display: "flex",
@@ -144,7 +147,11 @@ const CrawlUrlSelection: React.FC<{
 									);
 								}}
 							>
-								<Stack direction={["column"]}>
+								<Stack
+									maxHeight="300px"
+									overflowY="auto"
+									direction={["column"]}
+								>
 									{urls.map((url, index) => {
 										return (
 											<Box
@@ -183,8 +190,8 @@ const CrawlUrlSelection: React.FC<{
 							</CheckboxGroup>
 						</Box>
 					</Box>
-				)}
-			</Box>
+				</Box>
+			)}
 		</Box>
 	);
 };

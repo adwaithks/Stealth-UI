@@ -23,12 +23,6 @@ const AllChatbotsSkeleton: React.FC = () => {
 				height="70px"
 				rounded="base"
 			/>
-			<Skeleton
-				startColor="lightgray"
-				endColor="gray.100"
-				height="70px"
-				rounded="base"
-			/>
 		</Stack>
 	);
 };

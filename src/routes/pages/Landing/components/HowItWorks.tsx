@@ -56,7 +56,7 @@ const HowItWorks: React.FC = () => {
 				/>
 				<WorkCard
 					title="Step 2"
-					description="Fill in the chatbot name and your website name. We will fetch all the links in your website and provide you with the option to choose which links you want to fetch content from for training your bot."
+					description="Fill in the chatbot name and your website name. We will fetch all the links in your website and provide you with the option to choose, from which links you want to fetch content from, to train your bot."
 				/>
 				<WorkCard
 					title="Step 3"
@@ -64,7 +64,7 @@ const HowItWorks: React.FC = () => {
 				/>
 				<WorkCard
 					title="Step 4"
-					description="you can retrain your chatbot anytime you want. As your website evolves and your content grows, you can easily update your chatbot to stay up to date."
+					description="You can retrain your chatbot anytime you want. As your website evolves and your content grows, you can easily update your chatbot to stay up to date."
 				/>
 			</Box>
 		</section>

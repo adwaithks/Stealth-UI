@@ -10,7 +10,10 @@ styleSheet.insertRule(cssRule, 0);
 
 var scriptTag = document.getElementById("stealth-chatbot-widget");
 var chatbotId = Number(scriptTag.getAttribute("data-id"));
+var userId = scriptTag.getAttribute("data-user");
 var chatbotHashId = scriptTag.getAttribute("data-bot");
+var chatbotName = "";
+let chatIconName = "lemuurchat.png";
 
 const cookieName = "ASSISTDESK_CHATBOT";
 // const BASE_URL = "https://api.assistdesk.in";
@@ -20,6 +23,7 @@ const ASSETS_URL = "http://localhost:5173";
 let messages = [];
 let isTabletOrBelow = window.innerWidth <= 820 ? true : false;
 let quickReplies = [];
+let ticketRaise = -1;
 
 function getDeviceType() {
 	const userAgent = navigator.userAgent;
@@ -74,6 +78,20 @@ let chatIconCustom = document.createElement("div");
 let chatIcon = document.createElement("img");
 let sendButton = document.createElement("button");
 let messageInput = document.createElement("input");
+let quickRepliesContainer = document.createElement("div");
+let sendContainerWrapper = document.createElement("div");
+let poweredByContainer = document.createElement("div");
+
+function disableInputs(isDisable) {
+	messageInput.disabled = isDisable;
+	sendButton.disabled = isDisable;
+}
+
+function hideBottom(sendContainer, quickReplies, poweredBy) {
+	sendContainerWrapper.style.display = sendContainer;
+	quickRepliesContainer.style.display = quickReplies;
+	poweredByContainer.style.display = poweredBy;
+}
 
 function displayMessage(sender, message) {
 	const messageElement = document.createElement("div");
@@ -103,7 +121,7 @@ function displayMessage(sender, message) {
 	messageElement.classList.add("message");
 	const origin = document.createElement("p");
 	const message_ = document.createElement("p");
-
+	message_.style.whiteSpace = "pre-line";
 	origin.textContent = `${sender === "bot" ? "AI Assistant" : "User"}`;
 	message_.textContent = `${message.trim()}`;
 
@@ -115,6 +133,158 @@ function displayMessage(sender, message) {
 
 	messageContainer.appendChild(messageElement);
 	messageContainer.scrollTop = messageContainer.scrollHeight;
+}
+
+function ticketRaiseUI() {
+	// Create the main container
+	const ticketRaiseContainer = document.createElement("form");
+
+	ticketRaiseContainer.style.width = "100%";
+	ticketRaiseContainer.style.height = "100%";
+	ticketRaiseContainer.style.borderRadius = "5px";
+	ticketRaiseContainer.style.padding = "10px";
+	ticketRaiseContainer.style.marginBottom = "2px";
+	ticketRaiseContainer.style.overflowY = "auto";
+	ticketRaiseContainer.style.display = "flex";
+	ticketRaiseContainer.style.flexDirection = "column";
+
+	// Create the email input
+	const emailInputLabel = document.createElement("label");
+	emailInputLabel.textContent = "Your Email Id";
+	emailInputLabel.style = `
+		font-weight: bold;
+		font-size: 13px;
+	`;
+	ticketRaiseContainer.appendChild(emailInputLabel);
+	const emailInput = document.createElement("input");
+	emailInput.setAttribute("type", "email");
+	emailInput.setAttribute("required", true);
+	emailInput.setAttribute("placeholder", "Email");
+	emailInput.style = `
+		padding: 8px 5px;
+		font-size: 16px;
+		border-radius: 5px;
+		border: lightgray solid 2px;
+		margin-bottom: 10px;
+	`;
+	ticketRaiseContainer.appendChild(emailInput);
+
+	// Create the question textarea
+	const questionTextareaLabel = document.createElement("label");
+	questionTextareaLabel.textContent = "Your enquiry";
+	questionTextareaLabel.style = `
+		font-weight: bold;
+		font-size: 13px;
+	`;
+	ticketRaiseContainer.appendChild(questionTextareaLabel);
+	const questionTextarea = document.createElement("textarea");
+	questionTextarea.setAttribute("placeholder", "Your question / enquiry");
+	questionTextarea.setAttribute("required", true);
+	questionTextarea.style = `
+		padding: 8px 5px;
+		font-size: 16px;
+		border-radius: 5px;
+		border: lightgray solid 2px;
+		width: 100%;
+		height: 150px;
+		margin-bottom: 10px;
+	`;
+	questionTextarea.setAttribute("required", true);
+	ticketRaiseContainer.appendChild(questionTextarea);
+
+	// Create the submit button
+	const submitButton = document.createElement("button");
+	submitButton.innerHTML = "Submit";
+	submitButton.style = `
+		padding: 8px 20px;
+		cursor: pointer;
+		background-color: black;
+		color: white;
+		width: 100%;
+		border-radius: 5px;
+		border: solid 2px black;
+		outline: none;
+		margin-bottom: 5px;
+	`;
+	submitButton.style.cursor = "pointer";
+	submitButton.addEventListener("click", (e) => {
+		e.preventDefault();
+		if (emailInput.value.length > 0 && questionTextarea.value.length > 0) {
+			cancelButton.style.display = "none";
+			submitButton.textContent = "Creating ticket for you..";
+			const email = emailInput.value;
+			const enquiry = questionTextarea.value;
+
+			const body = {
+				name: chatbotName,
+				chatbot_id: chatbotId,
+				chatbot_hash: chatbotHashId,
+				email,
+				enquiry,
+			};
+
+			fetch(BASE_URL + "/api/v1/ticket/new", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(body),
+			})
+				.then((res) => {
+					if (!res.ok) throw "Please try again :(";
+					submitButton.textContent =
+						"Thank you! We've received your message!";
+					setTimeout(() => {
+						ticketRaiseContainer.remove();
+						messageContainer.style.display = "flex";
+						hideBottom("block", "flex", "flex");
+					}, 1500);
+				})
+				.catch(() => {
+					submitButton.textContent = "Please try again :(";
+					setTimeout(() => {
+						submitButton.innerHTML = "Submit";
+						emailInput.value = "";
+						questionTextarea.value = "";
+						cancelButton.style.display = "block";
+					}, 1000);
+				});
+		}
+	});
+	ticketRaiseContainer.appendChild(submitButton);
+
+	var cancelButton = document.createElement("button");
+	cancelButton.innerHTML = "Cancel";
+	cancelButton.style = `
+		padding: 8px 20px;
+		cursor: pointer;
+		color: black;
+		width: 100%;
+		border-radius: 5px;
+		border: solid 2px black;
+		outline: none;
+	`;
+	cancelButton.style.cursor = "pointer";
+	// Add event listener for mouseover (hover)
+	cancelButton.addEventListener("mouseover", function () {
+		// Apply hover styles
+		cancelButton.style.backgroundColor = "rgba(0,0,0,0.05)";
+	});
+
+	// Add event listener for mouseout (hover off)
+	cancelButton.addEventListener("mouseout", function () {
+		// Remove hover styles
+		cancelButton.style.backgroundColor = "white";
+	});
+	cancelButton.addEventListener("click", () => {
+		ticketRaiseContainer.remove();
+		hideBottom("block", "flex", "flex");
+		messageContainer.style.display = "flex";
+	});
+	ticketRaiseContainer.appendChild(cancelButton);
+
+	// Append the container to the document body
+	return ticketRaiseContainer;
 }
 
 function app({
@@ -146,12 +316,58 @@ function app({
 	chatHeader.style.justifyContent = "space-between";
 	chatHeader.style.padding = "10px 20px 10px 20px";
 
+	const chatHeaderTextBtnWrapper = document.createElement("div");
+	chatHeaderTextBtnWrapper.style = `
+		display: flex;
+		align-items: center;
+	`;
 	const chatHeaderText = document.createElement("p");
 	chatHeaderText.textContent = name;
+	chatHeaderText.style.textTransform = "capitalize";
+	chatHeaderText.style.marginRight = "10px";
 	chatHeaderText.style.fontFamily = "sans-serif";
 	chatHeaderText.style.fontSize = isTabletOrBelow ? "20px" : "18px";
 	chatHeaderText.style.fontWeight = 800;
-	chatHeader.appendChild(chatHeaderText);
+	chatHeaderTextBtnWrapper.appendChild(chatHeaderText);
+
+	// Find the open button by its ID
+	const ticketRaisingOpenBtn = document.createElement("button");
+	ticketRaisingOpenBtn.textContent = "Raise Ticket";
+	ticketRaisingOpenBtn.style = `
+		font-weight: bold;
+		border: white solid 1px;
+		border-radius: 5px;
+		padding: 0px 10px;
+	`;
+
+	// Add event listener for mouseover (hover)
+	ticketRaisingOpenBtn.addEventListener("mouseover", function () {
+		// Apply hover styles
+		ticketRaisingOpenBtn.style.backgroundColor = "white";
+		ticketRaisingOpenBtn.style.color = "black";
+	});
+
+	// Add event listener for mouseout (hover off)
+	ticketRaisingOpenBtn.addEventListener("mouseout", function () {
+		// remove hover styles
+		ticketRaisingOpenBtn.style.backgroundColor = "black";
+		ticketRaisingOpenBtn.style.color = "white";
+	});
+	// Attach a click event listener to the open button
+	ticketRaisingOpenBtn.addEventListener("click", function () {
+		if (messageContainer.style.display === "flex") {
+			messageContainer.style.display = "none";
+			const parent = chatHeader.parentNode;
+			const newEl = ticketRaiseUI(); // Open the ticket container
+			parent.insertBefore(newEl, chatHeader.nextSibling);
+			hideBottom("none", "none", "none");
+		} else {
+			return;
+		}
+	});
+
+	chatHeaderTextBtnWrapper.appendChild(ticketRaisingOpenBtn);
+	chatHeader.appendChild(chatHeaderTextBtnWrapper);
 
 	const chatHeaderClose = document.createElement("div");
 	chatHeaderClose.style = `
@@ -160,10 +376,10 @@ function app({
 		justify-content: center;
 	`;
 	chatHeaderClose.addEventListener("click", () => {
-		chatWindow.style.visibility = "hidden";
-		chatIcon.src = ASSETS_URL + "/lemuurchat.png";
-		chatIcon.style.height = "30px";
-		chatIcon.style.width = "35px";
+		chatWindow.style.display = "none";
+		chatIcon.src = ASSETS_URL + "/" + chatIconName;
+		chatIcon.style.height = "33px";
+		chatIcon.style.width = "36px";
 	});
 	const chatHeaderCloseIcon = document.createElement("img");
 	chatHeaderCloseIcon.src = ASSETS_URL + "/close.png";
@@ -176,9 +392,9 @@ function app({
 
 	// Chatbot icon black
 	chatIconCustom.id = "chat-icon";
-	chatIconCustom.style.height = isTabletOrBelow ? "65px" : "60px";
-	chatIconCustom.style.width = isTabletOrBelow ? "65px" : "60px";
-	chatIconCustom.style.borderRadius = "15px";
+	chatIconCustom.style.height = isTabletOrBelow ? "53px" : "58px";
+	chatIconCustom.style.width = isTabletOrBelow ? "53px" : "58px";
+	chatIconCustom.style.borderRadius = "50%";
 	chatIconCustom.style.position = "fixed";
 	chatIconCustom.style.display = "flex";
 	chatIconCustom.style.boxShadow = "0 0 5px lightgray";
@@ -192,10 +408,11 @@ function app({
 	else chatIconCustom.style.left = "20px";
 	chatIconCustom.style.zIndex = 90;
 	chatIconCustom.style.backgroundColor = "black";
+	chatIconCustom.style.border = "white solid 2px";
 
-	chatIcon.src = ASSETS_URL + "/lemuurchat.png";
-	chatIcon.style.height = "30px";
-	chatIcon.style.width = "35px";
+	chatIcon.src = ASSETS_URL + "/" + chatIconName;
+	chatIcon.style.height = "33px";
+	chatIcon.style.width = "36px";
 	chatIconCustom.appendChild(chatIcon);
 	document.body.appendChild(chatIconCustom);
 
@@ -223,7 +440,7 @@ function app({
 		chatWindow.style.width = "390px";
 	}
 	chatWindow.style.zIndex = 200;
-	chatWindow.style.visibility = "hidden";
+	chatWindow.style.display = "none";
 	document.body.appendChild(chatWindow);
 	chatWindow.appendChild(chatHeader);
 
@@ -237,7 +454,6 @@ function app({
 	);
 	messageContainer.style.borderRadius = "5px";
 	messageContainer.style.padding = "5px";
-	messageContainer.style.backgroundColor = "white";
 	messageContainer.style.marginBottom = "2px";
 	messageContainer.style.overflowY = "auto";
 	messageContainer.style.display = "flex";
@@ -245,7 +461,6 @@ function app({
 	chatWindow.appendChild(messageContainer);
 
 	// quickreplies
-	const quickRepliesContainer = document.createElement("div");
 	quickRepliesContainer.style = `
 		display: flex;
 		gap: 5px;
@@ -289,7 +504,6 @@ function app({
 		});
 		quickRepliesContainer.appendChild(quickReply);
 	});
-
 	chatWindow.appendChild(quickRepliesContainer);
 
 	// message typing input
@@ -372,7 +586,6 @@ function app({
 		sendMessage(e);
 	});
 
-	const sendContainerWrapper = document.createElement("div");
 	// sendContainerWrapper.style.border = "yellow solid 1px";
 	sendContainerWrapper.style.height = isTabletOrBelow ? "7%" : "10%";
 	sendContainerWrapper.style.padding = "5px";
@@ -392,7 +605,6 @@ function app({
 	sendContainerWrapper.appendChild(sendContainer);
 	chatWindow.appendChild(sendContainerWrapper);
 
-	const poweredByContainer = document.createElement("div");
 	poweredByContainer.style.height = "5%";
 	poweredByContainer.style.display = "flex";
 	// poweredByContainer.style.border = "brown solid 1px";
@@ -416,20 +628,20 @@ function app({
 
 	// Toggle chat window visibility on icon click
 	chatIconCustom.addEventListener("click", function () {
-		chatWindow.style.visibility =
-			chatWindow.style.visibility === "hidden" ? "visible" : "hidden";
+		chatWindow.style.display =
+			chatWindow.style.display === "none" ? "block" : "none";
 		chatIcon.src =
-			chatWindow.style.visibility === "hidden"
-				? ASSETS_URL + "/lemuurchat.png"
+			chatWindow.style.display === "none"
+				? ASSETS_URL + "/" + chatIconName
 				: ASSETS_URL + "/close.png";
-		if (chatWindow.style.visibility !== "hidden") {
+		if (chatWindow.style.display !== "none") {
 			// close icon
 			chatIcon.style.height = "20px";
 			chatIcon.style.width = "20px";
 		} else {
 			// chatt icon
-			chatIcon.style.height = "30px";
-			chatIcon.style.width = "35px";
+			chatIcon.style.height = "33px";
+			chatIcon.style.width = "36px";
 		}
 	});
 
@@ -452,13 +664,17 @@ function app({
 					messages.slice(-4).forEach((m) => {
 						context += `${m.origin}: ${m.message}`;
 					});
+				} else if (messages.length > 5 && ticketRaise >= 1) {
+					context = "";
+					messages.slice(-6).forEach((m) => {
+						context += `${m.origin}: ${m.message}`;
+					});
 				}
 				messages.push({
 					origin: "user",
 					message: message,
 				});
 				displayMessage("user", message);
-				// TODO: Process the user message here
 				messageInput.value = "";
 				let cookieValue = getCookie(cookieName);
 				if (!cookieValue) {
@@ -488,19 +704,41 @@ function app({
 					body: JSON.stringify({
 						question: message,
 						chatbot_id: chatbotId,
+						user_id: userId,
 						user_session_id: getCookie(cookieName),
 						channel: getDeviceType(),
 						context: context,
+						ticket_raise: ticketRaise,
+						name: chatbotName,
+						chatbot_hash: chatbotHashId,
 					}),
 				})
 					.then((res) => res.json())
 					.then((data) => {
+						let message = data.message.reply;
 						messageContainer.removeChild(messageLoader);
+
+						if (data.message.ticket_raise > 0) {
+							ticketRaise = data.message.ticket_raise;
+						} else {
+							ticketRaise = -1;
+						}
+
+						if (message.includes("<TICKET_RAISE>")) {
+							ticketRaise = 0;
+							message = message.replaceAll("<TICKET_RAISE>", "");
+						}
+
+						// ticket raise complete
+						if (data.message.ticket_raise >= 1) {
+							ticketRaise = -1;
+						}
 						messages.push({
 							origin: "AI Assistant",
-							message: data.message,
+							message,
 						});
-						displayMessage("bot", data.message);
+
+						displayMessage("bot", message);
 					})
 					.catch((err) => {
 						messageContainer.removeChild(messageLoader);
@@ -533,6 +771,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		body: JSON.stringify({
 			chatbot_id: chatbotId,
 			chatbot_hash: chatbotHashId,
+			user_id: userId,
 		}),
 	})
 		.then((res) => res.json())
@@ -548,16 +787,20 @@ document.addEventListener("DOMContentLoaded", () => {
 				status = data.message.status;
 				position = data.message.position;
 				name = data.message.name;
+				chatbotName = data.message.name;
 				quickReplies = data.message.quickreplies;
+
 				if (quickReplies[0].keyword == null) {
 					quickReplies = [
 						{
 							keyword: "Pricing",
-							question: "What is the pricing of this product ?",
+							question:
+								"List the pricing of the products in a list format.",
 						},
 						{
 							keyword: "Products",
-							question: "What are the products and services ?",
+							question:
+								"List the products and services offerings of the company in a list format.",
 						},
 					];
 				}
@@ -569,10 +812,15 @@ document.addEventListener("DOMContentLoaded", () => {
 						match = true;
 					}
 				});
+
 				if (!match) {
+					console.log(
+						"ASSIST DESK BOT FAILED TO LOAD BECAUSE OF WRONG WHITE LIST DOMAIN!"
+					);
 					return;
 				}
 			} catch {
+				console.log("ASSIST DESK BOT FAILED TO LOAD");
 				return;
 			}
 
@@ -601,14 +849,11 @@ document.addEventListener("DOMContentLoaded", () => {
 				});
 				displayMessage(
 					"bot",
-					"I am your AI support agent.  I can help you with any questions or inquiries you might have."
+					"I am your AI support agent. I can help you with any questions or inquiries you might have."
 				);
 			}
 		})
 		.catch((err) => {
-			// displayMessage(
-			// 	"bot",
-			// 	"Something unexpected happened :( We are fixing it! Don't worry :) "
-			// );
+			console.log("ASSIST DESK BOT FAILED TO LOAD, RELOAD", err);
 		});
 });

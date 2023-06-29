@@ -3,13 +3,16 @@ import React, { useEffect, useState } from "react";
 import MessageDisplay from "./MessageDisplay";
 import UserDisplay from "./UserDisplay";
 import { Chat } from "../../../../types/chats.type";
+import { useSelector } from "react-redux";
+import { getMyChatbotsApiStatusSelector } from "../../../../store/selectors/chatbots.selector";
 
 const ChatWidget: React.FC<{ chats: { [key: string]: Chat[] } }> = ({
 	chats,
 }) => {
 	const [currentChat, setCurrentChat] = useState<Chat[]>([]);
 	const [currentUser, setCurrentUser] = useState("");
-
+	const chatsApiStatus = useSelector(getMyChatbotsApiStatusSelector);
+	console.log(chatsApiStatus);
 	useEffect(() => {
 		const key = Object.keys(chats)[0];
 		if (key) {
@@ -31,20 +34,28 @@ const ChatWidget: React.FC<{ chats: { [key: string]: Chat[] } }> = ({
 		<Box
 			sx={{
 				display: "flex",
-				boxShadow: "0 0 5px lightgray",
 				borderRadius: 5,
 			}}
 		>
-			<Box sx={{ width: "30%", borderRight: "lightgray solid 1px" }}>
-				<UserDisplay
-					users={Object.keys(chats)}
-					handleChangeUser={handleChangeUser}
-					currentUser={currentUser}
-				/>
-			</Box>
-			<Box sx={{ width: "70%" }}>
-				<MessageDisplay currentChat={currentChat} />
-			</Box>
+			{chatsApiStatus === "fulfilled" && (
+				<>
+					<Box
+						sx={{
+							width: "30%",
+							borderRight: "lightgray solid 1px",
+						}}
+					>
+						<UserDisplay
+							users={Object.keys(chats)}
+							handleChangeUser={handleChangeUser}
+							currentUser={currentUser}
+						/>
+					</Box>
+					<Box sx={{ width: "70%" }}>
+						<MessageDisplay currentChat={currentChat} />
+					</Box>
+				</>
+			)}
 		</Box>
 	);
 };

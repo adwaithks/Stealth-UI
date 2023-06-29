@@ -41,7 +41,7 @@ const KnowledgeBase: React.FC<{ base: string; chatbotId: number }> = ({
 				?.getToken({ template: "stealth-token-template" })
 				.then((token) => {
 					if (!token) {
-						navigate("/signin");
+						navigate("/");
 						return;
 					}
 					setIsDisabled(true);
@@ -60,7 +60,7 @@ const KnowledgeBase: React.FC<{ base: string; chatbotId: number }> = ({
 						});
 				})
 				.catch(() => {
-					navigate("/signin");
+					navigate("/");
 				});
 	};
 
