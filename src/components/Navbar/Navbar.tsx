@@ -8,7 +8,6 @@ import {
 	useMediaQuery,
 } from "@chakra-ui/react";
 import {
-	SignInButton,
 	SignOutButton,
 	SignedIn,
 	SignedOut,
