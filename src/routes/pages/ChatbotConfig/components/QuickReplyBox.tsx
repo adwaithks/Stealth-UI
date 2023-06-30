@@ -106,6 +106,7 @@ const QuickReplyBox: React.FC<IProps> = ({
 									quickReplyInfo.keyword,
 									quickReplyInfo.question
 								);
+							setIsEditing(false);
 						}}
 					>
 						<CheckIcon mr={2} /> Save

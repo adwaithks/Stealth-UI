@@ -24,6 +24,7 @@ let messages = [];
 let isTabletOrBelow = window.innerWidth <= 820 ? true : false;
 let quickReplies = [];
 let ticketRaise = -1;
+let primaryBgColor = "#000000";
 
 function getDeviceType() {
 	const userAgent = navigator.userAgent;
@@ -82,11 +83,6 @@ let quickRepliesContainer = document.createElement("div");
 let sendContainerWrapper = document.createElement("div");
 let poweredByContainer = document.createElement("div");
 
-function disableInputs(isDisable) {
-	messageInput.disabled = isDisable;
-	sendButton.disabled = isDisable;
-}
-
 function hideBottom(sendContainer, quickReplies, poweredBy) {
 	sendContainerWrapper.style.display = sendContainer;
 	quickRepliesContainer.style.display = quickReplies;
@@ -102,14 +98,14 @@ function displayMessage(sender, message) {
 	messageElement.style.maxWidth = isTabletOrBelow ? "90%" : "280px";
 	messageElement.style.fontSize = isTabletOrBelow ? "18px" : "15px";
 	if (sender === "bot") {
-		messageElement.style.backgroundColor = "rgba(0,0,0, 0.1)";
+		messageElement.style.backgroundColor = "rgba(0,0,0, 0.03)";
 		messageElement.style.color = "black";
 		messageElement.style.borderTopRightRadius = "5px";
-		messageElement.style.boxShadow = "0 0 5px rgba(0,0,0,0.3)";
+		messageElement.style.boxShadow = "0 0 2px rgba(0,0,0,0.3)";
 		messageElement.style.borderBottomRightRadius = "5px";
 		messageElement.style.borderBottomLeftRadius = "5px";
 	} else {
-		messageElement.style.backgroundColor = "black";
+		messageElement.style.backgroundColor = primaryBgColor;
 		messageElement.style.boxShadow = "0 0 5px rgba(0,0,0,0.3)";
 		messageElement.style.color = "white";
 		messageElement.style.marginLeft = "auto"; // align right
@@ -198,11 +194,11 @@ function ticketRaiseUI() {
 	submitButton.style = `
 		padding: 8px 20px;
 		cursor: pointer;
-		background-color: black;
+		background-color: ${primaryBgColor};
 		color: white;
 		width: 100%;
 		border-radius: 5px;
-		border: solid 2px black;
+		border: ${primaryBgColor} 2px black;
 		outline: none;
 		margin-bottom: 5px;
 	`;
@@ -261,7 +257,7 @@ function ticketRaiseUI() {
 		color: black;
 		width: 100%;
 		border-radius: 5px;
-		border: solid 2px black;
+		border: solid 2px ${primaryBgColor};
 		outline: none;
 	`;
 	cancelButton.style.cursor = "pointer";
@@ -305,7 +301,7 @@ function app({
 	chatHeader.style.width = "100%";
 	chatHeader.style.height = "10%";
 	// chatHeader.style.border = "green solid 1px";
-	chatHeader.style.backgroundColor = "black";
+	chatHeader.style.backgroundColor = primaryBgColor;
 	chatHeader.style.color = "white";
 	if (!isTabletOrBelow) {
 		chatHeader.style.borderTopLeftRadius = "5px";
@@ -335,6 +331,7 @@ function app({
 	ticketRaisingOpenBtn.textContent = "Raise Ticket";
 	ticketRaisingOpenBtn.style = `
 		font-weight: bold;
+		background-color: ${primaryBgColor};
 		border: white solid 1px;
 		border-radius: 5px;
 		padding: 0px 10px;
@@ -350,7 +347,7 @@ function app({
 	// Add event listener for mouseout (hover off)
 	ticketRaisingOpenBtn.addEventListener("mouseout", function () {
 		// remove hover styles
-		ticketRaisingOpenBtn.style.backgroundColor = "black";
+		ticketRaisingOpenBtn.style.backgroundColor = primaryBgColor;
 		ticketRaisingOpenBtn.style.color = "white";
 	});
 	// Attach a click event listener to the open button
@@ -407,7 +404,7 @@ function app({
 	if (position === "bottomright") chatIconCustom.style.right = "20px";
 	else chatIconCustom.style.left = "20px";
 	chatIconCustom.style.zIndex = 90;
-	chatIconCustom.style.backgroundColor = "black";
+	chatIconCustom.style.backgroundColor = primaryBgColor;
 	chatIconCustom.style.border = "white solid 2px";
 
 	chatIcon.src = ASSETS_URL + "/" + chatIconName;
@@ -478,7 +475,8 @@ function app({
 		quickReply.appendChild(text);
 		quickReply.style = `
 			cursor: pointer;
-			border: black solid 2px;
+			border: ${primaryBgColor} solid 2px;
+			color: ${primaryBgColor};
 			height: fit-content;
 			display: flex;
 			align-items: center;
@@ -520,7 +518,7 @@ function app({
 	// Attach an event listener for the 'focus' event
 	messageInput.addEventListener("focus", function () {
 		// Apply a border color when the input is focused
-		messageInput.style.border = "black solid 2px";
+		messageInput.style.border = `${primaryBgColor} solid 2px`;
 	});
 
 	// Attach an event listener for the 'blur' event
@@ -573,7 +571,7 @@ function app({
 	// Send button
 	sendButton.textContent = "Ask";
 	sendButton.style.width = "70px";
-	sendButton.style.backgroundColor = "black";
+	sendButton.style.backgroundColor = primaryBgColor;
 	sendButton.style.color = "white";
 	sendButton.style.borderTopRightRadius = "5px";
 	sendButton.style.borderBottomRightRadius = "5px";
@@ -610,10 +608,12 @@ function app({
 	// poweredByContainer.style.border = "brown solid 1px";
 	poweredByContainer.style.padding = "2px";
 	poweredByContainer.style.alignItems = "center";
+	// poweredByContainer.style.color = primaryBgColor;
 	poweredByContainer.style.justifyContent = "center";
 	const poweredByText = document.createElement("p");
 	const poweredByCompanyName = document.createElement("a");
 	poweredByCompanyName.style.fontWeight = 800;
+	poweredByCompanyName.style.color = primaryBgColor;
 	poweredByCompanyName.textContent = "Assist Desk";
 	poweredByCompanyName.href = "https://www.assistdesk.in";
 	poweredByCompanyName.target = "_blank";
@@ -789,6 +789,7 @@ document.addEventListener("DOMContentLoaded", () => {
 				name = data.message.name;
 				chatbotName = data.message.name;
 				quickReplies = data.message.quickreplies;
+				primaryBgColor = data.message.primaryBgColor;
 
 				if (quickReplies[0].keyword == null) {
 					quickReplies = [

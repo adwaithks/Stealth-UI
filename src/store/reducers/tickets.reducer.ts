@@ -1,6 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { ITicket } from "../../types/ticket.type";
-import { getTickets, updateTicketStatus } from "../thunks/tickets.thunk";
+import {
+	getTickets,
+	updateTicketNote,
+	updateTicketStatus,
+} from "../thunks/tickets.thunk";
 
 const ticketsSlice = createSlice({
 	name: "tickets",
@@ -8,6 +12,7 @@ const ticketsSlice = createSlice({
 		tickets: [] as ITicket[],
 		getTicketsApiStatus: "idle",
 		updateTicketStatusApiStatus: "idle",
+		updateTicketNoteApiStatus: "idle",
 	},
 	reducers: {},
 	extraReducers(builder) {
@@ -40,6 +45,25 @@ const ticketsSlice = createSlice({
 			})
 			.addCase(updateTicketStatus.rejected, (state) => {
 				state.updateTicketStatusApiStatus = "rejected";
+			})
+			.addCase(updateTicketNote.pending, (state) => {
+				state.updateTicketNoteApiStatus = "pending";
+			})
+			.addCase(updateTicketNote.fulfilled, (state, action) => {
+				state.tickets = state.tickets.map((t) => {
+					if (t.ticketId === action.payload.ticketId) {
+						return {
+							...t,
+							note: action.payload.note,
+						};
+					}
+					return t;
+				});
+
+				state.updateTicketNoteApiStatus = "fulfilled";
+			})
+			.addCase(updateTicketNote.rejected, (state) => {
+				state.updateTicketNoteApiStatus = "rejected";
 			});
 	},
 });

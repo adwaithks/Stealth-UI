@@ -1,14 +1,15 @@
-import { ArrowForwardIcon } from "@chakra-ui/icons";
+import { ArrowForwardIcon, CloseIcon } from "@chakra-ui/icons";
 import {
 	Box,
 	Button,
+	Container,
 	Input,
 	InputGroup,
 	InputRightAddon,
 	Text,
 } from "@chakra-ui/react";
 import { useClerk } from "@clerk/clerk-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BASE_URL } from "../../../../api/baseURL";
 import { useSelector } from "react-redux";
 import { currentChatbotSelector } from "../../../../store/selectors/chatbots.selector";
@@ -20,7 +21,14 @@ interface Chat {
 }
 
 const ChatbotPreview: React.FC<{ chatbotId: number }> = ({ chatbotId }) => {
-	const [chats, setChats] = useState<Chat[]>([]);
+	const [chats, setChats] = useState<Chat[]>([
+		{
+			message:
+				"I am your AI support agent. I can help you with any questions or inquiries you might have.",
+			origin: "bot",
+			timestamp: "",
+		},
+	]);
 	const [question, setQuestion] = useState("");
 	const [waitingReply, setWaitingReply] = useState(false);
 
@@ -28,8 +36,12 @@ const ChatbotPreview: React.FC<{ chatbotId: number }> = ({ chatbotId }) => {
 
 	const { session } = useClerk();
 
-	const handleSend = () => {
-		if (question.length === 0) {
+	const handleSend = (qn?: string) => {
+		let userQn = question;
+		if (qn && qn.length > 0) {
+			userQn = qn;
+		}
+		if (userQn.length === 0) {
 			alert("Please enter the question!");
 			return;
 		}
@@ -46,7 +58,7 @@ const ChatbotPreview: React.FC<{ chatbotId: number }> = ({ chatbotId }) => {
 				setChats((prev) => [
 					...prev,
 					{
-						message: question,
+						message: userQn,
 						timestamp: "",
 						origin: "user",
 					},
@@ -69,7 +81,7 @@ const ChatbotPreview: React.FC<{ chatbotId: number }> = ({ chatbotId }) => {
 						"Content-Type": "application/json",
 					},
 					body: JSON.stringify({
-						question: question,
+						question: userQn,
 						chatbot_id: chatbotId,
 						context: context,
 					}),
@@ -104,127 +116,211 @@ const ChatbotPreview: React.FC<{ chatbotId: number }> = ({ chatbotId }) => {
 					knowledge base)
 				</Text>
 			</Box>
-			<Box sx={{ boxShadow: "0 0 2px lightgray", borderRadius: 5 }}>
-				<Box sx={{ bgColor: "black", p: 3 }}>
-					<Text
-						color="white"
-						fontWeight="bold"
-						textTransform="capitalize"
-					>
-						{currentChatbot.chatbotName}
-					</Text>
-				</Box>
-				<Box sx={{ p: 1 }}>
+			<Container>
+				<Box
+					sx={{
+						boxShadow: "0 0 5px lightgray",
+						borderRadius: 5,
+						width: 390,
+						height: 500,
+					}}
+				>
 					<Box
 						sx={{
-							width: "100%",
-							p: 5,
-							height: "350px",
-							borderRadius: 5,
-							overflowY: "scroll",
+							bgColor: currentChatbot.primaryBgColor,
+							p: 3,
+							px: 5,
+							borderTopLeftRadius: 5,
+							borderTopRightRadius: 5,
+							display: "flex",
+							alignItems: "center",
+							justifyContent: "space-between",
 						}}
 					>
-						<Box sx={{ display: "flex", flexDirection: "column" }}>
-							{chats.map((chat, idx) => {
-								return (
-									<Box key={idx}>
-										<Box
-											sx={{
-												whiteSpace: "pre-line",
-												backgroundColor:
-													chat.origin === "user"
-														? "black"
-														: "rgba(0,0,0,0.05)",
-												color:
-													chat.origin === "user"
-														? "white"
-														: "black",
-												borderTopRightRadius: 5,
-												borderBottomRightRadius: 5,
-												borderBottomLeftRadius: 5,
-												p: 3,
-												maxWidth: "500px",
-												minWidth: "200px",
-												mb: 1,
-												float:
-													chat.origin === "user"
-														? "right"
-														: "left",
-											}}
-										>
-											<Text
-												colorScheme={
-													chat.origin === "user"
-														? "blackAlpha"
-														: "messenger"
-												}
-												fontWeight="bold"
+						<Box sx={{ display: "flex", alignItems: "center" }}>
+							<Text
+								color="white"
+								fontSize={18}
+								fontWeight="bold"
+								textTransform="capitalize"
+							>
+								{currentChatbot.chatbotName}
+							</Text>
+							<Box
+								ml={3}
+								color="white"
+								border="white solid 1px"
+								borderRadius={5}
+								px={1}
+							>
+								<Text>Raise Ticket</Text>
+							</Box>
+						</Box>
+						<Box>
+							<CloseIcon color="white" />
+						</Box>
+					</Box>
+					<Box sx={{ p: 1 }}>
+						<Box
+							sx={{
+								width: "100%",
+								p: 1,
+								height: "330px",
+								borderRadius: 5,
+								overflowY: "auto",
+							}}
+						>
+							<Box
+								sx={{
+									display: "flex",
+									flexDirection: "column",
+								}}
+							>
+								{chats.map((chat, idx) => {
+									return (
+										<Box maxWidth={300} key={idx}>
+											<Box
+												sx={{
+													whiteSpace: "pre-line",
+													backgroundColor:
+														chat.origin === "user"
+															? currentChatbot.primaryBgColor
+															: "rgba(0,0,0,0.05)",
+													color:
+														chat.origin === "user"
+															? "white"
+															: "black",
+													borderTopRightRadius: 5,
+													borderBottomRightRadius: 5,
+													borderBottomLeftRadius: 5,
+													p: 3,
+													maxWidth: "500px",
+													minWidth: "200px",
+													mb: 1,
+													float:
+														chat.origin === "user"
+															? "right"
+															: "left",
+												}}
 											>
-												{chat.origin}
-											</Text>{" "}
-											{chat.message}
+												<Text
+													colorScheme={
+														chat.origin === "user"
+															? "blackAlpha"
+															: "messenger"
+													}
+													fontWeight="bold"
+												>
+													{chat.origin}
+												</Text>{" "}
+												{chat.message}
+											</Box>
 										</Box>
+									);
+								})}
+							</Box>
+						</Box>
+						<Box
+							mb={1}
+							overflowX="auto"
+							display="flex"
+							alignItems="center"
+						>
+							{currentChatbot.quickReplies?.map((qr) => {
+								return (
+									<Box
+										sx={{
+											border: `${currentChatbot.primaryBgColor} solid 2px`,
+											width: "fit-content",
+											px: 2,
+											mx: 1,
+											color: currentChatbot.primaryBgColor,
+											borderRadius: 20,
+											cursor: "pointer",
+											_hover: {
+												opacity: 0.7,
+											},
+											fontSize: 13,
+										}}
+										onClick={() => {
+											setQuestion(qr.question);
+											handleSend();
+										}}
+									>
+										{qr.keyword}
 									</Box>
 								);
 							})}
 						</Box>
-					</Box>
-					<Box>
-						{currentChatbot.quickReplies?.map((qr) => {
-							return (
-								<Box
-									sx={{
-										border: "solid 2px",
-										width: "fit-content",
-										px: 2,
-										borderRadius: 20,
-										cursor: "pointer",
-										_hover: {
-											opacity: 0.7,
-										},
-									}}
-									onClick={() => {
-										setQuestion(qr.question);
-										handleSend();
-									}}
-								>
-									{qr.keyword}
-								</Box>
-							);
-						})}
-					</Box>
-					<Box sx={{ mt: 1 }}>
-						<InputGroup>
-							<Input
-								disabled={waitingReply}
-								value={question}
-								onKeyPress={(e) => {
-									if (e.key === "Enter") {
-										handleSend();
+						<Box sx={{ mt: 2 }}>
+							<InputGroup>
+								<Input
+									disabled={waitingReply}
+									value={question}
+									focusBorderColor={
+										currentChatbot.primaryBgColor
 									}
+									onKeyPress={(e) => {
+										if (e.key === "Enter") {
+											handleSend();
+										}
+									}}
+									onChange={(e) => {
+										setQuestion(e.target.value);
+									}}
+									placeholder="Ask your question..."
+								/>
+								<InputRightAddon
+									p={0}
+									children={
+										<Button
+											color="white"
+											bgColor={
+												currentChatbot.primaryBgColor
+											}
+											borderTopLeftRadius={0}
+											borderBottomLeftRadius={0}
+											isLoading={waitingReply}
+											disabled={waitingReply}
+											onClick={() => handleSend()}
+										>
+											Ask
+											<ArrowForwardIcon sx={{ mr: 2 }} />
+										</Button>
+									}
+								/>
+							</InputGroup>
+						</Box>
+						<Box
+							sx={{
+								display: "flex",
+								alignItems: "center",
+								justifyContent: "center",
+								my: 2,
+							}}
+						>
+							<Text
+								fontSize={13}
+								sx={{
+									display: "flex",
+									alignItems: "center",
 								}}
-								onChange={(e) => {
-									setQuestion(e.target.value);
-								}}
-								placeholder="Ask your question..."
-							/>
-							<InputRightAddon
-								p={0}
-								children={
-									<Button
-										isLoading={waitingReply}
-										disabled={waitingReply}
-										onClick={handleSend}
-									>
-										<ArrowForwardIcon sx={{ mr: 2 }} />
-										Send
-									</Button>
-								}
-							/>
-						</InputGroup>
+							>
+								Powered by{" "}
+								<Text
+									fontSize={15}
+									color={currentChatbot.primaryBgColor}
+									ml={1}
+									textDecoration="underline"
+									fontWeight="extrabold"
+								>
+									Assist Desk
+								</Text>
+							</Text>
+						</Box>
 					</Box>
 				</Box>
-			</Box>
+			</Container>
 		</Box>
 	);
 };

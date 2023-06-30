@@ -56,3 +56,7 @@ export const positionChangeApiStatusSelector = (state: IAppState) => {
 export const updateChatbotDomainsApiStatusSelector = (state: IAppState) => {
 	return state.chatbots.domainChangeApiStatus;
 };
+
+export const updateChatbotColorApiStatusSelector = (state: IAppState) => {
+	return state.chatbots.chatbotColorChangeApiStatus;
+};

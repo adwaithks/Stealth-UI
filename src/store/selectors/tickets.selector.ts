@@ -11,3 +11,7 @@ export const ticketsSelector = (state: IAppState) => {
 export const updateTicketStatusApiStatusSelector = (state: IAppState) => {
 	return state.tickets.updateTicketStatusApiStatus;
 };
+
+export const updateTicketNoteApiStatusSelector = (state: IAppState) => {
+	return state.tickets.updateTicketNoteApiStatus;
+};
