@@ -32,7 +32,7 @@ const Features: React.FC = () => {
 			>
 				<FeatureCard
 					title="24x7 Customer Support"
-					description="Deliver round-the-clock customer support with the help of our AI chatbots. Our chatbots are available 24 hours a day, 7 days a week, to assist your customers. They provide instant responses and answer frequently asked questions, ensuring seamless support round - the - clock."
+					description="Deliver round-the-clock customer support with the help of our AI chatbots. Our chatbots are available 24 hours a day, 7 days a week, to assist your customers. They provide instant responses and answer frequently asked questions, ensuring seamless daily support."
 				/>
 				<FeatureCard
 					title="Manual Training Control"
