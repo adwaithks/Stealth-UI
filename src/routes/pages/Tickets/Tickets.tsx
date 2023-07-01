@@ -104,7 +104,7 @@ const Tickets: React.FC = () => {
 						{isTicketsDedicatedPage ? (
 							<TicketTabs tickets={tickets} />
 						) : (
-							tickets.slice(0, 5).map((ticket) => {
+							tickets.slice(-5).map((ticket) => {
 								return <TicketWidget ticket={ticket} />;
 							})
 						)}
