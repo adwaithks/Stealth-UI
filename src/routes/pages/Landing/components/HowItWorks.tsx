@@ -52,19 +52,19 @@ const HowItWorks: React.FC = () => {
 			>
 				<WorkCard
 					title="Step 1"
-					description="Ofcourse, you will have to login first :). Once you are logged in, click on the Create New Chatbot icon in the dashboard page"
+					description="Of course, you have to log in first 😄. Once you are logged in, click on the Create New Chatbot icon on the dashboard page"
 				/>
 				<WorkCard
 					title="Step 2"
-					description="Fill in the chatbot name and your website name. We will fetch all the links in your website and provide you with the option to choose, from which links you want to fetch content from, to train your bot."
+					description="Fill in the chatbot name and your website name. We will fetch all the links on your website and provide you with the option to choose from which links you want to fetch content from to train your bot."
 				/>
 				<WorkCard
 					title="Step 3"
-					description="Well that's it! But, we understand that just getting the content from your website might not be enough. That's why we give you the flexibility to add your own personal touch. You can edit the data on which your chatbot was trained"
+					description="Well that's it! But we understand that getting the content from your website might not be enough. That's why we give you the flexibility to add your personal touch. You can edit the data on which your chatbot was trained!"
 				/>
 				<WorkCard
 					title="Step 4"
-					description="You can retrain your chatbot anytime you want. As your website evolves and your content grows, you can easily update your chatbot to stay up to date."
+					description="You can retrain your chatbot anytime you want. As your website evolves and your content grows, you can easily update your chatbot to stay up - to - date."
 				/>
 			</Box>
 		</section>

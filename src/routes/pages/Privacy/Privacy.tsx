@@ -48,52 +48,90 @@ const Privacy: React.FC = () => {
 			>
 				<Box mb={5}>
 					<Heading mb={2} fontWeight="bold" fontSize="2xl">
-						Information We Collect
+						Information we collect
 					</Heading>
 					<Text mb={5}>
 						Personal Information: When you use the Platform, we may
-						collect certain personal information that you provide
-						voluntarily, email address and any other information you
-						choose to provide.We utilize Clerk, a third-party user
-						management service, to handle user registration and
-						authentication. As part of this process, we only store
-						the email addresses and user id associated with our
-						users in our database. We do not store any other
-						personally identifiable information (PII) or sensitive
-						data in our database. Clerk is responsible for securely
-						managing and storing the user account information,
-						including usernames, passwords, and other user profile
-						details. We have chosen Clerk for their robust security
-						measures and commitment to protecting user data. Please
-						note that we do not have access to your passwords or any
-						other sensitive information stored by Clerk. We rely on
-						Clerk's infrastructure and protocols to ensure the
-						privacy and security of your account details.
+						collect certain personal information you provide
+						voluntarily, including email address and any other
+						information you choose to provide. We utilize{" "}
+						<a
+							style={{ textDecoration: "underline" }}
+							target="_blank"
+							href="https://clerk.com"
+						>
+							Clerk.com
+						</a>
+						, a third-party user management service, to handle user
+						registration and authentication. As part of this
+						process, we only store the email addresses and user IDs
+						associated with users in our database. We do not store
+						other personally identifiable information (PII) or
+						sensitive data in our database.{" "}
+						<a
+							style={{ textDecoration: "underline" }}
+							target="_blank"
+							href="https://clerk.com"
+						>
+							Clerk.com
+						</a>{" "}
+						is responsible for securely managing and storing the
+						user account information, including usernames,
+						passwords, and other user profile details. We have
+						chosen{" "}
+						<a
+							style={{ textDecoration: "underline" }}
+							target="_blank"
+							href="https://clerk.com"
+						>
+							Clerk.com
+						</a>{" "}
+						for its robust security measures and commitment to
+						protecting user data. Please note that we do not have
+						access to your passwords or any other sensitive
+						information stored by{" "}
+						<a
+							style={{ textDecoration: "underline" }}
+							target="_blank"
+							href="https://clerk.com"
+						>
+							Clerk.com
+						</a>
+						. We rely on{" "}
+						<a
+							style={{ textDecoration: "underline" }}
+							target="_blank"
+							href="https://clerk.com"
+						>
+							Clerk.com
+						</a>
+						's infrastructure and protocols to ensure the privacy
+						and security of your account details.
 					</Text>
 					<Text mb={5}>
-						Usage Data: We may collect information about the
-						conversations happening between the bot and the
-						customers, which is a feature of our product.
+						Usage of Data: We may collect information about the
+						conversations between the AI Bot and the customers,
+						which is a feature of our product.
 					</Text>
 					<Text mb={5}>
 						Log Data: Our servers automatically collect certain
-						information when you access or use the Platform. This
+						information when you access or use the Platform and this
 						may include your IP address, browser type, operating
 						system, referring URLs, access times, and other similar
 						data.
 					</Text>
 					<Text mb={5}>
 						User tracking: We will attach the following cookie to
-						track each of your customer and their chats during the
-						session. Cookie Name: ASSISTDESK_CHATBOT Kindly request
+						track each of your customers and their chats during the
+						session. Cookie Name: ASSISTDESK_CHATBOT. Kindly request
 						this permission in your website or product where you are
-						embedding the chatbot.
+						embedding the chatbot (if applicable).
 					</Text>
 				</Box>
 
 				<Box mb={5}>
 					<Heading mb={2} fontWeight="bold" fontSize="2xl">
-						How We Use Your Information
+						How we use your information
 					</Heading>
 					<Text mb={5}>
 						To Provide and Improve the Platform: We use your
@@ -104,8 +142,8 @@ const Privacy: React.FC = () => {
 					</Text>
 					<Text mb={5}>
 						Communication: We may use your personal information to
-						communicate with you about your use of the Platform,
-						respond to your inquiries, and send important notices or
+						communicate with you, about using the Platform, respond
+						to your inquiries, and send important notices or
 						updates.
 					</Text>
 					<Text mb={5}>
@@ -115,17 +153,18 @@ const Privacy: React.FC = () => {
 						Platform and enhance our services.
 					</Text>
 					<Text mb={5}>
-						Open AI: We are primarily relying on OpenAI for reply
-						generation to customer enquiries via our chatbot and
+						Open AI: We primarily rely on OpenAI for reply
+						generation to customer enquiry via our chatbot and
 						knowledge base creation. Therefore, we strongly urge you
-						to not put anything confidential in your knowledge base
-						(You will be able to manually edit the knowledge base).
+						not to put anything confidential in your knowledge base
+						(You will be able to edit the knowledge base manually
+						from the dashboard).
 					</Text>
 				</Box>
 
 				<Box mb={5}>
 					<Heading mb={2} fontWeight="bold" fontSize="2xl">
-						Information Sharing and Disclosure
+						Information sharing and disclosure
 					</Heading>
 					<Text mb={5}>
 						Service Providers: We may share your personal
@@ -133,16 +172,23 @@ const Privacy: React.FC = () => {
 						us deliver and improve the Platform.
 					</Text>
 					<Text mb={5}>
-						Payment Providers: We use paddle to integrate recurring
-						subscriptions on our platforms. We do not store any
-						confidential payment information like card number etc,
-						other than information related to your subscription
-						which is required for the proper functioning of our
-						platform.
+						Payment Providers: We use{" "}
+						<a
+							style={{ textDecoration: "underline" }}
+							target="_blank"
+							href="https://paddle.com"
+						>
+							Paddle.com
+						</a>{" "}
+						to integrate recurring subscriptions to our platform. We
+						do not store any confidential payment information like
+						card number etc, other than the information related to
+						your subscription, which is required for the proper
+						functioning of our platform.
 					</Text>
 					<Text>
 						Kindly ensure that you have obtained any required
-						consents or permissions for the collection and usage of
+						consents or permissions for collecting and using
 						customer chat data through the chatbot (if necessary).
 					</Text>
 				</Box>
@@ -182,7 +228,15 @@ const Privacy: React.FC = () => {
 					<Text mb={5}>
 						If you have any questions, concerns, or requests
 						regarding this Privacy Policy or our privacy practices,
-						please contact us at official@assistdesk.in
+						please don't hesitate to get in touch with us at{" "}
+						<a
+							style={{
+								textDecoration: "underline",
+							}}
+							href="mailto:official@assistdesk.in"
+						>
+							official@assistdesk.in
+						</a>
 					</Text>
 				</Box>
 			</Box>

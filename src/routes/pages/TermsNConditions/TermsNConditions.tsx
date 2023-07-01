@@ -65,8 +65,9 @@ const TermsNConditions: React.FC = () => {
 						Billing & Refunds
 					</Heading>
 					<Text mb={5}>
-						Subscription Charges: We offer various pricing plans for
-						subscribing the service.
+						Subscription Charges: Currently we offer only one
+						monthly plan. We are working on new subscription plans
+						with access to more features.
 					</Text>
 					<Text mb={5}>
 						Refunds: No refund of subscription charges, whether
