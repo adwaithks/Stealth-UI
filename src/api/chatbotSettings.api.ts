@@ -1,5 +1,11 @@
 import { BASE_URL } from "./baseURL";
 
+const serializeColors = (colors: { primary_bg_color: string }) => {
+	return {
+		primaryBgColor: colors.primary_bg_color,
+	};
+};
+
 export const deleteChatbotApi = async (chatbotId: number, token: string) => {
 	const res = await fetch(BASE_URL + "/api/v1/chatbot/delete", {
 		method: "POST",
@@ -118,4 +124,31 @@ export const updateChatbotDomainsApi = async (
 		throw data;
 	}
 	return data;
+};
+
+export const updateChatbotColorsApi = async (
+	chatbotId: number,
+	primaryBgColor: string,
+	chatbotHashId: string,
+	token: string
+) => {
+	const res = await fetch(BASE_URL + "/api/v1/chatbot/colors/update", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+			"STEALTH-ACCESS-TOKEN": token,
+		},
+		body: JSON.stringify({
+			chatbot_id: chatbotId,
+			chatbot_hash: chatbotHashId,
+			primary_bg_color: primaryBgColor,
+		}),
+	});
+
+	const data = await res.json();
+
+	if (!res.ok) {
+		throw data;
+	}
+	return serializeColors(data.message);
 };

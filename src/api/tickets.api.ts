@@ -52,9 +52,7 @@ export const updateTicketStatusApi = async (
 	ticketId: number,
 	chatbotId: number,
 	chatbotHashId: string,
-	newStatus: string,
-	email: string,
-	enquiry: string
+	newStatus: string
 ) => {
 	const res = await fetch(BASE_URL + "/api/v1/ticket/status/update", {
 		method: "POST",
@@ -67,8 +65,35 @@ export const updateTicketStatusApi = async (
 			chatbot_hash: chatbotHashId,
 			ticket_id: ticketId,
 			status: newStatus,
-			email: email,
-			enquiry: enquiry,
+		}),
+	});
+
+	const data = await res.json();
+
+	if (!res.ok) {
+		throw data;
+	}
+	return ticketSerializer(data.message);
+};
+
+export const updateTicketNoteApi = async (
+	token: string,
+	ticketId: number,
+	chatbotId: number,
+	chatbotHashId: string,
+	note: string
+) => {
+	const res = await fetch(BASE_URL + "/api/v1/ticket/note/update", {
+		method: "POST",
+		headers: {
+			"STEALTH-ACCESS-TOKEN": token,
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({
+			chatbot_id: chatbotId,
+			chatbot_hash: chatbotHashId,
+			ticket_id: ticketId,
+			note,
 		}),
 	});
 

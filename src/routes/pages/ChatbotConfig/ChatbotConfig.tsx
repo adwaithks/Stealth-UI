@@ -187,6 +187,11 @@ const ChatbotConfig: React.FC = () => {
 								name={chatbot?.chatbotName || ""}
 								domains={chatbot?.domains || []}
 								status={chatbot?.status || ""}
+								chatbotHashId={chatbot?.chatbotHashId}
+								chatbotId={chatbot?.chatbotId}
+								primaryBgColor={
+									chatbot?.primaryBgColor || "#000000"
+								}
 							/>
 						</TabPanel>
 						<TabPanel>

@@ -39,8 +39,8 @@ const Pricing: React.FC = () => {
 					Pricing plans
 				</Text>
 				<Text color="gray">
-					We are still working on providing more features for the
-					existing pricing plans!
+					We are still in beta and are working on new pricing plans
+					and providing more features for the existing pricing plans!
 				</Text>
 			</Box>
 			<Divider />

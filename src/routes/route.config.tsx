@@ -91,6 +91,19 @@ const RouteConfig: React.FC = () => {
 						}
 					/>
 					<Route
+						path="/app/billing"
+						element={
+							<>
+								<SignedIn>
+									<Billing />
+								</SignedIn>
+								<SignedOut>
+									<Navigate to="/" replace />
+								</SignedOut>
+							</>
+						}
+					/>
+					<Route
 						path="app/configure/:id"
 						element={
 							<>

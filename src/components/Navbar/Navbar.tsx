@@ -86,7 +86,11 @@ const Navbar: React.FC = () => {
 					</Button>
 				</SignedIn>
 				<SignedOut>
-					<Link color="black" href="/" sx={{ mr: 5 }}>
+					<Link
+						color="black"
+						onClick={() => navigate("/", { replace: true })}
+						sx={{ mr: 5 }}
+					>
 						Home
 					</Link>
 					{!isMobile && (

@@ -7,8 +7,13 @@ import {
 	FormLabel,
 	Input,
 	InputGroup,
+	Popover,
+	PopoverArrow,
+	PopoverContent,
+	PopoverTrigger,
 	Select,
 	Text,
+	useDisclosure,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { Spinner } from "@chakra-ui/react";
@@ -25,6 +30,7 @@ import { useSelector } from "react-redux";
 import {
 	deleteChatbot,
 	udpateChatbotStatus,
+	updateChatbotColors,
 	updateChatbotDomains,
 	updateChatbotName,
 	updateChatbotPosition,
@@ -33,18 +39,31 @@ import {
 	deleteChatbotApiStatusSelector,
 	positionChangeApiStatusSelector,
 	udpateChatbotStatusApiSelector,
+	updateChatbotColorApiStatusSelector,
 	updateChatbotDomainsApiStatusSelector,
 	updateChatbotNameApiStatusSelector,
 } from "../../../../store/selectors/chatbots.selector";
 import { useNavigate } from "react-router-dom";
 import { useClerk } from "@clerk/clerk-react";
+import { HexColorPicker } from "react-colorful";
 
 const ChatbotSettings: React.FC<{
 	domains: string[];
 	name: string;
 	status: string;
 	position: string;
-}> = ({ domains, name, status, position }) => {
+	chatbotId: number;
+	chatbotHashId: string;
+	primaryBgColor: string;
+}> = ({
+	chatbotId,
+	chatbotHashId,
+	domains,
+	name,
+	status,
+	position,
+	primaryBgColor,
+}) => {
 	const dispatch = useAppDispatch();
 	const deleteChatbotApiStatus = useSelector(deleteChatbotApiStatusSelector);
 	const domainsUpdateApiStatus = useSelector(
@@ -55,23 +74,38 @@ const ChatbotSettings: React.FC<{
 		positionChangeApiStatusSelector
 	);
 	const statusChangeApiStatus = useSelector(udpateChatbotStatusApiSelector);
+	const colorChangeApiStatus = useSelector(
+		updateChatbotColorApiStatusSelector
+	);
 	const navigate = useNavigate();
 
 	const [chatbotDomains, setChatbotDomains] = useState<string[]>([]);
 	const [newDomain, setNewDomain] = useState("");
 	const [newName, setNewName] = useState("");
 	const [isNameEditing, setIsNameEditing] = useState(false);
+	const [isColorEditing, setIsColorEditing] = useState(false);
 	const [newStatus, setNewStatus] = useState(status);
 	const [chatbotPosition, setChatbotPosition] = useState<string>("");
+	const [primaryBgColorState, setPrimaryBgColorState] = useState("");
 
-	const chatbotId = Number(window.location.pathname.split("/")[3] || -1);
+	const { onOpen, onClose, isOpen } = useDisclosure();
 
 	useEffect(() => {
 		setChatbotDomains(domains || []);
 		setNewName(name);
 		setNewStatus(status);
 		setChatbotPosition(position);
-	}, [domains, name, status, position]);
+		setPrimaryBgColorState(primaryBgColor);
+	}, [domains, name, status, position, primaryBgColor]);
+
+	useEffect(() => {
+		if (
+			isColorEditing &&
+			(colorChangeApiStatus === "fulfilled" ||
+				colorChangeApiStatus === "rejected")
+		)
+			setIsColorEditing(false);
+	}, [colorChangeApiStatus, isColorEditing]);
 
 	const { session } = useClerk();
 
@@ -214,6 +248,8 @@ const ChatbotSettings: React.FC<{
 		} else return;
 	};
 
+	console.log({ primaryBgColorState });
+
 	const handleAddNewDomain = (newDomain: string) => {
 		if (newDomain.length === 0) {
 			window.alert("Please enter a domain!");
@@ -254,6 +290,29 @@ const ChatbotSettings: React.FC<{
 
 			setNewDomain("");
 		} else return;
+	};
+
+	const handleNewBgColor = () => {
+		// updateChatbotColorApiStatusSelector
+		session
+			?.getToken({ template: "stealth-token-template" })
+			.then((token) => {
+				if (!token) {
+					navigate("/");
+					return;
+				}
+				dispatch(
+					updateChatbotColors({
+						token,
+						chatbotHashId,
+						chatbotId,
+						primaryBgColor: primaryBgColorState,
+					})
+				);
+			})
+			.catch(() => {
+				navigate("/");
+			});
 	};
 
 	return (
@@ -421,6 +480,81 @@ const ChatbotSettings: React.FC<{
 								</Box>
 							);
 					})}
+				</Box>
+			</Box>
+
+			<Divider sx={{ my: 5 }} orientation="horizontal" />
+
+			<Box>
+				<Box sx={{ mb: 5 }}>
+					<Text fontSize="lg" fontWeight="bold">
+						Primary Color
+					</Text>
+					<Text sx={{ color: "gray" }}>
+						Set the primary color of your chat bot embedded on
+						website
+					</Text>
+				</Box>
+				<Box sx={{ display: "flex", alignItems: "center" }}>
+					<Popover
+						size="lg"
+						isOpen={isOpen}
+						onOpen={onOpen}
+						onClose={onClose}
+						placement="top-end"
+						strategy="absolute"
+						closeOnBlur
+						closeOnEsc
+					>
+						<PopoverArrow />
+						<PopoverTrigger>
+							<Box
+								cursor="pointer"
+								onClick={() => setIsColorEditing(true)}
+								sx={{
+									backgroundColor: primaryBgColorState,
+									borderRadius: 5,
+									height: 10,
+									width: 10,
+								}}
+							></Box>
+						</PopoverTrigger>
+						<PopoverContent width="fit-content">
+							<HexColorPicker
+								color={primaryBgColorState}
+								onChange={setPrimaryBgColorState}
+							/>
+						</PopoverContent>
+					</Popover>
+
+					<Box>
+						{isColorEditing && (
+							<Box ml={5}>
+								<Button
+									mr={2}
+									colorScheme="green"
+									onClick={handleNewBgColor}
+									isLoading={
+										colorChangeApiStatus === "pending"
+									}
+									loadingText="Updating Color"
+								>
+									<CheckIcon mr={2} />
+									Update
+								</Button>
+								<Button
+									colorScheme="red"
+									onClick={() => {
+										setPrimaryBgColorState(primaryBgColor);
+										setIsColorEditing(false);
+									}}
+								>
+									<CloseIcon mr={2} />
+									Cancel
+								</Button>
+							</Box>
+						)}
+					</Box>
 				</Box>
 			</Box>
 

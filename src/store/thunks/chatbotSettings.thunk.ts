@@ -2,6 +2,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
 	deleteChatbotApi,
+	updateChatbotColorsApi,
 	updateChatbotDomainsApi,
 	updateChatbotNameApi,
 	updateChatbotPositionApi,
@@ -215,6 +216,51 @@ export const deleteChatbot = createAsyncThunk(
 				description: err?.message
 					? err.message
 					: "Failed to delete chatbot",
+				status: "error",
+				duration: 2000,
+				isClosable: true,
+				variant: "left-accent",
+			});
+			throw err;
+		}
+	}
+);
+
+export const updateChatbotColors = createAsyncThunk(
+	"chatbots/updateChatbotColors",
+	async ({
+		chatbotId,
+		token,
+		chatbotHashId,
+		primaryBgColor,
+	}: {
+		chatbotId: number;
+		chatbotHashId: string;
+		primaryBgColor: string;
+		token: string;
+	}) => {
+		try {
+			const data = await updateChatbotColorsApi(
+				chatbotId,
+				primaryBgColor,
+				chatbotHashId,
+				token
+			);
+			toast({
+				title: "Success",
+				description: "Color updated successfully!",
+				status: "success",
+				duration: 2000,
+				isClosable: true,
+				variant: "left-accent",
+			});
+			return data;
+		} catch (err: any) {
+			toast({
+				title: "Something went wrong",
+				description: err?.message
+					? err.message
+					: "Failed to update color!",
 				status: "error",
 				duration: 2000,
 				isClosable: true,

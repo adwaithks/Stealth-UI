@@ -26,6 +26,7 @@ export interface IAppState {
 		domainChangeApiStatus: string;
 		getChatbotByIdApiStatus: string;
 		chatbotPositionChangeApiStatus: string;
+		chatbotColorChangeApiStatus: string;
 	};
 	chatbotChats: {
 		chats: { [key: string]: Chat[] };
@@ -51,6 +52,7 @@ export interface IAppState {
 		tickets: ITicket[];
 		getTicketsApiStatus: string;
 		updateTicketStatusApiStatus: string;
+		updateTicketNoteApiStatus: string;
 	};
 }
 

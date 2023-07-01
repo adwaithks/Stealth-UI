@@ -7,6 +7,7 @@ import { retrainChatbotApi } from "../../api/retrainChatbot.api";
 import {
 	deleteChatbot,
 	udpateChatbotStatus,
+	updateChatbotColors,
 	updateChatbotDomains,
 	updateChatbotName,
 	updateChatbotPosition,
@@ -140,6 +141,7 @@ const chatbotsSlice = createSlice({
 		domainChangeApiStatus: "idle",
 		getChatbotByIdApiStatus: "idle",
 		chatbotPositionChangeApiStatus: "idle",
+		chatbotColorChangeApiStatus: "idle",
 	},
 	reducers: {
 		resetCreateNewChatbotStatus: (state) => {
@@ -284,6 +286,17 @@ const chatbotsSlice = createSlice({
 			})
 			.addCase(deleteQuickReply.rejected, (state) => {
 				state.quickReplyDeleteApiStatus = "rejected";
+			})
+			.addCase(updateChatbotColors.pending, (state) => {
+				state.chatbotColorChangeApiStatus = "pending";
+			})
+			.addCase(updateChatbotColors.fulfilled, (state, action) => {
+				state.currentChatbot.primaryBgColor =
+					action.payload.primaryBgColor;
+				state.chatbotColorChangeApiStatus = "fulfilled";
+			})
+			.addCase(updateChatbotColors.rejected, (state) => {
+				state.chatbotColorChangeApiStatus = "rejected";
 			});
 	},
 });

@@ -6,9 +6,10 @@ export interface Chatbot {
 	lastUpdated: string;
 	domains: string[];
 	status: string;
-	position?: string;
-	chatbotHashId?: string;
-	quickReplies?: QuickReply[];
+	position: string;
+	chatbotHashId: string;
+	primaryBgColor: string;
+	quickReplies: QuickReply[];
 }
 
 export interface ChatbotDTO {
@@ -19,9 +20,10 @@ export interface ChatbotDTO {
 	last_updated: string;
 	domains: string;
 	status: string;
-	position?: string;
-	chatbot_hash_id?: string;
-	quick_replies?: QuickReplyDTO[];
+	position: string;
+	primary_bg_color: string;
+	chatbot_hash_id: string;
+	quick_replies: QuickReplyDTO[];
 }
 
 export interface QuickReplyDTO {
