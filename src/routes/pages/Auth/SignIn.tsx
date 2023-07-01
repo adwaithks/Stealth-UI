@@ -20,15 +20,6 @@ const CSignIn: React.FC = () => {
 		/>
 	);
 
-	const OverlayTwo = () => (
-		<ModalOverlay
-			bg="none"
-			backdropFilter="auto"
-			backdropInvert="80%"
-			backdropBlur="2px"
-		/>
-	);
-
 	const { onClose } = useDisclosure();
 	const navigate = useNavigate();
 

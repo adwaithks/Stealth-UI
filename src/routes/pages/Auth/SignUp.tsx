@@ -8,7 +8,7 @@ import {
 	ModalOverlay,
 	useDisclosure,
 } from "@chakra-ui/react";
-import React, { useCallback, useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import ClerkSignUp from "./ClerkSignUp";
 
