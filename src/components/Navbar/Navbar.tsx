@@ -30,28 +30,39 @@ const Navbar: React.FC = () => {
 				justifyContent: "space-between",
 				alignItems: "center",
 				height: 65,
-				px: 10,
+				px: isMobile ? 2 : 20,
 				mb: 5,
 				color: "white",
 			}}
 		>
-			<Box sx={{ display: "flex", alignItems: "center" }}>
+			<Box
+				sx={{
+					display: "flex",
+					alignItems: "center",
+				}}
+			>
 				<Text
-					color="black"
+					color="white"
 					sx={{
 						cursor: "pointer",
+						borderRadius: 5,
+						p: 1,
 						display: "flex",
 						alignItems: "center",
+						bgColor: "black",
+						boxShadow: "0 0 0 lightgray",
 					}}
 					onClick={() => navigate("/app")}
 					fontWeight="bold"
+					fontSize={25}
 				>
 					<Image mr={1} height={8} width={9} src={Logo} /> Assist Desk{" "}
-					<Badge ml={2} variant="subtle" colorScheme="red">
-						Beta
-					</Badge>
 				</Text>
+				<Badge ml={2} variant="subtle" colorScheme="red">
+					Beta
+				</Badge>
 			</Box>
+
 			<Box
 				sx={{
 					display: "flex",

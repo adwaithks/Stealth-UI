@@ -34,8 +34,8 @@ const Landing: React.FC = () => {
 					sx={{
 						fontSize: {
 							base: "4xl",
-							md: "6xl",
-							lg: "7xl",
+							md: "4xl",
+							lg: "5xl",
 						},
 						mb: 5,
 						mt: isMobile ? 5 : 0,
