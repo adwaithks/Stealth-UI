@@ -23,7 +23,6 @@ const ASSETS_URL = "http://localhost:5173";
 let messages = [];
 let isTabletOrBelow = window.innerWidth <= 820 ? true : false;
 let quickReplies = [];
-let ticketRaise = -1;
 let primaryBgColor = "#000000";
 
 function getDeviceType() {
@@ -98,7 +97,7 @@ function displayMessage(sender, message) {
 	messageElement.style.maxWidth = isTabletOrBelow ? "90%" : "280px";
 	messageElement.style.fontSize = isTabletOrBelow ? "18px" : "15px";
 	if (sender === "bot") {
-		messageElement.style.backgroundColor = "rgba(0,0,0, 0.03)";
+		messageElement.style.backgroundColor = "rgba(0,0,0, 0.05)";
 		messageElement.style.color = "black";
 		messageElement.style.borderTopRightRadius = "5px";
 		messageElement.style.boxShadow = "0 0 2px rgba(0,0,0,0.3)";
@@ -160,7 +159,7 @@ function ticketRaiseUI() {
 		padding: 8px 5px;
 		font-size: 16px;
 		border-radius: 5px;
-		border: lightgray solid 2px;
+		border: rgba(0,0,0,0.05) solid 2px;
 		margin-bottom: 10px;
 	`;
 	ticketRaiseContainer.appendChild(emailInput);
@@ -180,7 +179,7 @@ function ticketRaiseUI() {
 		padding: 8px 5px;
 		font-size: 16px;
 		border-radius: 5px;
-		border: lightgray solid 2px;
+		border: rgba(0,0,0,0.05) solid 2px;
 		width: 100%;
 		height: 150px;
 		margin-bottom: 10px;
@@ -637,6 +636,7 @@ function app({
 				? ASSETS_URL + "/" + chatIconName
 				: ASSETS_URL + "/close.png";
 		if (chatWindow.style.display !== "none") {
+			messageInput.focus();
 			// close icon
 			chatIcon.style.height = "20px";
 			chatIcon.style.width = "20px";
@@ -656,20 +656,20 @@ function app({
 			const message = mes.length === 0 ? messageInput.value.trim() : mes;
 			if (message !== "" || message.length !== 0) {
 				let context = "";
-				if (messages.length > 1) {
+				if (messages.length <= 2) {
 					context = "";
 					messages.slice(-2).forEach((m) => {
-						context += `${m.origin}: ${m.message}`;
+						context += `\n ${m.origin}: ${m.message}`;
 					});
-				} else if (messages.length > 3) {
+				} else if (messages.length <= 4) {
 					context = "";
 					messages.slice(-4).forEach((m) => {
-						context += `${m.origin}: ${m.message}`;
+						context += `\n ${m.origin}: ${m.message}`;
 					});
-				} else if (messages.length > 5 && ticketRaise >= 1) {
+				} else if (messages.length > 5) {
 					context = "";
 					messages.slice(-6).forEach((m) => {
-						context += `${m.origin}: ${m.message}`;
+						context += `\n ${m.origin}: ${m.message}`;
 					});
 				}
 				messages.push({
@@ -710,7 +710,6 @@ function app({
 						user_session_id: getCookie(cookieName),
 						channel: getDeviceType(),
 						context: context,
-						ticket_raise: ticketRaise,
 						name: chatbotName,
 						chatbot_hash: chatbotHashId,
 					}),
@@ -720,25 +719,16 @@ function app({
 						let message = data.message.reply;
 						messageContainer.removeChild(messageLoader);
 
-						if (data.message.ticket_raise > 0) {
-							ticketRaise = data.message.ticket_raise;
-						} else {
-							ticketRaise = -1;
+						if (message.includes("Assist Desk:")) {
+							message = message.replaceAll("Assist Desk:", "");
 						}
 
-						if (message.includes("<TICKET_RAISE>")) {
-							ticketRaise = 0;
-							message = message.replaceAll("<TICKET_RAISE>", "");
-						}
-
-						// ticket raise complete
-						if (data.message.ticket_raise >= 1) {
-							ticketRaise = -1;
-						}
 						messages.push({
 							origin: "AI Assistant",
 							message,
 						});
+
+						console.log("messages: ", messages);
 
 						displayMessage("bot", message);
 					})
