@@ -17,7 +17,7 @@ const Features: React.FC = () => {
 		>
 			<Box sx={{ mb: 5, textAlign: "center" }}>
 				<Text color="black" fontSize="3xl" fontWeight="bold">
-					Unleashing AI-Powered Banter for Maximum Smiles!
+					AI-Powered Intelligence for Exceptional Customer Support!
 				</Text>
 			</Box>
 			<Box
