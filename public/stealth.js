@@ -462,26 +462,28 @@ function app({
 		display: flex;
 		gap: 5px;
 		height: 5%;
+		width: 98%;
+		margin: auto;
+		overflow-x: auto;																	overflow-x: auto;
 		align-items: center;
-		padding: 0 5px 0 5px;
-		flex-wrap: wrap;
 	`;
 
 	quickReplies.forEach((qr) => {
 		const quickReply = document.createElement("div");
 		const text = document.createElement("p");
 		text.textContent = qr.keyword; // qr.keyword
+		text.style.marginRight = "5px";
+		text.style.marginLeft = "5px";
 		text.style.fontSize = isTabletOrBelow ? "15px" : "13px";
 		quickReply.appendChild(text);
 		quickReply.style = `
 			cursor: pointer;
+			white-space: nowrap;
 			border: ${primaryBgColor} solid 2px;
 			color: ${primaryBgColor};
-			height: fit-content;
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			padding: 0 10px 0 10px;
 			border-radius: 20px;
 		`;
 
