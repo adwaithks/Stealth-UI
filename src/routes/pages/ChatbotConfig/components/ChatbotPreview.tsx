@@ -9,7 +9,7 @@ import {
 	Text,
 } from "@chakra-ui/react";
 import { useClerk } from "@clerk/clerk-react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { BASE_URL } from "../../../../api/baseURL";
 import { useSelector } from "react-redux";
 import { currentChatbotSelector } from "../../../../store/selectors/chatbots.selector";
@@ -31,10 +31,21 @@ const ChatbotPreview: React.FC<{ chatbotId: number }> = ({ chatbotId }) => {
 	]);
 	const [question, setQuestion] = useState("");
 	const [waitingReply, setWaitingReply] = useState(false);
+	const messageContainer = useRef<any>(null);
 
 	const currentChatbot = useSelector(currentChatbotSelector);
 
 	const { session } = useClerk();
+
+	function scrollToBottom() {
+		if (messageContainer.current)
+			messageContainer.current.scrollTop =
+				messageContainer.current.scrollHeight;
+	}
+
+	useEffect(() => {
+		scrollToBottom();
+	}, [chats]);
 
 	const handleSend = (qn?: string) => {
 		let userQn = question;
@@ -162,6 +173,7 @@ const ChatbotPreview: React.FC<{ chatbotId: number }> = ({ chatbotId }) => {
 					</Box>
 					<Box sx={{ p: 1 }}>
 						<Box
+							ref={messageContainer}
 							sx={{
 								width: "100%",
 								p: 1,
@@ -172,13 +184,14 @@ const ChatbotPreview: React.FC<{ chatbotId: number }> = ({ chatbotId }) => {
 						>
 							<Box
 								sx={{
+									width: "100%",
 									display: "flex",
 									flexDirection: "column",
 								}}
 							>
 								{chats.map((chat, idx) => {
 									return (
-										<Box maxWidth={300} key={idx}>
+										<Box key={idx}>
 											<Box
 												sx={{
 													whiteSpace: "pre-line",
@@ -190,12 +203,17 @@ const ChatbotPreview: React.FC<{ chatbotId: number }> = ({ chatbotId }) => {
 														chat.origin === "user"
 															? "white"
 															: "black",
-													borderTopRightRadius: 5,
-													borderBottomRightRadius: 5,
-													borderBottomLeftRadius: 5,
+													borderRadius: 5,
+													borderTopRightRadius:
+														chat.origin === "user"
+															? 0
+															: 5,
+													borderTopLeftRadius:
+														chat.origin === "user"
+															? 5
+															: 0,
 													p: 3,
-													maxWidth: "500px",
-													minWidth: "200px",
+													maxWidth: "300px",
 													mb: 1,
 													float:
 														chat.origin === "user"
@@ -223,6 +241,9 @@ const ChatbotPreview: React.FC<{ chatbotId: number }> = ({ chatbotId }) => {
 						<Box
 							mb={1}
 							overflowX="auto"
+							width="98%"
+							margin="auto"
+							gap={1}
 							display="flex"
 							alignItems="center"
 						>
@@ -230,10 +251,9 @@ const ChatbotPreview: React.FC<{ chatbotId: number }> = ({ chatbotId }) => {
 								return (
 									<Box
 										sx={{
+											whiteSpace: "nowrap",
 											border: `${currentChatbot.primaryBgColor} solid 2px`,
-											width: "fit-content",
 											px: 2,
-											mx: 1,
 											color: currentChatbot.primaryBgColor,
 											borderRadius: 20,
 											cursor: "pointer",
@@ -243,8 +263,7 @@ const ChatbotPreview: React.FC<{ chatbotId: number }> = ({ chatbotId }) => {
 											fontSize: 13,
 										}}
 										onClick={() => {
-											setQuestion(qr.question);
-											handleSend();
+											handleSend(qr.question);
 										}}
 									>
 										{qr.keyword}

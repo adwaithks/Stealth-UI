@@ -242,7 +242,7 @@ const TicketWidget: React.FC<{ ticket: ITicket }> = (ticket) => {
 						</PopoverContent>
 					</Popover>
 				</Box>
-				<Box>
+				<Box display="flex" alignItems="center">
 					<Select
 						mr={2}
 						disabled={isStatusUpdating}
