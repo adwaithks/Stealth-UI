@@ -14,7 +14,7 @@ export const subscriptionPlans = [
 		billingType: "month",
 		billingPeriod: 1,
 		features: [
-			"Create 2 Chatbots",
+			"Create 3 Chatbots",
 			"Train each chatbot with data from 3 web pages using our crawler",
 			"Manually add training data",
 			"Insights into customer chat history",
