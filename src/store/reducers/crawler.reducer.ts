@@ -27,7 +27,10 @@ const crawlerSlice = createSlice({
 				state.getAllUrlsApiStatus = "pending";
 			})
 			.addCase(getAllUrls.fulfilled, (state, action) => {
-				state.urls = [...state.urls, ...action.payload];
+				const isSame = action.payload.every((element: string) =>
+					state.urls.includes(element)
+				);
+				if (!isSame) state.urls = [...state.urls, ...action.payload];
 				state.getAllUrlsApiStatus = "fulfilled";
 			})
 			.addCase(getAllUrls.rejected, (state) => {

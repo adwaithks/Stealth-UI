@@ -35,7 +35,7 @@ export const addQuickReply = createAsyncThunk(
 				title: "Success",
 				description: "New quick reply added successfully!",
 				status: "success",
-				duration: 2000,
+				duration: 4000,
 				isClosable: true,
 				variant: "left-accent",
 			});
@@ -47,7 +47,7 @@ export const addQuickReply = createAsyncThunk(
 					? err.message
 					: "Failed to add quick reply!",
 				status: "error",
-				duration: 2000,
+				duration: 4000,
 				isClosable: true,
 				variant: "left-accent",
 			});
@@ -88,7 +88,7 @@ export const deleteQuickReply = createAsyncThunk(
 				title: "Success",
 				description: "Quick reply deleted successfully!",
 				status: "success",
-				duration: 2000,
+				duration: 4000,
 				isClosable: true,
 				variant: "left-accent",
 			});
@@ -100,7 +100,7 @@ export const deleteQuickReply = createAsyncThunk(
 					? err.message
 					: "Failed to delete quick reply!",
 				status: "error",
-				duration: 2000,
+				duration: 4000,
 				isClosable: true,
 				variant: "left-accent",
 			});
@@ -136,7 +136,7 @@ export const editQuickReply = createAsyncThunk(
 				title: "Success",
 				description: "Quick reply edited successfully!",
 				status: "success",
-				duration: 2000,
+				duration: 4000,
 				isClosable: true,
 				variant: "left-accent",
 			});
@@ -148,7 +148,7 @@ export const editQuickReply = createAsyncThunk(
 					? err.message
 					: "Failed to edit quick reply!",
 				status: "error",
-				duration: 2000,
+				duration: 4000,
 				isClosable: true,
 				variant: "left-accent",
 			});
