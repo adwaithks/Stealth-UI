@@ -19,7 +19,7 @@ const theme = extendTheme({
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
 	<ChakraProvider theme={theme}>
 		<Provider store={store}>
-			<ClerkProvider publishableKey="pk_test_c3RlYWR5LXBpcmFuaGEtMzcuY2xlcmsuYWNjb3VudHMuZGV2JA">
+			<ClerkProvider publishableKey="pk_live_Y2xlcmsuYXNzaXN0ZGVzay5pbiQ">
 				<App />
 			</ClerkProvider>
 		</Provider>

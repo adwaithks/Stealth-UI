@@ -9,12 +9,10 @@ import CreateNewChatbot from "./pages/CreateNewChatbot/CreateNewChatbot";
 import Chats from "./pages/Chats/Chats";
 import TermsNConditions from "./pages/TermsNConditions/TermsNConditions";
 import Pricing from "./pages/Pricing/Pricing";
-import CSignIn from "./pages/Auth/SignIn";
 import Contact from "./pages/Contact/Contact";
 import Privacy from "./pages/Privacy/Privacy";
 import Billing from "./pages/Billing/Billing";
 import Tickets from "./pages/Tickets/Tickets";
-import CSignUp from "./pages/Auth/SignUp";
 
 const RouteConfig: React.FC = () => {
 	return (
@@ -30,10 +28,6 @@ const RouteConfig: React.FC = () => {
 					<Route path="/contact" element={<Contact />} />
 
 					<Route path="/privacy" element={<Privacy />} />
-
-					<Route path="/signin" element={<CSignIn />} />
-
-					<Route path="/signup*" element={<CSignUp />} />
 
 					<Route
 						path="app"
