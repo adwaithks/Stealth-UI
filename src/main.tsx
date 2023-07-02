@@ -24,6 +24,8 @@ const environment = import.meta.env.ENVIRONMENT;
 const VITE_PUBLISHABLE_KEY_LIVE = import.meta.env.VITE_PUBLISHABLE_KEY_LIVE;
 const VITE_PUBLISHABLE_KEY = import.meta.env.VITE_PUBLISHABLE_KEY;
 
+console.log(environment);
+
 const { ToastContainer } = createStandaloneToast();
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
