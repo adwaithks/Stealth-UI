@@ -65,7 +65,7 @@ const Landing: React.FC = () => {
 				</Container>
 				<Box sx={{ mt: 5 }}>
 					<Button
-						onClick={() => navigate("/signup", { replace: true })}
+						// onClick={() => navigate("/signup", { replace: true })}
 						size="lg"
 						color="white"
 						bgColor="black"

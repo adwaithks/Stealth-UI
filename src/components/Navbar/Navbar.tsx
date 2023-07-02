@@ -123,24 +123,6 @@ const Navbar: React.FC = () => {
 							</Link>
 						</>
 					)}
-					<Button
-						size="sm"
-						sx={{
-							display: "flex",
-							alignItems: "center",
-							justifyContent: "center",
-						}}
-						bgColor="whatsapp.500"
-						onClick={() => navigate("/signin")}
-					>
-						Sign In
-						{/* <SignInButton
-							afterSignInUrl="/app"
-							afterSignUpUrl="/app"
-						>
-							Sign In
-						</SignInButton> */}
-					</Button>
 				</SignedOut>
 			</Box>
 		</Box>
