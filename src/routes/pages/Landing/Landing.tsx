@@ -7,11 +7,11 @@ import { ArrowForwardIcon } from "@chakra-ui/icons";
 import HowItWorks from "./components/HowItWorks";
 import TrainChatbotNow from "./components/TrainChatbotNow";
 import Footer from "../Footer/Footer";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 const Landing: React.FC = () => {
 	const [isMobile] = useMediaQuery("(max-width: 768px)");
-	const navigate = useNavigate();
+	// const navigate = useNavigate();
 
 	return (
 		<Box
