@@ -4,7 +4,7 @@ export const subscriptionPlanIdToName: { [key: string]: string } = {
 
 export const subscriptionPlans = [
 	{
-		id: 53300,
+		id: 839660,
 		name: "Starter",
 		recurringPrice: {
 			INR: "999.00",
