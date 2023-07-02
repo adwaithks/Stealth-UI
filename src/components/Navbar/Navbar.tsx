@@ -97,6 +97,7 @@ const Navbar: React.FC = () => {
 						<SignOutButton> Log out</SignOutButton>
 					</Button>
 				</SignedIn>
+
 				<SignedOut>
 					<Link
 						color="black"

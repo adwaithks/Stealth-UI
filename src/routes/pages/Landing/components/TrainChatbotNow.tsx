@@ -1,5 +1,5 @@
 import { ArrowForwardIcon } from "@chakra-ui/icons";
-import { Box, Button, Container, Text } from "@chakra-ui/react";
+import { Box, Button, Container, Link, Text } from "@chakra-ui/react";
 import React from "react";
 // import { useNavigate } from "react-router-dom";
 
@@ -34,9 +34,14 @@ const TrainChatbotNow: React.FC = () => {
 				size="lg"
 				bg="white"
 				color="black"
+				_hover={{
+					opacity: 0.8,
+				}}
 				sx={{ mt: 5 }}
 			>
-				Create your chatbot now
+				<Link href="mailto:official@assistdesk.in?subject=Request%20for%20Beta%20Access&body=Hey,">
+					Create your chatbot now
+				</Link>
 				<ArrowForwardIcon sx={{ ml: 1 }} />
 			</Button>
 		</Box>

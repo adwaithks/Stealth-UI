@@ -68,9 +68,14 @@ const Landing: React.FC = () => {
 						// onClick={() => navigate("/signup", { replace: true })}
 						size="lg"
 						color="white"
+						_hover={{
+							opacity: 0.8,
+						}}
 						bgColor="black"
 					>
-						Create your chatbot now{" "}
+						<Link href="mailto:official@assistdesk.in?subject=Request%20for%20Beta%20Access&body=Hey,">
+							Create your chatbot now{" "}
+						</Link>
 						<ArrowForwardIcon sx={{ ml: 1 }} />
 					</Button>
 				</Box>
