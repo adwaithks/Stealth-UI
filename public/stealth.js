@@ -388,8 +388,8 @@ function app({
 
 	// Chatbot icon black
 	chatIconCustom.id = "chat-icon";
-	chatIconCustom.style.height = isTabletOrBelow ? "53px" : "58px";
-	chatIconCustom.style.width = isTabletOrBelow ? "53px" : "58px";
+	chatIconCustom.style.height = isTabletOrBelow ? "63px" : "58px";
+	chatIconCustom.style.width = isTabletOrBelow ? "63px" : "58px";
 	chatIconCustom.style.borderRadius = "50%";
 	chatIconCustom.style.position = "fixed";
 	chatIconCustom.style.display = "flex";
@@ -698,6 +698,7 @@ function app({
 				messageInput.disabled = true;
 				messageContainer.appendChild(messageLoader);
 				scrollToBottom();
+				quickRepliesContainer.style.pointerEvents = "none";
 				fetch(BASE_URL + "/api/v1/chatbot/message", {
 					method: "POST",
 					headers: {
@@ -728,8 +729,6 @@ function app({
 							message,
 						});
 
-						console.log("messages: ", messages);
-
 						displayMessage("bot", message);
 					})
 					.catch((err) => {
@@ -741,6 +740,7 @@ function app({
 					})
 					.finally(() => {
 						sendButton.disabled = false;
+						quickRepliesContainer.style.pointerEvents = "auto";
 						messageInput.disabled = false;
 					});
 			}
