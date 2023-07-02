@@ -20,11 +20,11 @@ const theme = extendTheme({
 	},
 });
 
-const environment = import.meta.env.ENVIRONMENT;
 const VITE_PUBLISHABLE_KEY_LIVE = import.meta.env.VITE_PUBLISHABLE_KEY_LIVE;
 const VITE_PUBLISHABLE_KEY = import.meta.env.VITE_PUBLISHABLE_KEY;
+const ENVIRON = import.meta.env.VITE_ENVIRON;
 
-console.log(environment);
+console.log(ENVIRON);
 
 const { ToastContainer } = createStandaloneToast();
 
@@ -33,7 +33,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
 		<Provider store={store}>
 			<ClerkProvider
 				publishableKey={
-					environment === "DEV"
+					ENVIRON == "DEV"
 						? VITE_PUBLISHABLE_KEY
 						: VITE_PUBLISHABLE_KEY_LIVE
 				}
