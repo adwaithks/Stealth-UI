@@ -35,7 +35,7 @@ export const getMyChatbots = createAsyncThunk(
 					? err.message
 					: "Failed to get your chatbots!",
 				status: "error",
-				duration: 2000,
+				duration: 4000,
 				isClosable: true,
 				variant: "left-accent",
 			});
@@ -61,7 +61,7 @@ export const createNewChatbot = createAsyncThunk(
 				title: "Success",
 				description: "New chatbot created successfully!",
 				status: "success",
-				duration: 2000,
+				duration: 4000,
 				isClosable: true,
 				variant: "left-accent",
 			});
@@ -73,7 +73,7 @@ export const createNewChatbot = createAsyncThunk(
 					? err.message
 					: "Failed to create new chatbot!",
 				status: "error",
-				duration: 2000,
+				duration: 4000,
 				isClosable: true,
 				variant: "left-accent",
 			});
@@ -103,7 +103,7 @@ export const retrainChatbot = createAsyncThunk(
 				title: "Success",
 				description: "Retrained chatbot successfully!",
 				status: "success",
-				duration: 2000,
+				duration: 4000,
 				isClosable: true,
 				variant: "left-accent",
 			});
@@ -115,7 +115,7 @@ export const retrainChatbot = createAsyncThunk(
 					? err.message
 					: "Failed to retrain chatbot!",
 				status: "error",
-				duration: 2000,
+				duration: 4000,
 				isClosable: true,
 				variant: "left-accent",
 			});

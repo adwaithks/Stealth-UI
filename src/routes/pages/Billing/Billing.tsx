@@ -1,4 +1,4 @@
-import { Box, Divider, Skeleton, Stack, Text } from "@chakra-ui/react";
+import { Box, Button, Divider, Skeleton, Stack, Text } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import {
 	getMySubscriptionApi,
@@ -14,9 +14,12 @@ const Billing: React.FC = () => {
 	const { session } = useClerk();
 	const navigate = useNavigate();
 
-	const [currentSubscription, setCurrentSubscription] = useState<
-		object | null
-	>(null);
+	const [currentSubscription, setCurrentSubscription] = useState<{
+		update_url: "";
+		cancel_url: "";
+		sub_id: -1;
+		sub_plan_id: -1;
+	} | null>(null);
 	const [subscriptionInfo, setSubscriptionInfo] = useState(null);
 	const [currentSubscriptionIsLoading, setCurrentSubscriptionIsLoading] =
 		useState(true);
@@ -90,7 +93,23 @@ const Billing: React.FC = () => {
 					<Divider my={5} />
 				</>
 			}
-
+			{!currentSubscriptionIsLoading && currentSubscription && (
+				<Box>
+					<Button
+						size="md"
+						mr={2}
+						colorScheme="messenger"
+						onClick={() => {
+							window.open(
+								currentSubscription.update_url,
+								"_blank"
+							);
+						}}
+					>
+						Update Billing Info
+					</Button>
+				</Box>
+			)}
 			<Box sx={{ gap: 5 }}>
 				<Text fontWeight="bold" fontSize="xl">
 					Available Subscription Plans

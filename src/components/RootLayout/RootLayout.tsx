@@ -1,4 +1,4 @@
-import { Alert, AlertIcon, Box, createStandaloneToast } from "@chakra-ui/react";
+import { Alert, AlertIcon, Box } from "@chakra-ui/react";
 import React from "react";
 import { Outlet } from "react-router-dom";
 import Navbar from "../Navbar/Navbar";
@@ -6,7 +6,6 @@ import { useSelector } from "react-redux";
 import { createNewChatbotApiStatusSelector } from "../../store/selectors/chatbots.selector";
 
 const RootLayout: React.FC = () => {
-	const { ToastContainer } = createStandaloneToast();
 	const isTraining = useSelector(createNewChatbotApiStatusSelector);
 
 	return (
@@ -19,13 +18,13 @@ const RootLayout: React.FC = () => {
 				</Alert>
 			)}
 
-			{isTraining === "rejected" && (
+			{/* {isTraining === "rejected" && (
 				<Alert status="error" variant="subtle">
 					<AlertIcon />
 					Chatbot training failed! Kindly create a new chatbot
 					training process.
 				</Alert>
-			)}
+			)} */}
 			<Navbar />
 			<Box
 				sx={{
@@ -39,7 +38,6 @@ const RootLayout: React.FC = () => {
 			>
 				<Outlet />
 			</Box>
-			<ToastContainer />
 		</Box>
 	);
 };

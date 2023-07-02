@@ -21,7 +21,7 @@ export const getTickets = createAsyncThunk(
 					? err.message
 					: "Failed to get tickets!",
 				status: "error",
-				duration: 2000,
+				duration: 4000,
 				isClosable: true,
 				variant: "left-accent",
 			});
@@ -57,7 +57,7 @@ export const updateTicketStatus = createAsyncThunk(
 				title: "Success",
 				description: "Status updated successfully!",
 				status: "success",
-				duration: 2000,
+				duration: 4000,
 				isClosable: true,
 				variant: "left-accent",
 			});
@@ -69,7 +69,7 @@ export const updateTicketStatus = createAsyncThunk(
 					? err.message
 					: "Failed to get tickets!",
 				status: "error",
-				duration: 2000,
+				duration: 4000,
 				isClosable: true,
 				variant: "left-accent",
 			});
@@ -105,7 +105,7 @@ export const updateTicketNote = createAsyncThunk(
 				title: "Success",
 				description: "Note saved successfully!",
 				status: "success",
-				duration: 2000,
+				duration: 4000,
 				isClosable: true,
 				variant: "left-accent",
 			});
@@ -117,7 +117,7 @@ export const updateTicketNote = createAsyncThunk(
 					? err.message
 					: "Failed to get tickets!",
 				status: "error",
-				duration: 2000,
+				duration: 4000,
 				isClosable: true,
 				variant: "left-accent",
 			});
