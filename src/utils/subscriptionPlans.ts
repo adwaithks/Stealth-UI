@@ -1,10 +1,18 @@
+const ENVIRON = import.meta.env.VITE_ENVIRON;
+
+let planId = 839660;
+
+if (ENVIRON == "DEV") {
+	planId = 53300;
+}
+
 export const subscriptionPlanIdToName: { [key: string]: string } = {
-	53300: "Starter",
+	[planId]: "Starter",
 };
 
 export const subscriptionPlans = [
 	{
-		id: 839660,
+		id: planId,
 		name: "Starter",
 		recurringPrice: {
 			INR: "999.00",
