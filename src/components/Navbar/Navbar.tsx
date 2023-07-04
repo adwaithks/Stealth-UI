@@ -119,7 +119,7 @@ const Navbar: React.FC = () => {
 							justifyContent: "center",
 						}}
 						bgColor="whatsapp.500"
-						onClick={() => navigate("/signin")}
+						onClick={() => navigate("/")}
 					>
 						Sign In
 					</Button>

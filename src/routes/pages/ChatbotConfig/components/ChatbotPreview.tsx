@@ -99,7 +99,14 @@ const ChatbotPreview: React.FC<{ chatbotId: number }> = ({ chatbotId }) => {
 				})
 					.then((res) => res.json())
 					.then((data) => {
-						const reply = data.message;
+						let reply = data.message;
+						if (reply.includes("Assist Desk:")) {
+							reply = reply.replace("Assist Desk:", "");
+						}
+
+						if (reply.includes("Reply:")) {
+							reply = reply.replace("Reply:", "");
+						}
 						setChats((prev) => [
 							...prev,
 							{
