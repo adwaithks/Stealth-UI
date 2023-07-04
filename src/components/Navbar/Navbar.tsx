@@ -111,7 +111,7 @@ const Navbar: React.FC = () => {
 							</Link>
 						</>
 					)}
-					<Button
+					{/* <Button
 						size="sm"
 						sx={{
 							display: "flex",
@@ -122,7 +122,7 @@ const Navbar: React.FC = () => {
 						onClick={() => navigate("/")}
 					>
 						Sign In
-					</Button>
+					</Button> */}
 				</SignedOut>
 			</Box>
 		</Box>
