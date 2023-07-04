@@ -2,19 +2,21 @@ import { Chatbot, ChatbotDTO } from "../../types/chatbot.type";
 import { formatDateTime } from "../../utils/formatDate";
 
 export const createNewChatbotSerializer = (chatbot: ChatbotDTO): Chatbot => {
-	let domains = chatbot.domains ? chatbot.domains.split(",") : [];
-	if (domains.length === 1 && domains[0].length === 0) {
-		domains = [];
+	let trainStatus = chatbot.train_status;
+	if (!chatbot.train_status) {
+		trainStatus = "TRAINING_SUCCESS";
 	}
+
 	return {
 		chatbotId: chatbot.chatbot_id,
 		chatbotName: chatbot.chatbot_name,
-		primaryBgColor: "#000000",
+		primaryBgColor: chatbot.primary_bg_color,
 		quickReplies: [],
 		creationDate: formatDateTime(chatbot.creation_date),
+		trainStatus,
 		lastUpdated: formatDateTime(chatbot.last_updated),
-		knowledgeBase: chatbot.knowledge_base,
-		domains: domains || [],
+		knowledgeBase: "",
+		domains: [],
 		status: chatbot.status,
 		position: chatbot.position,
 		chatbotHashId: chatbot.chatbot_hash_id,

@@ -1,5 +1,16 @@
-import { EditIcon, RepeatClockIcon } from "@chakra-ui/icons";
-import { Box, Button, Text } from "@chakra-ui/react";
+import { EditIcon, ExternalLinkIcon, RepeatClockIcon } from "@chakra-ui/icons";
+import {
+	Box,
+	Button,
+	Modal,
+	ModalBody,
+	ModalContent,
+	ModalFooter,
+	ModalHeader,
+	Text,
+	Textarea,
+	useDisclosure,
+} from "@chakra-ui/react";
 import React, { useEffect, useRef, useState } from "react";
 import { useAppDispatch } from "../../../../store/store";
 import { retrainChatbot } from "../../../../store/reducers/chatbots.reducer";
@@ -64,8 +75,48 @@ const KnowledgeBase: React.FC<{ base: string; chatbotId: number }> = ({
 				});
 	};
 
+	const { isOpen, onClose, onToggle } = useDisclosure();
+
 	return (
 		<Box>
+			<Modal isCentered size="full" isOpen={isOpen} onClose={onClose}>
+				<ModalContent>
+					<ModalHeader>
+						<Box>
+							<Text fontSize="lg" fontWeight="bold">
+								Knowledge Base{" "}
+								<Button size="sm" onClick={onToggle}>
+									Collapse
+								</Button>
+							</Text>
+							<Text
+								fontSize="md"
+								fontWeight="normal"
+								sx={{ color: "gray" }}
+							>
+								Provide detailed information to enable precise
+								and informative responses from Chatbot
+							</Text>
+						</Box>
+					</ModalHeader>
+					<ModalBody overflowY="auto" height="100%" width="100%">
+						<Textarea
+							ref={textAreaRef}
+							value={chatbotKnowledge}
+							onChange={(e) =>
+								setChatbotKnowledge(e.target.value)
+							}
+							maxHeight="80vh"
+							height="80vh"
+							sx={{
+								width: "100%",
+								padding: "10px",
+								lineHeight: "25px",
+							}}
+						/>
+					</ModalBody>
+				</ModalContent>
+			</Modal>
 			<Box
 				sx={{
 					display: "flex",
@@ -75,8 +126,22 @@ const KnowledgeBase: React.FC<{ base: string; chatbotId: number }> = ({
 				}}
 			>
 				<Box>
-					<Text fontSize="lg" fontWeight="bold">
-						Knowledge Base
+					<Text
+						sx={{ display: "flex", alignItems: "center" }}
+						fontSize="lg"
+						fontWeight="bold"
+					>
+						Knowledge Base{" "}
+						<Button
+							ml={2}
+							size="sm"
+							onClick={() => {
+								setIsDisabled(false);
+								onToggle();
+							}}
+						>
+							Edit in full screen <ExternalLinkIcon ml={1} />
+						</Button>
 					</Text>
 					<Text sx={{ color: "gray" }}>
 						Provide detailed information to enable precise and

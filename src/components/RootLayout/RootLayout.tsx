@@ -18,13 +18,13 @@ const RootLayout: React.FC = () => {
 				</Alert>
 			)}
 
-			{/* {isTraining === "rejected" && (
+			{isTraining === "rejected" && (
 				<Alert status="error" variant="subtle">
 					<AlertIcon />
 					Chatbot training failed! Kindly create a new chatbot
 					training process.
 				</Alert>
-			)} */}
+			)}
 			<Navbar />
 			<Box
 				sx={{

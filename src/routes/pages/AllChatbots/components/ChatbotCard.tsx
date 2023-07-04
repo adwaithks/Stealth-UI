@@ -1,5 +1,12 @@
 import { ChatIcon, SettingsIcon } from "@chakra-ui/icons";
-import { Badge, Box, IconButton, Text, Tooltip } from "@chakra-ui/react";
+import {
+	Badge,
+	Box,
+	IconButton,
+	Spinner,
+	Text,
+	Tooltip,
+} from "@chakra-ui/react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -9,6 +16,7 @@ interface IProps {
 	status: string;
 	id: number;
 	knowledgeBase: string;
+	trainStatus: string;
 	domains: string[];
 }
 
@@ -18,6 +26,7 @@ const ChatbotCard: React.FC<IProps> = ({
 	creationDate,
 	knowledgeBase,
 	status,
+	trainStatus,
 	domains,
 }) => {
 	const navigate = useNavigate();
@@ -53,6 +62,22 @@ const ChatbotCard: React.FC<IProps> = ({
 			</Box>
 
 			<Box sx={{ display: "flex", alignItems: "center" }}>
+				{trainStatus === "TRAINING_PENDING" && (
+					<Badge
+						sx={{ mr: 1, display: "flex", alignItems: "center" }}
+						colorScheme="orange"
+					>
+						training <Spinner ml={1} size="sm" />
+					</Badge>
+				)}
+				{trainStatus === "RETRAINING_PENDING" && (
+					<Badge
+						sx={{ mr: 1, display: "flex", alignItems: "center" }}
+						colorScheme="orange"
+					>
+						retraining <Spinner ml={1} size="sm" />
+					</Badge>
+				)}
 				{knowledgeBase?.length === 0 && (
 					<Badge sx={{ mr: 1 }} colorScheme="red">
 						Add knowledge base !
