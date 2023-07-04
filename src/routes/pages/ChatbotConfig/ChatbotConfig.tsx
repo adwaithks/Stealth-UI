@@ -3,6 +3,8 @@ import {
 	Box,
 	Button,
 	Heading,
+	Skeleton,
+	Spinner,
 	Tab,
 	TabList,
 	TabPanel,
@@ -99,7 +101,60 @@ const ChatbotConfig: React.FC = () => {
 				}}
 			>
 				<Box sx={{ mb: 1 }}>
-					<Heading sx={{ mb: 1 }}>{chatbot?.chatbotName}</Heading>
+					<Box sx={{ display: "flex", alignItems: "center" }}>
+						<Heading sx={{ mb: 1, mr: 2 }}>
+							{chatbot?.chatbotName}{" "}
+						</Heading>
+						{chatbot.trainStatus === "TRAINING_REJECTED" && (
+							<Badge
+								sx={{
+									mr: 1,
+									display: "flex",
+									alignItems: "center",
+								}}
+								colorScheme="red"
+							>
+								Training Failed
+							</Badge>
+						)}
+						{chatbot.trainStatus === "RETRAINING_REJECTED" && (
+							<Badge
+								sx={{
+									mr: 1,
+									display: "flex",
+									alignItems: "center",
+								}}
+								colorScheme="red"
+							>
+								Retraining Failed
+							</Badge>
+						)}
+						{chatbot.trainStatus === "TRAINING_PENDING" && (
+							<Badge
+								sx={{
+									mr: 1,
+									display: "flex",
+									alignItems: "center",
+								}}
+								colorScheme="orange"
+							>
+								training <Spinner ml={1} size="sm" />
+							</Badge>
+						)}
+						{chatbot.trainStatus === "RETRAINING_PENDING" && (
+							<Badge
+								sx={{
+									mr: 1,
+									display: "flex",
+									alignItems: "center",
+								}}
+								colorScheme="orange"
+							>
+								retraining <Spinner ml={1} size="sm" />
+							</Badge>
+						)}
+					</Box>
+
 					<Box sx={{ display: "flex", alignItems: "center" }}>
 						<Text fontSize="sm" sx={{ mr: 5 }}>
 							Created At: {chatbot.creationDate}
@@ -168,7 +223,22 @@ const ChatbotConfig: React.FC = () => {
 							backdropFilter: "blur(40px)",
 						}}
 					>
-						<Tab>Knowledge Base</Tab>
+						<Tab
+							isDisabled={
+								![
+									"TRAINING_SUCCESS",
+									"RETRAINING_SUCCESS",
+								].includes(chatbot.trainStatus)
+							}
+						>
+							Knowledge Base{" "}
+							{![
+								"TRAINING_SUCCESS",
+								"RETRAINING_SUCCESS",
+							].includes(chatbot.trainStatus) && (
+								<Spinner ml={1} />
+							)}
+						</Tab>
 						<Tab>Settings</Tab>
 						<Tab>Preview</Tab>
 						<Tab>Quick Replies</Tab>
@@ -176,10 +246,20 @@ const ChatbotConfig: React.FC = () => {
 
 					<TabPanels>
 						<TabPanel>
-							<KnowledgeBase
-								chatbotId={chatbot?.chatbotId}
-								base={chatbot?.knowledgeBase}
-							/>
+							{chatbot.trainStatus === "TRAINING_SUCCESS" ||
+							chatbot.trainStatus === "RETRAINING_SUCCESS" ? (
+								<KnowledgeBase
+									chatbotId={chatbot?.chatbotId}
+									base={chatbot?.knowledgeBase}
+								/>
+							) : (
+								<Skeleton
+									startColor="lightgray"
+									endColor="gray.100"
+									height="120px"
+									rounded="base"
+								/>
+							)}
 						</TabPanel>
 						<TabPanel>
 							<ChatbotSettings

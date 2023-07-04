@@ -59,7 +59,7 @@ export const createNewChatbot = createAsyncThunk(
 			const data = await createNewChatbotApi(name, urls, token);
 			toast({
 				title: "Success",
-				description: "New chatbot created successfully!",
+				description: "Chatbot training started successfully!",
 				status: "success",
 				duration: 4000,
 				isClosable: true,
@@ -101,7 +101,7 @@ export const retrainChatbot = createAsyncThunk(
 			);
 			toast({
 				title: "Success",
-				description: "Retrained chatbot successfully!",
+				description: "Chatbot retraining started successfully!",
 				status: "success",
 				duration: 4000,
 				isClosable: true,
@@ -201,6 +201,7 @@ const chatbotsSlice = createSlice({
 				state.retrainChatbotApiStatus = "pending";
 			})
 			.addCase(retrainChatbot.fulfilled, (state) => {
+				state.currentChatbot.trainStatus = "RETRAINING_PENDING";
 				state.retrainChatbotApiStatus = "fulfilled";
 			})
 			.addCase(retrainChatbot.rejected, (state) => {

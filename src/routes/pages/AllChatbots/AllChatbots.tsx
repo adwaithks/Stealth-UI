@@ -95,11 +95,13 @@ const AllChatbots = () => {
 								status,
 								chatbotId,
 								domains,
+								trainStatus,
 							}) => {
 								return (
 									<ChatbotCard
 										key={chatbotId}
 										id={chatbotId}
+										trainStatus={trainStatus}
 										name={chatbotName}
 										knowledgeBase={knowledgeBase}
 										creationDate={creationDate}
