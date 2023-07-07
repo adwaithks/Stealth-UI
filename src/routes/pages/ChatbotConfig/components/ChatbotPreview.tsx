@@ -100,12 +100,18 @@ const ChatbotPreview: React.FC<{ chatbotId: number }> = ({ chatbotId }) => {
 					.then((res) => res.json())
 					.then((data) => {
 						let reply = data.message;
-						if (reply.includes("Assist Desk:")) {
-							reply = reply.replace("Assist Desk:", "");
+						if (reply.toLowerCase().includes("Assist Desk:")) {
+							reply = reply
+								.toLowerCase()
+								.replace("Assist Desk:", "");
 						}
 
-						if (reply.includes("Reply:")) {
-							reply = reply.replace("Reply:", "");
+						if (reply.toLowerCase().includes("Reply:")) {
+							reply = reply.toLowerCase().replace("Reply:", "");
+						}
+
+						if (reply.toLowerCase().includes("bot:")) {
+							reply = reply.toLowerCase().replace("bot:", "");
 						}
 						setChats((prev) => [
 							...prev,
@@ -184,7 +190,10 @@ const ChatbotPreview: React.FC<{ chatbotId: number }> = ({ chatbotId }) => {
 							sx={{
 								width: "100%",
 								p: 1,
-								height: "330px",
+								height:
+									currentChatbot?.quickReplies?.length > 0
+										? "340px"
+										: "360px",
 								borderRadius: 5,
 								overflowY: "auto",
 							}}
@@ -246,7 +255,6 @@ const ChatbotPreview: React.FC<{ chatbotId: number }> = ({ chatbotId }) => {
 							</Box>
 						</Box>
 						<Box
-							mb={1}
 							overflowX="auto"
 							width="98%"
 							margin="auto"
@@ -278,7 +286,7 @@ const ChatbotPreview: React.FC<{ chatbotId: number }> = ({ chatbotId }) => {
 								);
 							})}
 						</Box>
-						<Box sx={{ mt: 2 }}>
+						<Box sx={{ mt: 1 }}>
 							<InputGroup>
 								<Input
 									disabled={waitingReply}
@@ -321,8 +329,8 @@ const ChatbotPreview: React.FC<{ chatbotId: number }> = ({ chatbotId }) => {
 							sx={{
 								display: "flex",
 								alignItems: "center",
+								mt: 1,
 								justifyContent: "center",
-								my: 2,
 							}}
 						>
 							<Text

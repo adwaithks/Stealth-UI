@@ -15,7 +15,7 @@ export const createNewChatbotSerializer = (chatbot: ChatbotDTO): Chatbot => {
 		creationDate: formatDateTime(chatbot.creation_date),
 		trainStatus,
 		lastUpdated: formatDateTime(chatbot.last_updated),
-		knowledgeBase: "",
+		fineTune: "",
 		domains: [],
 		status: chatbot.status,
 		position: chatbot.position,

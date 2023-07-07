@@ -1,7 +1,7 @@
 export interface Chatbot {
 	chatbotId: number;
 	chatbotName: string;
-	knowledgeBase: string;
+	fineTune: string;
 	creationDate: string;
 	lastUpdated: string;
 	trainStatus: string;
@@ -16,7 +16,7 @@ export interface Chatbot {
 export interface ChatbotDTO {
 	chatbot_id: number;
 	chatbot_name: string;
-	knowledge_base: string;
+	fine_tune: string;
 	train_status: string;
 	creation_date: string;
 	last_updated: string;

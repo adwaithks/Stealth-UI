@@ -14,37 +14,41 @@ import React, { useEffect, useRef, useState } from "react";
 import { useAppDispatch } from "../../../../store/store";
 import { retrainChatbot } from "../../../../store/reducers/chatbots.reducer";
 import { useSelector } from "react-redux";
-import { retrainChatbotApiStatusSelector } from "../../../../store/selectors/chatbots.selector";
+import {
+	currentChatbotSelector,
+	retrainChatbotApiStatusSelector,
+	updateFineTuneApiStatusSelector,
+} from "../../../../store/selectors/chatbots.selector";
 import { useClerk } from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom";
+import { updateFineTune } from "../../../../store/thunks/getChatbotById.thunk";
 
-const KnowledgeBase: React.FC<{ base: string; chatbotId: number }> = ({
+const FineTune: React.FC<{ base: string; chatbotId: number }> = ({
 	base,
 	chatbotId,
 }) => {
 	const [isDisabled, setIsDisabled] = useState<boolean>(true);
-	const [chatbotKnowledge, setChatbotKnowledge] = useState(base);
+	const [fineTuneKnowledge, setFineTuneKnowledge] = useState(base);
 	const { session } = useClerk();
 	const navigate = useNavigate();
+	const currentChatbot = useSelector(currentChatbotSelector);
 
 	const textAreaRef = useRef<any>(null);
 
 	const dispatch = useAppDispatch();
-	const retrainChatbotApiStatus = useSelector(
-		retrainChatbotApiStatusSelector
-	);
+	const fineTuneUpdateStatus = useSelector(updateFineTuneApiStatusSelector);
 
 	useEffect(() => {
 		if (!isDisabled && textAreaRef.current) {
 			textAreaRef.current.focus();
 		}
-		setChatbotKnowledge(base);
+		setFineTuneKnowledge(base);
 	}, [isDisabled, base]);
 
-	const handleRetrainChatbot = () => {
+	const handleFineTuneUpdate = () => {
 		if (
 			window.confirm(
-				"Are you sure you want to retrain the chatbot with latest changes in your knowledge base?"
+				"Are you sure you want to fine tune your chatbot with latest changes?"
 			)
 		)
 			session
@@ -56,17 +60,18 @@ const KnowledgeBase: React.FC<{ base: string; chatbotId: number }> = ({
 					}
 					setIsDisabled(true);
 					dispatch(
-						retrainChatbot({
+						updateFineTune({
 							chatbotId,
-							knowledgeBase: chatbotKnowledge,
+							chatbotHashId: currentChatbot.chatbotHashId,
+							fineTune: fineTuneKnowledge,
 							token,
 						})
 					)
 						.then(() => {
-							setChatbotKnowledge(chatbotKnowledge);
+							setFineTuneKnowledge(fineTuneKnowledge);
 						})
 						.catch(() => {
-							setChatbotKnowledge(base);
+							setFineTuneKnowledge(base);
 						});
 				})
 				.catch(() => {
@@ -83,7 +88,7 @@ const KnowledgeBase: React.FC<{ base: string; chatbotId: number }> = ({
 					<ModalHeader>
 						<Box>
 							<Text fontSize="lg" fontWeight="bold">
-								Knowledge Base{" "}
+								Fine Tune{" "}
 								<Button size="sm" onClick={onToggle}>
 									Collapse
 								</Button>
@@ -93,22 +98,25 @@ const KnowledgeBase: React.FC<{ base: string; chatbotId: number }> = ({
 								fontWeight="normal"
 								sx={{ color: "gray" }}
 							>
-								Provide detailed information to enable precise
-								and informative responses from Chatbot
+								Fine tune your chatbot by providing extra
+								information in natural language, so that your
+								bot can shine on topics not seen!
 							</Text>
 						</Box>
 					</ModalHeader>
 					<ModalBody overflowY="auto" height="100%" width="100%">
 						<Textarea
 							ref={textAreaRef}
-							value={chatbotKnowledge}
+							value={fineTuneKnowledge}
+							placeholder={`Eg: Always be welcoming.`}
 							onChange={(e) =>
-								setChatbotKnowledge(e.target.value)
+								setFineTuneKnowledge(e.target.value)
 							}
 							maxHeight="80vh"
 							height="80vh"
 							sx={{
 								width: "100%",
+								borderRadius: 5,
 								padding: "10px",
 								lineHeight: "25px",
 							}}
@@ -130,7 +138,7 @@ const KnowledgeBase: React.FC<{ base: string; chatbotId: number }> = ({
 						fontSize="lg"
 						fontWeight="bold"
 					>
-						Knowledge Base{" "}
+						Fine Tune{" "}
 						<Button
 							ml={2}
 							size="sm"
@@ -143,19 +151,20 @@ const KnowledgeBase: React.FC<{ base: string; chatbotId: number }> = ({
 						</Button>
 					</Text>
 					<Text sx={{ color: "gray" }}>
-						Provide detailed information to enable precise and
-						informative responses from Chatbot
+						Fine tune your chatbot by providing extra information in
+						natural language, so that your bot can shine on topics
+						not seen!
 					</Text>
 				</Box>
 				<Box>
 					<Button
 						sx={{ mr: 2 }}
-						isLoading={retrainChatbotApiStatus === "pending"}
-						loadingText="Retraining Chatbot..."
+						isLoading={fineTuneUpdateStatus === "pending"}
+						loadingText="Saving..."
 						onClick={() => {
 							setIsDisabled(false);
 							if (!isDisabled) {
-								handleRetrainChatbot();
+								handleFineTuneUpdate();
 							}
 						}}
 					>
@@ -164,15 +173,11 @@ const KnowledgeBase: React.FC<{ base: string; chatbotId: number }> = ({
 						) : (
 							<RepeatClockIcon sx={{ mr: 2 }} />
 						)}
-						{isDisabled
-							? "Edit Knowledge Base"
-							: base.length === 0
-							? "Train Chatbot"
-							: "Retrain Chatbot"}
+						{isDisabled ? "Edit Fine Tune" : "Fine Tune"}
 					</Button>
 					{!isDisabled && (
 						<Button
-							disabled={retrainChatbotApiStatus === "pending"}
+							disabled={fineTuneUpdateStatus === "pending"}
 							colorScheme="red"
 							onClick={() => setIsDisabled(true)}
 						>
@@ -184,11 +189,13 @@ const KnowledgeBase: React.FC<{ base: string; chatbotId: number }> = ({
 			<textarea
 				ref={textAreaRef}
 				disabled={isDisabled}
-				value={chatbotKnowledge}
-				onChange={(e) => setChatbotKnowledge(e.target.value)}
+				placeholder={`Eg: Always be welcoming.`}
+				value={fineTuneKnowledge}
+				onChange={(e) => setFineTuneKnowledge(e.target.value)}
 				style={{
 					width: "100%",
 					height: "300px",
+					borderRadius: 5,
 					padding: "10px",
 					lineHeight: "25px",
 				}}
@@ -197,4 +204,4 @@ const KnowledgeBase: React.FC<{ base: string; chatbotId: number }> = ({
 	);
 };
 
-export default KnowledgeBase;
+export default FineTune;

@@ -6,7 +6,7 @@ export const createNewChatbotApi = async (
 	urls: string[],
 	token: string
 ) => {
-	const res = await fetch(BASE_URL + "/api/v1/chatbot/train", {
+	const res = await fetch(BASE_URL + "/api/v2/chatbot/train", {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",

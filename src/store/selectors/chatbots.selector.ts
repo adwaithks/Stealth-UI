@@ -60,3 +60,7 @@ export const updateChatbotDomainsApiStatusSelector = (state: IAppState) => {
 export const updateChatbotColorApiStatusSelector = (state: IAppState) => {
 	return state.chatbots.chatbotColorChangeApiStatus;
 };
+
+export const updateFineTuneApiStatusSelector = (state: IAppState) => {
+	return state.chatbots.updateChatbotFineTuneApiStatus;
+};

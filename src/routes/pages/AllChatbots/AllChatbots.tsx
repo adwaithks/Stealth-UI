@@ -91,11 +91,12 @@ const AllChatbots = () => {
 							({
 								chatbotName,
 								creationDate,
-								knowledgeBase,
+								fineTune,
 								status,
 								chatbotId,
 								domains,
 								trainStatus,
+								primaryBgColor,
 							}) => {
 								return (
 									<ChatbotCard
@@ -103,9 +104,10 @@ const AllChatbots = () => {
 										id={chatbotId}
 										trainStatus={trainStatus}
 										name={chatbotName}
-										knowledgeBase={knowledgeBase}
+										fineTune={fineTune}
 										creationDate={creationDate}
 										status={status}
+										primaryBgColor={primaryBgColor}
 										domains={domains}
 									/>
 								);

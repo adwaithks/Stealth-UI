@@ -14,7 +14,6 @@ import {
 	Text,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import KnowledgeBase from "./components/KnowledgeBase";
 import { ChevronLeftIcon, CopyIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
 import ChatbotSettings from "./components/ChatbotSettings";
@@ -29,6 +28,8 @@ import { getChatbotById } from "../../../store/thunks/getChatbotById.thunk";
 import { useClerk } from "@clerk/clerk-react";
 import ChatbotConfigSkeleton from "./components/ChatbotConfigSkeleton";
 import QuickReplies from "./components/QuickReplies";
+import Links from "./components/Links";
+import FineTune from "./components/FineTune";
 
 const ChatbotConfig: React.FC = () => {
 	const navigate = useNavigate();
@@ -231,7 +232,7 @@ const ChatbotConfig: React.FC = () => {
 								].includes(chatbot.trainStatus)
 							}
 						>
-							Knowledge Base{" "}
+							Fine Tune{" "}
 							{![
 								"TRAINING_SUCCESS",
 								"RETRAINING_SUCCESS",
@@ -242,15 +243,16 @@ const ChatbotConfig: React.FC = () => {
 						<Tab>Settings</Tab>
 						<Tab>Preview</Tab>
 						<Tab>Quick Replies</Tab>
+						<Tab>Links</Tab>
 					</TabList>
 
 					<TabPanels>
 						<TabPanel>
 							{chatbot.trainStatus === "TRAINING_SUCCESS" ||
 							chatbot.trainStatus === "RETRAINING_SUCCESS" ? (
-								<KnowledgeBase
+								<FineTune
 									chatbotId={chatbot?.chatbotId}
-									base={chatbot?.knowledgeBase}
+									base={chatbot?.fineTune}
 								/>
 							) : (
 								<Skeleton
@@ -282,6 +284,9 @@ const ChatbotConfig: React.FC = () => {
 								chatbotId={chatbot?.chatbotId}
 								quickReplies={chatbot?.quickReplies}
 							/>
+						</TabPanel>
+						<TabPanel>
+							<Links />
 						</TabPanel>
 					</TabPanels>
 				</Tabs>

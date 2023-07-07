@@ -16,7 +16,7 @@ export const getMyChatbotsSerializer = (
 			chatbotName: chatbot.chatbot_name,
 			creationDate: formatDateTime(chatbot.creation_date),
 			lastUpdated: formatDateTime(chatbot.last_updated),
-			knowledgeBase: chatbot.knowledge_base || "",
+			fineTune: chatbot.fine_tune?.length ? chatbot.fine_tune : "",
 			domains: domains || [],
 			trainStatus: chatbot.train_status,
 			primaryBgColor: chatbot.primary_bg_color,

@@ -2,7 +2,7 @@ import { BASE_URL } from "./baseURL";
 
 export const retrainChatbotApi = async (
 	chatbotId: number,
-	knowledgeBase: string,
+	fineTune: string,
 	token: string
 ) => {
 	const res = await fetch(BASE_URL + "/api/v1/chatbot/retrain", {
@@ -13,7 +13,7 @@ export const retrainChatbotApi = async (
 		},
 		body: JSON.stringify({
 			chatbot_id: chatbotId,
-			knowledge_base: knowledgeBase,
+			fine_tune: fineTune,
 		}),
 	});
 

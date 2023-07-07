@@ -12,7 +12,7 @@ import {
 	updateChatbotName,
 	updateChatbotPosition,
 } from "../thunks/chatbotSettings.thunk";
-import { getChatbotById } from "../thunks/getChatbotById.thunk";
+import { getChatbotById, updateFineTune } from "../thunks/getChatbotById.thunk";
 import { createStandaloneToast } from "@chakra-ui/react";
 import {
 	addQuickReply,
@@ -86,19 +86,15 @@ export const retrainChatbot = createAsyncThunk(
 	"chatbots/retrainChatbot",
 	async ({
 		chatbotId,
-		knowledgeBase,
+		fineTune,
 		token,
 	}: {
 		chatbotId: number;
-		knowledgeBase: string;
+		fineTune: string;
 		token: string;
 	}) => {
 		try {
-			const data = await retrainChatbotApi(
-				chatbotId,
-				knowledgeBase,
-				token
-			);
+			const data = await retrainChatbotApi(chatbotId, fineTune, token);
 			toast({
 				title: "Success",
 				description: "Chatbot retraining started successfully!",
@@ -135,6 +131,7 @@ const chatbotsSlice = createSlice({
 		getMyChatbotsApiStatus: "idle",
 		createNewChatbotApiStatus: "idle",
 		retrainChatbotApiStatus: "idle",
+		updateChatbotFineTuneApiStatus: "idle",
 		deleteChatbotApiStatus: "idle",
 		chatbotStatusChangeApiStatus: "idle",
 		chatbotNameChangeApiStatus: "idle",
@@ -168,6 +165,16 @@ const chatbotsSlice = createSlice({
 	},
 	extraReducers(builder) {
 		builder
+			.addCase(updateFineTune.pending, (state) => {
+				state.updateChatbotFineTuneApiStatus = "pending";
+			})
+			.addCase(updateFineTune.fulfilled, (state, action) => {
+				state.updateChatbotFineTuneApiStatus = "fulfilled";
+				state.currentChatbot.fineTune = action.payload;
+			})
+			.addCase(updateFineTune.rejected, (state) => {
+				state.updateChatbotFineTuneApiStatus = "rejected";
+			})
 			.addCase(updateChatbotPosition.pending, (state) => {
 				state.chatbotPositionChangeApiStatus = "pending";
 			})

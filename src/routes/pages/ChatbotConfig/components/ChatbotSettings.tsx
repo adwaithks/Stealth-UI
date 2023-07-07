@@ -248,8 +248,6 @@ const ChatbotSettings: React.FC<{
 		} else return;
 	};
 
-	console.log({ primaryBgColorState });
-
 	const handleAddNewDomain = (newDomain: string) => {
 		if (newDomain.length === 0) {
 			window.alert("Please enter a domain!");

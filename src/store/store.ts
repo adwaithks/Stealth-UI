@@ -22,6 +22,7 @@ export interface IAppState {
 		retrainChatbotApiStatus: string;
 		deleteChatbotApiStatus: string;
 		chatbotStatusChangeApiStatus: string;
+		updateChatbotFineTuneApiStatus: string;
 		chatbotNameChangeApiStatus: string;
 		domainChangeApiStatus: string;
 		getChatbotByIdApiStatus: string;
