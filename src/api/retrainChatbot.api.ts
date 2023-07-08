@@ -2,10 +2,11 @@ import { BASE_URL } from "./baseURL";
 
 export const retrainChatbotApi = async (
 	chatbotId: number,
-	fineTune: string,
-	token: string
+	link: string,
+	token: string,
+	chatbotHashId: string
 ) => {
-	const res = await fetch(BASE_URL + "/api/v1/chatbot/retrain", {
+	const res = await fetch(BASE_URL + "/api/v2/chatbot/retrain", {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
@@ -13,7 +14,8 @@ export const retrainChatbotApi = async (
 		},
 		body: JSON.stringify({
 			chatbot_id: chatbotId,
-			fine_tune: fineTune,
+			chatbot_hash_id: chatbotHashId,
+			link: link,
 		}),
 	});
 

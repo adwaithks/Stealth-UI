@@ -13,14 +13,16 @@ import {
 	Tag,
 	Text,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { ChevronLeftIcon, CopyIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
 import ChatbotSettings from "./components/ChatbotSettings";
 import { useSelector } from "react-redux";
 import {
+	createNewChatbotApiStatusSelector,
 	currentChatbotSelector,
 	getChatbotByIdApiStatusSelector,
+	retrainChatbotApiStatusSelector,
 } from "../../../store/selectors/chatbots.selector";
 import ChatbotPreview from "./components/ChatbotPreview";
 import { useAppDispatch } from "../../../store/store";
@@ -30,6 +32,7 @@ import ChatbotConfigSkeleton from "./components/ChatbotConfigSkeleton";
 import QuickReplies from "./components/QuickReplies";
 import Links from "./components/Links";
 import FineTune from "./components/FineTune";
+import usePolling from "../../../hooks/usePolling";
 
 const ChatbotConfig: React.FC = () => {
 	const navigate = useNavigate();
@@ -37,6 +40,7 @@ const ChatbotConfig: React.FC = () => {
 	const { session } = useClerk();
 
 	const [isCopied, setIsCopied] = useState(false);
+	const [trainStatus, setTrainStatus] = useState("");
 
 	const chatbotId = Number(window.location.pathname.split("/")[3] || -1);
 
@@ -44,6 +48,30 @@ const ChatbotConfig: React.FC = () => {
 		getChatbotByIdApiStatusSelector
 	);
 	const chatbot = useSelector(currentChatbotSelector);
+
+	const { startPolling, data } = usePolling({
+		endpoint: `/api/v2/chatbot/${chatbot.chatbotId}/trainstatus`,
+		stopFunction: (response: any) => {
+			if (
+				response.message === "TRAINING_PENDING" ||
+				response.message === "RETRAINING_PENDING"
+			) {
+				return false;
+			}
+
+			return true;
+		},
+		maxRetries: 10,
+		delay: 3000,
+	});
+
+	useEffect(() => {
+		if (data) setTrainStatus(data.message);
+	}, [trainStatus, data]);
+
+	useEffect(() => {
+		startPolling();
+	}, [startPolling]);
 
 	useEffect(() => {
 		let timeoutId = -1;
@@ -106,7 +134,7 @@ const ChatbotConfig: React.FC = () => {
 						<Heading sx={{ mb: 1, mr: 2 }}>
 							{chatbot?.chatbotName}{" "}
 						</Heading>
-						{chatbot.trainStatus === "TRAINING_REJECTED" && (
+						{trainStatus === "TRAINING_REJECTED" && (
 							<Badge
 								sx={{
 									mr: 1,
@@ -118,7 +146,7 @@ const ChatbotConfig: React.FC = () => {
 								Training Failed
 							</Badge>
 						)}
-						{chatbot.trainStatus === "RETRAINING_REJECTED" && (
+						{trainStatus === "RETRAINING_REJECTED" && (
 							<Badge
 								sx={{
 									mr: 1,
@@ -130,7 +158,7 @@ const ChatbotConfig: React.FC = () => {
 								Retraining Failed
 							</Badge>
 						)}
-						{chatbot.trainStatus === "TRAINING_PENDING" && (
+						{trainStatus === "TRAINING_PENDING" && (
 							<Badge
 								sx={{
 									mr: 1,
@@ -142,7 +170,7 @@ const ChatbotConfig: React.FC = () => {
 								training <Spinner ml={1} size="sm" />
 							</Badge>
 						)}
-						{chatbot.trainStatus === "RETRAINING_PENDING" && (
+						{trainStatus === "RETRAINING_PENDING" && (
 							<Badge
 								sx={{
 									mr: 1,
@@ -224,22 +252,7 @@ const ChatbotConfig: React.FC = () => {
 							backdropFilter: "blur(40px)",
 						}}
 					>
-						<Tab
-							isDisabled={
-								![
-									"TRAINING_SUCCESS",
-									"RETRAINING_SUCCESS",
-								].includes(chatbot.trainStatus)
-							}
-						>
-							Fine Tune{" "}
-							{![
-								"TRAINING_SUCCESS",
-								"RETRAINING_SUCCESS",
-							].includes(chatbot.trainStatus) && (
-								<Spinner ml={1} />
-							)}
-						</Tab>
+						<Tab>Fine Tune </Tab>
 						<Tab>Settings</Tab>
 						<Tab>Preview</Tab>
 						<Tab>Quick Replies</Tab>
@@ -248,20 +261,10 @@ const ChatbotConfig: React.FC = () => {
 
 					<TabPanels>
 						<TabPanel>
-							{chatbot.trainStatus === "TRAINING_SUCCESS" ||
-							chatbot.trainStatus === "RETRAINING_SUCCESS" ? (
-								<FineTune
-									chatbotId={chatbot?.chatbotId}
-									base={chatbot?.fineTune}
-								/>
-							) : (
-								<Skeleton
-									startColor="lightgray"
-									endColor="gray.100"
-									height="120px"
-									rounded="base"
-								/>
-							)}
+							<FineTune
+								chatbotId={chatbot?.chatbotId}
+								base={chatbot?.fineTune}
+							/>
 						</TabPanel>
 						<TabPanel>
 							<ChatbotSettings
@@ -286,7 +289,7 @@ const ChatbotConfig: React.FC = () => {
 							/>
 						</TabPanel>
 						<TabPanel>
-							<Links />
+							<Links chatbot={chatbot} />
 						</TabPanel>
 					</TabPanels>
 				</Tabs>

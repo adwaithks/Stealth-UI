@@ -3,7 +3,6 @@ import React from "react";
 import { subscriptionPlanIdToName } from "../../../../utils/subscriptionPlans";
 
 const SubscriptionInfo: React.FC<{ info: any }> = ({ info }) => {
-	console.log({ info });
 	return (
 		<Box
 			sx={{

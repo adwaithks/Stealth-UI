@@ -9,7 +9,6 @@ import { createNewChatbot } from "../../../store/reducers/chatbots.reducer";
 import { ChevronLeftIcon } from "@chakra-ui/icons";
 import CrawlUrlSelection from "./components/CrawlUrlSelection";
 import { crawlerActions } from "../../../store/reducers/crawler.reducer";
-import { BASE_URL } from "../../../api/baseURL";
 
 const CreateNewChatbot: React.FC = () => {
 	const { session } = useClerk();
@@ -28,7 +27,6 @@ const CreateNewChatbot: React.FC = () => {
 
 	useEffect(() => {
 		dispatch(crawlerActions.resetCrawlStates());
-		// dispatch(chatbotsActions.resetCreateNewChatbotStatus());
 	}, [dispatch]);
 
 	const createAndTrainNewChatbot = (name: string, checkedUrls: string[]) => {

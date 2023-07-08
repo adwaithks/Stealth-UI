@@ -12,7 +12,7 @@ const ChatWidget: React.FC<{ chats: { [key: string]: Chat[] } }> = ({
 	const [currentChat, setCurrentChat] = useState<Chat[]>([]);
 	const [currentUser, setCurrentUser] = useState("");
 	const chatsApiStatus = useSelector(getMyChatbotsApiStatusSelector);
-	console.log(chatsApiStatus);
+
 	useEffect(() => {
 		const key = Object.keys(chats)[0];
 		if (key) {

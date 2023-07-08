@@ -86,15 +86,22 @@ export const retrainChatbot = createAsyncThunk(
 	"chatbots/retrainChatbot",
 	async ({
 		chatbotId,
-		fineTune,
+		link,
 		token,
+		chatbotHashId,
 	}: {
 		chatbotId: number;
-		fineTune: string;
+		link: string;
 		token: string;
+		chatbotHashId: string;
 	}) => {
 		try {
-			const data = await retrainChatbotApi(chatbotId, fineTune, token);
+			const data = await retrainChatbotApi(
+				chatbotId,
+				link,
+				token,
+				chatbotHashId
+			);
 			toast({
 				title: "Success",
 				description: "Chatbot retraining started successfully!",
@@ -155,6 +162,9 @@ const chatbotsSlice = createSlice({
 		},
 		updateCurrentChatbotPosition: (state, action) => {
 			state.currentChatbot.position = action.payload;
+		},
+		resetRetrainApiStatus: (state) => {
+			state.retrainChatbotApiStatus = "idle";
 		},
 		deleteThisQuickReply: (state, action) => {
 			const { quickReplies, quickReplyId } = action.payload;

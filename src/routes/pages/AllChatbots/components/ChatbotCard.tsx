@@ -7,10 +7,10 @@ import {
 	Text,
 	Tooltip,
 } from "@chakra-ui/react";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { BASE_URL } from "../../../../api/baseURL";
-import { useClerk } from "@clerk/clerk-react";
+
+import usePolling from "../../../../hooks/usePolling";
 
 interface IProps {
 	name: string;
@@ -33,66 +33,31 @@ const ChatbotCard: React.FC<IProps> = ({
 	trainStatus,
 	domains,
 }) => {
-	const [stopRetry, setStopRetry] = useState(false);
 	const navigate = useNavigate();
-	const { session } = useClerk();
 	const [trainingStatus, setTrainingStatus] = useState(trainStatus);
 
-	useEffect(() => {
-		setTrainingStatus(trainStatus);
-	}, [trainStatus]);
+	const { startPolling, data } = usePolling({
+		endpoint: `/api/v2/chatbot/${id}/trainstatus`,
+		stopFunction: (response: any) => {
+			if (
+				response.message === "TRAINING_PENDING" ||
+				response.message === "RETRAINING_PENDING"
+			)
+				return false;
 
-	const getLinksForChatbot = useCallback(async () => {
-		session
-			?.getToken({ template: "stealth-token-template" })
-			.then(async (token) => {
-				if (!token) {
-					navigate("/");
-					return;
-				}
-				// eslint-disable-next-line no-useless-catch
-				try {
-					const res = await fetch(
-						BASE_URL + `/api/v2/chatbot/${id}/trainstatus`,
-						{
-							headers: {
-								"Content-Type": "application/json",
-								"STEALTH-ACCESS-TOKEN": token,
-							},
-						}
-					);
-					const data = await res.json();
-					console.log({ data });
-					let counter = true;
-					if (
-						data?.message !== "TRAINING_PENDING" &&
-						data?.message !== "RETRAINING_PENDING"
-					) {
-						counter = false;
-					}
-
-					if (!counter) {
-						setStopRetry(true);
-					}
-					setTrainingStatus(data.message);
-				} catch (err) {
-					throw err;
-				}
-			});
-	}, [id, navigate, session]);
+			return true;
+		},
+		maxRetries: 10,
+		delay: 3000,
+	});
 
 	useEffect(() => {
-		let timer: number;
+		if (data) setTrainingStatus(data.message);
+	}, [trainStatus, data]);
 
-		if (!stopRetry) {
-			timer = setTimeout(() => {
-				getLinksForChatbot();
-			}, 3000);
-		}
-		return () => {
-			clearTimeout(timer);
-		};
-	}, [getLinksForChatbot, stopRetry]);
+	useEffect(() => {
+		startPolling();
+	}, [startPolling]);
 
 	return (
 		<Box

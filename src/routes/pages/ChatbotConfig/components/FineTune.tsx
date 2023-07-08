@@ -12,11 +12,9 @@ import {
 } from "@chakra-ui/react";
 import React, { useEffect, useRef, useState } from "react";
 import { useAppDispatch } from "../../../../store/store";
-import { retrainChatbot } from "../../../../store/reducers/chatbots.reducer";
 import { useSelector } from "react-redux";
 import {
 	currentChatbotSelector,
-	retrainChatbotApiStatusSelector,
 	updateFineTuneApiStatusSelector,
 } from "../../../../store/selectors/chatbots.selector";
 import { useClerk } from "@clerk/clerk-react";
