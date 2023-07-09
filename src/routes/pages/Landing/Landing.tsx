@@ -60,8 +60,12 @@ const Landing: React.FC = () => {
 					}}
 					color="rgba(0, 0, 0, 0.5)"
 				>
-					Leap into Seamless Support: Introducing Assist Desk - Your
-					Customer Support Chatbot Companion!
+					Leap into Seamless Support: Your Customer Support Chatbot
+					Companion!
+					<span style={{ color: "black", fontWeight: "bold" }}>
+						{" "}
+						Sign up now, No credit card required !
+					</span>
 				</Container>
 				<Box sx={{ mt: 5 }}>
 					<Button
@@ -77,6 +81,7 @@ const Landing: React.FC = () => {
 						<ArrowForwardIcon sx={{ ml: 1 }} />
 					</Button>
 				</Box>
+
 				<Box
 					sx={{
 						mx: 2,
@@ -84,7 +89,11 @@ const Landing: React.FC = () => {
 						mt: 12,
 					}}
 				>
-					<Image aspectRatio={isMobile ? 6 / 4 : 10 / 6} src={Home} />
+					<Image
+						loading="lazy"
+						aspectRatio={isMobile ? 6 / 4 : 10 / 6}
+						src={Home}
+					/>
 				</Box>
 			</section>
 

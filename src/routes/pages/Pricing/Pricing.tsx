@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Text } from "@chakra-ui/react";
+import { Alert, Box, Button, Container, Divider, Text } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import React, { useEffect } from "react";
 import PriceCard from "./components/PriceCard";
@@ -44,6 +44,7 @@ const Pricing: React.FC = () => {
 				</Text>
 			</Box>
 			<Divider />
+
 			<Box
 				sx={{
 					display: "flex",

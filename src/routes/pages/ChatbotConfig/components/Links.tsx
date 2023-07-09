@@ -106,6 +106,12 @@ const Links: React.FC<{ chatbot: Chatbot }> = ({ chatbot }) => {
 					<Button
 						color="white"
 						bgColor="black"
+						isDisabled={
+							!!chatbot.links?.find(
+								({ trainStatus }) =>
+									!!trainStatus.includes("PENDING")
+							)
+						}
 						isLoading={isAddingNewLinks}
 						loadingText="Training"
 						onClick={onToggle}

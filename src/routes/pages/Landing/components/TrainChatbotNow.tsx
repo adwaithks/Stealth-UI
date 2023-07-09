@@ -1,10 +1,10 @@
 import { ArrowForwardIcon } from "@chakra-ui/icons";
 import { Box, Button, Container, Link, Text } from "@chakra-ui/react";
 import React from "react";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const TrainChatbotNow: React.FC = () => {
-	// const navigate = useNavigate();
+	const navigate = useNavigate();
 
 	return (
 		<Box
@@ -30,7 +30,7 @@ const TrainChatbotNow: React.FC = () => {
 			</Container>
 
 			<Button
-				// onClick={() => navigate("/signup", { replace: true })}
+				onClick={() => navigate("/signup", { replace: true })}
 				size="lg"
 				bg="white"
 				color="black"

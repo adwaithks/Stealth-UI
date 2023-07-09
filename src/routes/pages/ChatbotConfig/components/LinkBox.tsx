@@ -126,7 +126,14 @@ const LinkBox: React.FC<{ link: string; status: string; linkId: number }> = ({
 					onClick={() => {
 						retrainHandler(link);
 					}}
-					isLoading={isLoading}
+					isLoading={
+						isLoading ||
+						!!currentChatbot.links.find(
+							({ linkId: id, trainStatus }) =>
+								linkId === id &&
+								!!trainStatus.includes("PENDING")
+						)
+					}
 					loadingText="Retraining"
 					size="sm"
 				>

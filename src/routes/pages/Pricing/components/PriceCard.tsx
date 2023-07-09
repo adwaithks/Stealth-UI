@@ -15,8 +15,8 @@ const PriceCard: React.FC<{
 	return (
 		<Box
 			sx={{
-				width: isMobile ? "90%" : 310,
-				height: "fit-content",
+				width: 310,
+				height: 330,
 				boxShadow: "0 0 10px lightgray",
 				borderRadius: 5,
 				p: 3,
@@ -53,7 +53,6 @@ const PriceCard: React.FC<{
 				sx={{
 					height: "10%",
 					display: "flex",
-					mt: 2,
 					alignItems: "center",
 					justifyContent: "center",
 				}}

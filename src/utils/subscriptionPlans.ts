@@ -12,6 +12,23 @@ export const subscriptionPlanIdToName: { [key: string]: string } = {
 
 export const subscriptionPlans = [
 	{
+		id: -1,
+		name: "Free",
+		recurringPrice: {
+			INR: "00.00",
+			USD: "00.00",
+		},
+		trialDays: 0,
+		billingType: "month",
+		billingPeriod: 1,
+		features: [
+			"Minimal features to try out our product",
+			"Create 1 Chatbot",
+			"Train chatbot with data from 3 web pages using our crawler",
+			"Test chatbot with restriction upto 10 questions",
+		],
+	},
+	{
 		id: planId,
 		name: "Starter",
 		recurringPrice: {
@@ -23,8 +40,8 @@ export const subscriptionPlans = [
 		billingPeriod: 1,
 		features: [
 			"Create 3 Chatbots",
-			"Train each chatbot with data from 3 web pages using our crawler",
-			"Manually add training data",
+			"Train each chatbot with data from 10 web pages using our crawler",
+			"Manually fine tune responses",
 			"Insights into customer chat history",
 			"Ticket raising system",
 		],

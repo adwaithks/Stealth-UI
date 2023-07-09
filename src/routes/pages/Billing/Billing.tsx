@@ -128,7 +128,7 @@ const Billing: React.FC = () => {
 					</Stack>
 				)}
 				{!currentSubscriptionIsLoading &&
-					subscriptionPlans.map((plan) => {
+					subscriptionPlans.slice(1).map((plan) => {
 						return (
 							<BillCard
 								currentSubscription={currentSubscription}

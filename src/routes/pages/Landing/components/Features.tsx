@@ -35,8 +35,8 @@ const Features: React.FC = () => {
 					description="Deliver round-the-clock customer support with the help of our AI chatbots. Our chatbots are available 24 hours a day, 7 days a week, to assist your customers. They provide instant responses and answer frequently asked questions, ensuring seamless daily support."
 				/>
 				<FeatureCard
-					title="Manual Training Control"
-					description="Take charge of chatbot training. Our platform lets you curate and refine knowledge bases manually. Update and customize responses effortlessly, ensuring accurate and relevant interactions with users. Have complete control over the training process for precise and meaningful engagement."
+					title="Fine Tune Control"
+					description="Take charge of chatbot training. Our platform lets you curate and refine knowledge bases. Update and customize responses effortlessly, ensuring accurate and relevant interactions with users. Have control over the tuning process for precise and meaningful engagement."
 				/>
 				<FeatureCard
 					title="Train on website content"

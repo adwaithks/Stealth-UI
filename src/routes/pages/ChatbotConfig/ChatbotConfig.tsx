@@ -74,8 +74,8 @@ const ChatbotConfig: React.FC = () => {
 	}, [data, chatbotId, dispatch]);
 
 	useEffect(() => {
-		startPolling();
-	}, [startPolling]);
+		if (chatbot?.trainStatus) startPolling();
+	}, [startPolling, chatbot.trainStatus]);
 
 	useEffect(() => {
 		let timeoutId = -1;
