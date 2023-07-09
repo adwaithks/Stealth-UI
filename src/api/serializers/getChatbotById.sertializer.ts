@@ -1,4 +1,10 @@
-import { Chatbot, ChatbotDTO, QuickReplyDTO } from "../../types/chatbot.type";
+import {
+	Chatbot,
+	ChatbotDTO,
+	ILink,
+	ILinkDTO,
+	QuickReplyDTO,
+} from "../../types/chatbot.type";
 import { formatDateTime } from "../../utils/formatDate";
 
 export const quickReplySerializer = (quickReply: QuickReplyDTO) => {
@@ -8,6 +14,16 @@ export const quickReplySerializer = (quickReply: QuickReplyDTO) => {
 		keyword: quickReply.keyword,
 		chatbotId: quickReply.chatbot_id,
 	};
+};
+
+export const linkSerializer = (links: ILinkDTO[]): ILink[] => {
+	return links.map((link) => {
+		return {
+			linkId: link.link_id,
+			trainStatus: link.train_status,
+			link: link.link,
+		};
+	});
 };
 
 export const getChatbotByIdSerializer = (chatbot: ChatbotDTO): Chatbot => {
@@ -28,6 +44,7 @@ export const getChatbotByIdSerializer = (chatbot: ChatbotDTO): Chatbot => {
 		lastUpdated: formatDateTime(chatbot.last_updated),
 		fineTune: chatbot.fine_tune?.length ? chatbot.fine_tune : "",
 		domains: domains || [],
+		links: linkSerializer(chatbot.links),
 		status: chatbot.status,
 		trainStatus,
 		primaryBgColor: chatbot.primary_bg_color,

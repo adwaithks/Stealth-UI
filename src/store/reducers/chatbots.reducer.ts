@@ -12,7 +12,11 @@ import {
 	updateChatbotName,
 	updateChatbotPosition,
 } from "../thunks/chatbotSettings.thunk";
-import { getChatbotById, updateFineTune } from "../thunks/getChatbotById.thunk";
+import {
+	addNewLinks,
+	getChatbotById,
+	updateFineTune,
+} from "../thunks/getChatbotById.thunk";
 import { createStandaloneToast } from "@chakra-ui/react";
 import {
 	addQuickReply,
@@ -84,17 +88,22 @@ export const createNewChatbot = createAsyncThunk(
 
 export const retrainChatbot = createAsyncThunk(
 	"chatbots/retrainChatbot",
-	async ({
-		chatbotId,
-		link,
-		token,
-		chatbotHashId,
-	}: {
-		chatbotId: number;
-		link: string;
-		token: string;
-		chatbotHashId: string;
-	}) => {
+	async (
+		{
+			chatbotId,
+			link,
+			token,
+			chatbotHashId,
+			linkId,
+		}: {
+			chatbotId: number;
+			link: string;
+			token: string;
+			chatbotHashId: string;
+			linkId: number;
+		},
+		{ dispatch }
+	) => {
 		try {
 			const data = await retrainChatbotApi(
 				chatbotId,
@@ -102,6 +111,13 @@ export const retrainChatbot = createAsyncThunk(
 				token,
 				chatbotHashId
 			);
+			dispatch(
+				chatbotsActions.updateLinkStatus({
+					linkId,
+					trainStatus: "RETRAINING_PENDING",
+				})
+			);
+
 			toast({
 				title: "Success",
 				description: "Chatbot retraining started successfully!",
@@ -112,6 +128,12 @@ export const retrainChatbot = createAsyncThunk(
 			});
 			return data;
 		} catch (err: any) {
+			dispatch(
+				chatbotsActions.updateLinkStatus({
+					linkId,
+					trainStatus: "RETRAINING_REJECTED",
+				})
+			);
 			toast({
 				title: "Something went wrong",
 				description: err?.message
@@ -141,6 +163,7 @@ const chatbotsSlice = createSlice({
 		updateChatbotFineTuneApiStatus: "idle",
 		deleteChatbotApiStatus: "idle",
 		chatbotStatusChangeApiStatus: "idle",
+		addNewLinksApiStatus: "idle",
 		chatbotNameChangeApiStatus: "idle",
 		domainChangeApiStatus: "idle",
 		getChatbotByIdApiStatus: "idle",
@@ -148,11 +171,40 @@ const chatbotsSlice = createSlice({
 		chatbotColorChangeApiStatus: "idle",
 	},
 	reducers: {
+		updateLinkStatus: (state, action) => {
+			const { linkId, trainStatus } = action.payload;
+			state.currentChatbot.links = state.currentChatbot.links.map(
+				({ link, linkId: id, trainStatus: status }) => {
+					if (linkId === id) {
+						return {
+							link,
+							linkId: id,
+							trainStatus,
+						};
+					}
+					return { link, linkId: id, trainStatus: status };
+				}
+			);
+		},
+
 		resetCreateNewChatbotStatus: (state) => {
 			state.createNewChatbotApiStatus = "idle";
 		},
 		updateCurrentChatbotStatus: (state, action) => {
 			state.currentChatbot.status = action.payload;
+		},
+		updateTrainStatus: (state, action) => {
+			const { chatbotId, status } = action.payload;
+			state.currentChatbot.trainStatus = status;
+			state.myChatbots = state.myChatbots.map((chatbot) => {
+				if (chatbot.chatbotId === chatbotId) {
+					return {
+						...chatbot,
+						trainStatus: status,
+					};
+				}
+				return chatbot;
+			});
 		},
 		updateCurrentChatbotName: (state, action) => {
 			state.currentChatbot.chatbotName = action.payload;
@@ -175,6 +227,15 @@ const chatbotsSlice = createSlice({
 	},
 	extraReducers(builder) {
 		builder
+			.addCase(addNewLinks.pending, (state) => {
+				state.addNewLinksApiStatus = "pending";
+			})
+			.addCase(addNewLinks.fulfilled, (state) => {
+				state.addNewLinksApiStatus = "fulfilled";
+			})
+			.addCase(addNewLinks.rejected, (state) => {
+				state.addNewLinksApiStatus = "rejected";
+			})
 			.addCase(updateFineTune.pending, (state) => {
 				state.updateChatbotFineTuneApiStatus = "pending";
 			})
@@ -218,7 +279,6 @@ const chatbotsSlice = createSlice({
 				state.retrainChatbotApiStatus = "pending";
 			})
 			.addCase(retrainChatbot.fulfilled, (state) => {
-				state.currentChatbot.trainStatus = "RETRAINING_PENDING";
 				state.retrainChatbotApiStatus = "fulfilled";
 			})
 			.addCase(retrainChatbot.rejected, (state) => {

@@ -7,10 +7,12 @@ import {
 	Text,
 	Tooltip,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import usePolling from "../../../../hooks/usePolling";
+import { useAppDispatch } from "../../../../store/store";
+import { chatbotsActions } from "../../../../store/reducers/chatbots.reducer";
 
 interface IProps {
 	name: string;
@@ -34,7 +36,7 @@ const ChatbotCard: React.FC<IProps> = ({
 	domains,
 }) => {
 	const navigate = useNavigate();
-	const [trainingStatus, setTrainingStatus] = useState(trainStatus);
+	const dispatch = useAppDispatch();
 
 	const { startPolling, data } = usePolling({
 		endpoint: `/api/v2/chatbot/${id}/trainstatus`,
@@ -48,12 +50,19 @@ const ChatbotCard: React.FC<IProps> = ({
 			return true;
 		},
 		maxRetries: 10,
-		delay: 3000,
+		delay: 4000,
 	});
 
 	useEffect(() => {
-		if (data) setTrainingStatus(data.message);
-	}, [trainStatus, data]);
+		if (data) {
+			dispatch(
+				chatbotsActions.updateTrainStatus({
+					chatbotId: id,
+					status: data.message,
+				})
+			);
+		}
+	}, [dispatch, id, data]);
 
 	useEffect(() => {
 		startPolling();
@@ -90,7 +99,7 @@ const ChatbotCard: React.FC<IProps> = ({
 			</Box>
 
 			<Box sx={{ display: "flex", alignItems: "center" }}>
-				{trainingStatus === "TRAINING_PENDING" && (
+				{trainStatus === "TRAINING_PENDING" && (
 					<Badge
 						sx={{ mr: 1, display: "flex", alignItems: "center" }}
 						colorScheme="orange"
@@ -98,7 +107,7 @@ const ChatbotCard: React.FC<IProps> = ({
 						training <Spinner ml={1} size="sm" />
 					</Badge>
 				)}
-				{trainingStatus === "RETRAINING_PENDING" && (
+				{trainStatus === "RETRAINING_PENDING" && (
 					<Badge
 						sx={{ mr: 1, display: "flex", alignItems: "center" }}
 						colorScheme="orange"

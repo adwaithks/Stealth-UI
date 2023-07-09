@@ -19,6 +19,7 @@ export interface IAppState {
 		quickReplyDeleteApiStatus: string;
 		getMyChatbotsApiStatus: string;
 		createNewChatbotApiStatus: string;
+		addNewLinksApiStatus: string;
 		retrainChatbotApiStatus: string;
 		deleteChatbotApiStatus: string;
 		chatbotStatusChangeApiStatus: string;

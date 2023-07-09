@@ -76,7 +76,12 @@ const AllChatbots = () => {
 
 				<Divider sx={{ mb: 5 }} orientation="horizontal" />
 
-				<Box sx={{ overflow: "auto" }}>
+				<Box
+					sx={{
+						overflowY: "auto",
+						height: "calc((100vh - 270px)/2)",
+					}}
+				>
 					{getMyChatbotsApiStatus === "pending" && (
 						<AllChatbotsSkeleton />
 					)}

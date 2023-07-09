@@ -3,6 +3,7 @@ import {
 	Button,
 	Checkbox,
 	CheckboxGroup,
+	Divider,
 	IconButton,
 	Input,
 	Stack,
@@ -61,22 +62,14 @@ const CrawlUrlSelection: React.FC<{
 				<Text fontWeight="bold">
 					Generate data to train your chatbot
 				</Text>
-				<Text
-					sx={{
-						width: {
-							lg: "60%",
-							md: "80%",
-						},
-					}}
-					color="gray"
-				>
+				<Text color="gray">
 					Fetch all links in the website that you provide. Then you
 					can decide which all links we should crawl to generate
 					training data for your chatbot (Please provide domain that
 					you own or have control over!)
 				</Text>
 			</Box>
-			<Box sx={{ mb: 2 }}>
+			<Box sx={{ mb: 2, display: "flex", alignItems: "center" }}>
 				<Input
 					placeholder="https://yourwebsite.com"
 					mr={2}
@@ -87,11 +80,14 @@ const CrawlUrlSelection: React.FC<{
 					loadingText="Fetching Links"
 					isLoading={getAllUrlsApiStatus === "pending"}
 					onClick={fetchUrls}
+					bgColor="black"
+					color="white"
 				>
 					<RepeatIcon sx={{ mr: 1 }} />
 					Get All Links
 				</Button>
 			</Box>
+			<Divider my={3} />
 			{urls.length > 0 && (
 				<Box>
 					<Box
@@ -112,14 +108,13 @@ const CrawlUrlSelection: React.FC<{
 								touch.)
 							</Text>
 						</Box>
-						<Box sx={{ mb: 20 }}>
+						<Box sx={{ my: 5 }}>
 							<label style={{ color: "gray" }}>
 								No endpoint found in the list ? Add manually
 							</label>
-							<Box sx={{ mb: 2, display: "flex" }}>
+							<Box sx={{ mb: 5, display: "flex" }}>
 								<Input
 									onChange={(e) => setNewLink(e.target.value)}
-									size="sm"
 									mr={2}
 									width={400}
 									placeholder="https://yourwebsite.com/something"
@@ -133,12 +128,18 @@ const CrawlUrlSelection: React.FC<{
 									bgColor="black"
 									color="white"
 									onClick={addNewLink}
-									size="sm"
 								>
 									<AddIcon sx={{ mr: 1 }} />
 									Add Url
 								</Button>
 							</Box>
+							<Box>
+								<Text color="gray">
+									{checkedUrls.length} links selected out of{" "}
+									{urls.length} links{" "}
+								</Text>
+							</Box>
+
 							<CheckboxGroup
 								colorScheme="green"
 								onChange={(checkedUrls) => {
@@ -148,7 +149,8 @@ const CrawlUrlSelection: React.FC<{
 								}}
 							>
 								<Stack
-									maxHeight="300px"
+									maxHeight="120px"
+									mb={5}
 									overflowY="auto"
 									direction={["column"]}
 								>
@@ -170,18 +172,15 @@ const CrawlUrlSelection: React.FC<{
 												</Checkbox>
 												<IconButton
 													size="sm"
+													onClick={() => {
+														dispatch(
+															crawlerActions.removeLink(
+																url
+															)
+														);
+													}}
 													aria-label="remove url"
-													icon={
-														<DeleteIcon
-															onClick={() => {
-																dispatch(
-																	crawlerActions.removeLink(
-																		url
-																	)
-																);
-															}}
-														/>
-													}
+													icon={<DeleteIcon />}
 												/>
 											</Box>
 										);

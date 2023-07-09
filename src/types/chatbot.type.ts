@@ -5,12 +5,25 @@ export interface Chatbot {
 	creationDate: string;
 	lastUpdated: string;
 	trainStatus: string;
+	links: ILink[];
 	domains: string[];
 	status: string;
 	position: string;
 	chatbotHashId: string;
 	primaryBgColor: string;
 	quickReplies: QuickReply[];
+}
+
+export interface ILink {
+	linkId: number;
+	link: string;
+	trainStatus: string;
+}
+
+export interface ILinkDTO {
+	link_id: number;
+	link: string;
+	train_status: string;
 }
 
 export interface ChatbotDTO {
@@ -20,6 +33,7 @@ export interface ChatbotDTO {
 	train_status: string;
 	creation_date: string;
 	last_updated: string;
+	links: ILinkDTO[];
 	domains: string;
 	status: string;
 	position: string;

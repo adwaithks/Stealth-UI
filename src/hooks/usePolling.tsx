@@ -84,14 +84,14 @@ const usePolling = ({
 			console.error("API call failed:", error);
 			retry();
 		}
-	}, [endpoint, session, retry]);
+	}, []);
 
 	useEffect(() => {
 		if (isPolling) {
 			fetchData(); // Call API immediately
 
 			// Start interval timer
-			timerRef.current = setInterval(fetchData, delay);
+			timerRef.current = setInterval(fetchData, 3000);
 
 			return () => {
 				if (timerRef.current)

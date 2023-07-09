@@ -20,12 +20,6 @@ interface Chat {
 	origin: string;
 }
 
-function extractUrls(text: string) {
-	const urlRegex = /(https?:\/\/[^\s]+)/g;
-
-	return text.match(urlRegex);
-}
-
 const ChatbotPreview: React.FC<{ chatbotId: number }> = ({ chatbotId }) => {
 	const [chats, setChats] = useState<Chat[]>([
 		{
@@ -107,8 +101,6 @@ const ChatbotPreview: React.FC<{ chatbotId: number }> = ({ chatbotId }) => {
 					.then((data) => {
 						let reply = data.message;
 
-						const urls = extractUrls(reply);
-						console.log(urls);
 						if (reply.toLowerCase().includes("Assist Desk:")) {
 							reply = reply
 								.toLowerCase()

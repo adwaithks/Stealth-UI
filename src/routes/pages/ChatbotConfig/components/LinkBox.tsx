@@ -1,6 +1,6 @@
-import { Badge, Box, Button, Spinner, Text } from "@chakra-ui/react";
+import { Badge, Box, Button, Text } from "@chakra-ui/react";
 import { useClerk } from "@clerk/clerk-react";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../../../store/store";
 import {
@@ -8,10 +8,7 @@ import {
 	retrainChatbot,
 } from "../../../../store/reducers/chatbots.reducer";
 import { useSelector } from "react-redux";
-import {
-	currentChatbotSelector,
-	retrainChatbotApiStatusSelector,
-} from "../../../../store/selectors/chatbots.selector";
+import { currentChatbotSelector } from "../../../../store/selectors/chatbots.selector";
 import { RepeatIcon } from "@chakra-ui/icons";
 import usePolling from "../../../../hooks/usePolling";
 import { getStatusObject } from "../../../../utils/trainStatus";
@@ -24,9 +21,8 @@ const LinkBox: React.FC<{ link: string; status: string; linkId: number }> = ({
 	const { session } = useClerk();
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
-	const currentChatbot = useSelector(currentChatbotSelector);
 	const [isLoading, setIsLoading] = useState(false);
-	const retrainApiStatus = useSelector(retrainChatbotApiStatusSelector);
+	const currentChatbot = useSelector(currentChatbotSelector);
 
 	const { startPolling, data } = usePolling({
 		endpoint: `/api/v2/chatbot/link/status`,
@@ -54,18 +50,24 @@ const LinkBox: React.FC<{ link: string; status: string; linkId: number }> = ({
 
 	useEffect(() => {
 		if (data) {
-			if (!data.message.includes("PENDING")) {
-				setIsLoading(false);
-			}
+			dispatch(
+				chatbotsActions.updateLinkStatus({
+					linkId,
+					trainStatus: data.message,
+				})
+			);
 		}
-	}, [isLoading, data]);
+
+		if (!status.includes("PENDING")) {
+			setIsLoading(false);
+		}
+	}, [linkId, status, dispatch, data]);
 
 	useEffect(() => {
-		if (retrainApiStatus === "fulfilled") {
-			console.log("trigger");
+		if (status.includes("PENDING")) {
 			startPolling();
 		}
-	}, [retrainApiStatus, startPolling]);
+	}, [status, startPolling]);
 
 	const retrainHandler = (link: string) => {
 		session
@@ -82,6 +84,7 @@ const LinkBox: React.FC<{ link: string; status: string; linkId: number }> = ({
 						chatbotHashId: currentChatbot.chatbotHashId,
 						token,
 						link,
+						linkId,
 					})
 				);
 				setIsLoading(true);
@@ -112,16 +115,10 @@ const LinkBox: React.FC<{ link: string; status: string; linkId: number }> = ({
 						display: "flex",
 						alignItems: "center",
 					}}
-					colorScheme={
-						data
-							? getStatusObject(data?.message).color
-							: getStatusObject(status).color
-					}
+					colorScheme={getStatusObject(status).color}
 					ml={2}
 				>
-					{data
-						? getStatusObject(data?.message).text
-						: getStatusObject(status).text}
+					{getStatusObject(status).text}
 				</Badge>
 			</Box>
 			<Box ml={5}>

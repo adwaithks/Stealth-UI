@@ -3,8 +3,6 @@ import {
 	Box,
 	Button,
 	Heading,
-	Skeleton,
-	Spinner,
 	Tab,
 	TabList,
 	TabPanel,
@@ -13,16 +11,14 @@ import {
 	Tag,
 	Text,
 } from "@chakra-ui/react";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ChevronLeftIcon, CopyIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
 import ChatbotSettings from "./components/ChatbotSettings";
 import { useSelector } from "react-redux";
 import {
-	createNewChatbotApiStatusSelector,
 	currentChatbotSelector,
 	getChatbotByIdApiStatusSelector,
-	retrainChatbotApiStatusSelector,
 } from "../../../store/selectors/chatbots.selector";
 import ChatbotPreview from "./components/ChatbotPreview";
 import { useAppDispatch } from "../../../store/store";
@@ -33,6 +29,8 @@ import QuickReplies from "./components/QuickReplies";
 import Links from "./components/Links";
 import FineTune from "./components/FineTune";
 import usePolling from "../../../hooks/usePolling";
+import { getStatusObject } from "../../../utils/trainStatus";
+import { chatbotsActions } from "../../../store/reducers/chatbots.reducer";
 
 const ChatbotConfig: React.FC = () => {
 	const navigate = useNavigate();
@@ -40,7 +38,6 @@ const ChatbotConfig: React.FC = () => {
 	const { session } = useClerk();
 
 	const [isCopied, setIsCopied] = useState(false);
-	const [trainStatus, setTrainStatus] = useState("");
 
 	const chatbotId = Number(window.location.pathname.split("/")[3] || -1);
 
@@ -62,12 +59,19 @@ const ChatbotConfig: React.FC = () => {
 			return true;
 		},
 		maxRetries: 10,
-		delay: 3000,
+		delay: 4000,
 	});
 
 	useEffect(() => {
-		if (data) setTrainStatus(data.message);
-	}, [trainStatus, data]);
+		if (data) {
+			dispatch(
+				chatbotsActions.updateTrainStatus({
+					chatbotId,
+					status: data.message,
+				})
+			);
+		}
+	}, [data, chatbotId, dispatch]);
 
 	useEffect(() => {
 		startPolling();
@@ -134,54 +138,19 @@ const ChatbotConfig: React.FC = () => {
 						<Heading sx={{ mb: 1, mr: 2 }}>
 							{chatbot?.chatbotName}{" "}
 						</Heading>
-						{trainStatus === "TRAINING_REJECTED" && (
-							<Badge
-								sx={{
-									mr: 1,
-									display: "flex",
-									alignItems: "center",
-								}}
-								colorScheme="red"
-							>
-								Training Failed
-							</Badge>
-						)}
-						{trainStatus === "RETRAINING_REJECTED" && (
-							<Badge
-								sx={{
-									mr: 1,
-									display: "flex",
-									alignItems: "center",
-								}}
-								colorScheme="red"
-							>
-								Retraining Failed
-							</Badge>
-						)}
-						{trainStatus === "TRAINING_PENDING" && (
-							<Badge
-								sx={{
-									mr: 1,
-									display: "flex",
-									alignItems: "center",
-								}}
-								colorScheme="orange"
-							>
-								training <Spinner ml={1} size="sm" />
-							</Badge>
-						)}
-						{trainStatus === "RETRAINING_PENDING" && (
-							<Badge
-								sx={{
-									mr: 1,
-									display: "flex",
-									alignItems: "center",
-								}}
-								colorScheme="orange"
-							>
-								retraining <Spinner ml={1} size="sm" />
-							</Badge>
-						)}
+
+						<Badge
+							sx={{
+								mr: 1,
+								display: "flex",
+								alignItems: "center",
+							}}
+							colorScheme={
+								getStatusObject(chatbot.trainStatus).color
+							}
+						>
+							{getStatusObject(chatbot.trainStatus).text}
+						</Badge>
 					</Box>
 
 					<Box sx={{ display: "flex", alignItems: "center" }}>
