@@ -107,6 +107,12 @@ const ChatbotPreview: React.FC<{ chatbotId: number }> = ({ chatbotId }) => {
 								.replace("Assist Desk:", "");
 						}
 
+						if (reply.toLowerCase().includes("AI Assistant:")) {
+							reply = reply
+								.toLowerCase()
+								.replace("AI Assistant:", "");
+						}
+
 						if (reply.toLowerCase().includes("Reply:")) {
 							reply = reply.toLowerCase().replace("Reply:", "");
 						}

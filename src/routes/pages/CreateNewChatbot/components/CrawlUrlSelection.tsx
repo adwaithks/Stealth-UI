@@ -149,7 +149,12 @@ const CrawlUrlSelection: React.FC<{
 								}}
 							>
 								<Stack
-									mb={5}
+									mb={
+										window.location.pathname ===
+										"/app/createbot"
+											? 25
+											: 5
+									}
 									overflowY="auto"
 									direction={["column"]}
 								>
