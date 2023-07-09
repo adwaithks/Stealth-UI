@@ -149,7 +149,6 @@ const CrawlUrlSelection: React.FC<{
 								}}
 							>
 								<Stack
-									maxHeight="120px"
 									mb={5}
 									overflowY="auto"
 									direction={["column"]}
