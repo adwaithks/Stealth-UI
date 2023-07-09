@@ -152,7 +152,7 @@ const CrawlUrlSelection: React.FC<{
 									mb={
 										window.location.pathname ===
 										"/app/createbot"
-											? 50
+											? 65
 											: 5
 									}
 									overflowY="auto"
