@@ -1,4 +1,4 @@
-import { Badge, Box, Button, Text, useMediaQuery } from "@chakra-ui/react";
+import { Badge, Box, Button, Text } from "@chakra-ui/react";
 import { useClerk } from "@clerk/clerk-react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
@@ -8,7 +8,6 @@ const PriceCard: React.FC<{
 	pricingInfo: { [key: string]: string };
 	features: string[];
 }> = ({ title, pricingInfo, features }) => {
-	const [isMobile] = useMediaQuery("(max-width: 468px)");
 	const { session } = useClerk();
 	const navigate = useNavigate();
 
