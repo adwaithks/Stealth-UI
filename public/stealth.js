@@ -797,18 +797,7 @@ document.addEventListener("DOMContentLoaded", () => {
 				primaryBgColor = data.message.primaryBgColor;
 
 				if (quickReplies[0].keyword == null) {
-					quickReplies = [
-						// {
-						// 	keyword: "Pricing",
-						// 	question:
-						// 		"List the pricing of the products in a list format.",
-						// },
-						// {
-						// 	keyword: "Products",
-						// 	question:
-						// 		"List the products and services offerings of the company in a list format.",
-						// },
-					];
+					quickReplies = [];
 				}
 
 				domains.forEach((domain) => {
