@@ -113,18 +113,26 @@ function displayMessage(sender, message) {
 		messageElement.style.borderBottomLeftRadius = "5px";
 	}
 
+	// Regex to match the links
+	const linkRegex = /\[(.*?)\]\((.*?)\)/g;
+
+	const replacedText = message.replace(linkRegex, (_, text, link) => {
+		return `<a style="text-decoration: underline; font-weight: bold;" href="${link}" target="_blank">${text}</a>`;
+	});
+
 	messageElement.classList.add("message");
 	const origin = document.createElement("p");
 	const message_ = document.createElement("p");
-	message_.style.whiteSpace = "pre-line";
+	message_.innerHTML = `<p style="white-space: pre-line;">${replacedText.trim()}</p>`;
+	// message_.style.whiteSpace = "pre-line";
 	origin.textContent = `${sender === "bot" ? "AI Assistant" : "User"}`;
-	message_.textContent = `${message.trim()}`;
+	// message_.textContent = `${message.trim()}`;
 
 	origin.style.fontWeight = "bold";
 	origin.style.marginBottom = "5px";
 
 	messageElement.appendChild(origin);
-	messageElement.appendChild(message_);
+	messageElement.append(message_);
 
 	messageContainer.appendChild(messageElement);
 	messageContainer.scrollTop = messageContainer.scrollHeight;
@@ -402,7 +410,7 @@ function app({
 	chatIconCustom.style.cursor = "pointer";
 	if (position === "bottomright") chatIconCustom.style.right = "20px";
 	else chatIconCustom.style.left = "20px";
-	chatIconCustom.style.zIndex = 90;
+	chatIconCustom.style.zIndex = 9999999;
 	chatIconCustom.style.backgroundColor = primaryBgColor;
 	chatIconCustom.style.border = "white solid 2px";
 
@@ -435,7 +443,7 @@ function app({
 		chatWindow.style.borderRadius = "5px";
 		chatWindow.style.width = "390px";
 	}
-	chatWindow.style.zIndex = 200;
+	chatWindow.style.zIndex = 99999999;
 	chatWindow.style.display = "none";
 	document.body.appendChild(chatWindow);
 	chatWindow.appendChild(chatHeader);
@@ -664,12 +672,13 @@ function app({
 					messages.slice(-4).forEach((m) => {
 						context += `\n ${m.origin}: ${m.message}`;
 					});
-				} else if (messages.length > 5) {
-					context = "";
-					messages.slice(-6).forEach((m) => {
-						context += `\n ${m.origin}: ${m.message}`;
-					});
 				}
+				// } else if (messages.length > 5) {
+				// 	context = "";
+				// 	messages.slice(-6).forEach((m) => {
+				// 		context += `\n ${m.origin}: ${m.message}`;
+				// 	});
+				// }
 				messages.push({
 					origin: "user",
 					message: message,
@@ -745,7 +754,7 @@ function app({
 						messageContainer.removeChild(messageLoader);
 						displayMessage(
 							"bot",
-							"Something unexpected happened :( We are fixing it! Don't worry :) "
+							"Oops..Something happened while I was generating your answer. Sorry for the inconvenience. Can you give itt another try ?"
 						);
 					})
 					.finally(() => {
