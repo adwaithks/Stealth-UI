@@ -115,9 +115,20 @@ const ChatbotCard: React.FC<IProps> = ({
 						retraining <Spinner ml={1} size="sm" />
 					</Badge>
 				)}
-				{fineTune?.length === 0 && (
-					<Badge sx={{ mr: 1 }} colorScheme="red">
-						Add knowledge base !
+				{trainStatus === "RETRAINING_REJECTED" && (
+					<Badge
+						sx={{ mr: 1, display: "flex", alignItems: "center" }}
+						colorScheme="orange"
+					>
+						retraining failed
+					</Badge>
+				)}
+				{trainStatus === "TRAINING_REJECTED" && (
+					<Badge
+						sx={{ mr: 1, display: "flex", alignItems: "center" }}
+						colorScheme="orange"
+					>
+						retraining failed
 					</Badge>
 				)}
 				{domains?.length === 0 && (
