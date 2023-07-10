@@ -51,6 +51,9 @@ function generateRandomId() {
 }
 
 function getMessageContainerHeight(isTabletOrBelow, quickReplies) {
+	if (!isTabletOrBelow && quickReplies.length === 0) return "360px";
+	if (isTabletOrBelow && quickReplies.length === 0)
+		return "calc(100vh - 200px)";
 	if (isTabletOrBelow && quickReplies.length > 0) {
 		return "calc(100vh - 220px)";
 	}
@@ -293,16 +296,7 @@ function ticketRaiseUI() {
 function app({
 	position = "bottomright",
 	name = "Customer Support",
-	quickReplies = [
-		{
-			keyword: "Pricing",
-			question: "What is the pricing of this product ?",
-		},
-		{
-			keyword: "Products",
-			question: "What are the products and services ?",
-		},
-	],
+	quickReplies = [],
 }) {
 	const chatHeader = document.createElement("div");
 	chatHeader.style.width = "100%";
@@ -804,16 +798,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
 				if (quickReplies[0].keyword == null) {
 					quickReplies = [
-						{
-							keyword: "Pricing",
-							question:
-								"List the pricing of the products in a list format.",
-						},
-						{
-							keyword: "Products",
-							question:
-								"List the products and services offerings of the company in a list format.",
-						},
+						// {
+						// 	keyword: "Pricing",
+						// 	question:
+						// 		"List the pricing of the products in a list format.",
+						// },
+						// {
+						// 	keyword: "Products",
+						// 	question:
+						// 		"List the products and services offerings of the company in a list format.",
+						// },
 					];
 				}
 
