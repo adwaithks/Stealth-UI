@@ -19,7 +19,6 @@ interface IProps {
 	creationDate: string;
 	status: string;
 	id: number;
-	fineTune: string;
 	primaryBgColor: string;
 	trainStatus: string;
 	domains: string[];
@@ -29,7 +28,6 @@ const ChatbotCard: React.FC<IProps> = ({
 	id,
 	name,
 	creationDate,
-	fineTune,
 	primaryBgColor,
 	status,
 	trainStatus,

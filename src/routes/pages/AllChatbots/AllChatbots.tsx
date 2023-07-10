@@ -96,7 +96,6 @@ const AllChatbots = () => {
 							({
 								chatbotName,
 								creationDate,
-								fineTune,
 								status,
 								chatbotId,
 								domains,
@@ -109,7 +108,6 @@ const AllChatbots = () => {
 										id={chatbotId}
 										trainStatus={trainStatus}
 										name={chatbotName}
-										fineTune={fineTune}
 										creationDate={creationDate}
 										status={status}
 										primaryBgColor={primaryBgColor}
