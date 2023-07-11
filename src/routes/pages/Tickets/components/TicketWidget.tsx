@@ -165,7 +165,7 @@ const TicketWidget: React.FC<{ ticket: ITicket }> = (ticket) => {
 				justifyContent: "space-between",
 			}}
 		>
-			<Box>
+			<Box sx={{ width: "85%" }}>
 				<Text fontWeight="bold">
 					{t.email}
 					<Badge ml={2} colorScheme={getColor(t.status)}>
