@@ -724,8 +724,8 @@ function app({
 							message = message.replace("AI Assistant:", "");
 						}
 
-						if (message.toLowerCase().includes("bot:")) {
-							message = message.toLowerCase().replace("bot:", "");
+						if (message.includes("bot:")) {
+							message = message.replace("bot:", "");
 						}
 
 						if (message.includes("Assist Desk:")) {
@@ -748,7 +748,7 @@ function app({
 						messageContainer.removeChild(messageLoader);
 						displayMessage(
 							"bot",
-							"Oops..Something happened while I was generating your answer. Sorry for the inconvenience. Can you give itt another try ?"
+							"Oops..Something happened while I was generating an answer to your question. Sorry for the inconvenience. Can you give it another try ?"
 						);
 					})
 					.finally(() => {
