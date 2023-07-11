@@ -20,6 +20,9 @@ interface Chat {
 	origin: string;
 }
 
+// Regex to match the links
+const linkRegex = /\[(.*?)\]\((.*?)\)/g;
+
 const ChatbotPreview: React.FC<{ chatbotId: number }> = ({ chatbotId }) => {
 	const [chats, setChats] = useState<Chat[]>([
 		{
@@ -116,6 +119,7 @@ const ChatbotPreview: React.FC<{ chatbotId: number }> = ({ chatbotId }) => {
 						if (reply.includes("Reply:")) {
 							reply = reply.replace("Reply:", "");
 						}
+
 						setChats((prev) => [
 							...prev,
 							{
@@ -250,7 +254,20 @@ const ChatbotPreview: React.FC<{ chatbotId: number }> = ({ chatbotId }) => {
 												>
 													{chat.origin}
 												</Text>{" "}
-												{chat.message}
+												<Text
+													dangerouslySetInnerHTML={{
+														__html: chat.message.replace(
+															linkRegex,
+															(
+																temp: any,
+																text: string,
+																link: string
+															) => {
+																return `<a style="text-decoration: underline; font-weight: bold;" href="${link}" target="_blank">${text}</a>`;
+															}
+														),
+													}}
+												></Text>
 											</Box>
 										</Box>
 									);

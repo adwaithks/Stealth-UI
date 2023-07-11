@@ -48,7 +48,7 @@ const ChatbotCard: React.FC<IProps> = ({
 			return true;
 		},
 		maxRetries: 10,
-		delay: 4000,
+		delay: 5000,
 	});
 
 	useEffect(() => {
