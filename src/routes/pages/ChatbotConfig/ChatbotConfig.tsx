@@ -47,7 +47,7 @@ const ChatbotConfig: React.FC = () => {
 	const chatbot = useSelector(currentChatbotSelector);
 
 	const { startPolling, data } = usePolling({
-		endpoint: `/api/v2/chatbot/${chatbot.chatbotId}/trainstatus`,
+		endpoint: `/api/v2/chatbot/${chatbotId}/trainstatus`,
 		stopFunction: (response: any) => {
 			if (
 				response.message === "TRAINING_PENDING" ||
@@ -59,7 +59,7 @@ const ChatbotConfig: React.FC = () => {
 			return true;
 		},
 		maxRetries: 10,
-		delay: 4000,
+		delay: 5000,
 	});
 
 	useEffect(() => {
@@ -74,8 +74,10 @@ const ChatbotConfig: React.FC = () => {
 	}, [data, chatbotId, dispatch]);
 
 	useEffect(() => {
-		if (chatbot?.trainStatus) startPolling();
-	}, [startPolling, chatbot.trainStatus]);
+		if (chatbotId) {
+			startPolling();
+		}
+	}, [startPolling, chatbotId]);
 
 	useEffect(() => {
 		let timeoutId = -1;

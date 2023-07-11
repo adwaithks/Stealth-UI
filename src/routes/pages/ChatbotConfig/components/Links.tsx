@@ -33,7 +33,7 @@ const Links: React.FC<{ chatbot: Chatbot }> = ({ chatbot }) => {
 			return true;
 		},
 		maxRetries: 10,
-		delay: 3000,
+		delay: 5000,
 	});
 
 	useEffect(() => {
@@ -48,7 +48,7 @@ const Links: React.FC<{ chatbot: Chatbot }> = ({ chatbot }) => {
 
 		if (data && !data.message.includes("PENDING")) {
 			setIsAddingNewLinks(false);
-			navigate(`/app/configure/${chatbot.chatbotId}`, { replace: true });
+			window.location.href = `/app/configure/${chatbot.chatbotId}`;
 		}
 	}, [data, dispatch, navigate, chatbot.chatbotId]);
 

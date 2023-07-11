@@ -44,8 +44,8 @@ const LinkBox: React.FC<{ link: string; status: string; linkId: number }> = ({
 				chatbot_hash_id: currentChatbot.chatbotHashId,
 			},
 		},
-		maxRetries: 7,
-		delay: 1500,
+		maxRetries: 10,
+		delay: 3000,
 	});
 
 	useEffect(() => {
@@ -134,7 +134,7 @@ const LinkBox: React.FC<{ link: string; status: string; linkId: number }> = ({
 								!!trainStatus.includes("PENDING")
 						)
 					}
-					loadingText="Retraining"
+					loadingText={isLoading ? "Retraining" : "Training"}
 					size="sm"
 				>
 					<RepeatIcon mr={1} />
