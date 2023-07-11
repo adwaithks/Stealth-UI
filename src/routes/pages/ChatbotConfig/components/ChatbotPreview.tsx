@@ -101,24 +101,20 @@ const ChatbotPreview: React.FC<{ chatbotId: number }> = ({ chatbotId }) => {
 					.then((data) => {
 						let reply = data.message;
 
-						if (reply.toLowerCase().includes("Assist Desk:")) {
-							reply = reply
-								.toLowerCase()
-								.replace("Assist Desk:", "");
+						if (reply.includes("AI Assistant:")) {
+							reply = reply.replace("AI Assistant:", "");
 						}
 
-						if (reply.toLowerCase().includes("AI Assistant:")) {
-							reply = reply
-								.toLowerCase()
-								.replace("AI Assistant:", "");
+						if (reply.includes("bot:")) {
+							reply = reply.replace("bot:", "");
 						}
 
-						if (reply.toLowerCase().includes("Reply:")) {
-							reply = reply.toLowerCase().replace("Reply:", "");
+						if (reply.includes("Assist Desk:")) {
+							reply = reply.replace("Assist Desk:", "");
 						}
 
-						if (reply.toLowerCase().includes("bot:")) {
-							reply = reply.toLowerCase().replace("bot:", "");
+						if (reply.includes("Reply:")) {
+							reply = reply.replace("Reply:", "");
 						}
 						setChats((prev) => [
 							...prev,
