@@ -259,7 +259,7 @@ const ChatbotPreview: React.FC<{ chatbotId: number }> = ({ chatbotId }) => {
 														__html: chat.message.replace(
 															linkRegex,
 															(
-																temp: any,
+																_: any,
 																text: string,
 																link: string
 															) => {
