@@ -32,11 +32,6 @@ export const getChatbotByIdSerializer = (chatbot: ChatbotDTO): Chatbot => {
 		domains = [];
 	}
 
-	let trainStatus = chatbot.train_status;
-	if (!chatbot.train_status) {
-		trainStatus = "TRAINING_SUCCESS";
-	}
-
 	return {
 		chatbotId: chatbot.chatbot_id,
 		chatbotName: chatbot.chatbot_name,
@@ -46,7 +41,7 @@ export const getChatbotByIdSerializer = (chatbot: ChatbotDTO): Chatbot => {
 		domains: domains || [],
 		links: linkSerializer(chatbot.links),
 		status: chatbot.status,
-		trainStatus,
+		trainStatus: chatbot.train_status,
 		primaryBgColor: chatbot.primary_bg_color,
 		position: chatbot.position,
 		chatbotHashId: chatbot.chatbot_hash_id,

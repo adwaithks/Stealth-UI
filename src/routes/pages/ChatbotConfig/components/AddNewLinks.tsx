@@ -59,6 +59,7 @@ const AddNewLinks: React.FC<{
 								)
 							)
 								onSuccess(checkedUrls);
+							onClose();
 						}}
 						bgColor="black"
 						color="white"

@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Text } from "@chakra-ui/react";
+import { Alert, Box, Button, Divider, Text } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import React, { useEffect } from "react";
 import PriceCard from "./components/PriceCard";
@@ -19,7 +19,7 @@ const Pricing: React.FC = () => {
 
 	return (
 		<Box sx={{ mx: 2 }}>
-			<Box sx={{ ml: 2 }}>
+			<Box sx={{ ml: 2, mb: 2 }}>
 				<Button
 					onClick={() => navigate("/", { replace: true })}
 					size="sm"
@@ -30,6 +30,17 @@ const Pricing: React.FC = () => {
 					Go Back
 				</Button>
 			</Box>
+			<Alert
+				colorScheme="orange"
+				sx={{
+					display: "flex",
+					alignItems: "center",
+					justifyContent: "center",
+				}}
+			>
+				We accept payments only by Credit Card in India, and by Credit
+				Card / Gpay / Apple Pay outside India.
+			</Alert>
 			<Box
 				sx={{
 					textAlign: "center",

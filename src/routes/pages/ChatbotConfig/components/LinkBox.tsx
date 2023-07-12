@@ -12,6 +12,7 @@ import { currentChatbotSelector } from "../../../../store/selectors/chatbots.sel
 import { RepeatIcon } from "@chakra-ui/icons";
 import usePolling from "../../../../hooks/usePolling";
 import { getStatusObject } from "../../../../utils/trainStatus";
+import { BASE_URL } from "../../../../api/baseURL";
 
 const LinkBox: React.FC<{ link: string; status: string; linkId: number }> = ({
 	link,
@@ -91,6 +92,36 @@ const LinkBox: React.FC<{ link: string; status: string; linkId: number }> = ({
 			});
 	};
 
+	const retrainCancel = () => {
+		session
+			?.getToken({ template: "stealth-token-template" })
+			.then(async (token) => {
+				if (!token) {
+					navigate("/");
+					return;
+				}
+
+				const res = await fetch(
+					BASE_URL + "/api/v2/chatbot/retrain/cancel",
+					{
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+							"STEALTH-ACCESS-TOKEN": token,
+						},
+						body: JSON.stringify({
+							chatbot_id: currentChatbot.chatbotId,
+							chatbot_hash_id: currentChatbot.chatbotHashId,
+							link: link,
+							link_id: linkId,
+						}),
+					}
+				);
+				const data = await res.json();
+				console.log(data);
+			});
+	};
+
 	return (
 		<Box
 			sx={{
@@ -123,6 +154,7 @@ const LinkBox: React.FC<{ link: string; status: string; linkId: number }> = ({
 			</Box>
 			<Box ml={5}>
 				<Button
+					mr={1}
 					onClick={() => {
 						retrainHandler(link);
 					}}
@@ -140,6 +172,14 @@ const LinkBox: React.FC<{ link: string; status: string; linkId: number }> = ({
 					<RepeatIcon mr={1} />
 					Retrain
 				</Button>
+				{!!currentChatbot.links.find(
+					({ linkId: id, trainStatus }) =>
+						linkId === id && !!trainStatus.includes("PENDING")
+				) && (
+					<Button colorScheme="red" onClick={retrainCancel} size="sm">
+						Cancel
+					</Button>
+				)}
 			</Box>
 		</Box>
 	);

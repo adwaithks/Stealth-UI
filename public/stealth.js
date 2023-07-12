@@ -1,13 +1,3 @@
-// Create a new style element
-const styleElement = document.createElement("style");
-document.head.appendChild(styleElement);
-// Get the stylesheet object
-const styleSheet = styleElement.sheet;
-// Create the CSS rule
-const cssRule = "* { box-sizing: border-box; margin: 0; padding: 0; }";
-// Add the CSS rule to the stylesheet
-styleSheet.insertRule(cssRule, 0);
-
 var scriptTag = document.getElementById("stealth-chatbot-widget");
 var chatbotId = Number(scriptTag.getAttribute("data-id"));
 var userId = scriptTag.getAttribute("data-user");
@@ -83,6 +73,23 @@ let messageInput = document.createElement("input");
 let quickRepliesContainer = document.createElement("div");
 let sendContainerWrapper = document.createElement("div");
 let poweredByContainer = document.createElement("div");
+let assistDeskShadowDOM = document.createElement("div");
+document.body.appendChild(assistDeskShadowDOM);
+const shadow = assistDeskShadowDOM.attachShadow({ mode: "open" });
+
+// Create a new style element within the Shadow DOM
+const styleElement = document.createElement("style");
+shadow.appendChild(styleElement);
+
+// Get the stylesheet object from the Shadow DOM style element
+const styleSheet = styleElement.sheet;
+
+// Create the CSS rule
+const cssRule =
+	"* { box-sizing: border-box; margin: 0; padding: 0; font-family: inherit; }";
+
+// Add the CSS rule to the stylesheet in the Shadow DOM
+styleSheet.insertRule(cssRule, 0);
 
 function hideBottom(sendContainer, quickReplies, poweredBy) {
 	sendContainerWrapper.style.display = sendContainer;
@@ -97,7 +104,7 @@ function displayMessage(sender, message) {
 	messageElement.style.whiteSpace = "pre-line";
 	messageElement.style.marginTop = "10px";
 	messageElement.style.maxWidth = isTabletOrBelow ? "90%" : "300px";
-	messageElement.style.fontSize = isTabletOrBelow ? "17px" : "15px";
+	messageElement.style.fontSize = isTabletOrBelow ? "20px" : "15px";
 	if (sender === "bot") {
 		messageElement.style.backgroundColor = "rgba(0,0,0, 0.05)";
 		messageElement.style.color = "black";
@@ -166,7 +173,7 @@ function ticketRaiseUI() {
 	emailInput.setAttribute("required", true);
 	emailInput.setAttribute("placeholder", "Email");
 	emailInput.style = `
-		padding: 8px 5px;
+		padding: 10px 5px;
 		font-size: 16px;
 		border-radius: 5px;
 		border: rgba(0,0,0,0.05) solid 2px;
@@ -186,7 +193,7 @@ function ticketRaiseUI() {
 	questionTextarea.setAttribute("placeholder", "Your question / enquiry");
 	questionTextarea.setAttribute("required", true);
 	questionTextarea.style = `
-		padding: 8px 5px;
+		padding: 10px 5px;
 		font-size: 16px;
 		border-radius: 5px;
 		border: rgba(0,0,0,0.05) solid 2px;
@@ -201,14 +208,15 @@ function ticketRaiseUI() {
 	const submitButton = document.createElement("button");
 	submitButton.innerHTML = "Submit";
 	submitButton.style = `
-		padding: 8px 20px;
-		cursor: pointer;
+	padding: 11px 20px;
+	cursor: pointer;
 		background-color: ${primaryBgColor};
 		color: white;
 		width: 100%;
 		border-radius: 5px;
-		border: ${primaryBgColor} 2px black;
+		border: solid 2px ${primaryBgColor};
 		outline: none;
+		font-size: 15px;
 		margin-bottom: 5px;
 	`;
 	submitButton.style.cursor = "pointer";
@@ -262,9 +270,10 @@ function ticketRaiseUI() {
 	var cancelButton = document.createElement("button");
 	cancelButton.innerHTML = "Cancel";
 	cancelButton.style = `
-		padding: 8px 20px;
+		padding: 11px 20px;
 		cursor: pointer;
 		color: black;
+		font-size: 15px;
 		width: 100%;
 		border-radius: 5px;
 		border: solid 2px ${primaryBgColor};
@@ -332,10 +341,14 @@ function app({
 	ticketRaisingOpenBtn.textContent = "Raise Ticket";
 	ticketRaisingOpenBtn.style = `
 		font-weight: bold;
+		border: solid red 2px;
 		background-color: ${primaryBgColor};
+		color: white;
+		font-size: ${isTabletOrBelow ? "18px" : "15px"};
 		border: white solid 1px;
 		border-radius: 5px;
-		padding: 0px 10px;
+		cursor: pointer;
+		padding: 3px 10px;
 	`;
 
 	// Add event listener for mouseover (hover)
@@ -395,7 +408,7 @@ function app({
 	chatIconCustom.style.borderRadius = "50%";
 	chatIconCustom.style.position = "fixed";
 	chatIconCustom.style.display = "flex";
-	chatIconCustom.style.boxShadow = "0 0 5px lightgray";
+	// chatIconCustom.style.boxShadow = "0 0 5px lightgray";
 	chatIconCustom.style.alignItems = "center";
 	chatIconCustom.style.justifyContent = "center";
 	chatIconCustom.style.bottom = "20px";
@@ -412,7 +425,7 @@ function app({
 	chatIcon.style.height = "33px";
 	chatIcon.style.width = "36px";
 	chatIconCustom.appendChild(chatIcon);
-	document.body.appendChild(chatIconCustom);
+	shadow.appendChild(chatIconCustom);
 
 	// Chat window
 	chatWindow.id = "chat-window";
@@ -439,7 +452,7 @@ function app({
 	}
 	chatWindow.style.zIndex = 99999999;
 	chatWindow.style.display = "none";
-	document.body.appendChild(chatWindow);
+	shadow.appendChild(chatWindow);
 	chatWindow.appendChild(chatHeader);
 
 	// message display area
@@ -554,7 +567,7 @@ function app({
 		`;
 		const style = document.createElement("style");
 		style.appendChild(document.createTextNode(bounceAnimation));
-		document.head.appendChild(style);
+		shadow.appendChild(style);
 
 		dot.className = "dot";
 		dot.style.width = "10px";

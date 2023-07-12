@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useClerk } from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom";
 import LinkBox from "./LinkBox";
-import { Chatbot } from "../../../../types/chatbot.type";
+import { Chatbot, ILink } from "../../../../types/chatbot.type";
 import AddNewLinks from "./AddNewLinks";
 import { addNewLinks } from "../../../../store/thunks/getChatbotById.thunk";
 import { useAppDispatch } from "../../../../store/store";
@@ -12,7 +12,12 @@ import { chatbotsActions } from "../../../../store/reducers/chatbots.reducer";
 import { useSelector } from "react-redux";
 import { addNewLinksApiStatusSelector } from "../../../../store/selectors/chatbots.selector";
 
-const Links: React.FC<{ chatbot: Chatbot }> = ({ chatbot }) => {
+const Links: React.FC<{
+	chatbotId: number;
+	trainStatus: string;
+	chatbotHashId: string;
+	links: ILink[];
+}> = ({ chatbotId, trainStatus, chatbotHashId, links }) => {
 	const { session } = useClerk();
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
@@ -21,7 +26,7 @@ const Links: React.FC<{ chatbot: Chatbot }> = ({ chatbot }) => {
 	const addNewLinksApiStatus = useSelector(addNewLinksApiStatusSelector);
 
 	const { startPolling, data } = usePolling({
-		endpoint: `/api/v2/chatbot/${chatbot.chatbotId}/trainstatus`,
+		endpoint: `/api/v2/chatbot/${chatbotId}/trainstatus`,
 		stopFunction: (response: any) => {
 			if (
 				response.message === "TRAINING_PENDING" ||
@@ -40,7 +45,7 @@ const Links: React.FC<{ chatbot: Chatbot }> = ({ chatbot }) => {
 		if (data) {
 			dispatch(
 				chatbotsActions.updateTrainStatus({
-					chatbotId: chatbot.chatbotId,
+					chatbotId: chatbotId,
 					status: data.message,
 				})
 			);
@@ -48,9 +53,9 @@ const Links: React.FC<{ chatbot: Chatbot }> = ({ chatbot }) => {
 
 		if (data && !data.message.includes("PENDING")) {
 			setIsAddingNewLinks(false);
-			window.location.href = `/app/configure/${chatbot.chatbotId}`;
+			window.location.href = `/app/configure/${chatbotId}`;
 		}
-	}, [data, dispatch, navigate, chatbot.chatbotId]);
+	}, [data, dispatch, navigate, chatbotId]);
 
 	useEffect(() => {
 		if (addNewLinksApiStatus === "fulfilled" && isAddingNewLinks) {
@@ -73,8 +78,8 @@ const Links: React.FC<{ chatbot: Chatbot }> = ({ chatbot }) => {
 					addNewLinks({
 						token,
 						links,
-						chatbotHashId: chatbot.chatbotHashId,
-						chatbotId: chatbot.chatbotId,
+						chatbotHashId: chatbotHashId,
+						chatbotId: chatbotId,
 					})
 				);
 				setIsAddingNewLinks(true);
@@ -107,12 +112,18 @@ const Links: React.FC<{ chatbot: Chatbot }> = ({ chatbot }) => {
 						color="white"
 						bgColor="black"
 						isDisabled={
-							!!chatbot.links?.find(
+							!!links?.find(
 								({ trainStatus }) =>
-									!!trainStatus.includes("PENDING")
+									trainStatus &&
+									(trainStatus === "TRAINING_PENDING" ||
+										trainStatus === "RETRAINING_PENDING")
 							)
 						}
-						isLoading={isAddingNewLinks}
+						isLoading={
+							isAddingNewLinks ||
+							trainStatus === "TRAINING_PENDING" ||
+							trainStatus === "RETRAINING_PENDING"
+						}
 						loadingText="Training"
 						onClick={onToggle}
 					>
@@ -128,24 +139,16 @@ const Links: React.FC<{ chatbot: Chatbot }> = ({ chatbot }) => {
 			/>
 
 			<Box>
-				{!chatbot.links && (
-					<Skeleton
-						startColor="lightgray"
-						endColor="gray.100"
-						height="160px"
-						rounded="base"
-					/>
-				)}
-
-				{chatbot.links?.map(({ link, trainStatus, linkId }) => {
-					return (
-						<LinkBox
-							key={linkId}
-							link={link}
-							status={trainStatus}
-							linkId={linkId}
-						/>
-					);
+				{links?.map(({ link, trainStatus, linkId }) => {
+					if (link)
+						return (
+							<LinkBox
+								key={linkId}
+								link={link}
+								status={trainStatus}
+								linkId={linkId}
+							/>
+						);
 				})}
 			</Box>
 		</Box>

@@ -31,6 +31,7 @@ import FineTune from "./components/FineTune";
 import usePolling from "../../../hooks/usePolling";
 import { getStatusObject } from "../../../utils/trainStatus";
 import { chatbotsActions } from "../../../store/reducers/chatbots.reducer";
+import { BASE_URL } from "../../../api/baseURL";
 
 const ChatbotConfig: React.FC = () => {
 	const navigate = useNavigate();
@@ -113,6 +114,36 @@ const ChatbotConfig: React.FC = () => {
 		return <ChatbotConfigSkeleton />;
 	}
 
+	const handleCancelTraining = () => {
+		session
+			?.getToken({ template: "stealth-token-template" })
+			.then(async (token) => {
+				if (!token) {
+					navigate("/");
+					return;
+				}
+
+				const res = await fetch(
+					BASE_URL + "/api/v2/chatbot/train/cancel",
+					{
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+							"STEALTH-ACCESS-TOKEN": token,
+						},
+						body: JSON.stringify({
+							chatbot_id: chatbot.chatbotId,
+							chatbot_hash_id: chatbot.chatbotHashId,
+						}),
+					}
+				);
+				const data = await res.json();
+				console.log(data);
+			});
+	};
+
+	console.log(chatbot.trainStatus);
+
 	return (
 		<Box>
 			<Box sx={{ mb: 2 }}>
@@ -153,6 +184,18 @@ const ChatbotConfig: React.FC = () => {
 						>
 							{getStatusObject(chatbot.trainStatus).text}
 						</Badge>
+						{chatbot.trainStatus &&
+							(chatbot.trainStatus === "TRAINING_PENDING" ||
+								chatbot.trainStatus ===
+									"RETRAINING_PENDING") && (
+								<Button
+									colorScheme="red"
+									size="sm"
+									onClick={handleCancelTraining}
+								>
+									Cancel
+								</Button>
+							)}
 					</Box>
 
 					<Box sx={{ display: "flex", alignItems: "center" }}>
@@ -260,7 +303,12 @@ const ChatbotConfig: React.FC = () => {
 							/>
 						</TabPanel>
 						<TabPanel>
-							<Links chatbot={chatbot} />
+							<Links
+								chatbotId={chatbot?.chatbotId}
+								chatbotHashId={chatbot?.chatbotHashId}
+								trainStatus={chatbot?.trainStatus}
+								links={chatbot?.links}
+							/>
 						</TabPanel>
 					</TabPanels>
 				</Tabs>
