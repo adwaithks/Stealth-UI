@@ -48,19 +48,16 @@ const ChatbotConfig: React.FC = () => {
 	const chatbot = useSelector(currentChatbotSelector);
 
 	const { startPolling, data } = usePolling({
-		endpoint: `/api/v2/chatbot/${chatbotId}/trainstatus`,
 		stopFunction: (response: any) => {
 			if (
-				response.message === "TRAINING_PENDING" ||
-				response.message === "RETRAINING_PENDING"
-			) {
-				return false;
-			}
-
-			return true;
+				response.message === "TRAINING_SUCCESS" ||
+				response.message === "TRAINING_REJECTED"
+			)
+				return true;
+			return false;
 		},
-		maxRetries: 10,
-		delay: 5000,
+		maxRetries: 5,
+		delay: 1000,
 	});
 
 	useEffect(() => {
@@ -75,10 +72,12 @@ const ChatbotConfig: React.FC = () => {
 	}, [data, chatbotId, dispatch]);
 
 	useEffect(() => {
-		if (chatbotId) {
-			startPolling();
+		if (chatbotId && chatbot?.taskId?.length > 0) {
+			startPolling(
+				`/api/v2/chatbot/${chatbotId}/${chatbot.taskId}/taskstatus`
+			);
 		}
-	}, [startPolling, chatbotId]);
+	}, [startPolling, chatbot?.taskId?.length, chatbotId, chatbot.taskId]);
 
 	useEffect(() => {
 		let timeoutId = -1;
@@ -108,41 +107,11 @@ const ChatbotConfig: React.FC = () => {
 			.catch(() => {
 				navigate("/");
 			});
-	}, [chatbotId, dispatch, navigate, session]);
+	}, [chatbotId, navigate, session, dispatch]);
 
 	if (getChatbotByIdApiStatus === "pending") {
 		return <ChatbotConfigSkeleton />;
 	}
-
-	const handleCancelTraining = () => {
-		session
-			?.getToken({ template: "stealth-token-template" })
-			.then(async (token) => {
-				if (!token) {
-					navigate("/");
-					return;
-				}
-
-				const res = await fetch(
-					BASE_URL + "/api/v2/chatbot/train/cancel",
-					{
-						method: "POST",
-						headers: {
-							"Content-Type": "application/json",
-							"STEALTH-ACCESS-TOKEN": token,
-						},
-						body: JSON.stringify({
-							chatbot_id: chatbot.chatbotId,
-							chatbot_hash_id: chatbot.chatbotHashId,
-						}),
-					}
-				);
-				const data = await res.json();
-				console.log(data);
-			});
-	};
-
-	console.log(chatbot.trainStatus);
 
 	return (
 		<Box>
@@ -184,18 +153,6 @@ const ChatbotConfig: React.FC = () => {
 						>
 							{getStatusObject(chatbot.trainStatus).text}
 						</Badge>
-						{chatbot.trainStatus &&
-							(chatbot.trainStatus === "TRAINING_PENDING" ||
-								chatbot.trainStatus ===
-									"RETRAINING_PENDING") && (
-								<Button
-									colorScheme="red"
-									size="sm"
-									onClick={handleCancelTraining}
-								>
-									Cancel
-								</Button>
-							)}
 					</Box>
 
 					<Box sx={{ display: "flex", alignItems: "center" }}>
@@ -308,6 +265,7 @@ const ChatbotConfig: React.FC = () => {
 								chatbotHashId={chatbot?.chatbotHashId}
 								trainStatus={chatbot?.trainStatus}
 								links={chatbot?.links}
+								taskId={chatbot?.taskId}
 							/>
 						</TabPanel>
 					</TabPanels>

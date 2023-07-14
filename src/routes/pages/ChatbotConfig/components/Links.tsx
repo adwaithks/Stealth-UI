@@ -3,35 +3,30 @@ import React, { useEffect, useState } from "react";
 import { useClerk } from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom";
 import LinkBox from "./LinkBox";
-import { Chatbot, ILink } from "../../../../types/chatbot.type";
+import { ILink } from "../../../../types/chatbot.type";
 import AddNewLinks from "./AddNewLinks";
 import { addNewLinks } from "../../../../store/thunks/getChatbotById.thunk";
 import { useAppDispatch } from "../../../../store/store";
 import usePolling from "../../../../hooks/usePolling";
 import { chatbotsActions } from "../../../../store/reducers/chatbots.reducer";
-import { useSelector } from "react-redux";
-import { addNewLinksApiStatusSelector } from "../../../../store/selectors/chatbots.selector";
+import { getChatbotLinksApi } from "../../../../api/getChatbotById.api";
 
 const Links: React.FC<{
 	chatbotId: number;
 	trainStatus: string;
 	chatbotHashId: string;
+	taskId: string;
 	links: ILink[];
-}> = ({ chatbotId, trainStatus, chatbotHashId, links }) => {
+}> = ({ chatbotId, trainStatus, chatbotHashId, links, taskId }) => {
 	const { session } = useClerk();
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 	const [isAddingNewLinks, setIsAddingNewLinks] = useState(false);
-
-	const addNewLinksApiStatus = useSelector(addNewLinksApiStatusSelector);
+	const [isNewLinksLoading, setIsNewLinksLoading] = useState(false);
 
 	const { startPolling, data } = usePolling({
-		endpoint: `/api/v2/chatbot/${chatbotId}/trainstatus`,
 		stopFunction: (response: any) => {
-			if (
-				response.message === "TRAINING_PENDING" ||
-				response.message === "RETRAINING_PENDING"
-			) {
+			if (response.message === "TRAINING_PENDING") {
 				return false;
 			}
 
@@ -51,20 +46,47 @@ const Links: React.FC<{
 			);
 		}
 
-		if (data && !data.message.includes("PENDING")) {
+		if (
+			data &&
+			(data.message === "TRAINING_SUCCESS" ||
+				data.message === "TRAINING_REJECTED")
+		) {
 			setIsAddingNewLinks(false);
-			window.location.href = `/app/configure/${chatbotId}`;
+			setIsNewLinksLoading(true);
+			session
+				?.getToken({ template: "stealth-token-template" })
+				.then((token) => {
+					if (!token) {
+						navigate("/");
+						return;
+					}
+					getChatbotLinksApi({
+						token,
+						chatbotId,
+					})
+						.then((data) => {
+							console.log({ data });
+							if (data)
+								dispatch(
+									chatbotsActions.setChatbotLinks({
+										links: data,
+									})
+								);
+						})
+						.finally(() => {
+							setIsNewLinksLoading(false);
+						});
+				});
 		}
-	}, [data, dispatch, navigate, chatbotId]);
+	}, [data, dispatch, navigate, session, chatbotId]);
+
+	console.log({ chatbotId, taskId });
 
 	useEffect(() => {
-		if (addNewLinksApiStatus === "fulfilled" && isAddingNewLinks) {
-			startPolling();
+		if (trainStatus === "TRAINING_PENDING" && chatbotId && taskId) {
+			startPolling(`/api/v2/chatbot/${chatbotId}/${taskId}/taskstatus`);
 		}
-		if (addNewLinksApiStatus === "rejected") {
-			setIsAddingNewLinks(false);
-		}
-	}, [isAddingNewLinks, addNewLinksApiStatus, startPolling]);
+	}, [trainStatus, startPolling, chatbotId, taskId]);
 
 	const addNewLinksHandler = (links: string[]) => {
 		session
@@ -115,14 +137,12 @@ const Links: React.FC<{
 							!!links?.find(
 								({ trainStatus }) =>
 									trainStatus &&
-									(trainStatus === "TRAINING_PENDING" ||
-										trainStatus === "RETRAINING_PENDING")
+									trainStatus === "RETRAINING_PENDING"
 							)
 						}
 						isLoading={
 							isAddingNewLinks ||
-							trainStatus === "TRAINING_PENDING" ||
-							trainStatus === "RETRAINING_PENDING"
+							trainStatus === "TRAINING_PENDING"
 						}
 						loadingText="Training"
 						onClick={onToggle}
@@ -137,20 +157,31 @@ const Links: React.FC<{
 				isOpen={isOpen}
 				onClose={onClose}
 			/>
+			{isNewLinksLoading && (
+				<Skeleton
+					startColor="lightgray"
+					endColor="gray.100"
+					height="150px"
+					rounded="base"
+				/>
+			)}
 
-			<Box>
-				{links?.map(({ link, trainStatus, linkId }) => {
-					if (link)
-						return (
-							<LinkBox
-								key={linkId}
-								link={link}
-								status={trainStatus}
-								linkId={linkId}
-							/>
-						);
-				})}
-			</Box>
+			{!isNewLinksLoading && (
+				<Box>
+					{links?.map(({ link, trainStatus, taskId, linkId }) => {
+						if (link)
+							return (
+								<LinkBox
+									key={linkId}
+									link={link}
+									status={trainStatus}
+									linkId={linkId}
+									taskId={taskId}
+								/>
+							);
+					})}
+				</Box>
+			)}
 		</Box>
 	);
 };

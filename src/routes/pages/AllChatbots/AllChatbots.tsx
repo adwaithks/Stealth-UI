@@ -101,9 +101,11 @@ const AllChatbots = () => {
 								domains,
 								trainStatus,
 								primaryBgColor,
+								taskId,
 							}) => {
 								return (
 									<ChatbotCard
+										taskId={taskId}
 										key={chatbotId}
 										id={chatbotId}
 										trainStatus={trainStatus}

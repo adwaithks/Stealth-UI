@@ -5,6 +5,7 @@ export interface Chatbot {
 	creationDate: string;
 	lastUpdated: string;
 	trainStatus: string;
+	taskId: string;
 	links: ILink[];
 	domains: string[];
 	status: string;
@@ -18,12 +19,14 @@ export interface ILink {
 	linkId: number;
 	link: string;
 	trainStatus: string;
+	taskId: string;
 }
 
 export interface ILinkDTO {
 	link_id: number;
 	link: string;
 	train_status: string;
+	task_id?: string;
 }
 
 export interface ChatbotDTO {
@@ -32,6 +35,7 @@ export interface ChatbotDTO {
 	fine_tune: string;
 	train_status: string;
 	creation_date: string;
+	task_id?: string;
 	last_updated: string;
 	links: ILinkDTO[];
 	domains: string;

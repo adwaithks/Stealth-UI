@@ -6,6 +6,7 @@ import {
 } from "../../api/getChatbotById.api";
 import { createStandaloneToast } from "@chakra-ui/react";
 import { updateFineTuneApi } from "../../api/getMyChabots.api";
+import { chatbotsActions } from "../reducers/chatbots.reducer";
 
 const { toast } = createStandaloneToast();
 
@@ -78,23 +79,40 @@ export const updateFineTune = createAsyncThunk(
 
 export const addNewLinks = createAsyncThunk(
 	"chatbots/addNewLinks",
-	async ({
-		chatbotId,
-		token,
-		chatbotHashId,
-		links,
-	}: {
-		chatbotId: number;
-		token: string;
-		chatbotHashId: string;
-		links: string[];
-	}) => {
+	async (
+		{
+			chatbotId,
+			token,
+			chatbotHashId,
+			links,
+		}: {
+			chatbotId: number;
+			token: string;
+			chatbotHashId: string;
+			links: string[];
+		},
+		{ dispatch }
+	) => {
 		try {
 			const data = await addNewLinksApi(
 				links,
 				chatbotId,
 				chatbotHashId,
 				token
+			);
+
+			console.log("new task id for new links: ", data);
+			dispatch(
+				chatbotsActions.updateChatbotTaskId({
+					chatbotId,
+					taskId: data,
+				})
+			);
+			dispatch(
+				chatbotsActions.updateTrainStatus({
+					chatbotId,
+					status: "TRAINING_PENDING",
+				})
 			);
 			toast({
 				title: "Success",
@@ -106,6 +124,12 @@ export const addNewLinks = createAsyncThunk(
 			});
 			return data;
 		} catch (err: any) {
+			dispatch(
+				chatbotsActions.updateTrainStatus({
+					chatbotId: chatbotId,
+					status: "TRAINING_REJECTED",
+				})
+			);
 			toast({
 				title: "Something went wrong",
 				description: err?.message

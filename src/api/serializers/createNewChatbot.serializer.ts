@@ -12,6 +12,7 @@ export const createNewChatbotSerializer = (chatbot: ChatbotDTO): Chatbot => {
 		chatbotName: chatbot.chatbot_name,
 		primaryBgColor: chatbot.primary_bg_color,
 		links: [],
+		taskId: chatbot.task_id || "",
 		quickReplies: [],
 		creationDate: formatDateTime(chatbot.creation_date),
 		trainStatus,

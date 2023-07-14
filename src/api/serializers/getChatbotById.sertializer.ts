@@ -22,6 +22,7 @@ export const linkSerializer = (links: ILinkDTO[]): ILink[] => {
 			linkId: link.link_id,
 			trainStatus: link.train_status,
 			link: link.link,
+			taskId: link?.task_id ? link.task_id : "",
 		};
 	});
 };
@@ -40,6 +41,7 @@ export const getChatbotByIdSerializer = (chatbot: ChatbotDTO): Chatbot => {
 		fineTune: chatbot.fine_tune?.length ? chatbot.fine_tune : "",
 		domains: domains || [],
 		links: linkSerializer(chatbot.links),
+		taskId: chatbot.task_id || "",
 		status: chatbot.status,
 		trainStatus: chatbot.train_status,
 		primaryBgColor: chatbot.primary_bg_color,
