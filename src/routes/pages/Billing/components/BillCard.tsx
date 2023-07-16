@@ -62,7 +62,22 @@ const BillCard: React.FC<{
 				{sub && sub.subscription_plan_id === id ? (
 					<Button
 						onClick={() => {
-							window.open(sub.cancel_url, "_blank");
+							(window as any)?.Paddle?.Checkout.open({
+								override: sub.cancel_url,
+								passthrough: JSON.stringify({
+									userId: session?.user.id,
+									email: session?.user.primaryEmailAddress
+										?.emailAddress,
+								}),
+								successCallback: () => {
+									setTimeout(() => {
+										navigate("/billing", { replace: true });
+									}, 2000);
+								},
+								errorCallback: () => {
+									alert("Something went wrong");
+								},
+							});
 						}}
 						colorScheme="red"
 						size="md"
@@ -81,7 +96,12 @@ const BillCard: React.FC<{
 										?.emailAddress,
 								}),
 								successCallback: () => {
-									navigate("/billing", { replace: true });
+									setTimeout(() => {
+										navigate("/billing", { replace: true });
+									}, 2000);
+								},
+								errorCallback: () => {
+									alert("Something went wrong");
 								},
 							});
 						}}

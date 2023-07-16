@@ -21,6 +21,7 @@ interface IProps {
 	id: number;
 	primaryBgColor: string;
 	trainStatus: string;
+	taskId: string;
 	domains: string[];
 }
 
@@ -32,20 +33,20 @@ const ChatbotCard: React.FC<IProps> = ({
 	status,
 	trainStatus,
 	domains,
+	taskId,
 }) => {
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 
 	const { startPolling, data } = usePolling({
-		endpoint: `/api/v2/chatbot/${id}/trainstatus`,
 		stopFunction: (response: any) => {
 			if (
-				response.message === "TRAINING_PENDING" ||
-				response.message === "RETRAINING_PENDING"
+				response.message === "TRAINING_SUCCESS" ||
+				response.message === "TRAINING_REJECTED"
 			)
-				return false;
+				return true;
 
-			return true;
+			return false;
 		},
 		maxRetries: 10,
 		delay: 5000,
@@ -63,8 +64,8 @@ const ChatbotCard: React.FC<IProps> = ({
 	}, [dispatch, id, data]);
 
 	useEffect(() => {
-		startPolling();
-	}, [startPolling]);
+		startPolling(`/api/v2/chatbot/${id}/${taskId}/taskstatus`);
+	}, [startPolling, id, taskId]);
 
 	return (
 		<Box

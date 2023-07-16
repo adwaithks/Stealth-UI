@@ -4,7 +4,8 @@ export const retrainChatbotApi = async (
 	chatbotId: number,
 	link: string,
 	token: string,
-	chatbotHashId: string
+	chatbotHashId: string,
+	linkId: number
 ) => {
 	const res = await fetch(BASE_URL + "/api/v2/chatbot/retrain", {
 		method: "POST",
@@ -16,6 +17,7 @@ export const retrainChatbotApi = async (
 			chatbot_id: chatbotId,
 			chatbot_hash_id: chatbotHashId,
 			link: link,
+			link_id: linkId,
 		}),
 	});
 

@@ -22,6 +22,7 @@ export const linkSerializer = (links: ILinkDTO[]): ILink[] => {
 			linkId: link.link_id,
 			trainStatus: link.train_status,
 			link: link.link,
+			taskId: link?.task_id ? link.task_id : "",
 		};
 	});
 };
@@ -32,11 +33,6 @@ export const getChatbotByIdSerializer = (chatbot: ChatbotDTO): Chatbot => {
 		domains = [];
 	}
 
-	let trainStatus = chatbot.train_status;
-	if (!chatbot.train_status) {
-		trainStatus = "TRAINING_SUCCESS";
-	}
-
 	return {
 		chatbotId: chatbot.chatbot_id,
 		chatbotName: chatbot.chatbot_name,
@@ -45,8 +41,9 @@ export const getChatbotByIdSerializer = (chatbot: ChatbotDTO): Chatbot => {
 		fineTune: chatbot.fine_tune?.length ? chatbot.fine_tune : "",
 		domains: domains || [],
 		links: linkSerializer(chatbot.links),
+		taskId: chatbot.task_id || "",
 		status: chatbot.status,
-		trainStatus,
+		trainStatus: chatbot.train_status,
 		primaryBgColor: chatbot.primary_bg_color,
 		position: chatbot.position,
 		chatbotHashId: chatbot.chatbot_hash_id,

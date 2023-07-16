@@ -3,20 +3,18 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { BASE_URL } from "../api/baseURL";
 
 type ApiResponse = {
-	startPolling: () => void;
+	startPolling: (endpointToPoll: string) => void;
 	stopPolling: () => void;
 	data: any;
 }; // Define your API response type here
 type StopFunction = (response: ApiResponse) => boolean;
 
 const usePolling = ({
-	endpoint,
 	stopFunction,
 	maxRetries = null,
 	delay = 3000,
 	options = null,
 }: {
-	endpoint: string;
 	stopFunction: StopFunction;
 	maxRetries?: number | null;
 	delay?: number;
@@ -29,10 +27,14 @@ const usePolling = ({
 	const [retryCount, setRetryCount] = useState<number>(0);
 	const timerRef = useRef<number | null>(null);
 	const [isPolling, setIsPolling] = useState(false);
+	const [endpoint, setEndpoint] = useState("");
 
 	const { session } = useClerk();
 
-	const startPolling = useCallback(() => {
+	const startPolling = useCallback((endpointToPoll: string) => {
+		setRetryCount(0);
+		setEndpoint(endpointToPoll);
+		if (timerRef.current) clearInterval(timerRef.current);
 		setIsPolling(true);
 	}, []);
 
@@ -56,6 +58,7 @@ const usePolling = ({
 	}, [maxRetries, retryCount]);
 
 	const fetchData = useCallback(async (): Promise<void> => {
+		console.log(options);
 		try {
 			session
 				?.getToken({ template: "stealth-token-template" })
@@ -84,14 +87,14 @@ const usePolling = ({
 			console.error("API call failed:", error);
 			retry();
 		}
-	}, []);
+	}, [endpoint, session]);
 
 	useEffect(() => {
 		if (isPolling) {
 			fetchData(); // Call API immediately
 
 			// Start interval timer
-			timerRef.current = setInterval(fetchData, 3000);
+			timerRef.current = setInterval(fetchData, delay);
 
 			return () => {
 				if (timerRef.current)

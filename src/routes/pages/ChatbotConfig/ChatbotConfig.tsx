@@ -31,6 +31,7 @@ import FineTune from "./components/FineTune";
 import usePolling from "../../../hooks/usePolling";
 import { getStatusObject } from "../../../utils/trainStatus";
 import { chatbotsActions } from "../../../store/reducers/chatbots.reducer";
+import { BASE_URL } from "../../../api/baseURL";
 
 const ChatbotConfig: React.FC = () => {
 	const navigate = useNavigate();
@@ -47,19 +48,16 @@ const ChatbotConfig: React.FC = () => {
 	const chatbot = useSelector(currentChatbotSelector);
 
 	const { startPolling, data } = usePolling({
-		endpoint: `/api/v2/chatbot/${chatbotId}/trainstatus`,
 		stopFunction: (response: any) => {
 			if (
-				response.message === "TRAINING_PENDING" ||
-				response.message === "RETRAINING_PENDING"
-			) {
-				return false;
-			}
-
-			return true;
+				response.message === "TRAINING_SUCCESS" ||
+				response.message === "TRAINING_REJECTED"
+			)
+				return true;
+			return false;
 		},
-		maxRetries: 10,
-		delay: 5000,
+		maxRetries: 5,
+		delay: 1000,
 	});
 
 	useEffect(() => {
@@ -74,10 +72,12 @@ const ChatbotConfig: React.FC = () => {
 	}, [data, chatbotId, dispatch]);
 
 	useEffect(() => {
-		if (chatbotId) {
-			startPolling();
+		if (chatbotId && chatbot?.taskId?.length > 0) {
+			startPolling(
+				`/api/v2/chatbot/${chatbotId}/${chatbot.taskId}/taskstatus`
+			);
 		}
-	}, [startPolling, chatbotId]);
+	}, [startPolling, chatbot?.taskId?.length, chatbotId, chatbot.taskId]);
 
 	useEffect(() => {
 		let timeoutId = -1;
@@ -107,7 +107,7 @@ const ChatbotConfig: React.FC = () => {
 			.catch(() => {
 				navigate("/");
 			});
-	}, [chatbotId, dispatch, navigate, session]);
+	}, [chatbotId, navigate, session, dispatch]);
 
 	if (getChatbotByIdApiStatus === "pending") {
 		return <ChatbotConfigSkeleton />;
@@ -260,7 +260,13 @@ const ChatbotConfig: React.FC = () => {
 							/>
 						</TabPanel>
 						<TabPanel>
-							<Links chatbot={chatbot} />
+							<Links
+								chatbotId={chatbot?.chatbotId}
+								chatbotHashId={chatbot?.chatbotHashId}
+								trainStatus={chatbot?.trainStatus}
+								links={chatbot?.links}
+								taskId={chatbot?.taskId}
+							/>
 						</TabPanel>
 					</TabPanels>
 				</Tabs>

@@ -1,5 +1,5 @@
 /* eslint-disable no-useless-catch */
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
 import { getMyChatbotsApi } from "../../api/getMyChabots.api";
 import { Chatbot, QuickReply } from "../../types/chatbot.type";
 import { createNewChatbotApi } from "../../api/createNewChatbot.api";
@@ -109,7 +109,15 @@ export const retrainChatbot = createAsyncThunk(
 				chatbotId,
 				link,
 				token,
-				chatbotHashId
+				chatbotHashId,
+				linkId
+			);
+
+			dispatch(
+				chatbotsActions.updateLinkTaskId({
+					linkId,
+					taskId: data.message,
+				})
 			);
 			dispatch(
 				chatbotsActions.updateLinkStatus({
@@ -117,7 +125,6 @@ export const retrainChatbot = createAsyncThunk(
 					trainStatus: "RETRAINING_PENDING",
 				})
 			);
-
 			toast({
 				title: "Success",
 				description: "Chatbot retraining started successfully!",
@@ -171,22 +178,62 @@ const chatbotsSlice = createSlice({
 		chatbotColorChangeApiStatus: "idle",
 	},
 	reducers: {
+		updateChatbotTaskId: (state, action) => {
+			const { chatbotId, taskId } = action.payload;
+			state.currentChatbot.taskId = taskId;
+			state.myChatbots = state.myChatbots.map((chatbot) => {
+				if (chatbot.chatbotId === chatbotId) {
+					return {
+						...chatbot,
+						taskId: taskId,
+					};
+				}
+				return chatbot;
+			});
+		},
+		resetColorApiStatus: (state) => {
+			state.chatbotColorChangeApiStatus = "idle";
+		},
+		updateLinkTaskId: (state, action) => {
+			const { linkId, taskId } = action.payload;
+			state.currentChatbot.links = state.currentChatbot.links.map(
+				(chatbotLink) => {
+					if (linkId === chatbotLink.linkId) {
+						return {
+							...chatbotLink,
+							taskId: taskId,
+						};
+					}
+					return chatbotLink;
+				}
+			);
+		},
 		updateLinkStatus: (state, action) => {
 			const { linkId, trainStatus } = action.payload;
 			state.currentChatbot.links = state.currentChatbot.links.map(
-				({ link, linkId: id, trainStatus: status }) => {
+				({ link, taskId, linkId: id, trainStatus: status }) => {
 					if (linkId === id) {
 						return {
 							link,
 							linkId: id,
 							trainStatus,
+							taskId,
 						};
 					}
-					return { link, linkId: id, trainStatus: status };
+					return { link, taskId, linkId: id, trainStatus: status };
 				}
 			);
 		},
-
+		setChatbotLinks: (state, action) => {
+			const { links: chatbotLinks } = action.payload;
+			if (chatbotLinks) state.currentChatbot.links = chatbotLinks;
+		},
+		removeChatbotLink: (state, action) => {
+			const { linkId } = action.payload;
+			state.currentChatbot.links = state.currentChatbot.links.filter(
+				(chatbotLink) => chatbotLink.linkId !== linkId
+			);
+		},
 		resetCreateNewChatbotStatus: (state) => {
 			state.createNewChatbotApiStatus = "idle";
 		},

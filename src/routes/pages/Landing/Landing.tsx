@@ -64,7 +64,7 @@ const Landing: React.FC = () => {
 					Companion!
 					<span style={{ color: "black", fontWeight: "bold" }}>
 						{" "}
-						Sign up now, No credit card required !
+						Sign up for free, No credit card required !
 					</span>
 				</Container>
 				<Box sx={{ mt: 5 }}>
@@ -120,12 +120,12 @@ const Landing: React.FC = () => {
 				>
 					<Text textAlign="center" fontSize="xl" fontWeight="bold">
 						Knock, knock! Who's there? Opportunity! Email us for
-						exclusive beta access.
+						custom solutions.
 					</Text>
 				</Box>
 				<Container sx={{ mt: 0, mb: 5 }}>
 					<Link
-						href="mailto:official@assistdesk.in?subject=Request%20for%20Beta%20Access&body=Hey,"
+						href="mailto:official@assistdesk.in"
 						sx={{
 							textDecoration: "none",
 							display: "flex",
@@ -144,7 +144,7 @@ const Landing: React.FC = () => {
 							color="white"
 							sx={{ mt: 2 }}
 						>
-							Email Us for Exclusive Beta Access
+							Email Us for Custom Solutions
 							<ArrowForwardIcon sx={{ ml: 1 }} />
 						</Button>
 					</Link>

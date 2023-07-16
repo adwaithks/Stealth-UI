@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import CrawlUrlSelection from "../../CreateNewChatbot/components/CrawlUrlSelection";
-import { AddIcon } from "@chakra-ui/icons";
+import { CheckIcon } from "@chakra-ui/icons";
 
 const AddNewLinks: React.FC<{
 	isOpen: boolean;
@@ -59,12 +59,13 @@ const AddNewLinks: React.FC<{
 								)
 							)
 								onSuccess(checkedUrls);
+							onClose();
 						}}
 						bgColor="black"
 						color="white"
 						width="100%"
 					>
-						<AddIcon mr={2} /> Train on new links
+						<CheckIcon mr={2} /> Start Training
 					</Button>
 				</ModalFooter>
 			</ModalContent>

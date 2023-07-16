@@ -4,6 +4,7 @@ import {
 	Checkbox,
 	CheckboxGroup,
 	Divider,
+	FormControl,
 	IconButton,
 	Input,
 	Stack,
@@ -41,19 +42,25 @@ const CrawlUrlSelection: React.FC<{
 			dispatch(crawlerActions.addNewLink(newLink));
 	};
 
-	const fetchUrls: React.MouseEventHandler<HTMLButtonElement> | undefined = (
+	const fetchUrls: React.FormEventHandler<HTMLFormElement> | undefined = (
 		e
 	) => {
 		e.stopPropagation();
-		session
-			?.getToken({ template: "stealth-token-template" })
-			.then((token) => {
-				if (!token) {
-					navigate("/");
-					return;
-				}
-				dispatch(getAllUrls({ url, token }));
-			});
+		e.preventDefault();
+		if (
+			url?.slice(0, 4).includes("http") ||
+			url?.slice(0, 5).includes("https")
+		)
+			session
+				?.getToken({ template: "stealth-token-template" })
+				.then((token) => {
+					if (!token) {
+						navigate("/");
+						return;
+					}
+					dispatch(getAllUrls({ url, token }));
+				});
+		else window.alert("Please enter a valid url!");
 	};
 
 	return (
@@ -69,23 +76,73 @@ const CrawlUrlSelection: React.FC<{
 					you own or have control over!)
 				</Text>
 			</Box>
-			<Box sx={{ mb: 2, display: "flex", alignItems: "center" }}>
-				<Input
-					placeholder="https://yourwebsite.com"
-					mr={2}
-					onChange={(e) => setUrl(e.target.value)}
-					width={400}
-				/>
-				<Button
-					loadingText="Fetching Links"
-					isLoading={getAllUrlsApiStatus === "pending"}
-					onClick={fetchUrls}
-					bgColor="black"
-					color="white"
+			<Box
+				sx={{
+					width: "100%",
+				}}
+			>
+				<form
+					onSubmit={fetchUrls}
+					style={{
+						marginBottom: 2,
+						display: "flex",
+						alignItems: "center",
+					}}
 				>
-					<RepeatIcon sx={{ mr: 1 }} />
-					Get All Links
-				</Button>
+					<Input
+						placeholder="https://yourwebsite.com"
+						mr={2}
+						required
+						autoFocus
+						onChange={(e) => setUrl(e.target.value)}
+						width={400}
+					/>
+					<Button
+						type="submit"
+						loadingText="Fetching Links"
+						isLoading={getAllUrlsApiStatus === "pending"}
+						bgColor="black"
+						color="white"
+					>
+						<RepeatIcon sx={{ mr: 1 }} />
+						Get All Links
+					</Button>
+				</form>
+				<Box
+					sx={{
+						display: "flex",
+						my: 3,
+						width: "70%",
+						alignItems: "center",
+					}}
+				>
+					<Divider />
+					<Text sx={{ mx: 1, color: "gray", whiteSpace: "nowrap" }}>
+						Or Add links manually
+					</Text>
+					<Divider />
+				</Box>
+				<form style={{ marginBottom: 5, display: "flex" }}>
+					<Input
+						onChange={(e) => setNewLink(e.target.value)}
+						mr={2}
+						width={400}
+						placeholder="https://yourwebsite.com/something"
+					/>
+
+					<Button
+						sx={{
+							display: "flex",
+							alignItems: "center",
+						}}
+						bgColor="black"
+						color="white"
+						onClick={addNewLink}
+					>
+						<AddIcon sx={{ mr: 1 }} />
+						Add New Link
+					</Button>
+				</form>
 			</Box>
 			<Divider my={3} />
 			{urls.length > 0 && (
@@ -109,30 +166,6 @@ const CrawlUrlSelection: React.FC<{
 							</Text>
 						</Box>
 						<Box sx={{ my: 5 }}>
-							<label style={{ color: "gray" }}>
-								No endpoint found in the list ? Add manually
-							</label>
-							<Box sx={{ mb: 5, display: "flex" }}>
-								<Input
-									onChange={(e) => setNewLink(e.target.value)}
-									mr={2}
-									width={400}
-									placeholder="https://yourwebsite.com/something"
-								/>
-
-								<Button
-									sx={{
-										display: "flex",
-										alignItems: "center",
-									}}
-									bgColor="black"
-									color="white"
-									onClick={addNewLink}
-								>
-									<AddIcon sx={{ mr: 1 }} />
-									Add Url
-								</Button>
-							</Box>
 							<Box>
 								<Text color="gray">
 									{checkedUrls.length} links selected out of{" "}
@@ -164,6 +197,8 @@ const CrawlUrlSelection: React.FC<{
 												sx={{
 													display: "flex",
 													alignItems: "center",
+													justifyContent:
+														"space-between",
 												}}
 											>
 												<Checkbox
