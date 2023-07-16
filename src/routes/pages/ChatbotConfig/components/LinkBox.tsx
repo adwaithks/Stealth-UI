@@ -19,8 +19,6 @@ import { currentChatbotSelector } from "../../../../store/selectors/chatbots.sel
 import { CloseIcon, RepeatIcon } from "@chakra-ui/icons";
 import usePolling from "../../../../hooks/usePolling";
 import { getStatusObject } from "../../../../utils/trainStatus";
-import { BASE_URL } from "../../../../api/baseURL";
-import { linkSerializer } from "../../../../api/serializers/getChatbotById.sertializer";
 import { deleteChatbotLinkApi } from "../../../../api/getChatbotById.api";
 
 const LinkBox: React.FC<{

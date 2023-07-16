@@ -31,7 +31,6 @@ import FineTune from "./components/FineTune";
 import usePolling from "../../../hooks/usePolling";
 import { getStatusObject } from "../../../utils/trainStatus";
 import { chatbotsActions } from "../../../store/reducers/chatbots.reducer";
-import { BASE_URL } from "../../../api/baseURL";
 
 const ChatbotConfig: React.FC = () => {
 	const navigate = useNavigate();

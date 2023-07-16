@@ -1,5 +1,5 @@
 /* eslint-disable no-useless-catch */
-import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getMyChatbotsApi } from "../../api/getMyChabots.api";
 import { Chatbot, QuickReply } from "../../types/chatbot.type";
 import { createNewChatbotApi } from "../../api/createNewChatbot.api";
