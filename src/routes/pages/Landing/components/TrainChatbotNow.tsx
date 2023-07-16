@@ -30,7 +30,7 @@ const TrainChatbotNow: React.FC = () => {
 			</Container>
 
 			<Button
-				onClick={() => navigate("/", { replace: true })}
+				onClick={() => navigate("/signup", { replace: true })}
 				size="lg"
 				bg="white"
 				color="black"
