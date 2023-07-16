@@ -127,7 +127,7 @@ const ChatbotCard: React.FC<IProps> = ({
 						sx={{ mr: 1, display: "flex", alignItems: "center" }}
 						colorScheme="orange"
 					>
-						retraining failed
+						training failed
 					</Badge>
 				)}
 				{domains?.length === 0 && (
