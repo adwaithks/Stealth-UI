@@ -70,7 +70,6 @@ const BillCard: React.FC<{
 										?.emailAddress,
 								}),
 								successCallback: () => {
-									console.log("success callback");
 									setTimeout(() => {
 										navigate("/billing", { replace: true });
 									}, 2000);

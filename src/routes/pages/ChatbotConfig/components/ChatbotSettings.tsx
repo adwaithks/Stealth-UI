@@ -46,6 +46,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useClerk } from "@clerk/clerk-react";
 import { HexColorPicker } from "react-colorful";
+import { chatbotsActions } from "../../../../store/reducers/chatbots.reducer";
 
 const ChatbotSettings: React.FC<{
 	domains: string[];
@@ -103,9 +104,11 @@ const ChatbotSettings: React.FC<{
 			isColorEditing &&
 			(colorChangeApiStatus === "fulfilled" ||
 				colorChangeApiStatus === "rejected")
-		)
+		) {
 			setIsColorEditing(false);
-	}, [colorChangeApiStatus, isColorEditing]);
+			dispatch(chatbotsActions.resetColorApiStatus());
+		}
+	}, [colorChangeApiStatus, dispatch, isColorEditing]);
 
 	const { session } = useClerk();
 
@@ -368,7 +371,10 @@ const ChatbotSettings: React.FC<{
 				<Text fontSize="lg" fontWeight="bold">
 					Chatbot Status
 				</Text>
-				<Text sx={{ color: "gray" }}>Update the status of chatbot</Text>
+				<Text sx={{ color: "gray" }}>
+					Update the status of chatbot. (Toggling state to inactive
+					will hide the chatbot icon from your website)
+				</Text>
 			</Box>
 			<Box>
 				<FormControl display="flex" alignItems="center">

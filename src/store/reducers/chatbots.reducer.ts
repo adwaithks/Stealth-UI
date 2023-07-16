@@ -112,7 +112,6 @@ export const retrainChatbot = createAsyncThunk(
 				chatbotHashId,
 				linkId
 			);
-			console.log("new task id to poll: ", data.message);
 
 			dispatch(
 				chatbotsActions.updateLinkTaskId({
@@ -192,6 +191,9 @@ const chatbotsSlice = createSlice({
 				return chatbot;
 			});
 		},
+		resetColorApiStatus: (state) => {
+			state.chatbotColorChangeApiStatus = "idle";
+		},
 		updateLinkTaskId: (state, action) => {
 			const { linkId, taskId } = action.payload;
 			state.currentChatbot.links = state.currentChatbot.links.map(
@@ -224,7 +226,6 @@ const chatbotsSlice = createSlice({
 		},
 		setChatbotLinks: (state, action) => {
 			const { links: chatbotLinks } = action.payload;
-			console.log("in reducer: ", chatbotLinks);
 			if (chatbotLinks) state.currentChatbot.links = chatbotLinks;
 		},
 		removeChatbotLink: (state, action) => {

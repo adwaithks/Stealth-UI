@@ -101,7 +101,6 @@ export const addNewLinks = createAsyncThunk(
 				token
 			);
 
-			console.log("new task id for new links: ", data);
 			dispatch(
 				chatbotsActions.updateChatbotTaskId({
 					chatbotId,

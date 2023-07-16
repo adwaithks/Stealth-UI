@@ -65,7 +65,6 @@ const Links: React.FC<{
 						chatbotId,
 					})
 						.then((data) => {
-							console.log({ data });
 							if (data)
 								dispatch(
 									chatbotsActions.setChatbotLinks({
@@ -79,8 +78,6 @@ const Links: React.FC<{
 				});
 		}
 	}, [data, dispatch, navigate, session, chatbotId]);
-
-	console.log({ chatbotId, taskId });
 
 	useEffect(() => {
 		if (trainStatus === "TRAINING_PENDING" && chatbotId && taskId) {

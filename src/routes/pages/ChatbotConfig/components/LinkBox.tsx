@@ -68,31 +68,35 @@ const LinkBox: React.FC<{
 
 	useEffect(() => {
 		if (status === "RETRAINING_PENDING") {
-			console.log("retraining pending, starting polling");
 			startPolling(`/api/v2/link/${linkId}/${taskId}/status`);
 		}
 	}, [status, startPolling, linkId, taskId]);
 
 	const retrainHandler = (link: string) => {
-		session
-			?.getToken({ template: "stealth-token-template" })
-			.then(async (token) => {
-				if (!token) {
-					navigate("/");
-					return;
-				}
+		if (
+			window.confirm(
+				"Are you sure you want to retrain the chatbot on this link ?"
+			)
+		)
+			session
+				?.getToken({ template: "stealth-token-template" })
+				.then(async (token) => {
+					if (!token) {
+						navigate("/");
+						return;
+					}
 
-				dispatch(
-					retrainChatbot({
-						chatbotId: currentChatbot.chatbotId,
-						chatbotHashId: currentChatbot.chatbotHashId,
-						token,
-						link,
-						linkId,
-					})
-				);
-				setIsLoading(true);
-			});
+					dispatch(
+						retrainChatbot({
+							chatbotId: currentChatbot.chatbotId,
+							chatbotHashId: currentChatbot.chatbotHashId,
+							token,
+							link,
+							linkId,
+						})
+					);
+					setIsLoading(true);
+				});
 	};
 
 	const forgetLinkHandler = () => {

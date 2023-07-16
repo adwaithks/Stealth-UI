@@ -76,33 +76,74 @@ const CrawlUrlSelection: React.FC<{
 					you own or have control over!)
 				</Text>
 			</Box>
-			<form
-				onSubmit={fetchUrls}
-				style={{
-					marginBottom: 2,
-					display: "flex",
-					alignItems: "center",
+			<Box
+				sx={{
+					width: "100%",
 				}}
 			>
-				<Input
-					placeholder="https://yourwebsite.com"
-					mr={2}
-					required
-					autoFocus
-					onChange={(e) => setUrl(e.target.value)}
-					width={400}
-				/>
-				<Button
-					type="submit"
-					loadingText="Fetching Links"
-					isLoading={getAllUrlsApiStatus === "pending"}
-					bgColor="black"
-					color="white"
+				<form
+					onSubmit={fetchUrls}
+					style={{
+						marginBottom: 2,
+						display: "flex",
+						alignItems: "center",
+					}}
 				>
-					<RepeatIcon sx={{ mr: 1 }} />
-					Get All Links
-				</Button>
-			</form>
+					<Input
+						placeholder="https://yourwebsite.com"
+						mr={2}
+						required
+						autoFocus
+						onChange={(e) => setUrl(e.target.value)}
+						width={400}
+					/>
+					<Button
+						type="submit"
+						loadingText="Fetching Links"
+						isLoading={getAllUrlsApiStatus === "pending"}
+						bgColor="black"
+						color="white"
+					>
+						<RepeatIcon sx={{ mr: 1 }} />
+						Get All Links
+					</Button>
+				</form>
+				<Box
+					sx={{
+						display: "flex",
+						my: 3,
+						width: "70%",
+						alignItems: "center",
+					}}
+				>
+					<Divider />
+					<Text sx={{ mx: 1, color: "gray", whiteSpace: "nowrap" }}>
+						Or Add links manually
+					</Text>
+					<Divider />
+				</Box>
+				<form style={{ marginBottom: 5, display: "flex" }}>
+					<Input
+						onChange={(e) => setNewLink(e.target.value)}
+						mr={2}
+						width={400}
+						placeholder="https://yourwebsite.com/something"
+					/>
+
+					<Button
+						sx={{
+							display: "flex",
+							alignItems: "center",
+						}}
+						bgColor="black"
+						color="white"
+						onClick={addNewLink}
+					>
+						<AddIcon sx={{ mr: 1 }} />
+						Add New Link
+					</Button>
+				</form>
+			</Box>
 			<Divider my={3} />
 			{urls.length > 0 && (
 				<Box>
@@ -125,30 +166,6 @@ const CrawlUrlSelection: React.FC<{
 							</Text>
 						</Box>
 						<Box sx={{ my: 5 }}>
-							<label style={{ color: "gray" }}>
-								No endpoint found in the list ? Add manually
-							</label>
-							<Box sx={{ mb: 5, display: "flex" }}>
-								<Input
-									onChange={(e) => setNewLink(e.target.value)}
-									mr={2}
-									width={400}
-									placeholder="https://yourwebsite.com/something"
-								/>
-
-								<Button
-									sx={{
-										display: "flex",
-										alignItems: "center",
-									}}
-									bgColor="black"
-									color="white"
-									onClick={addNewLink}
-								>
-									<AddIcon sx={{ mr: 1 }} />
-									Add Url
-								</Button>
-							</Box>
 							<Box>
 								<Text color="gray">
 									{checkedUrls.length} links selected out of{" "}
