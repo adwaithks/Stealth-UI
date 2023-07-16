@@ -143,8 +143,7 @@ const ChatbotPreview: React.FC<{ chatbotId: number }> = ({ chatbotId }) => {
 				</Text>
 				<Text color="gray">
 					Chat with your chatbot to see if it&apos;s answering as
-					expected. (If not, retrain your chatbot with more meaningful
-					knowledge base)
+					expected. (If not, retrain your chatbot on the same link(s))
 				</Text>
 			</Box>
 			<Container>
