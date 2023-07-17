@@ -150,7 +150,7 @@ const Api: React.FC = () => {
 									variant: "left-accent",
 								});
 							})
-							.catch((error) => {
+							.catch(() => {
 								toast({
 									title: "Failed to copy to clipboard!",
 									status: "error",
