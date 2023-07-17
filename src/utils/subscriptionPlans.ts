@@ -26,6 +26,7 @@ export const subscriptionPlans = [
 			"Create 1 Chatbot",
 			"Train chatbot with data from 3 web pages using our crawler",
 			"Test chatbot with restriction upto 10 questions",
+			"Chatbot will be only available in preview mode, no embedding on websites",
 		],
 	},
 	{
