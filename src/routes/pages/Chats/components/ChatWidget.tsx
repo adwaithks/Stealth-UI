@@ -2,14 +2,13 @@ import { Box } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import MessageDisplay from "./MessageDisplay";
 import UserDisplay from "./UserDisplay";
-import { Chat } from "../../../../types/chats.type";
 import { useSelector } from "react-redux";
 import { getMyChatbotsApiStatusSelector } from "../../../../store/selectors/chatbots.selector";
 
-const ChatWidget: React.FC<{ chats: { [key: string]: Chat[] } }> = ({
+const ChatWidget: React.FC<{ chats: { [key: string]: any[] } }> = ({
 	chats,
 }) => {
-	const [currentChat, setCurrentChat] = useState<Chat[]>([]);
+	const [currentChat, setCurrentChat] = useState<any[]>([]);
 	const [currentUser, setCurrentUser] = useState("");
 	const chatsApiStatus = useSelector(getMyChatbotsApiStatusSelector);
 
@@ -37,7 +36,7 @@ const ChatWidget: React.FC<{ chats: { [key: string]: Chat[] } }> = ({
 				borderRadius: 5,
 			}}
 		>
-			{chatsApiStatus === "fulfilled" && (
+			{chatsApiStatus !== "pending" && (
 				<>
 					<Box
 						sx={{

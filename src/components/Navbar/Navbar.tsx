@@ -71,6 +71,13 @@ const Navbar: React.FC = () => {
 					>
 						dashboard
 					</Link>
+					{/* <Link
+						color="black"
+						sx={{ mr: 4 }}
+						onClick={() => navigate("/api")}
+					>
+						api
+					</Link> */}
 					<Link
 						color="black"
 						sx={{ mr: 4 }}

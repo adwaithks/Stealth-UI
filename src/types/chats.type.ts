@@ -3,7 +3,7 @@ export interface ChatDTO {
 	question: string;
 	timestamp: string;
 	user_session_id: string;
-	channel: string;
+	info: string;
 }
 
 export interface Chat {
@@ -11,5 +11,5 @@ export interface Chat {
 	question: string;
 	timestamp: Date;
 	userSessionId: string;
-	channel: string;
+	info: string;
 }

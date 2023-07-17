@@ -2,7 +2,7 @@ import { Box, Text } from "@chakra-ui/react";
 import React from "react";
 import { Chat } from "../../../../types/chats.type";
 
-const MessageDisplay: React.FC<{ currentChat: Chat[] }> = ({ currentChat }) => {
+const MessageDisplay: React.FC<{ currentChat: any[] }> = ({ currentChat }) => {
 	function formatDate(date: Date) {
 		const dateTimeString = date.toLocaleString(undefined, {
 			year: "numeric",
