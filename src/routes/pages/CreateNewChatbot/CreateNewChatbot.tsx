@@ -6,7 +6,6 @@ import { createNewChatbotApiStatusSelector } from "../../../store/selectors/chat
 import { useAppDispatch } from "../../../store/store";
 import { useNavigate } from "react-router-dom";
 import { createNewChatbot } from "../../../store/reducers/chatbots.reducer";
-import { ChevronLeftIcon } from "@chakra-ui/icons";
 import CrawlUrlSelection from "./components/CrawlUrlSelection";
 import { crawlerActions } from "../../../store/reducers/crawler.reducer";
 

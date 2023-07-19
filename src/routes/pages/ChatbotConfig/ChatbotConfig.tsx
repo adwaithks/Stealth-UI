@@ -1,7 +1,6 @@
 import {
 	Badge,
 	Box,
-	Button,
 	Heading,
 	Tab,
 	TabList,
@@ -12,7 +11,7 @@ import {
 	Text,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import { ChevronLeftIcon, CopyIcon } from "@chakra-ui/icons";
+import { CopyIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
 import ChatbotSettings from "./components/ChatbotSettings";
 import { useSelector } from "react-redux";
