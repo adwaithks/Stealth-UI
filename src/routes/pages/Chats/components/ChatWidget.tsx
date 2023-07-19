@@ -40,7 +40,8 @@ const ChatWidget: React.FC<{ chats: { [key: string]: any[] } }> = ({
 				<>
 					<Box
 						sx={{
-							width: "30%",
+							width: "20%",
+
 							borderRight: "lightgray solid 1px",
 						}}
 					>
@@ -50,7 +51,7 @@ const ChatWidget: React.FC<{ chats: { [key: string]: any[] } }> = ({
 							currentUser={currentUser}
 						/>
 					</Box>
-					<Box sx={{ width: "70%" }}>
+					<Box sx={{ width: "80%" }}>
 						<MessageDisplay currentChat={currentChat} />
 					</Box>
 				</>

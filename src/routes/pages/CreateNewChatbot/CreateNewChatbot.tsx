@@ -64,18 +64,6 @@ const CreateNewChatbot: React.FC = () => {
 	};
 	return (
 		<Box>
-			<Box sx={{ mb: 2 }}>
-				<Button
-					disabled={createNewChatbotApiStatus === "pending"}
-					onClick={() => navigate("/app", { replace: true })}
-					size="sm"
-					fontWeight="hairline"
-					variant="outline"
-				>
-					<ChevronLeftIcon />
-					Go Back
-				</Button>
-			</Box>
 			<Box sx={{ mb: 6 }}>
 				<Box>
 					<Text fontSize="2xl" fontWeight="bold">

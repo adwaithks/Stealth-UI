@@ -1,4 +1,4 @@
-import { Box, Text } from "@chakra-ui/react";
+import { Avatar, Box, Text } from "@chakra-ui/react";
 import React from "react";
 
 const UserDisplay: React.FC<{
@@ -11,17 +11,15 @@ const UserDisplay: React.FC<{
 			<Box
 				sx={{
 					p: 2,
-					mb: 2,
-					borderTopLeftRadius: 5,
-					backgroundColor: "whitesmoke",
 				}}
 			>
 				<Text color="black" fontWeight="bold" fontSize="xl">
-					Customers
+					Visitors
 				</Text>
 			</Box>
 			<Box
 				sx={{
+					mr: 3,
 					display: "flex",
 					flexDirection: "column",
 				}}
@@ -32,18 +30,17 @@ const UserDisplay: React.FC<{
 							onClick={() => handleChangeUser(user)}
 							sx={{
 								p: 2,
+								display: "flex",
+								alignItems: "center",
 								cursor: "pointer",
 								backgroundColor:
 									currentUser === user
 										? "rgba(0,0,0,0.05)"
 										: "white",
-								border:
-									currentUser === user
-										? "black solid 1px"
-										: "white solid 1px",
 								color: "black",
 							}}
 						>
+							<Avatar size="sm" mr={2} />
 							<Text>user-{user}</Text>
 						</Box>
 					);

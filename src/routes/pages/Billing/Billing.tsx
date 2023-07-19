@@ -20,7 +20,7 @@ const Billing: React.FC = () => {
 		sub_id: -1;
 		sub_plan_id: -1;
 	} | null>(null);
-	const [subscriptionInfo, setSubscriptionInfo] = useState(null);
+	const [subscriptionInfo, setSubscriptionInfo] = useState<any>(null);
 	const [currentSubscriptionIsLoading, setCurrentSubscriptionIsLoading] =
 		useState(true);
 	const [subscriptionInfoIsLoading, setSubscriptionInfoIsLoading] =
@@ -84,12 +84,16 @@ const Billing: React.FC = () => {
 							/>
 						</Stack>
 					)}
-					{!subscriptionInfoIsLoading && subscriptionInfo && (
-						<SubscriptionInfo info={subscriptionInfo} />
-					)}
-					{!subscriptionInfoIsLoading && subscriptionInfo == null && (
-						<Text>You are not subscribed to our plan</Text>
-					)}
+					{!subscriptionInfoIsLoading &&
+						subscriptionInfo &&
+						subscriptionInfo?.state !== "deleted" && (
+							<SubscriptionInfo info={subscriptionInfo} />
+						)}
+					{!subscriptionInfoIsLoading &&
+						(subscriptionInfo == null ||
+							subscriptionInfo.state === "deleted") && (
+							<Text>You are not subscribed to our plan</Text>
+						)}
 					<Divider my={5} />
 				</>
 			}
@@ -128,10 +132,12 @@ const Billing: React.FC = () => {
 					</Stack>
 				)}
 				{!currentSubscriptionIsLoading &&
+					!subscriptionInfoIsLoading &&
 					subscriptionPlans.slice(1).map((plan) => {
 						return (
 							<BillCard
 								currentSubscription={currentSubscription}
+								subscriptionInfo={subscriptionInfo}
 								id={plan.id}
 								name={plan.name}
 								price={plan.recurringPrice["INR"]}

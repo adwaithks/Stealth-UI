@@ -8,10 +8,20 @@ const BillCard: React.FC<{
 	name: string;
 	price: string;
 	type: string;
+	subscriptionInfo: any;
 	currentSubscription: any;
-}> = ({ id, name, price, type, currentSubscription: sub }) => {
+}> = ({
+	id,
+	name,
+	price,
+	type,
+	subscriptionInfo,
+	currentSubscription: sub,
+}) => {
 	const { session } = useClerk();
 	const navigate = useNavigate();
+
+	console.log(sub);
 
 	return (
 		<Box
@@ -28,7 +38,9 @@ const BillCard: React.FC<{
 				p: 3,
 			}}
 		>
-			{sub && sub.subscription_plan_id === id ? (
+			{sub &&
+			sub.subscription_plan_id === id &&
+			subscriptionInfo.state !== "deleted" ? (
 				<Box>
 					<Badge colorScheme="green">
 						<Text fontSize="xl" fontWeight="bold">
@@ -59,7 +71,9 @@ const BillCard: React.FC<{
 			)}
 
 			<Box>
-				{sub && sub.subscription_plan_id === id ? (
+				{sub &&
+				sub.subscription_plan_id === id &&
+				subscriptionInfo.state !== "deleted" ? (
 					<Button
 						onClick={() => {
 							(window as any)?.Paddle?.Checkout.open({
@@ -88,6 +102,7 @@ const BillCard: React.FC<{
 				) : (
 					<Button
 						onClick={() => {
+							console.log(id);
 							(window as any)?.Paddle?.Checkout.open({
 								product: id,
 								passthrough: JSON.stringify({

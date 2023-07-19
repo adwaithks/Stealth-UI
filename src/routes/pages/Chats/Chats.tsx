@@ -42,7 +42,7 @@ const Chats: React.FC = () => {
 
 	return (
 		<Box>
-			<Box sx={{ mb: 2 }}>
+			{/* <Box sx={{ mb: 2 }}>
 				<Button
 					onClick={() => navigate("/app", { replace: true })}
 					size="sm"
@@ -52,15 +52,15 @@ const Chats: React.FC = () => {
 					<ChevronLeftIcon />
 					Go Back
 				</Button>
-			</Box>
-			<Box>
+			</Box> */}
+			{/* <Box>
 				<Text fontSize="xl" fontWeight="bold">
 					Customer Chats
 				</Text>
 				<Text color="gray" mb={3}>
 					Conversations between customers and chatbot
 				</Text>
-			</Box>
+			</Box> */}
 			<ChatWidget chats={chats} />
 		</Box>
 	);
