@@ -1,4 +1,4 @@
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Divider, Text } from "@chakra-ui/react";
 import React from "react";
 import { Chat } from "../../../../types/chats.type";
 
@@ -20,23 +20,21 @@ const MessageDisplay: React.FC<{ currentChat: any[] }> = ({ currentChat }) => {
 		<Box
 			sx={{
 				width: "100%",
-				borderTopRightRadius: 5,
-				height: "calc(100vh - 220px)",
+				height: "calc(100vh - 90px)",
 				overflowY: "auto",
 			}}
 		>
 			<Box
 				sx={{
-					backgroundColor: "whitesmoke",
+					backgroundColor: "white",
 					color: "black",
 					p: 2,
-					mb: 2,
 					position: "sticky",
 					top: 0,
 				}}
 			>
 				<Text fontWeight="bold" fontSize="xl">
-					Chats
+					Chat History
 				</Text>
 			</Box>
 			<Box>

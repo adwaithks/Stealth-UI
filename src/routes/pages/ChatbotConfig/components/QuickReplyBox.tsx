@@ -58,14 +58,67 @@ const QuickReplyBox: React.FC<IProps> = ({
 		<Box
 			sx={{
 				p: 3,
-				boxShadow: "0 0 5px lightgray",
 				borderRadius: 5,
+				border: "rgba(0,0,0,0.05) solid 1px",
 				mb: 2,
 			}}
 		>
 			<Box>
-				<Box>
+				<Box
+					display="flex"
+					alignItems="center"
+					justifyContent="space-between"
+					mb={2}
+				>
 					<Text>Keyword</Text>
+					<Box>
+						{isEditing ? (
+							<Button
+								isLoading={
+									editQuickReplyApiStatus === "pending"
+								}
+								loadingText="Saving"
+								size="sm"
+								onClick={() => {
+									if (
+										quickReplyInfo.question !== question ||
+										quickReplyInfo.keyword !== keyword
+									)
+										onEdit(
+											quickReplyId,
+											quickReplyInfo.keyword,
+											quickReplyInfo.question
+										);
+									setIsEditing(false);
+								}}
+							>
+								<CheckIcon />
+							</Button>
+						) : (
+							<Button
+								size="sm"
+								onClick={() => {
+									setIsEditing(true);
+								}}
+							>
+								<EditIcon />
+							</Button>
+						)}
+						<Button
+							size="sm"
+							onClick={() => {
+								setIsEditing(false);
+								onDelete(quickReplyId);
+							}}
+							ml={2}
+							isLoading={isDeleting}
+							loadingText="Deleting"
+						>
+							<DeleteIcon />
+						</Button>
+					</Box>
+				</Box>
+				<Box>
 					<Input
 						onChange={(e) => {
 							setQuickReplyInfo((prev) => ({
@@ -90,48 +143,6 @@ const QuickReplyBox: React.FC<IProps> = ({
 						value={quickReplyInfo.question}
 					/>
 				</Box>
-			</Box>
-			<Box mt={2}>
-				{isEditing ? (
-					<Button
-						isLoading={editQuickReplyApiStatus === "pending"}
-						loadingText="Saving"
-						onClick={() => {
-							if (
-								quickReplyInfo.question !== question ||
-								quickReplyInfo.keyword !== keyword
-							)
-								onEdit(
-									quickReplyId,
-									quickReplyInfo.keyword,
-									quickReplyInfo.question
-								);
-							setIsEditing(false);
-						}}
-					>
-						<CheckIcon mr={2} /> Save
-					</Button>
-				) : (
-					<Button
-						onClick={() => {
-							setIsEditing(true);
-						}}
-					>
-						<EditIcon mr={2} /> Edit
-					</Button>
-				)}
-				<Button
-					onClick={() => {
-						setIsEditing(false);
-						onDelete(quickReplyId);
-						setIsDeleting(true);
-					}}
-					ml={2}
-					isLoading={isDeleting}
-					loadingText="Deleting"
-				>
-					<DeleteIcon mr={2} /> Delete
-				</Button>
 			</Box>
 		</Box>
 	);

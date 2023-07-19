@@ -114,7 +114,7 @@ const ChatbotConfig: React.FC = () => {
 
 	return (
 		<Box>
-			<Box sx={{ mb: 2 }}>
+			{/* <Box sx={{ mb: 2 }}>
 				<Button
 					onClick={() => navigate("/app", { replace: true })}
 					size="sm"
@@ -124,7 +124,7 @@ const ChatbotConfig: React.FC = () => {
 					<ChevronLeftIcon />
 					Go Back
 				</Button>
-			</Box>
+			</Box> */}
 			<Box
 				sx={{
 					mb: 3,
@@ -222,20 +222,14 @@ const ChatbotConfig: React.FC = () => {
 							backdropFilter: "blur(40px)",
 						}}
 					>
-						<Tab>Fine Tune </Tab>
 						<Tab>Settings</Tab>
-						<Tab>Preview</Tab>
-						<Tab>Quick Replies</Tab>
 						<Tab>Links</Tab>
+						<Tab>Preview</Tab>
+						<Tab>Fine Tune </Tab>
+						<Tab>Quick Replies</Tab>
 					</TabList>
 
 					<TabPanels>
-						<TabPanel>
-							<FineTune
-								chatbotId={chatbot?.chatbotId}
-								base={chatbot?.fineTune}
-							/>
-						</TabPanel>
 						<TabPanel>
 							<ChatbotSettings
 								position={chatbot?.position || ""}
@@ -250,21 +244,28 @@ const ChatbotConfig: React.FC = () => {
 							/>
 						</TabPanel>
 						<TabPanel>
-							<ChatbotPreview chatbotId={chatbot?.chatbotId} />
-						</TabPanel>
-						<TabPanel>
-							<QuickReplies
-								chatbotId={chatbot?.chatbotId}
-								quickReplies={chatbot?.quickReplies}
-							/>
-						</TabPanel>
-						<TabPanel>
 							<Links
 								chatbotId={chatbot?.chatbotId}
 								chatbotHashId={chatbot?.chatbotHashId}
 								trainStatus={chatbot?.trainStatus}
 								links={chatbot?.links}
 								taskId={chatbot?.taskId}
+							/>
+						</TabPanel>
+						<TabPanel>
+							<ChatbotPreview chatbotId={chatbot?.chatbotId} />
+						</TabPanel>
+						<TabPanel>
+							<FineTune
+								chatbotId={chatbot?.chatbotId}
+								base={chatbot?.fineTune}
+							/>
+						</TabPanel>
+
+						<TabPanel>
+							<QuickReplies
+								chatbotId={chatbot?.chatbotId}
+								quickReplies={chatbot?.quickReplies}
 							/>
 						</TabPanel>
 					</TabPanels>

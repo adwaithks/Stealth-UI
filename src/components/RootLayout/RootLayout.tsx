@@ -29,7 +29,7 @@ const RootLayout: React.FC = () => {
 			<Box
 				sx={{
 					mx: {
-						lg: 10,
+						lg: 5,
 						md: 6,
 						sm: 5,
 						base: 2,

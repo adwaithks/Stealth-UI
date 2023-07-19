@@ -15,7 +15,6 @@ import Billing from "./pages/Billing/Billing";
 import Tickets from "./pages/Tickets/Tickets";
 import CSignIn from "./pages/Auth/SignIn";
 import CSignUp from "./pages/Auth/SignUp";
-// import Api from "./pages/Api/Api";
 
 const RouteConfig: React.FC = () => {
 	return (
@@ -49,20 +48,6 @@ const RouteConfig: React.FC = () => {
 							</>
 						}
 					/>
-
-					{/* <Route
-						path="api"
-						element={
-							<>
-								<SignedIn>
-									<Api />
-								</SignedIn>
-								<SignedOut>
-									<Navigate to="/" replace />
-								</SignedOut>
-							</>
-						}
-					/> */}
 
 					<Route
 						path="tickets"
