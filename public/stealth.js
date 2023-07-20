@@ -6,10 +6,10 @@ var chatbotName = "";
 let chatIconName = "lemuurchat.png";
 
 const cookieName = "ASSISTDESK_CHATBOT";
-// const BASE_URL = "https://api.assistdesk.in";
-// const ASSETS_URL = "https://www.assistdesk.in";
-const BASE_URL = "http://localhost:8000";
-const ASSETS_URL = "http://localhost:5173";
+const BASE_URL = "https://api.assistdesk.in";
+const ASSETS_URL = "https://www.assistdesk.in";
+// const BASE_URL = "http://localhost:8000";
+// const ASSETS_URL = "http://localhost:5173";
 let messages = [];
 let isTabletOrBelow = window.innerWidth <= 820 ? true : false;
 let quickReplies = [];
