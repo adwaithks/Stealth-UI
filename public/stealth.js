@@ -77,6 +77,11 @@ let assistDeskShadowDOM = document.createElement("div");
 document.body.appendChild(assistDeskShadowDOM);
 const shadow = assistDeskShadowDOM.attachShadow({ mode: "open" });
 
+chatWindow.onanimationend = (e) => {
+	if (e.animationName === "fade-out-to-bottom")
+		chatWindow.style.display = "none";
+};
+
 // Create a new style element within the Shadow DOM
 const styleElement = document.createElement("style");
 shadow.appendChild(styleElement);
@@ -90,6 +95,72 @@ const cssRule =
 
 // Add the CSS rule to the stylesheet in the Shadow DOM
 styleSheet.insertRule(cssRule, 0);
+
+const fadeInFromBottomAnimation = `
+	@keyframes fade-in-from-bottom {
+	  0% {
+		opacity: 0;
+		transform: translateY(10px);
+	  }
+	  100% {
+		opacity: 1;
+		transform: translateY(0);
+	  }
+	}
+  `;
+
+const pulsateAnimation = `
+@keyframes pulsate {
+	0% {
+	  transform: scale(1);
+	  opacity: 0.6;
+	}
+	50% {
+	  transform: scale(1.2);
+	  opacity: 1;
+	}
+	100% {
+	  transform: scale(1);
+	  opacity: 0.6;
+	}`;
+
+const fadeOutToBottomAnimation = `
+  @keyframes fade-out-to-bottom {
+    0% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    100% {
+      opacity: 0;
+	  visibility: hidden;
+      transform: translateY(10px);
+    }
+  }
+`;
+
+const pulsateRingAnimation = `
+@keyframes pulsate-ring {
+	0% {
+	  transform: scale(1);
+	  opacity: 1;
+	}
+	50% {
+	  transform: scale(1.5);
+	  opacity: 0;
+	}
+	100% {
+	  transform: scale(1);
+	  opacity: 1;
+	}
+}`;
+
+const style = document.createElement("style");
+style.appendChild(document.createTextNode(fadeInFromBottomAnimation));
+style.appendChild(document.createTextNode(fadeOutToBottomAnimation));
+style.appendChild(document.createTextNode(pulsateAnimation));
+style.appendChild(document.createTextNode(pulsateRingAnimation));
+
+shadow.appendChild(style);
 
 function hideBottom(sendContainer, quickReplies, poweredBy) {
 	sendContainerWrapper.style.display = sendContainer;
@@ -309,6 +380,7 @@ function app({
 }) {
 	const chatHeader = document.createElement("div");
 	chatHeader.style.width = "100%";
+	// chatHeader.style.boxShadow = "0 1px 10px black";
 	chatHeader.style.height = isTabletOrBelow ? "70px" : "50px"; // 500 - 50 = 450
 	// chatHeader.style.border = "green solid 1px";
 	chatHeader.style.backgroundColor = primaryBgColor;
@@ -387,11 +459,13 @@ function app({
 		justify-content: center;
 	`;
 	chatHeaderClose.addEventListener("click", () => {
-		chatWindow.style.display = "none";
+		chatWindow.style.animationName = `fade-out-to-bottom`;
+		chatWindow.style.animationDuration = "0.2s";
 		chatIcon.src = ASSETS_URL + "/" + chatIconName;
 		chatIcon.style.height = "33px";
 		chatIcon.style.width = "36px";
 	});
+
 	const chatHeaderCloseIcon = document.createElement("img");
 	chatHeaderCloseIcon.src = ASSETS_URL + "/close.png";
 	chatHeaderCloseIcon.style = `
@@ -401,26 +475,80 @@ function app({
 	chatHeaderClose.appendChild(chatHeaderCloseIcon);
 	chatHeader.appendChild(chatHeaderClose);
 
+	// chaticon welcome
+
+	const welcomeContainerCloseIconContainer = document.createElement("div");
+	const closeIcon = document.createElement("img");
+	closeIcon.src = ASSETS_URL + "/close.png";
+	closeIcon.style.height = "10px";
+	closeIcon.style.width = "10px";
+	closeIcon.style.cursor = "pointer";
+	closeIcon.addEventListener("click", () => {
+		welcomeContainer.style.animationName = `fade-out-to-bottom`;
+		welcomeContainer.style.animationDuration = "0.2s";
+	});
+	welcomeContainerCloseIconContainer.append(closeIcon);
+	closeIcon.style.float = "right";
+
+	const welcomeContainer = document.createElement("div");
+	welcomeContainer.addEventListener("animationend", (e) => {
+		if (e.animationName === "fade-out-to-bottom") {
+			welcomeContainer.style.display = "none";
+		}
+	});
+	welcomeContainer.append(welcomeContainerCloseIconContainer);
+	welcomeContainer.style.boxShadow = "0 0 3px rgba(0,0,0,0.5)";
+	welcomeContainer.style.backgroundColor = `${primaryBgColor}`;
+	welcomeContainer.style.color = "white";
+	welcomeContainer.style.fontWeight = "bold";
+	welcomeContainer.style.width = "220px";
+	welcomeContainer.style.borderRadius = "10px";
+	if (position === "bottomright") {
+		welcomeContainer.style.right = "40px";
+		welcomeContainer.style.borderBottomRightRadius = "0";
+	} else {
+		welcomeContainer.style.left = "40px";
+		welcomeContainer.style.borderBottomLeftRadius = "0";
+	}
+	welcomeContainer.style.bottom = "85px";
+
+	welcomeContainer.style.padding = "8px";
+	welcomeContainer.style.zIndex = 9999999;
+	welcomeContainer.style.position = "fixed";
+	welcomeContainer.style.animationName = `fade-in-from-bottom`;
+	welcomeContainer.style.animationDuration = "0.5s";
+	const welcomeText = document.createElement("p");
+	welcomeText.textContent = "Hey There! 👋 Im here to help you!";
+	welcomeContainer.append(welcomeText);
+	shadow.appendChild(welcomeContainer);
+
 	// Chatbot icon black
+
 	chatIconCustom.id = "chat-icon";
 	chatIconCustom.style.height = isTabletOrBelow ? "63px" : "58px";
 	chatIconCustom.style.width = isTabletOrBelow ? "63px" : "58px";
 	chatIconCustom.style.borderRadius = "50%";
-	chatIconCustom.style.position = "fixed";
+
 	chatIconCustom.style.display = "flex";
 	// chatIconCustom.style.boxShadow = "0 0 5px lightgray";
 	chatIconCustom.style.alignItems = "center";
 	chatIconCustom.style.justifyContent = "center";
-	chatIconCustom.style.bottom = "20px";
 	chatIconCustom.style.textContent = "chat";
 	chatIconCustom.style.border = "white solid 1px";
 	chatIconCustom.style.cursor = "pointer";
-	if (position === "bottomright") chatIconCustom.style.right = "20px";
-	else chatIconCustom.style.left = "20px";
-	chatIconCustom.style.zIndex = 9999999;
+
 	chatIconCustom.style.backgroundColor = primaryBgColor;
 	chatIconCustom.style.border = "white solid 2px";
+	if (position === "bottomright") chatIconCustom.style.right = "20px";
+	else chatIconCustom.style.left = "20px";
+	chatIconCustom.style.bottom = "20px";
+	chatIconCustom.style.zIndex = 9999999;
+	chatIconCustom.style.position = "fixed";
 
+	chatIconCustom.style.animationName = `fade-in-from-bottom`;
+	chatIconCustom.style.animationDuration = "0.2s";
+	// chatIconCustom.style.animationIterationCount = "infinite";
+	// chatIconCustom.style.animationDirection = "alternate";
 	chatIcon.src = ASSETS_URL + "/" + chatIconName;
 	chatIcon.style.height = "33px";
 	chatIcon.style.width = "36px";
@@ -440,7 +568,7 @@ function app({
 		chatWindow.style.borderRadius = "0px";
 	} else {
 		chatWindow.style.border = "solid 0.5px lightgray";
-		chatWindow.style.boxShadow = "0 0 3px rgba(0,0,0,0.3)";
+		chatWindow.style.boxShadow = "0 0 5px lightgray";
 		chatWindow.style.marginLeft = "20px";
 		chatWindow.style.height = "500px";
 		chatWindow.style.position = "fixed";
@@ -642,18 +770,23 @@ function app({
 
 	// Toggle chat window visibility on icon click
 	chatIconCustom.addEventListener("click", function () {
-		chatWindow.style.display =
+		const newDisplayState =
 			chatWindow.style.display === "none" ? "block" : "none";
 		chatIcon.src =
-			chatWindow.style.display === "none"
+			newDisplayState === "none"
 				? ASSETS_URL + "/" + chatIconName
 				: ASSETS_URL + "/close.png";
-		if (chatWindow.style.display !== "none") {
+		if (newDisplayState !== "none") {
+			chatWindow.style.display = "block";
+			chatWindow.style.animationName = `fade-in-from-bottom`;
+			chatWindow.style.animationDuration = "0.2s";
 			messageInput.focus();
 			// close icon
 			chatIcon.style.height = "20px";
 			chatIcon.style.width = "20px";
 		} else {
+			chatWindow.style.animationName = `fade-out-to-bottom`;
+			chatWindow.style.animationDuration = "0.2s";
 			// chatt icon
 			chatIcon.style.height = "33px";
 			chatIcon.style.width = "36px";

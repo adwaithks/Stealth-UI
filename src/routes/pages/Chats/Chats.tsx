@@ -1,4 +1,4 @@
-import { Box, Button, Text } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import { useAppDispatch } from "../../../store/store";
 import { useSelector } from "react-redux";
@@ -11,7 +11,6 @@ import { useNavigate } from "react-router-dom";
 import { getChatsByChatbotId } from "../../../store/thunks/chats.thunk";
 import ChatWidget from "./components/ChatWidget";
 import ChatsSkeleton from "./components/ChatsSkeleton";
-import { ChevronLeftIcon } from "@chakra-ui/icons";
 
 const Chats: React.FC = () => {
 	const chatbotId = Number(window.location.pathname.split("/")[3]);

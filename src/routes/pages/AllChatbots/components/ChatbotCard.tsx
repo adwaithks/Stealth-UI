@@ -71,7 +71,7 @@ const ChatbotCard: React.FC<IProps> = ({
 		<Box
 			sx={{
 				display: "flex",
-				p: 4,
+				p: 3,
 				borderBottom: "rgba(0,0,0,0.05) solid 1px",
 				borderLeft: `${primaryBgColor} solid 4px`,
 				alignItems: "center",
@@ -80,7 +80,13 @@ const ChatbotCard: React.FC<IProps> = ({
 		>
 			<Box>
 				<Box sx={{ display: "flex", alignItems: "center" }}>
-					<Text sx={{ mr: 3 }} fontSize="xl" fontWeight="bold">
+					<Text
+						display="flex"
+						alignItems="center"
+						sx={{ mr: 2 }}
+						fontSize="xl"
+						fontWeight="bold"
+					>
 						{name}
 					</Text>
 					<Badge colorScheme={status === "active" ? "green" : "red"}>
@@ -89,7 +95,7 @@ const ChatbotCard: React.FC<IProps> = ({
 				</Box>
 				<Badge
 					fontWeight="light"
-					sx={{ textTransform: "lowercase", borderRadius: 10 }}
+					sx={{ textTransform: "lowercase", borderRadius: 5 }}
 					fontSize="small"
 					colorScheme="blackAlpha"
 				>
@@ -140,9 +146,15 @@ const ChatbotCard: React.FC<IProps> = ({
 							onClick={() => {
 								navigate(`/app/chats/${id}`);
 							}}
+							p={2}
 							aria-label="goto-chatbot"
 							variant="outline"
-							icon={<ChatIcon />}
+							icon={
+								<Text>
+									<ChatIcon mr={2} />
+									Goto Chats
+								</Text>
+							}
 						/>
 					</Tooltip>
 				</Box>
@@ -150,12 +162,18 @@ const ChatbotCard: React.FC<IProps> = ({
 				<Box sx={{ ml: 2 }}>
 					<Tooltip label="Configure Chatbot">
 						<IconButton
+							p={2}
 							onClick={() => {
 								navigate(`/app/configure/${id}`);
 							}}
 							aria-label="goto-chatbot"
 							variant="outline"
-							icon={<SettingsIcon />}
+							icon={
+								<Text>
+									<SettingsIcon mr={2} />
+									Configure
+								</Text>
+							}
 						/>
 					</Tooltip>
 				</Box>
