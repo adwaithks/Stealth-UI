@@ -27,16 +27,40 @@ function getDeviceType() {
 }
 
 function generateRandomId() {
-	var characters =
+	let characters =
 		"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 	var length = 8;
 	var randomId = "";
 
-	for (var i = 0; i < length; i++) {
-		var randomIndex = Math.floor(Math.random() * characters.length);
+	for (let i = 0; i < length; i++) {
+		let randomIndex = Math.floor(Math.random() * characters.length);
 		randomId += characters.charAt(randomIndex);
 	}
 
+	for (let i = 0; i < length; i++) {
+		let randomIndex = Math.floor(Math.random() * characters.length);
+		randomId += characters.charAt(randomIndex);
+	}
+
+	for (let i = 0; i < length; i++) {
+		let randomIndex = Math.floor(Math.random() * characters.length);
+		randomId += characters.charAt(randomIndex);
+	}
+
+	for (let i = 0; i < length; i++) {
+		let randomIndex = Math.floor(Math.random() * characters.length);
+		randomId += characters.charAt(randomIndex);
+	}
+	for (let i = 0; i < length; i++) {
+		let randomIndex = Math.floor(Math.random() * characters.length);
+		randomId += characters.charAt(randomIndex);
+	}
+	for (let i = 0; i < length; i++) {
+		let randomIndex = Math.floor(Math.random() * characters.length);
+		randomId += characters.charAt(randomIndex);
+	}
+
+	console.log(randomId, randomId.length);
 	return randomId;
 }
 
@@ -74,6 +98,8 @@ let quickRepliesContainer = document.createElement("div");
 let sendContainerWrapper = document.createElement("div");
 let poweredByContainer = document.createElement("div");
 let assistDeskShadowDOM = document.createElement("div");
+let emailContainer = document.createElement("div");
+
 document.body.appendChild(assistDeskShadowDOM);
 const shadow = assistDeskShadowDOM.attachShadow({ mode: "open" });
 
@@ -168,6 +194,11 @@ function hideBottom(sendContainer, quickReplies, poweredBy) {
 	poweredByContainer.style.display = poweredBy;
 }
 
+function insertContent(content) {
+	messageContainer.appendChild(content);
+	messageContainer.scrollTop = messageContainer.scrollHeight;
+}
+
 function displayMessage(sender, message) {
 	const messageElement = document.createElement("div");
 	messageElement.style.width = "fit-content";
@@ -179,6 +210,7 @@ function displayMessage(sender, message) {
 	if (sender === "bot") {
 		messageElement.style.backgroundColor = "rgba(0,0,0, 0.05)";
 		messageElement.style.color = "black";
+		// messageElement.style.borderLeft = `${primaryBgColor} solid 4px`;
 		messageElement.style.borderTopRightRadius = "5px";
 		messageElement.style.boxShadow = "0 0 2px rgba(0,0,0,0.3)";
 		messageElement.style.borderBottomRightRadius = "5px";
@@ -205,11 +237,14 @@ function displayMessage(sender, message) {
 	const message_ = document.createElement("p");
 	message_.innerHTML = `<p style="white-space: pre-line;">${replacedText.trim()}</p>`;
 	// message_.style.whiteSpace = "pre-line";
-	origin.textContent = `${sender === "bot" ? "AI Assistant" : "User"}`;
+	const customerEmail = window.localStorage.getItem("ASSIST_DESK_EMAIL");
+	const userInfo = customerEmail ? customerEmail : "User";
+	origin.textContent = `${sender === "bot" ? "AI Assistant" : userInfo}`;
+	origin.style = `
+		font-weight: bold;
+		margin-bottom: 5px;
+	`;
 	// message_.textContent = `${message.trim()}`;
-
-	origin.style.fontWeight = "bold";
-	origin.style.marginBottom = "5px";
 
 	messageElement.appendChild(origin);
 	messageElement.append(message_);
@@ -317,6 +352,8 @@ function ticketRaiseUI() {
 			})
 				.then((res) => {
 					if (!res.ok) throw "Please try again :(";
+					if (!window.localStorage.getItem("ASSIST_DESK_EMAIL"))
+						window.localStorage.setItem("ASSIST_DESK_EMAIL", email);
 					submitButton.textContent =
 						"Thank you! We've received your message!";
 					setTimeout(() => {
@@ -401,7 +438,7 @@ function app({
 	`;
 	const chatHeaderText = document.createElement("p");
 	chatHeaderText.textContent = name;
-	chatHeaderText.style.textTransform = "capitalize";
+	// chatHeaderText.style.textTransform = "capitalize";
 	chatHeaderText.style.marginRight = "10px";
 	chatHeaderText.style.fontFamily = "sans-serif";
 	chatHeaderText.style.fontSize = isTabletOrBelow ? "20px" : "18px";
@@ -516,11 +553,70 @@ function app({
 	welcomeContainer.style.zIndex = 9999999;
 	welcomeContainer.style.position = "fixed";
 	welcomeContainer.style.animationName = `fade-in-from-bottom`;
-	welcomeContainer.style.animationDuration = "0.5s";
+	welcomeContainer.style.animationDuration = "0.8s";
 	const welcomeText = document.createElement("p");
 	welcomeText.textContent = "Hey There! 👋 Im here to help you!";
 	welcomeContainer.append(welcomeText);
 	shadow.appendChild(welcomeContainer);
+
+	// email
+
+	const emailContainerCloseIconContainer = document.createElement("div");
+
+	const emailContainerCloseIcon = document.createElement("img");
+	emailContainerCloseIcon.src = ASSETS_URL + "/close.png";
+	emailContainerCloseIcon.style.height = "10px";
+	emailContainerCloseIcon.style.width = "10px";
+	emailContainerCloseIcon.style.cursor = "pointer";
+	emailContainerCloseIcon.addEventListener("click", () => {
+		emailContainer.style.display = "none";
+	});
+	emailContainerCloseIconContainer.append(emailContainerCloseIcon);
+	emailContainerCloseIcon.style.float = "right";
+
+	emailContainer.append(emailContainerCloseIconContainer);
+	// emailContainer.append(welcomeContainerCloseIconContainer);
+	emailContainer.style.boxShadow = "0 0 3px rgba(0,0,0,0.5)";
+	emailContainer.style.backgroundColor = `${primaryBgColor}`;
+	emailContainer.style.color = "white";
+	emailContainer.style.fontWeight = "bold";
+	emailContainer.style.width = "100%";
+	emailContainer.style.borderRadius = "5px";
+	emailContainer.style.marginTop = "10px";
+	emailContainer.style.marginBottom = "10px";
+
+	emailContainer.style.padding = "15px";
+	emailContainer.style.animationName = `fade-in-from-bottom`;
+	emailContainer.style.animationDuration = "0.8s";
+
+	const welcomeText2 = document.createElement("p");
+	welcomeText2.style.marginBottom = "10px";
+	welcomeText2.textContent = "May I know your email ?";
+	const emailContent = document.createElement("div");
+
+	const emailSend = (e) => {
+		e.preventDefault();
+		const email = shadow.querySelector("#email-container-input").value;
+		if (!email.includes(".") || !email.includes("@")) return;
+		window.localStorage.setItem("ASSIST_DESK_EMAIL", email);
+		const btn = shadow.querySelector("#email-container-button");
+		btn.textContent = "Thank you!";
+		setTimeout(() => {
+			emailContainer.style.display = "none";
+		}, 1500);
+	};
+	emailContent.innerHTML = `
+	<form id="email-container-form">
+		<input type="email" id="email-container-input" placeholder="official@assistdesk.in" style="border: none; outline: none; width: 100%; margin-bottom: 5px; padding: 10px; border-radius: 5px; font-size: 13px; " />
+		<button type="submit" id="email-container-button" style="border: none; outline: none; width: 100%; background-color: white; color: black; padding: 10px; border-radius: 5px; cursor: pointer; font-size: 13px;">Confirm</button>
+	</form>
+	`;
+	const confirmButton = emailContent.querySelector("#email-container-form");
+	confirmButton.addEventListener("submit", emailSend);
+	emailContainer.append(welcomeText2);
+	emailContainer.append(emailContent);
+	// if (!window.localStorage.getItem("ASSIST_DESK_EMAIL"))
+	// 	messageContainer.appendChild(emailContainer);
 
 	// Chatbot icon black
 
@@ -567,7 +663,7 @@ function app({
 		chatWindow.style.left = "0";
 		chatWindow.style.borderRadius = "0px";
 	} else {
-		chatWindow.style.border = "solid 0.5px lightgray";
+		chatWindow.style.border = "solid 2px white";
 		chatWindow.style.boxShadow = "0 0 5px lightgray";
 		chatWindow.style.marginLeft = "20px";
 		chatWindow.style.height = "500px";
@@ -585,14 +681,13 @@ function app({
 
 	// message display area
 	messageContainer.className = "message-container";
-	// messageContainer.style.border = "brown solid 1px";
+	// messageContainer.style.border = "black solid 1px";
 	messageContainer.style.width = "100%";
 	messageContainer.style.height = getMessageContainerHeight(
 		isTabletOrBelow,
 		quickReplies
 	);
 	messageContainer.style.padding = "0 10px 0 10px";
-	messageContainer.style.borderRadius = "5px";
 	messageContainer.style.overflowY = "auto";
 	messageContainer.style.display = "flex";
 	messageContainer.style.flexDirection = "column";
@@ -846,6 +941,10 @@ function app({
 				messageContainer.appendChild(messageLoader);
 				scrollToBottom();
 				quickRepliesContainer.style.pointerEvents = "none";
+				const email = window.localStorage.getItem("ASSIST_DESK_EMAIL");
+				let customerEmail = "";
+				if (email) customerEmail = email;
+
 				fetch(BASE_URL + "/api/v1/chatbot/message", {
 					method: "POST",
 					headers: {
@@ -856,7 +955,10 @@ function app({
 						chatbot_id: chatbotId,
 						user_id: userId,
 						user_session_id: getCookie(cookieName),
-						info: JSON.stringify({ channel: getDeviceType() }),
+						info: JSON.stringify({
+							channel: getDeviceType(),
+							email: customerEmail,
+						}),
 						context: context,
 						name: chatbotName,
 						chatbot_hash: chatbotHashId,
@@ -992,6 +1094,8 @@ document.addEventListener("DOMContentLoaded", () => {
 					"bot",
 					"I am your AI support agent. I can help you with any questions or inquiries you might have."
 				);
+				if (!window.localStorage.getItem("ASSIST_DESK_EMAIL"))
+					insertContent(emailContainer);
 			}
 		})
 		.catch((err) => {
