@@ -24,7 +24,7 @@ const UserDisplay: React.FC<{
 					flexDirection: "column",
 				}}
 			>
-				{users.map((user: string) => {
+				{users.map((user: string, index) => {
 					return (
 						<Box
 							onClick={() => handleChangeUser(user)}
@@ -41,7 +41,7 @@ const UserDisplay: React.FC<{
 							}}
 						>
 							<Avatar size="sm" mr={2} />
-							<Text>user-{user}</Text>
+							<Text>User {index + 1}</Text>
 						</Box>
 					);
 				})}
