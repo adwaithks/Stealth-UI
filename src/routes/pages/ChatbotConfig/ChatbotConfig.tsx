@@ -9,6 +9,7 @@ import {
 	Tabs,
 	Tag,
 	Text,
+	createStandaloneToast,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { CopyIcon } from "@chakra-ui/icons";
@@ -35,6 +36,7 @@ const ChatbotConfig: React.FC = () => {
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 	const { session } = useClerk();
+	const { toast } = createStandaloneToast();
 
 	const [isCopied, setIsCopied] = useState(false);
 
@@ -54,8 +56,8 @@ const ChatbotConfig: React.FC = () => {
 				return true;
 			return false;
 		},
-		maxRetries: 5,
-		delay: 1000,
+		maxRetries: 10,
+		delay: 5000,
 	});
 
 	useEffect(() => {
@@ -66,8 +68,25 @@ const ChatbotConfig: React.FC = () => {
 					status: data.message,
 				})
 			);
+
+			if (data.message === "RETRAINING_REJECTED")
+				toast({
+					title: "Failed to train chatbot " + chatbot.chatbotName,
+					status: "error",
+					duration: 4000,
+					isClosable: true,
+					variant: "left-accent",
+				});
+			else if (data.message === "RETRAINING_SUCCESS")
+				toast({
+					title: "Successfuly trained chatbot " + chatbot.chatbotName,
+					status: "success",
+					duration: 4000,
+					isClosable: true,
+					variant: "left-accent",
+				});
 		}
-	}, [data, chatbotId, dispatch]);
+	}, [data, chatbotId, dispatch, toast, chatbot.chatbotName]);
 
 	useEffect(() => {
 		if (chatbotId && chatbot?.taskId?.length > 0) {

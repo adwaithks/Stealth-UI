@@ -6,6 +6,7 @@ import {
 	Spinner,
 	Text,
 	Tooltip,
+	createStandaloneToast,
 } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -37,6 +38,7 @@ const ChatbotCard: React.FC<IProps> = ({
 }) => {
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
+	const { toast } = createStandaloneToast();
 
 	const { startPolling, data } = usePolling({
 		stopFunction: (response: any) => {
@@ -60,8 +62,25 @@ const ChatbotCard: React.FC<IProps> = ({
 					status: data.message,
 				})
 			);
+
+			if (data.message === "RETRAINING_REJECTED")
+				toast({
+					title: "Failed to train chatbot " + name,
+					status: "error",
+					duration: 4000,
+					isClosable: true,
+					variant: "left-accent",
+				});
+			else if (data.message === "RETRAINING_SUCCESS")
+				toast({
+					title: "Successfuly trained chatbot " + name,
+					status: "success",
+					duration: 4000,
+					isClosable: true,
+					variant: "left-accent",
+				});
 		}
-	}, [dispatch, id, data]);
+	}, [dispatch, id, data, name, toast]);
 
 	useEffect(() => {
 		startPolling(`/api/v2/chatbot/${id}/${taskId}/taskstatus`);
