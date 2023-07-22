@@ -413,11 +413,10 @@ function app({
 	ticketRaisingOpenBtn.textContent = "Raise Ticket";
 	ticketRaisingOpenBtn.style = `
 		font-weight: bold;
-		border: solid red 2px;
 		background-color: ${primaryBgColor};
 		color: white;
 		font-size: ${isTabletOrBelow ? "18px" : "15px"};
-		border: white solid 1px;
+		border: white solid 2px;
 		border-radius: 5px;
 		cursor: pointer;
 		padding: 3px 10px;
