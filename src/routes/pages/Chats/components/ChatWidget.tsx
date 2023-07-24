@@ -4,11 +4,12 @@ import MessageDisplay from "./MessageDisplay";
 import UserDisplay from "./UserDisplay";
 import { useSelector } from "react-redux";
 import { getMyChatbotsApiStatusSelector } from "../../../../store/selectors/chatbots.selector";
+import { Chat } from "../../../../types/chats.type";
 
-const ChatWidget: React.FC<{ chats: { [key: string]: any[] } }> = ({
+const ChatWidget: React.FC<{ chats: { [key: string]: Chat[] } }> = ({
 	chats,
 }) => {
-	const [currentChat, setCurrentChat] = useState<any[]>([]);
+	const [currentChat, setCurrentChat] = useState<Chat[]>([]);
 	const [currentUser, setCurrentUser] = useState("");
 	const chatsApiStatus = useSelector(getMyChatbotsApiStatusSelector);
 
@@ -40,18 +41,18 @@ const ChatWidget: React.FC<{ chats: { [key: string]: any[] } }> = ({
 				<>
 					<Box
 						sx={{
-							width: "20%",
-
+							width: "25%",
 							borderRight: "lightgray solid 1px",
 						}}
 					>
 						<UserDisplay
+							chats={chats}
 							users={Object.keys(chats)}
 							handleChangeUser={handleChangeUser}
 							currentUser={currentUser}
 						/>
 					</Box>
-					<Box sx={{ width: "80%" }}>
+					<Box sx={{ width: "75%" }}>
 						<MessageDisplay currentChat={currentChat} />
 					</Box>
 				</>
