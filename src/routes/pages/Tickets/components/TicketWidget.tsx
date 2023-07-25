@@ -173,7 +173,7 @@ const TicketWidget: React.FC<{ ticket: ITicket }> = (ticket) => {
 					</Badge>
 				</Text>
 				<Text color="gray" fontSize="sm">
-					{getTimeAgo(t?.creationDate)}
+					{t?.creationDate && getTimeAgo(t.creationDate)}
 				</Text>
 				<Text>{t.enquiry}</Text>
 			</Box>

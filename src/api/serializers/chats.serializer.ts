@@ -2,7 +2,7 @@ import { Chat, ChatDTO } from "../../types/chats.type";
 
 const chatSerializer = (chat: ChatDTO): Chat => {
 	return {
-		info: chat.info,
+		info: JSON.parse(chat.info),
 		question: chat.question,
 		answer: chat.answer,
 		userSessionId: chat.user_session_id,
@@ -27,7 +27,7 @@ export const chatByUserSessionId = (chats: ChatDTO[]) => {
 
 		let parsedInfo = {};
 		try {
-			parsedInfo = JSON.parse(info);
+			parsedInfo = info;
 		} catch (e) {
 			parsedInfo = {};
 		}

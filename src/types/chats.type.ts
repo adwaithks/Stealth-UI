@@ -11,5 +11,5 @@ export interface Chat {
 	question: string;
 	timestamp: Date;
 	userSessionId: string;
-	info: string;
+	info: { [key: string]: string };
 }

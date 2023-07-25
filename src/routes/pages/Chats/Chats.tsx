@@ -2,22 +2,17 @@ import { Box } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import { useAppDispatch } from "../../../store/store";
 import { useSelector } from "react-redux";
-import {
-	chatbotChatsSelector,
-	getChatsByChatbotIdApiStatusSelector,
-} from "../../../store/selectors/chats.selector";
+import { chatbotChatsSelector } from "../../../store/selectors/chats.selector";
 import { useClerk } from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom";
 import { getChatsByChatbotId } from "../../../store/thunks/chats.thunk";
 import ChatWidget from "./components/ChatWidget";
-import ChatsSkeleton from "./components/ChatsSkeleton";
 
 const Chats: React.FC = () => {
 	const chatbotId = Number(window.location.pathname.split("/")[3]);
 	const dispatch = useAppDispatch();
-	const chatsApiSelector = useSelector(getChatsByChatbotIdApiStatusSelector);
 	const chats = useSelector(chatbotChatsSelector);
-	const { session, loaded } = useClerk();
+	const { session } = useClerk();
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -37,7 +32,7 @@ const Chats: React.FC = () => {
 			});
 	}, [chatbotId, dispatch, navigate, session]);
 
-	if (chatsApiSelector === "pending" || !loaded) return <ChatsSkeleton />;
+	// if (chatsApiSelector === "pending" || !loaded) return <ChatsSkeleton />;
 
 	return (
 		<Box>
