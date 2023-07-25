@@ -2,10 +2,7 @@ import { Box } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import { useAppDispatch } from "../../../store/store";
 import { useSelector } from "react-redux";
-import {
-	chatbotChatsSelector,
-	getChatsByChatbotIdApiStatusSelector,
-} from "../../../store/selectors/chats.selector";
+import { chatbotChatsSelector } from "../../../store/selectors/chats.selector";
 import { useClerk } from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom";
 import { getChatsByChatbotId } from "../../../store/thunks/chats.thunk";
