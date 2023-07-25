@@ -24,10 +24,18 @@ const UserDisplay: React.FC<{
 	const chatsApiSelector = useSelector(getChatsByChatbotIdApiStatusSelector);
 
 	return (
-		<Box>
+		<Box
+			sx={{
+				p: 2,
+				height: "calc(100vh - 90px)",
+				overflowY: "auto",
+			}}
+		>
 			<Box
 				sx={{
 					p: 2,
+					position: "sticky",
+					top: 0,
 				}}
 			>
 				<Text color="black" fontWeight="bold" fontSize="xl">
@@ -66,6 +74,7 @@ const UserDisplay: React.FC<{
 				<Box
 					sx={{
 						mr: 3,
+
 						display: "flex",
 						flexDirection: "column",
 					}}
