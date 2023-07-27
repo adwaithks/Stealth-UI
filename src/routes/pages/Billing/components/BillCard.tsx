@@ -21,8 +21,6 @@ const BillCard: React.FC<{
 	const { session } = useClerk();
 	const navigate = useNavigate();
 
-	console.log(sub);
-
 	return (
 		<Box
 			sx={{
@@ -102,7 +100,6 @@ const BillCard: React.FC<{
 				) : (
 					<Button
 						onClick={() => {
-							console.log(id);
 							(window as any)?.Paddle?.Checkout.open({
 								product: id,
 								passthrough: JSON.stringify({

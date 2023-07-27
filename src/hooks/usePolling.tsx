@@ -58,7 +58,6 @@ const usePolling = ({
 	}, [maxRetries, retryCount]);
 
 	const fetchData = useCallback(async (): Promise<void> => {
-		console.log(options);
 		try {
 			session
 				?.getToken({ template: "stealth-token-template" })

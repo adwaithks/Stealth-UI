@@ -42,7 +42,7 @@ const ChatWidget: React.FC<{ chats: { [key: string]: Chat[] } }> = ({
 					<Box
 						sx={{
 							width: "25%",
-							borderRight: "lightgray solid 1px",
+							borderRight: "rgba(0,0,0,0.05) solid 0.5px",
 						}}
 					>
 						<UserDisplay

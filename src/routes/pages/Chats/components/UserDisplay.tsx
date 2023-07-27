@@ -26,7 +26,7 @@ const UserDisplay: React.FC<{
 	return (
 		<Box
 			sx={{
-				p: 2,
+				p: 0,
 				height: "calc(100vh - 90px)",
 				overflowY: "auto",
 			}}
@@ -36,6 +36,13 @@ const UserDisplay: React.FC<{
 					p: 2,
 					position: "sticky",
 					top: 0,
+					zIndex: 2,
+					display: "flex",
+					backgroundColor: "white",
+					height: 50,
+					// boxShadow: "0 0 5px lightgray",
+					alignItems: "center",
+					justifyContent: "space-between",
 				}}
 			>
 				<Text color="black" fontWeight="bold" fontSize="xl">
