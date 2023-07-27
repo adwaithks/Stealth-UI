@@ -1,5 +1,13 @@
-import { Box, Divider, Skeleton, Text } from "@chakra-ui/react";
-import React, { useRef } from "react";
+import {
+	Box,
+	Divider,
+	Input,
+	InputGroup,
+	InputLeftAddon,
+	Skeleton,
+	Text,
+} from "@chakra-ui/react";
+import React, { useEffect, useRef, useState } from "react";
 import { Chat } from "../../../../types/chats.type";
 import {
 	convertToUserLocationDateTime,
@@ -7,11 +15,34 @@ import {
 } from "../../../../utils/formatDate";
 import { useSelector } from "react-redux";
 import { getChatsByChatbotIdApiStatusSelector } from "../../../../store/selectors/chats.selector";
-import { ArrowUpIcon } from "@chakra-ui/icons";
+import { ArrowUpIcon, Search2Icon } from "@chakra-ui/icons";
 
 const MessageDisplay: React.FC<{ currentChat: Chat[] }> = ({ currentChat }) => {
 	const chatsApiSelector = useSelector(getChatsByChatbotIdApiStatusSelector);
 	const messageContainerRef = useRef<any>(null);
+
+	const [searchVal, setSearchVal] = useState("");
+	const [filteredChat, setFilteredChat] = useState<Chat[]>([]);
+
+	useEffect(() => {
+		setFilteredChat(currentChat);
+	}, [currentChat]);
+
+	const handleSearch = (e: any) => {
+		const text = e.target.value;
+
+		const filteredChat = currentChat.filter((chat) => {
+			if (
+				chat.question.toLowerCase().includes(text.toLowerCase()) ||
+				chat.answer.toLowerCase().includes(text.toLowerCase())
+			)
+				return chat;
+			return null;
+		});
+
+		setSearchVal(text);
+		setFilteredChat(filteredChat);
+	};
 
 	return (
 		<Box
@@ -26,7 +57,6 @@ const MessageDisplay: React.FC<{ currentChat: Chat[] }> = ({ currentChat }) => {
 		>
 			<Box
 				onClick={() => {
-					console.log(messageContainerRef.current);
 					if (messageContainerRef.current)
 						messageContainerRef.current.scrollTo({
 							top: 0,
@@ -57,6 +87,12 @@ const MessageDisplay: React.FC<{ currentChat: Chat[] }> = ({ currentChat }) => {
 					backgroundColor: "white",
 					color: "black",
 					p: 2,
+					zIndex: 2,
+					display: "flex",
+					height: 50,
+					alignItems: "center",
+					justifyContent: "space-between",
+					// boxShadow: "0 0 5px lightgray",
 					position: "sticky",
 					top: 0,
 				}}
@@ -64,6 +100,15 @@ const MessageDisplay: React.FC<{ currentChat: Chat[] }> = ({ currentChat }) => {
 				<Text fontWeight="bold" fontSize="xl">
 					Chat History
 				</Text>
+
+				<InputGroup width="30%" size="md">
+					<InputLeftAddon children={<Search2Icon />} />
+					<Input
+						onChange={handleSearch}
+						value={searchVal}
+						placeholder="Search"
+					/>
+				</InputGroup>
 			</Box>
 			<Skeleton
 				ml={2}
@@ -74,7 +119,7 @@ const MessageDisplay: React.FC<{ currentChat: Chat[] }> = ({ currentChat }) => {
 					{currentChat.length === 0 && (
 						<Text color="gray">No messages</Text>
 					)}
-					{currentChat.map((chat: Chat, index) => {
+					{filteredChat.map((chat: Chat, index) => {
 						const linkRegex = /\[(.*?)\]\((.*?)\)/g;
 
 						const replacedAns = chat.answer.replace(
@@ -97,10 +142,10 @@ const MessageDisplay: React.FC<{ currentChat: Chat[] }> = ({ currentChat }) => {
 									flexDirection: "column",
 								}}
 							>
-								{currentChat[index - 1] &&
+								{filteredChat[index - 1] &&
 									isTimeDifferenceAtLeastNHours(
 										chat.timestamp,
-										currentChat[index - 1].timestamp,
+										filteredChat[index - 1].timestamp,
 										1
 									) && (
 										<Box display="flex" alignItems="center">

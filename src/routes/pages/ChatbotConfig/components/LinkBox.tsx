@@ -61,25 +61,9 @@ const LinkBox: React.FC<{
 				data.message === "RETRAINING_SUCCESS"
 			) {
 				setIsLoading(false);
-				if (data.message === "RETRAINING_REJECTED")
-					toast({
-						title: "Failed to retrain chatbot on link " + link,
-						status: "error",
-						duration: 4000,
-						isClosable: true,
-						variant: "left-accent",
-					});
-				else if (data.message === "RETRAINING_SUCCESS")
-					toast({
-						title: "Successfuly retrained chatbot on link " + link,
-						status: "success",
-						duration: 4000,
-						isClosable: true,
-						variant: "left-accent",
-					});
 			}
 		}
-	}, [linkId, status, dispatch, data, toast, link]);
+	}, [data, dispatch, linkId]);
 
 	useEffect(() => {
 		if (status === "RETRAINING_PENDING") {

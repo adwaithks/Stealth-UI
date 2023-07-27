@@ -150,7 +150,12 @@ const ChatbotCard: React.FC<IProps> = ({
 							aria-label="goto-chatbot"
 							variant="outline"
 							icon={
-								<Text>
+								<Text
+									sx={{
+										display: "flex",
+										alignItems: "center",
+									}}
+								>
 									<ChatIcon mr={2} />
 									Goto Chats
 								</Text>
@@ -169,7 +174,12 @@ const ChatbotCard: React.FC<IProps> = ({
 							aria-label="goto-chatbot"
 							variant="outline"
 							icon={
-								<Text>
+								<Text
+									sx={{
+										display: "flex",
+										alignItems: "center",
+									}}
+								>
 									<SettingsIcon mr={2} />
 									Configure
 								</Text>
