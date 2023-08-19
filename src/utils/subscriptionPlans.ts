@@ -24,7 +24,11 @@ export const subscriptionPlans = [
 		trialDays: 0,
 		billingType: "month",
 		billingPeriod: 1,
-		features: ["Full access for 2 weeks!"],
+		features: [
+			"Full access for 2 weeks!",
+			"Inorder to continue using after 2 weeks, you will have to upgrade to a paid plan.",
+			"We wont charge until you upgrade to paid plan :)",
+		],
 	},
 	{
 		id: starterPlanID,
