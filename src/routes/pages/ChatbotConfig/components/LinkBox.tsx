@@ -37,7 +37,7 @@ const LinkBox: React.FC<{
 
 	const { toast } = createStandaloneToast();
 
-	const { startPolling, stopPolling, data } = usePolling({
+	const { startPolling, data } = usePolling({
 		stopFunction: (response: any) => {
 			if (response.message === "RETRAINING_PENDING") {
 				return false;
