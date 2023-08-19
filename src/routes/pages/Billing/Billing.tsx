@@ -38,7 +38,8 @@ const Billing: React.FC = () => {
 					.then((data) => {
 						setCurrentSubscription(data);
 					})
-					.catch(() => {
+					.catch((e) => {
+						console.log(e);
 						setCurrentSubscription(null);
 					})
 					.finally(() => {
@@ -92,8 +93,9 @@ const Billing: React.FC = () => {
 					{!subscriptionInfoIsLoading &&
 						(subscriptionInfo == null ||
 							subscriptionInfo.state === "deleted") && (
-							<Text>You are not subscribed to our plan</Text>
+							<Text>You are not subscribed to any plans</Text>
 						)}
+
 					<Divider my={5} />
 				</>
 			}

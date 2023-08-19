@@ -1,30 +1,11 @@
-import { Alert, AlertIcon, Box } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import React from "react";
 import { Outlet } from "react-router-dom";
 import Navbar from "../Navbar/Navbar";
-import { useSelector } from "react-redux";
-import { createNewChatbotApiStatusSelector } from "../../store/selectors/chatbots.selector";
 
 const RootLayout: React.FC = () => {
-	const isTraining = useSelector(createNewChatbotApiStatusSelector);
-
 	return (
 		<Box sx={{ width: "100%", height: "100vh" }}>
-			{isTraining === "pending" && (
-				<Alert status="loading" variant="subtle">
-					<AlertIcon />
-					Chatbot training started! It should be available in your
-					dashboard in few minutes.
-				</Alert>
-			)}
-
-			{isTraining === "rejected" && (
-				<Alert status="error" variant="subtle">
-					<AlertIcon />
-					Chatbot training failed! Kindly create a new chatbot
-					training process.
-				</Alert>
-			)}
 			<Navbar />
 			<Box
 				sx={{

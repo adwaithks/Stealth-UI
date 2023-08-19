@@ -100,6 +100,16 @@ const BillCard: React.FC<{
 				) : (
 					<Button
 						onClick={() => {
+							if (
+								subscriptionInfo &&
+								subscriptionInfo.state !== "deleted" &&
+								sub
+							) {
+								window.alert(
+									"Unsubscribe from the current plan to subscribe to a new plan!"
+								);
+								return;
+							}
 							(window as any)?.Paddle?.Checkout.open({
 								product: id,
 								passthrough: JSON.stringify({

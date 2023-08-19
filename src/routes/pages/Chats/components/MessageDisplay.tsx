@@ -192,8 +192,7 @@ const MessageDisplay: React.FC<{ currentChat: Chat[] }> = ({ currentChat }) => {
 											borderBottomRightRadius: 5,
 											p: 3,
 											maxWidth: 500,
-											backgroundColor:
-												"rgba(0, 0, 0, 0.8)",
+											backgroundColor: "rgba(0, 0, 0, 1)",
 											boxShadow: "0 0 2px lightgray",
 											color: "white",
 											minWidth: 400,

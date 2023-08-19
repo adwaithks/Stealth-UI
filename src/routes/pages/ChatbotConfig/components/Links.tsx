@@ -37,6 +37,10 @@ const Links: React.FC<{
 	});
 
 	useEffect(() => {
+		if (trainStatus === "TRAINING_REJECTED") {
+			setIsAddingNewLinks(false);
+		}
+
 		if (data) {
 			dispatch(
 				chatbotsActions.updateTrainStatus({
@@ -77,7 +81,7 @@ const Links: React.FC<{
 						});
 				});
 		}
-	}, [data, dispatch, navigate, session, chatbotId]);
+	}, [data, dispatch, navigate, trainStatus, session, chatbotId]);
 
 	useEffect(() => {
 		if (trainStatus === "TRAINING_PENDING" && chatbotId && taskId) {
