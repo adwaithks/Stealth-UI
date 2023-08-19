@@ -37,7 +37,7 @@ const LinkBox: React.FC<{
 
 	const { toast } = createStandaloneToast();
 
-	const { startPolling, data } = usePolling({
+	const { startPolling, stopPolling, data } = usePolling({
 		stopFunction: (response: any) => {
 			if (response.message === "RETRAINING_PENDING") {
 				return false;
@@ -49,6 +49,9 @@ const LinkBox: React.FC<{
 	});
 
 	useEffect(() => {
+		if (status && status === "RETRAINING_REJECTED") {
+			setIsLoading(false);
+		}
 		if (data) {
 			dispatch(
 				chatbotsActions.updateLinkStatus({
@@ -63,7 +66,7 @@ const LinkBox: React.FC<{
 				setIsLoading(false);
 			}
 		}
-	}, [data, dispatch, linkId]);
+	}, [data, dispatch, linkId, status]);
 
 	useEffect(() => {
 		if (status === "RETRAINING_PENDING") {

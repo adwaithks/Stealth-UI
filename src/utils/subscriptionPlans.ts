@@ -1,13 +1,16 @@
 const ENVIRON = import.meta.env.VITE_ENVIRON;
 
-let planId = 839660;
+let starterPlanID = 839660;
+let growthPlanID = 847740;
 
 if (ENVIRON == "DEV") {
-	planId = 53300;
+	starterPlanID = 53300;
+	growthPlanID = 63595;
 }
 
 export const subscriptionPlanIdToName: { [key: string]: string } = {
-	[planId]: "Starter",
+	[starterPlanID]: "Starter",
+	[growthPlanID]: "Growth",
 };
 
 export const subscriptionPlans = [
@@ -21,16 +24,10 @@ export const subscriptionPlans = [
 		trialDays: 0,
 		billingType: "month",
 		billingPeriod: 1,
-		features: [
-			"Minimal features to try out our product",
-			"Create 1 Chatbot",
-			"Train chatbot with data from 3 web pages using our crawler",
-			"Test chatbot with restriction upto 10 questions",
-			"Chatbot will be only available in preview mode, no embedding on websites",
-		],
+		features: ["Full access for 2 weeks!"],
 	},
 	{
-		id: planId,
+		id: starterPlanID,
 		name: "Starter",
 		recurringPrice: {
 			INR: "999.00",
@@ -40,8 +37,26 @@ export const subscriptionPlans = [
 		billingType: "month",
 		billingPeriod: 1,
 		features: [
-			"Create 3 Chatbots",
+			"Create 1 Chatbots",
 			"Train each chatbot with data from 10 web pages using our crawler",
+			"Manually fine tune responses",
+			"Insights into customer chat history",
+			"Ticket raising system",
+		],
+	},
+	{
+		id: growthPlanID,
+		name: "Growth",
+		recurringPrice: {
+			INR: "3499.00",
+			USD: "14.99",
+		},
+		trialDays: 0,
+		billingType: "month",
+		billingPeriod: 1,
+		features: [
+			"Create 5 Chatbots",
+			"Train each chatbot with data from 30 web pages using our crawler",
 			"Manually fine tune responses",
 			"Insights into customer chat history",
 			"Ticket raising system",
