@@ -30,7 +30,7 @@ const LinkBox: React.FC<{
 	const { session } = useClerk();
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
-	const [isLoading, setIsLoading] = useState(false);
+	const [isRetraining, setIsRetraining] = useState(false);
 	const [isMouseOver, setIsMouseOver] = useState(false);
 	const currentChatbot = useSelector(currentChatbotSelector);
 	const [isDeleting, setIsDeleting] = useState(false);
@@ -50,7 +50,7 @@ const LinkBox: React.FC<{
 
 	useEffect(() => {
 		if (status && status === "RETRAINING_REJECTED") {
-			setIsLoading(false);
+			setIsRetraining(false);
 		}
 		if (data) {
 			dispatch(
@@ -63,7 +63,7 @@ const LinkBox: React.FC<{
 				data.message === "RETRAINING_REJECTED" ||
 				data.message === "RETRAINING_SUCCESS"
 			) {
-				setIsLoading(false);
+				setIsRetraining(false);
 			}
 		}
 	}, [data, dispatch, linkId, status]);
@@ -97,7 +97,7 @@ const LinkBox: React.FC<{
 							linkId,
 						})
 					);
-					setIsLoading(true);
+					setIsRetraining(true);
 				});
 	};
 
@@ -196,7 +196,7 @@ const LinkBox: React.FC<{
 					}
 					isLoading={
 						isDeleting ||
-						isLoading ||
+						isRetraining ||
 						!!currentChatbot.links.find(
 							({ linkId: id, trainStatus }) =>
 								linkId === id &&

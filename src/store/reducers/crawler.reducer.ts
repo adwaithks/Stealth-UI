@@ -20,6 +20,9 @@ const crawlerSlice = createSlice({
 			state.urls = [];
 			state.getAllUrlsApiStatus = "idle";
 		},
+		clearAllLinks: (state) => {
+			state.urls = [];
+		},
 	},
 	extraReducers(builder) {
 		builder

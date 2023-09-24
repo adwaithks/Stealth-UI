@@ -112,19 +112,19 @@ export const retrainChatbot = createAsyncThunk(
 				chatbotHashId,
 				linkId
 			);
-
-			dispatch(
-				chatbotsActions.updateLinkTaskId({
-					linkId,
-					taskId: data.message,
-				})
-			);
 			dispatch(
 				chatbotsActions.updateLinkStatus({
 					linkId,
 					trainStatus: "RETRAINING_PENDING",
 				})
 			);
+			dispatch(
+				chatbotsActions.updateLinkTaskId({
+					linkId,
+					taskId: data.message,
+				})
+			);
+
 			toast({
 				title: "Success",
 				description: "Chatbot retraining started successfully!",

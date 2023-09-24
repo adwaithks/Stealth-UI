@@ -2,7 +2,6 @@ import {
 	Box,
 	Button,
 	Checkbox,
-	CheckboxGroup,
 	Divider,
 	IconButton,
 	Input,
@@ -165,66 +164,113 @@ const CrawlUrlSelection: React.FC<{
 							</Text>
 						</Box>
 						<Box sx={{ my: 5 }}>
-							<Box>
-								<Text color="gray">
-									{checkedUrls.length} links selected out of{" "}
-									{urls.length} links{" "}
-								</Text>
-							</Box>
-
-							<CheckboxGroup
-								colorScheme="green"
-								onChange={(checkedUrls) => {
-									handleUpdateCheckedUrls(
-										checkedUrls as string[]
-									);
+							<Box
+								sx={{
+									display: "flex",
+									alignItems: "center",
+									justifyContent: "space-between",
 								}}
 							>
-								<Stack
-									mb={
-										window.location.pathname ===
-										"/app/createbot"
-											? 65
-											: 5
-									}
-									overflowY="auto"
-									direction={["column"]}
+								<Checkbox
+									colorScheme="green"
+									onChange={(e) => {
+										if (e.target.checked)
+											handleUpdateCheckedUrls(urls);
+										else handleUpdateCheckedUrls([]);
+									}}
+									sx={{ mr: 2 }}
+									size="md"
+									value={url}
 								>
-									{urls.map((url, index) => {
-										return (
-											<Box
-												sx={{
-													display: "flex",
-													alignItems: "center",
-													justifyContent:
-														"space-between",
-												}}
-											>
-												<Checkbox
-													sx={{ mr: 2 }}
-													size="md"
-													key={index}
-													value={url}
-												>
-													{url}
-												</Checkbox>
-												<IconButton
-													size="sm"
-													onClick={() => {
-														dispatch(
-															crawlerActions.removeLink(
-																url
+									Select All
+								</Checkbox>
+								<IconButton
+									size="sm"
+									colorScheme="red"
+									onClick={() => {
+										dispatch(
+											crawlerActions.clearAllLinks()
+										);
+									}}
+									aria-label="remove url"
+									icon={
+										<Text px={2}>
+											<DeleteIcon /> Clear All
+										</Text>
+									}
+								/>
+							</Box>
+							<Text color="gray">
+								{checkedUrls.length} links selected out of{" "}
+								{urls.length} links{" "}
+							</Text>
+							<Divider my={2} />
+
+							<Stack
+								mb={
+									window.location.pathname ===
+									"/app/createbot"
+										? 65
+										: 5
+								}
+								overflowY="auto"
+								direction={["column"]}
+							>
+								{urls.map((url, index) => {
+									return (
+										<Box
+											sx={{
+												display: "flex",
+												alignItems: "center",
+												justifyContent: "space-between",
+											}}
+										>
+											<Checkbox
+												colorScheme="green"
+												isChecked={checkedUrls.includes(
+													url
+												)}
+												onChange={(e) => {
+													if (e.target.checked) {
+														handleUpdateCheckedUrls(
+															[
+																...checkedUrls,
+																url,
+															]
+														);
+													} else {
+														handleUpdateCheckedUrls(
+															[
+																...checkedUrls,
+															].filter(
+																(u) => u != url
 															)
 														);
-													}}
-													aria-label="remove url"
-													icon={<DeleteIcon />}
-												/>
-											</Box>
-										);
-									})}
-								</Stack>
-							</CheckboxGroup>
+													}
+												}}
+												sx={{ mr: 2 }}
+												size="md"
+												key={index}
+												value={url}
+											>
+												{url}
+											</Checkbox>
+											<IconButton
+												size="sm"
+												onClick={() => {
+													dispatch(
+														crawlerActions.removeLink(
+															url
+														)
+													);
+												}}
+												aria-label="remove url"
+												icon={<DeleteIcon />}
+											/>
+										</Box>
+									);
+								})}
+							</Stack>
 						</Box>
 					</Box>
 				</Box>

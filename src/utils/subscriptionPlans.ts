@@ -35,7 +35,7 @@ export const subscriptionPlans = [
 		name: "Starter",
 		recurringPrice: {
 			INR: "999.00",
-			USD: "14.99",
+			USD: "12.99",
 		},
 		trialDays: 0,
 		billingType: "month",
@@ -60,7 +60,7 @@ export const subscriptionPlans = [
 		billingPeriod: 1,
 		features: [
 			"Create 5 Chatbots",
-			"Train each chatbot with data from 30 web pages using our crawler",
+			"Train each chatbot with data from 100 web pages using our crawler",
 			"Manually fine tune responses",
 			"Insights into customer chat history",
 			"Ticket raising system",
